@@ -1,0 +1,592 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+.contact-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #222;
+    color: #fff;
+    padding: 5px 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.contact-item img {
+    width: 20px;
+    height: auto;
+}
+nav{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin:0px 0px;
+    background-color: #fd0;
+}
+nav .nav-left i{
+    margin-left: 30px;
+    font-size: 30px;
+}
+nav .nav-right{
+    display: flex;
+    margin-right: 30px;
+    margin-top: 10px;
+}
+nav .nav-right a {
+    padding-right: 30px;
+    text-decoration-line: none;
+
+}
+#box{
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.container{
+    width: 100%;
+    display: flex;
+    padding-right: 15px;
+    padding-left: 100px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.row{
+    display: flex;
+    justify-content: space-between
+
+}
+.col{
+    
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    box-sizing: border-box;
+}
+.box {
+
+     border: 1px solid #000;
+        margin: 5px;
+    display: flex;
+    background: #fd0;
+    color: #231f20;
+    padding: 15px;
+}
+.icon_tragop{
+    float: left;
+    margin-right: 15px;
+    background-repeat: no-repeat;
+    background-position: left top;
+}
+.cap{
+    float: left;
+}
+.tit_html{
+    font-size: 18px;text-transform: uppercase;
+}
+.desc_html {
+    font-size: 14px;
+}
+.category {
+    padding: 20px;
+}
+
+.category h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.category h2 .category-icon {
+    display: inline-block;
+    width: 5px;
+    height: 24px;
+    background-color: #FFD700;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Container chứa các hình ảnh */
+.instrument-row {
+    display: flex;
+    gap: 20px;
+}
+
+.instrument-item {
+    position: relative;
+    width: 100%;
+    max-width: 300px; /* Đặt kích thước tối đa cho mỗi khối */
+    overflow: hidden;
+}
+
+.instrument-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Overlay màu đen mờ với text màu trắng */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Nền đen trong suốt */
+    color: #fff;
+    padding: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.overlay .icon {
+    margin-right: 8px;
+}
+.overlay a{
+    text-decoration-line: none;
+    color: white;
+}
+.featured-products {
+    padding: 20px;
+}
+
+.featured-products h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    position: relative;
+    border-bottom: 2px dotted #333;
+    padding-bottom: 10px;
+}
+
+/* Container for products */
+.product-row {
+    display: flex;
+    gap: 20px;
+}
+
+/* Individual product box */
+.product-item {
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.product-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Product information */
+.product-info {
+    padding: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.product-type {
+    display: inline-block;
+    background-color: #FFD700;
+    color: #333;
+    padding: 5px 10px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.product-price {
+    font-size: 14px;
+    color: #555;
+}
+
+.current-price {
+    color: #E74C3C;
+    font-weight: bold;
+}
+
+.old-price {
+    color: #999;
+    text-decoration: line-through;
+    margin-left: 5px;
+}
+
+.view-more {
+    margin-top: 10px;
+    background-color: #FFD700;
+    color: #333;
+    padding: 8px 16px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.view-more:hover {
+    background-color: #FFC107;
+}
+.services {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    gap: 20px;
+}
+
+.service-item {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.service-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+}
+
+.service-label {
+    background-color: none;
+    position: absolute;
+    top: 10px; /* Đưa chữ lên phía trên ảnh */
+    left: 10px;
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    /* background-color: rgba(0, 0, 0, 0.5); Tạo nền đen mờ cho chữ dễ đọc hơn */
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.service-label:before {
+    content: ">>";
+    color: black;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.service-label:hover {
+    text-decoration: underline; /* Gạch chân khi di chuột vào */
+}
+.container_ {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: left
+}
+.divider {
+    width: 100%;
+    height: 1px;
+    border-bottom: 2px dashed #ccc;
+    margin-bottom: 20px;
+}
+
+.event-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.event {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    display: flex;
+}
+
+.event img {
+    width: 100%;
+    height: auto;
+}
+
+.event-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.event-content h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.event-content p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.event-content a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px;
+    background-color: #666;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: auto;
+    transition: color 0.3s ease;
+}
+
+.event-content a:hover {
+    color: #ff5722;
+}
+.logo-container img{
+    width: 100px;
+    height: 100px;
+    padding: 20px;
+    margin-right: 20px;
+}
+.contact-subscribe-section {
+    display: flex;
+    justify-content: space-between;
+    background-color: #e6e6e6;
+    padding: 50px;
+    margin-top: 20px;
+}
+
+/* Phần liên hệ */
+.contact-section {
+   text-align: left;
+    width: 48%;
+}
+
+/* Tiêu đề của phần liên hệ */
+.contact-section h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Đoạn văn mô tả trong phần liên hệ */
+.contact-section p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Nút trong phần liên hệ */
+.contact-buttons {
+    justify-content: center;
+    gap: 30px;
+}
+
+.contact-buttons button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    margin-right: 40px;
+    padding: 10px 40px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.contact-buttons button:hover {
+    background-color: #555;
+}
+
+/* Phần đăng ký nhận email */
+.subscribe-section {
+    width: 48%;
+    text-align: left;
+}
+
+/* Tiêu đề của phần đăng ký nhận email */
+.subscribe-section h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Đoạn văn mô tả trong phần đăng ký nhận email */
+.subscribe-section p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Form đăng ký nhận email */
+.subscribe-form {
+    align-items: center;
+    justify-content: center;
+}
+
+.subscribe-form input[type="email"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+    width: 70%;
+}
+
+.subscribe-form button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.subscribe-form button:hover {
+    background-color: #555;
+}
+
+/* Checkbox trong phần đăng ký nhận email */
+.subscribe-checkbox {
+    margin-top: 10px;
+    display: flex;
+    align-items: center; /* Căn giữa checkbox và văn bản */
+}
+
+.subscribe-checkbox input[type="checkbox"] {
+    margin-right: 5px; /* Khoảng cách giữa checkbox và văn bản */
+}
+
+.subscribe-checkbox label {
+    font-size: 14px;
+    color: #555;
+}
+footer {
+    background-color: #111;
+    color: #fff;
+    padding: 50px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    width: 22%;
+    margin-bottom: 20px;
+}
+
+.footer-section h3 {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-section li {
+    margin-bottom: 10px;
+}
+.footer-section p {
+    margin-bottom:10px ;
+}
+
+ .highlight {
+    color: #e74c3c;
+}
+
+.social-icons a {
+    width: 24px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: white;
+}
+.social-icons img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+.footer-bottom {
+    display: flex;
+    text-align: center;
+    font-size: 0.9em;
+    margin-top: 20px;
+    text-align: left;
+}
+.footer-bottom-left p{
+    margin-top:10px ;
+}
+.footer-bottom-left .category-icon{
+    display: inline-block;
+    width: 5px;
+    height: 24px;
+    background-color: #FFD700;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.footer-bottom-right{
+    padding-left: 130px;
+}
+.footer-bottom-right h2{
+    padding-bottom:10px ;
+}
+
+.footer-bottom hr {
+    border: none;
+    border-top: 1px solid #333;
+    margin: 20px 0;
+}
+
+/* .payment-methods {
+    text-align: center;
+    margin-top: 10px;
+} */
+
+.payment-methods h3 {
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+.payment-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+.payment-icons img {
+    width: 40px;
+    height: auto;
+}
+.certifications img {
+    padding: 10px;
+}
