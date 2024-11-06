@@ -1,0 +1,11 @@
+.bg-primary {
+    background-color: #fd0 !important;
+}
+.btn-primary{
+    background-color: #fd0 !important;
+    border-color: #fd0 !important;
+}
+
+.bg-secondary {
+    background-color: #e6e7e8 !important; /* Thay đổi thành màu vàng */
+}
