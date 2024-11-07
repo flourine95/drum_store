@@ -1,3 +1,9 @@
+:root {
+    --bs-primary: #fd0;
+    --bs-secondary: #ffdd57;
+    --bs-success: #38c172;
+    --bs-danger: #e3342f;
+}
 .bg-primary {
     background-color: #fd0 !important;
 }
