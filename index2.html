@@ -9,6 +9,7 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
     <style>
         .custom-box {
             display: flex;
@@ -54,6 +55,16 @@
             display: inline-block;
             margin: 15px 5px;
         }
+        .navbar-nav .nav-link {
+            color: black;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+
+        .navbar-nav .nav-link:hover {
+            background-color: black;
+            color: var(--bs-primary);
+        }
 
         footer {
             background-color: #222;
@@ -73,6 +84,7 @@
             max-width: 100px;
             margin: 5px;
         }
+
         .card-body {
             display: flex;
             flex-direction: column;
@@ -84,767 +96,872 @@
             margin-top: auto;
         }
     </style>
-    <link rel="stylesheet" href="assets/css/custom.css">
+
 </head>
 
 <body>
-<!-- Banner Image -->
-<div class="container-fluid p-0">
+<header>
+    <!-- Banner Image -->
     <img src="/assets/images/banners/promo_banners/thang-tri-an-11-2024-vtm-top.png" alt="Tháng Tri Ân Săn Sale"
          class="img-fluid w-100">
-</div>
-
-<!-- Top Info -->
-<div class="bg-black text-white py-2">
-    <div class="container">
-        <div class="row">
-            <!-- Email và Phone -->
-            <div class="col-12 col-md-6 d-flex align-items-center fw-lighter justify-content-center justify-content-md-start">
+    <!-- Top Info -->
+    <div class="bg-black text-white py-2">
+        <div class="container">
+            <div class="row">
+                <!-- Email và Phone -->
+                <div class="col-12 col-md-6 d-flex align-items-center fw-lighter justify-content-center justify-content-md-start">
                 <span class="me-3">
                     <i class="bi bi-envelope"></i>
-                    <span>info@example.com</span>
+                    <span>drumstore@gmail.com</span>
                 </span>
-                <span>
+                    <span>
                     <i class="bi bi-telephone"></i>
                     <span>123-456-7890</span>
                 </span>
-            </div>
-            <!-- Hệ thống phân phối -->
-            <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end align-items-center mt-2 mt-md-0">
-                <span>Hệ thống phân phối</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <div class="container">
-        <!-- Logo -->
-        <a class="navbar-brand" href="#">
-            <img src="assets/images/logo/logovt.png" alt="Logo" style="height: 40px;">
-        </a>
-
-        <!-- Navbar toggler cho thiết bị nhỏ -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Các liên kết và thanh tìm kiếm -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <!-- Links ở giữa -->
-            <div class="navbar-nav mx-auto fw-bold">
-                <a class="nav-link " href="#">GIỚI THIỆU</a>
-                <a class="nav-link" href="#">SẢN PHẨM</a>
-                <a class="nav-link" href="#">GIÁO DỤC</a>
-                <a class="nav-link" href="#">KHUYẾN MÃI</a>
-                <a class="nav-link" href="#">TIN TỨC</a>
-                <a class="nav-link" href="#">TUYỂN DỤNG</a>
-            </div>
-
-            <!-- Thanh tìm kiếm trên thiết bị lớn -->
-            <form class="d-flex mt-3 mt-lg-0">
-                <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                <button class="btn btn-dark" type="submit">Tìm</button>
-            </form>
-        </div>
-    </div>
-</nav>
-
-<!-- Carousel -->
-<div id="carouselExampleIndicators" class="carousel slide">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
-                aria-label="Slide 4"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
-                aria-label="Slide 5"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5"
-                aria-label="Slide 6"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6"
-                aria-label="Slide 7"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="assets/images/banners/slider_banners/giai-kho-vtm-2024.png" class="d-block w-100"
-                 alt="Slide 1">
-        </div>
-        <!-- Slide 2 -->
-        <div class="carousel-item">
-            <img src="assets/images/banners/slider_banners/km-tang-voucher-hoc-nhac-vt.png" class="d-block w-100"
-                 alt="Slide 2">
-        </div>
-        <!-- Slide 3 -->
-        <div class="carousel-item">
-            <img src="assets/images/banners/slider_banners/km-vietthuong-pre-order-casio-ap-2024.png"
-                 class="d-block w-100" alt="Slide 3">
-        </div>
-        <!-- Slide 4 -->
-        <div class="carousel-item">
-            <img src="assets/images/banners/slider_banners/samdanfender-ldp-t03.jpg" class="d-block w-100"
-                 alt="Slide 4">
-        </div>
-        <!-- Slide 5 -->
-        <div class="carousel-item">
-            <img src="assets/images/banners/slider_banners/sinh-nhat-khach-hang-home.jpg" class="d-block w-100"
-                 alt="Slide 5">
-        </div>
-        <!-- Slide 6 -->
-        <div class="carousel-item">
-            <img src="assets/images/banners/slider_banners/thang-tri-an-11-2024-vtm-home.png" class="d-block w-100"
-                 alt="Slide 6">
-        </div> <!-- Slide 7 -->
-        <div class="carousel-item">
-            <img src="assets/images/banners/slider_banners/thayday-guitar-vietthuong.jpg" class="d-block w-100"
-                 alt="Slide 7">
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
-
-<!-- Custom Boxes -->
-<div class="container mt-5">
-    <div class="row text-center">
-        <!-- Box 1 -->
-        <div class="col-md-3 mb-4">
-            <a href="#" class="custom-box h-100">
-                <div class="icon-container">
-                    <i class="bi bi-credit-card"></i>
                 </div>
-                <div class="box-content">
-                    <h5 class="box-title">Trả góp</h5>
-                    <p class="box-description">Mua hàng với lãi suất 0%</p>
+                <!-- Hệ thống phân phối -->
+                <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end align-items-center mt-2 mt-md-0">
+                    <span>Hệ thống phân phối</span>
                 </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="assets/images/logo/logovt.png" alt="Logo" style="height: 40px;">
             </a>
-        </div>
 
-        <!-- Box 2 -->
-        <div class="col-md-3 mb-4">
-            <a href="#" class="custom-box h-100">
-                <div class="icon-container">
-                    <i class="bi bi-truck"></i>
+            <!-- Navbar toggler cho thiết bị nhỏ -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
+            <!-- Các liên kết và thanh tìm kiếm -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Links ở giữa -->
+                <div class="navbar-nav mx-auto fw-bold">
+                    <a class="nav-link" href="#">GIỚI THIỆU</a>
+                    <a class="nav-link" href="#">SẢN PHẨM</a>
+                    <a class="nav-link" href="#">GIÁO DỤC</a>
+                    <a class="nav-link" href="#">KHUYẾN MÃI</a>
+                    <a class="nav-link" href="#">TIN TỨC</a>
+                    <a class="nav-link" href="#">TUYỂN DỤNG</a>
                 </div>
-                <div class="box-content">
-                    <h5 class="box-title">Vận chuyển</h5>
-                    <p class="box-description">Chuyên nghiệp - Tốc độ</p>
-                </div>
-            </a>
-        </div>
 
-        <!-- Box 3 -->
-        <div class="col-md-3 mb-4">
-            <a href="#" class="custom-box h-100">
-                <div class="icon-container">
-                    <i class="bi bi-shield-check"></i>
-                </div>
-                <div class="box-content">
-                    <h5 class="box-title">Bảo hành</h5>
-                    <p class="box-description">Hiệu quả - Chất lượng</p>
-                </div>
-            </a>
-        </div>
-
-        <!-- Box 4 -->
-        <div class="col-md-3 mb-4">
-            <a href="#" class="custom-box h-100">
-                <div class="icon-container">
-                    <i class="bi bi-shop"></i>
-                </div>
-                <div class="box-content">
-                    <h5 class="box-title">Đại lý</h5>
-                    <p class="box-description">Trải rộng khắp Việt Nam</p>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-
-<!-- instruments -->
-<div class="container mt-5">
-    <h2 class="text-start mb-4">CÁC NHẠC CỤ</h2>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-
-        <!-- Card 1: Đàn Piano -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/instruments/piano-363x200.png" class="card-img-top" alt="Đàn Piano">
-                <div class="card-body">
-                    <h5 class="card-title">Đàn Piano</h5>
-                    <p class="card-text">Khám phá các loại đàn piano chất lượng, phù hợp cho mọi trình độ.</p>
-                    <a href="https://vietthuong.vn/dan-piano.html" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Card 2: Đàn Organ -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/instruments/banner-vietthuongvn-363x200-organ-keyboard.png" class="card-img-top" alt="Đàn Organ">
-                <div class="card-body">
-                    <h5 class="card-title">Đàn Organ - Keyboard</h5>
-                    <p class="card-text">Tìm hiểu những mẫu đàn organ hiện đại, âm thanh sống động.</p>
-                    <a href="https://vietthuong.vn/dan-organ.html" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3: Đàn Guitar -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/instruments/banner-vietthuongvn-363x200-guitar-1.png" class="card-img-top" alt="Đàn Guitar">
-                <div class="card-body">
-                    <h5 class="card-title">Đàn Guitar</h5>
-                    <p class="card-text">Khám phá các dòng đàn guitar dành cho mọi trình độ, từ cơ bản đến chuyên nghiệp.</p>
-                    <a href="https://vietthuong.vn/dan-guitar.html" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 4: Trống Drum -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/instruments/pearl-ra-mat-2-bo-trong-moi.jpg" class="card-img-top" alt="Trống Drum">
-                <div class="card-body">
-                    <h5 class="card-title">Trống Drum</h5>
-                    <p class="card-text">Các bộ trống chất lượng, từ các thương hiệu hàng đầu, mang lại âm thanh tuyệt vời.</p>
-                    <a href="https://vietthuong.vn/trong-drum" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 5: Amplifiers -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/instruments/banner-vietthuongvn-363x200-amply.png" class="card-img-top" alt="Amplifiers">
-                <div class="card-body">
-                    <h5 class="card-title">Amplifiers</h5>
-                    <p class="card-text">Tìm hiểu các dòng ampli chất lượng cao dành cho các loại nhạc cụ.</p>
-                    <a href="https://vietthuong.vn/amplifiers" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 6: NHẠC CỤ DÂY -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/instruments/nhaccuday.png" class="card-img-top" alt="Nhạc Cụ Dây">
-                <div class="card-body">
-                    <h5 class="card-title">Nhạc Cụ Dây</h5>
-                    <p class="card-text">Các sản phẩm nhạc cụ dây như guitar, violin, cello, ...</p>
-                    <a href="https://vietthuong.vn/nhac-cu-day" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 7: NHẠC CỤ HƠI -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/instruments/SELMER.jpg" class="card-img-top" alt="Nhạc Cụ Hơi">
-                <div class="card-body">
-                    <h5 class="card-title">Nhạc Cụ Hơi</h5>
-                    <p class="card-text">Khám phá các loại nhạc cụ hơi như saxophone, trumpet, clarinet,...</p>
-                    <a href="https://vietthuong.vn/nhac-cu-hoi" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 8: Vocals -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/instruments/363x200-thang12-vocal.jpg" class="card-img-top" alt="Vocals">
-                <div class="card-body">
-                    <h5 class="card-title">Vocals</h5>
-                    <p class="card-text">Các thiết bị hỗ trợ cho giọng hát, mic, loa, và các thiết bị âm thanh khác.</p>
-                    <a href="https://vietthuong.vn/vocals.html" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-</div>
-
-
-
-<div class="container mt-5">
-    <h2 class="text-start mb-4">THIẾT BỊ ÂM THANH</h2>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-
-        <!-- Card 1: Loa -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-loa.png" class="card-img-top" alt="Loa">
-                <div class="card-body">
-                    <h5 class="card-title">Loa</h5>
-                    <p class="card-text">Loa với âm thanh rõ nét, phù hợp cho nhiều không gian.</p>
-                    <a href="https://vietthuong.vn/loa.html" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 2: Amply -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-amly.png" class="card-img-top" alt="Amply">
-                <div class="card-body">
-                    <h5 class="card-title">Amply</h5>
-                    <p class="card-text">Amply công suất cao, hỗ trợ âm thanh mạnh mẽ cho hệ thống âm thanh của bạn.</p>
-                    <a href="https://vietthuong.vn/amply" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3: Thiết bị xử lý -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-boxuly.png" class="card-img-top" alt="Thiết bị xử lý">
-                <div class="card-body">
-                    <h5 class="card-title">Thiết bị xử lý</h5>
-                    <p class="card-text">Các thiết bị giúp cải thiện chất lượng âm thanh, giảm nhiễu.</p>
-                    <a href="https://vietthuong.vn/bo-xu-ly.html" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 4: Microphone -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-mirco.png" class="card-img-top" alt="Microphone">
-                <div class="card-body">
-                    <h5 class="card-title">Microphone</h5>
-                    <p class="card-text">Microphone chất lượng cao, phù hợp cho các sự kiện lớn.</p>
-                    <a href="https://vietthuong.vn/microphone.html" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 5: Mixer -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-mixer.png" class="card-img-top" alt="Mixer">
-                <div class="card-body">
-                    <h5 class="card-title">Mixer</h5>
-                    <p class="card-text">Mixer đa năng giúp điều chỉnh âm thanh một cách dễ dàng và chính xác.</p>
-                    <a href="https://vietthuong.vn/mixer.html" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 6: Phụ kiện âm thanh -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-phukienamthanh.png" class="card-img-top" alt="Phụ kiện âm thanh">
-                <div class="card-body">
-                    <h5 class="card-title">Phụ kiện âm thanh</h5>
-                    <p class="card-text">Phụ kiện âm thanh chất lượng cao giúp hoàn thiện hệ thống âm thanh của bạn.</p>
-                    <a href="https://vietthuong.vn/phu-kien-day-jack.html" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-<div class="container mt-5">
-    <h2 class="text-start mb-4">SẢN PHẨM NỔI BẬT</h2>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-
-        <!-- Product 1 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/products/featured_products/piano-roland-501r-mau-den.jpg" class="card-img-top" alt="Piano Roland 501R">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><a href="#" class="text-decoration-none">Piano Roland 501R</a></h5>
-                    <p class="card-text">Piano Roland 501R với thiết kế sang trọng, âm thanh chất lượng, thích hợp cho mọi không gian.</p>
-                    <p class="card-text"><strike>12,000,000 VND</strike> <strong class="text-danger">10,500,000 VND</strong></p>
-                    <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product 2 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/products/featured_products/bannerT9-RO30-2048.png" class="card-img-top" alt="Piano Roland RO30">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><a href="#" class="text-decoration-none">Piano Roland RO30</a></h5>
-                    <p class="card-text">Piano Roland RO30 là sự lựa chọn lý tưởng cho người mới bắt đầu học đàn.</p>
-                    <p class="card-text"><strike>15,000,000 VND</strike> <strong class="text-danger">13,500,000 VND</strong></p>
-                    <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/products/featured_products/casio-cdp-s160-bk.jpg" class="card-img-top" alt="Casio CDP-S160">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><a href="#" class="text-decoration-none">Casio CDP-S160</a></h5>
-                    <p class="card-text">Casio CDP-S160 với âm thanh sống động, thiết kế nhỏ gọn phù hợp cho học sinh và người mới.</p>
-                    <p class="card-text"><strike>8,000,000 VND</strike> <strong class="text-danger">7,500,000 VND</strong></p>
-                    <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/products/featured_products/CDPS360.png" class="card-img-top" alt="Casio CDP-S360">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><a href="#" class="text-decoration-none">Casio CDP-S360</a></h5>
-                    <p class="card-text">Casio CDP-S360 với âm thanh sắc nét, phù hợp cho mọi đối tượng chơi đàn.</p>
-                    <p class="card-text"><strike>10,000,000 VND</strike> <strong class="text-danger">9,500,000 VND</strong></p>
-                    <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product 5 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/products/featured_products/dan-piano-casio-px-s7000hm.jpg" class="card-img-top" alt="Casio PX-S7000HM">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><a href="#" class="text-decoration-none">Casio PX-S7000HM</a></h5>
-                    <p class="card-text">Piano Casio PX-S7000HM mang đến chất âm tự nhiên và thiết kế đẹp mắt, dễ dàng sử dụng.</p>
-                    <p class="card-text"><strike>20,000,000 VND</strike> <strong class="text-danger">18,000,000 VND</strong></p>
-                    <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product 6 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/products/featured_products/dan-piano-dien-casio-px-s1100.jpg" class="card-img-top" alt="Casio PX-S1100">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><a href="#" class="text-decoration-none">Casio PX-S1100</a></h5>
-                    <p class="card-text">Piano điện Casio PX-S1100 có âm thanh sống động và thiết kế cực kỳ mỏng nhẹ.</p>
-                    <p class="card-text"><strike>12,000,000 VND</strike> <strong class="text-danger">11,500,000 VND</strong></p>
-                    <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product 7 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/products/featured_products/dan-piano-kawai-k300-mau-den-sang-trong.jpg" class="card-img-top" alt="Piano Kawai K300">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><a href="#" class="text-decoration-none">Piano Kawai K300</a></h5>
-                    <p class="card-text">Piano Kawai K300 với âm thanh trung thực và thiết kế tinh tế.</p>
-                    <p class="card-text"><strike>25,000,000 VND</strike> <strong class="text-danger">22,500,000 VND</strong></p>
-                    <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product 8 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/products/featured_products/kawai-nd-21-dep-sang-trong-viet-thuong-music.jpg" class="card-img-top" alt="Piano Kawai ND-21">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><a href="#" class="text-decoration-none">Piano Kawai ND-21</a></h5>
-                    <p class="card-text">Piano Kawai ND-21 với vẻ ngoài sang trọng và âm thanh tuyệt hảo.</p>
-                    <p class="card-text"><strike>18,500,000 VND</strike> <strong class="text-danger">17,000,000 VND</strong></p>
-                    <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product 9 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/products/featured_products/piano-Kawai-gl20.jpg" class="card-img-top" alt="Piano Kawai GL20">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><a href="#" class="text-decoration-none">Piano Kawai GL20</a></h5>
-                    <p class="card-text">Piano Kawai GL20 với âm thanh thanh thoát và thiết kế gọn gàng, phù hợp cho nhiều không gian.</p>
-                    <p class="card-text"><strike>35,000,000 VND</strike> <strong class="text-danger">32,000,000 VND</strong></p>
-                    <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<div class="container mt-5">
-    <h2 class="text-start mb-4">TIN TỨC - SỰ KIỆN</h2>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-
-        <!-- Bài đăng 1 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/posts/sinh-nhat-resize-555x310-360x240.jpg" class="card-img-top"
-                     alt="Sinh nhật rộn ràng">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Sinh nhật rộn ràng - Nhận ngay ưu đãi 10% tại Việt Thương Music</h5>
-                    <p class="card-text">Sinh nhật sắp đến, bạn đã sẵn sàng đón tuổi mới đầy ý nghĩa chưa? Hãy để Việt
-                        Thương Music đồng hành cùng bạn với chương trình khuyến mãi đặc biệt – giảm ngay 10% trên tất cả
-                        sản phẩm!</p>
-                    <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bài đăng 2 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/posts/555x3101-360x240.png" class="card-img-top"
-                     alt="Pre-order đàn piano điện Casio AP-300">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Pre-order đàn piano điện Casio AP-300 và Casio AP-S200 mới nhất</h5>
-                    <p class="card-text">Đón đầu xu hướng âm nhạc với chương trình Pre-order đàn piano điện Casio AP-300
-                        và Casio AP-S200 diễn ra từ ngày 22/10 đến hết 30/11/2024.</p>
-                    <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bài đăng 3 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/posts/Artboard_5-360x240.png" class="card-img-top"
-                     alt="Workshop guitar: Secret of Rhythm">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Workshop guitar: Secret of Rhythm</h5>
-                    <p class="card-text">Workshop đệm hát cùng guitarist nổi tiếng.</p>
-                    <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bài đăng 4 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/posts/L1110399-360x240.jpg" class="card-img-top"
-                     alt="Chương trình pre-order sản phẩm Boss Gx-10">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Chương trình pre-order sản phẩm Boss Gx-10</h5>
-                    <p class="card-text">Bạn là một guitarist đam mê và luôn tìm kiếm những công cụ âm nhạc hiện đại để
-                        nâng cao chất lượng âm thanh? Vậy thì Boss GX-10 chính là cái tên không thể bỏ qua.</p>
-                    <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bài đăng 5 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/posts/MIC-555x310-360x240.png" class="card-img-top"
-                     alt="Sự kiện: Music Corner in the City">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Sự kiện: Music Corner in the City</h5>
-                    <p class="card-text">Vào 3 ngày 08, 09, 10/11/2024 tại Vincom Đồng Khởi, 72 Lê Thánh Tôn, phường Bến
-                        Nghế, quận 1 sẽ diễn ra sự kiện Music Corner in the City.</p>
-                    <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bài đăng 6 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="assets/images/posts/RAW_0373-360x240.jpg" class="card-img-top"
-                     alt="Siêu phẩm Shigeru Kawai SK-5">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Siêu phẩm Shigeru Kawai SK-5 xuất hiện trong họp báo</h5>
-                    <p class="card-text">Shigeru Kawai SK-5 là một trong những cây đàn grand piano hàng đầu thế giới
-                        được sản xuất bởi thương hiệu Kawai nổi tiếng của Nhật Bản.</p>
-                    <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<div class="bg-primary mt-5">
-    <div class="container">
-        <div class="row">
-            <!-- Phần Video bên trái chiếm 12 cột trên màn hình nhỏ và 6 cột trên màn hình lớn -->
-            <div class="col-12 col-md-6 mb-4 mb-md-0">
-                <div class="embed-responsive embed-responsive-16by9 p-4">
-                    <iframe width="100%" height="360" src="https://www.youtube.com/embed/ZaK9Wi5ho0o"
-                            title="Eminem - Temporary (feat. Skylar Grey) [Official Music Video]" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                </div>
-            </div>
-
-            <!-- Phần Nội dung bên phải chiếm 12 cột trên màn hình nhỏ và 6 cột trên màn hình lớn -->
-            <div class="col-12 col-md-6 d-flex flex-column justify-content-center">
-                <h3 class="mb-4">Việt Thương gần 30 năm phát triển</h3>
-                <p class="mb-3">Hơn 70 đại lý lớn nhỏ tại các tỉnh thành Việt Nam</p>
-                <p class="mb-3">Cam kết đem lại những lợi ích tốt nhất cho khách hàng</p>
-                <p class="mb-3">Việt Thương Music School với hệ thống giáo trình theo tiêu chuẩn Quốc Tế</p>
-                <p class="mb-3">Dịch vụ cho thuê nhạc cụ, âm thanh ánh sáng lớn nhất</p>
-                <div class="mt-4">
-                    <img src="assets/images/logo/logovt.png" alt="Việt Thương Logo" class="img-fluid">
-                    <img class="mx-4" width="99" height="38" src="assets/images/logo/logo4.png" alt="Việt Thương Logo" class="img-fluid">
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-<!-- Brands -->
-<div class="bg-white py-5">
-    <div class="container">
-        <img src="assets/images/logo/logo_brands/acus-logo.png" alt="Acus" class="item">
-        <img src="assets/images/logo/logo_brands/boss.png" alt="Boss" class="item">
-        <img src="assets/images/logo/logo_brands/CASIO.png" alt="CASIO" class="item">
-        <img src="assets/images/logo/logo_brands/charvel.png" alt="Charvel" class="item">
-        <img src="assets/images/logo/logo_brands/Daddario_logo.png" alt="Daddario" class="item">
-        <img src="assets/images/logo/logo_brands/deviser-logo.jpg" alt="Deviser" class="item">
-        <img src="assets/images/logo/logo_brands/elixir.png" alt="Elixir" class="item">
-        <img src="assets/images/logo/logo_brands/evh.png" alt="EVH" class="item">
-        <img src="assets/images/logo/logo_brands/fender.png" alt="Fender" class="item">
-        <img src="assets/images/logo/logo_brands/footer_logo_02.gif" alt="Footer Logo" class="item">
-        <img src="assets/images/logo/logo_brands/gregbennet.png" alt="Greg Bennet" class="item">
-        <img src="assets/images/logo/logo_brands/gretsch.png" alt="Gretsch" class="item">
-        <img src="assets/images/logo/logo_brands/hammond.png" alt="Hammond" class="item">
-        <img src="assets/images/logo/logo_brands/Headrush-logo.jpg" alt="Headrush" class="item">
-        <img src="assets/images/logo/logo_brands/jackson.png" alt="Jackson" class="item">
-        <img src="assets/images/logo/logo_brands/kawai.png" alt="Kawai" class="item">
-        <img src="assets/images/logo/logo_brands/logo-kohler-campbell-01.jpg" alt="Kohler Campbell" class="item">
-        <img src="assets/images/logo/logo_brands/logo_dan_guitar_cordoba.jpg" alt="Cordoba" class="item">
-        <img src="assets/images/logo/logo_brands/logo_dan_piano_boston.png" alt="Boston" class="item">
-        <img src="assets/images/logo/logo_brands/LogoBlackstar.png" alt="Blackstar" class="item">
-        <img src="assets/images/logo/logo_brands/logofisman.png" alt="Fisman" class="item">
-        <img src="assets/images/logo/logo_brands/logosteinway.png" alt="Steinway" class="item">
-        <img src="assets/images/logo/logo_brands/no_image.png" alt="No Image" class="item">
-        <img src="assets/images/logo/logo_brands/rodgers.png" alt="Rodgers" class="item">
-        <img src="assets/images/logo/logo_brands/roland.png" alt="Roland" class="item">
-        <img src="assets/images/logo/logo_brands/samick.png" alt="Samick" class="item">
-        <img src="assets/images/logo/logo_brands/sire-logo.png" alt="Sire" class="item">
-        <img src="assets/images/logo/logo_brands/suzuki.png" alt="Suzuki" class="item">
-        <img src="assets/images/logo/logo_brands/takamine.png" alt="Takamine" class="item">
-        <img src="assets/images/logo/logo_brands/tanglewood_1.jpg" alt="Tanglewood" class="item">
-    </div>
-</div>
-
-<!--Contact-->
-<div class="bg-secondary py-5">
-    <div class="container">
-        <div class="row justify-content-between align-items-center">
-            <!-- Phần bên trái: Thông tin liên hệ -->
-            <div class="col-12 col-md-6 mb-4 mb-md-0">
-                <h4>LIÊN HỆ</h4>
-                <p>Chúng tôi sẽ giúp bạn tìm đúng giải pháp cho đam mê của bạn.</p>
-                <button class="btn btn-primary text-black">HOTLINE</button>
-            </div>
-
-            <!-- Phần bên phải: Form gửi email -->
-            <div class="col-12 col-md-6">
-                <form>
-                    <div class="row">
-                        <div class="col-12 col-md-8 mb-3">
-                            <label for="contact-email" class="form-label">Địa chỉ email</label>
-                            <input type="email" class="form-control" id="contact-email" placeholder="Nhập email của bạn" required>
-                            <button type="submit" class="btn btn-primary w-100 w-md-25 mt-2 text-black">Gửi Email</button>
-                        </div>
-                    </div>
+                <!-- Thanh tìm kiếm trên thiết bị lớn -->
+                <form class="d-flex mt-3 mt-lg-0 me-3">
+                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                    <button class="btn btn-dark" type="submit">Tìm</button>
                 </form>
+
+                <!-- Icon Đăng nhập và Giỏ hàng -->
+                <div class="d-flex align-items-center">
+                    <!-- Giỏ hàng -->
+                    <a href="#" class="btn btn-light me-3 position-relative">
+                        <i class="bi bi-cart-fill"></i>
+                        <!-- Badge hiển thị số lượng sản phẩm trong giỏ hàng -->
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        3 <!-- số lượng sản phẩm -->
+                    </span>
+                    </a>
+
+                    <!-- Đăng nhập -->
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="accountDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" href="#">Đăng nhập</a></li>
+                            <li><a class="dropdown-item" href="#">Đăng ký</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Tài khoản của tôi</a></li>
+                            <li><a class="dropdown-item" href="#">Đơn hàng</a></li>
+                            <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Carousel -->
+    <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                    aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+                    aria-label="Slide 5"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5"
+                    aria-label="Slide 6"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6"
+                    aria-label="Slide 7"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="assets/images/banners/slider_banners/giai-kho-vtm-2024.png" class="d-block w-100"
+                     alt="Slide 1">
+            </div>
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <img src="assets/images/banners/slider_banners/km-tang-voucher-hoc-nhac-vt.png" class="d-block w-100"
+                     alt="Slide 2">
+            </div>
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <img src="assets/images/banners/slider_banners/km-vietthuong-pre-order-casio-ap-2024.png"
+                     class="d-block w-100" alt="Slide 3">
+            </div>
+            <!-- Slide 4 -->
+            <div class="carousel-item">
+                <img src="assets/images/banners/slider_banners/samdanfender-ldp-t03.jpg" class="d-block w-100"
+                     alt="Slide 4">
+            </div>
+            <!-- Slide 5 -->
+            <div class="carousel-item">
+                <img src="assets/images/banners/slider_banners/sinh-nhat-khach-hang-home.jpg" class="d-block w-100"
+                     alt="Slide 5">
+            </div>
+            <!-- Slide 6 -->
+            <div class="carousel-item">
+                <img src="assets/images/banners/slider_banners/thang-tri-an-11-2024-vtm-home.png" class="d-block w-100"
+                     alt="Slide 6">
+            </div> <!-- Slide 7 -->
+            <div class="carousel-item">
+                <img src="assets/images/banners/slider_banners/thayday-guitar-vietthuong.jpg" class="d-block w-100"
+                     alt="Slide 7">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Custom Boxes -->
+    <div class="container mt-5">
+        <div class="row text-center">
+            <!-- Box 1 -->
+            <div class="col-md-3 mb-4">
+                <a href="#" class="custom-box h-100">
+                    <div class="icon-container">
+                        <i class="bi bi-credit-card"></i>
+                    </div>
+                    <div class="box-content">
+                        <h5 class="box-title">Trả góp</h5>
+                        <p class="box-description">Mua hàng với lãi suất 0%</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Box 2 -->
+            <div class="col-md-3 mb-4">
+                <a href="#" class="custom-box h-100">
+                    <div class="icon-container">
+                        <i class="bi bi-truck"></i>
+
+                    </div>
+                    <div class="box-content">
+                        <h5 class="box-title">Vận chuyển</h5>
+                        <p class="box-description">Chuyên nghiệp - Tốc độ</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Box 3 -->
+            <div class="col-md-3 mb-4">
+                <a href="#" class="custom-box h-100">
+                    <div class="icon-container">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div class="box-content">
+                        <h5 class="box-title">Bảo hành</h5>
+                        <p class="box-description">Hiệu quả - Chất lượng</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Box 4 -->
+            <div class="col-md-3 mb-4">
+                <a href="#" class="custom-box h-100">
+                    <div class="icon-container">
+                        <i class="bi bi-shop"></i>
+                    </div>
+                    <div class="box-content">
+                        <h5 class="box-title">Đại lý</h5>
+                        <p class="box-description">Trải rộng khắp Việt Nam</p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
-</div>
 
-<footer class="bg-dark text-white pt-4 pb-4">
-    <div class="container">
-        <div class="row">
-            <!-- Cột 1: Thông tin Việt Thương -->
-            <div class="col-12 col-md-3 mb-4 mb-md-0">
-                <h5 class="text-uppercase">Thông tin Việt Thương</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">Giới thiệu công ty</a></li>
-                    <li><a href="#" class="text-white">Hệ thống showroom, đại lý</a></li>
-                    <li><a href="#" class="text-white">Liên Hệ / Góp Ý</a></li>
-                    <li><a href="#" class="text-white">Mua trả góp</a></li>
-                    <li><a href="#" class="text-white">Chương trình Khách hàng thân thiết</a></li>
-                    <li><a href="#" class="text-white">Điều khoản sử dụng website</a></li>
-                    <li><a href="#" class="text-white">Tuyển dụng</a></li>
-                </ul>
+    <!-- instruments -->
+    <div class="container mt-5">
+        <h2 class="text-start mb-4">CÁC NHẠC CỤ</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
+            <!-- Card 1: Đàn Piano -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/instruments/piano-363x200.png" class="card-img-top" alt="Đàn Piano">
+                    <div class="card-body">
+                        <h5 class="card-title">Đàn Piano</h5>
+                        <p class="card-text">Khám phá các loại đàn piano chất lượng, phù hợp cho mọi trình độ.</p>
+                        <a href="https://vietthuong.vn/dan-piano.html" class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Cột 2: Hướng dẫn chung -->
-            <div class="col-12 col-md-3 mb-4 mb-md-0">
-                <h5 class="text-uppercase">Hướng dẫn chung</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">Giao hàng - Đổi trả</a></li>
-                    <li><a href="#" class="text-white">Hướng dẫn mua hàng</a></li>
-                    <li><a href="#" class="text-white">Thanh toán và bảo mật</a></li>
-                    <li><a href="#" class="text-white">Chính sách bảo hành</a></li>
-                    <li><a href="#" class="text-white">Bảo trì đàn piano</a></li>
-                    <li><a href="#" class="text-white">Kích hoạt bảo hành</a></li>
-                </ul>
+
+            <!-- Card 2: Đàn Organ -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/instruments/banner-vietthuongvn-363x200-organ-keyboard.png"
+                         class="card-img-top"
+                         alt="Đàn Organ">
+                    <div class="card-body">
+                        <h5 class="card-title">Đàn Organ - Keyboard</h5>
+                        <p class="card-text">Tìm hiểu những mẫu đàn organ hiện đại, âm thanh sống động.</p>
+                        <a href="https://vietthuong.vn/dan-organ.html" class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Cột 3: Hỗ trợ khách hàng -->
-            <div class="col-12 col-md-3 mb-4 mb-md-0">
-                <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
-                <ul class="list-unstyled">
-                    <li><strong>Gọi mua hàng: </strong><a href="tel:18006715" class="text-white">1800 6715 (Miễn phí)</a></li>
-                    <li><strong>Khiếu nại, Bảo hành: </strong><a href="tel:02871088333" class="text-white">028710 88 333</a></li>
-                    <li><strong>Thời gian phục vụ: </strong>8h-22h</li>
-                    <li><strong>Email: </strong><a href="mailto:info@vietthuong.vn" class="text-white">info@vietthuong.vn</a></li>
-                </ul>
+            <!-- Card 3: Đàn Guitar -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/instruments/banner-vietthuongvn-363x200-guitar-1.png" class="card-img-top"
+                         alt="Đàn Guitar">
+                    <div class="card-body">
+                        <h5 class="card-title">Đàn Guitar</h5>
+                        <p class="card-text">Khám phá các dòng đàn guitar dành cho mọi trình độ, từ cơ bản đến chuyên
+                            nghiệp.</p>
+                        <a href="https://vietthuong.vn/dan-guitar.html" class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Cột 4: Social, Phương thức thanh toán, Chứng nhận -->
-            <div class="col-12 col-md-3">
-                <h5 class="text-uppercase">Social</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">Việt Thương Music Store</a></li>
-                    <li><a href="#" class="text-white">Việt Thương Music School</a></li>
-                </ul>
+            <!-- Card 4: Trống Drum -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/instruments/pearl-ra-mat-2-bo-trong-moi.jpg" class="card-img-top"
+                         alt="Trống Drum">
+                    <div class="card-body">
+                        <h5 class="card-title">Trống Drum</h5>
+                        <p class="card-text">Các bộ trống chất lượng, từ các thương hiệu hàng đầu, mang lại âm thanh
+                            tuyệt
+                            vời.</p>
+                        <a href="https://vietthuong.vn/trong-drum" class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
+            </div>
 
-                <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
-                <ul class="list-unstyled">
-                    <li><img src="assets/images/payments/visa.png" alt="Phương thức thanh toán" class="img-fluid"/></li>
-                </ul>
+            <!-- Card 5: Amplifiers -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/instruments/banner-vietthuongvn-363x200-amply.png" class="card-img-top"
+                         alt="Amplifiers">
+                    <div class="card-body">
+                        <h5 class="card-title">Amplifiers</h5>
+                        <p class="card-text">Tìm hiểu các dòng ampli chất lượng cao dành cho các loại nhạc cụ.</p>
+                        <a href="https://vietthuong.vn/amplifiers" class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
+            </div>
 
-                <h5 class="text-uppercase mt-4">Chứng nhận</h5>
-                <ul class="list-unstyled">
-                    <li><img src="assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid"/></li>
-                    <li><img src="assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid"/></li>
-                </ul>
+            <!-- Card 6: NHẠC CỤ DÂY -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/instruments/nhaccuday.png" class="card-img-top" alt="Nhạc Cụ Dây">
+                    <div class="card-body">
+                        <h5 class="card-title">Nhạc Cụ Dây</h5>
+                        <p class="card-text">Các sản phẩm nhạc cụ dây như guitar, violin, cello, ...</p>
+                        <a href="https://vietthuong.vn/nhac-cu-day" class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 7: NHẠC CỤ HƠI -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/instruments/SELMER.jpg" class="card-img-top" alt="Nhạc Cụ Hơi">
+                    <div class="card-body">
+                        <h5 class="card-title">Nhạc Cụ Hơi</h5>
+                        <p class="card-text">Khám phá các loại nhạc cụ hơi như saxophone, trumpet, clarinet,...</p>
+                        <a href="https://vietthuong.vn/nhac-cu-hoi" class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 8: Vocals -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/instruments/363x200-thang12-vocal.jpg" class="card-img-top" alt="Vocals">
+                    <div class="card-body">
+                        <h5 class="card-title">Vocals</h5>
+                        <p class="card-text">Các thiết bị hỗ trợ cho giọng hát, mic, loa, và các thiết bị âm thanh
+                            khác.</p>
+                        <a href="https://vietthuong.vn/vocals.html" class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="container mt-5">
+        <h2 class="text-start mb-4">THIẾT BỊ ÂM THANH</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
+            <!-- Card 1: Loa -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-loa.png" class="card-img-top"
+                         alt="Loa">
+                    <div class="card-body">
+                        <h5 class="card-title">Loa</h5>
+                        <p class="card-text">Loa với âm thanh rõ nét, phù hợp cho nhiều không gian.</p>
+                        <a href="https://vietthuong.vn/loa.html" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Amply -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-amly.png" class="card-img-top"
+                         alt="Amply">
+                    <div class="card-body">
+                        <h5 class="card-title">Amply</h5>
+                        <p class="card-text">Amply công suất cao, hỗ trợ âm thanh mạnh mẽ cho hệ thống âm thanh của
+                            bạn.</p>
+                        <a href="https://vietthuong.vn/amply" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Thiết bị xử lý -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-boxuly.png"
+                         class="card-img-top"
+                         alt="Thiết bị xử lý">
+                    <div class="card-body">
+                        <h5 class="card-title">Thiết bị xử lý</h5>
+                        <p class="card-text">Các thiết bị giúp cải thiện chất lượng âm thanh, giảm nhiễu.</p>
+                        <a href="https://vietthuong.vn/bo-xu-ly.html" class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Microphone -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-mirco.png" class="card-img-top"
+                         alt="Microphone">
+                    <div class="card-body">
+                        <h5 class="card-title">Microphone</h5>
+                        <p class="card-text">Microphone chất lượng cao, phù hợp cho các sự kiện lớn.</p>
+                        <a href="https://vietthuong.vn/microphone.html" class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Mixer -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-mixer.png" class="card-img-top"
+                         alt="Mixer">
+                    <div class="card-body">
+                        <h5 class="card-title">Mixer</h5>
+                        <p class="card-text">Mixer đa năng giúp điều chỉnh âm thanh một cách dễ dàng và chính xác.</p>
+                        <a href="https://vietthuong.vn/mixer.html" class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Phụ kiện âm thanh -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/audio_equipments/banner-vietthuongvn-363x200-phukienamthanh.png"
+                         class="card-img-top" alt="Phụ kiện âm thanh">
+                    <div class="card-body">
+                        <h5 class="card-title">Phụ kiện âm thanh</h5>
+                        <p class="card-text">Phụ kiện âm thanh chất lượng cao giúp hoàn thiện hệ thống âm thanh của
+                            bạn.</p>
+                        <a href="https://vietthuong.vn/phu-kien-day-jack.html"
+                           class="btn btn-primary text-black mt-auto">Xem
+                            thêm</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="container mt-5">
+        <h2 class="text-start mb-4">SẢN PHẨM NỔI BẬT</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
+            <!-- Product 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/products/featured_products/piano-roland-501r-mau-den.jpg"
+                         class="card-img-top"
+                         alt="Piano Roland 501R">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="#" class="text-decoration-none">Piano Roland 501R</a></h5>
+                        <p class="card-text">Piano Roland 501R với thiết kế sang trọng, âm thanh chất lượng, thích hợp
+                            cho
+                            mọi không gian.</p>
+                        <p class="card-text"><strike>12,000,000 VND</strike> <strong class="text-danger">10,500,000
+                            VND</strong></p>
+                        <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/products/featured_products/bannerT9-RO30-2048.png" class="card-img-top"
+                         alt="Piano Roland RO30">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="#" class="text-decoration-none">Piano Roland RO30</a></h5>
+                        <p class="card-text">Piano Roland RO30 là sự lựa chọn lý tưởng cho người mới bắt đầu học
+                            đàn.</p>
+                        <p class="card-text"><strike>15,000,000 VND</strike> <strong class="text-danger">13,500,000
+                            VND</strong></p>
+                        <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/products/featured_products/casio-cdp-s160-bk.jpg" class="card-img-top"
+                         alt="Casio CDP-S160">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="#" class="text-decoration-none">Casio CDP-S160</a></h5>
+                        <p class="card-text">Casio CDP-S160 với âm thanh sống động, thiết kế nhỏ gọn phù hợp cho học
+                            sinh và
+                            người mới.</p>
+                        <p class="card-text"><strike>8,000,000 VND</strike> <strong class="text-danger">7,500,000
+                            VND</strong></p>
+                        <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/products/featured_products/CDPS360.png" class="card-img-top"
+                         alt="Casio CDP-S360">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="#" class="text-decoration-none">Casio CDP-S360</a></h5>
+                        <p class="card-text">Casio CDP-S360 với âm thanh sắc nét, phù hợp cho mọi đối tượng chơi
+                            đàn.</p>
+                        <p class="card-text"><strike>10,000,000 VND</strike> <strong class="text-danger">9,500,000
+                            VND</strong></p>
+                        <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/products/featured_products/dan-piano-casio-px-s7000hm.jpg"
+                         class="card-img-top"
+                         alt="Casio PX-S7000HM">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="#" class="text-decoration-none">Casio PX-S7000HM</a></h5>
+                        <p class="card-text">Piano Casio PX-S7000HM mang đến chất âm tự nhiên và thiết kế đẹp mắt, dễ
+                            dàng
+                            sử dụng.</p>
+                        <p class="card-text"><strike>20,000,000 VND</strike> <strong class="text-danger">18,000,000
+                            VND</strong></p>
+                        <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/products/featured_products/dan-piano-dien-casio-px-s1100.jpg"
+                         class="card-img-top" alt="Casio PX-S1100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="#" class="text-decoration-none">Casio PX-S1100</a></h5>
+                        <p class="card-text">Piano điện Casio PX-S1100 có âm thanh sống động và thiết kế cực kỳ mỏng
+                            nhẹ.</p>
+                        <p class="card-text"><strike>12,000,000 VND</strike> <strong class="text-danger">11,500,000
+                            VND</strong></p>
+                        <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/products/featured_products/dan-piano-kawai-k300-mau-den-sang-trong.jpg"
+                         class="card-img-top" alt="Piano Kawai K300">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="#" class="text-decoration-none">Piano Kawai K300</a></h5>
+                        <p class="card-text">Piano Kawai K300 với âm thanh trung thực và thiết kế tinh tế.</p>
+                        <p class="card-text"><strike>25,000,000 VND</strike> <strong class="text-danger">22,500,000
+                            VND</strong></p>
+                        <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/products/featured_products/kawai-nd-21-dep-sang-trong-viet-thuong-music.jpg"
+                         class="card-img-top" alt="Piano Kawai ND-21">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="#" class="text-decoration-none">Piano Kawai ND-21</a></h5>
+                        <p class="card-text">Piano Kawai ND-21 với vẻ ngoài sang trọng và âm thanh tuyệt hảo.</p>
+                        <p class="card-text"><strike>18,500,000 VND</strike> <strong class="text-danger">17,000,000
+                            VND</strong></p>
+                        <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 9 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/products/featured_products/piano-Kawai-gl20.jpg" class="card-img-top"
+                         alt="Piano Kawai GL20">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="#" class="text-decoration-none">Piano Kawai GL20</a></h5>
+                        <p class="card-text">Piano Kawai GL20 với âm thanh thanh thoát và thiết kế gọn gàng, phù hợp cho
+                            nhiều không gian.</p>
+                        <p class="card-text"><strike>35,000,000 VND</strike> <strong class="text-danger">32,000,000
+                            VND</strong></p>
+                        <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <h2 class="text-start mb-4">TIN TỨC - SỰ KIỆN</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
+            <!-- Bài đăng 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/posts/sinh-nhat-resize-555x310-360x240.jpg" class="card-img-top"
+                         alt="Sinh nhật rộn ràng">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Sinh nhật rộn ràng - Nhận ngay ưu đãi 10% tại Việt Thương Music</h5>
+                        <p class="card-text">Sinh nhật sắp đến, bạn đã sẵn sàng đón tuổi mới đầy ý nghĩa chưa? Hãy để
+                            Việt
+                            Thương Music đồng hành cùng bạn với chương trình khuyến mãi đặc biệt – giảm ngay 10% trên
+                            tất cả
+                            sản phẩm!</p>
+                        <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bài đăng 2 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/posts/555x3101-360x240.png" class="card-img-top"
+                         alt="Pre-order đàn piano điện Casio AP-300">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Pre-order đàn piano điện Casio AP-300 và Casio AP-S200 mới nhất</h5>
+                        <p class="card-text">Đón đầu xu hướng âm nhạc với chương trình Pre-order đàn piano điện Casio
+                            AP-300
+                            và Casio AP-S200 diễn ra từ ngày 22/10 đến hết 30/11/2024.</p>
+                        <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bài đăng 3 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/posts/Artboard_5-360x240.png" class="card-img-top"
+                         alt="Workshop guitar: Secret of Rhythm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Workshop guitar: Secret of Rhythm</h5>
+                        <p class="card-text">Workshop đệm hát cùng guitarist nổi tiếng.</p>
+                        <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bài đăng 4 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/posts/L1110399-360x240.jpg" class="card-img-top"
+                         alt="Chương trình pre-order sản phẩm Boss Gx-10">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Chương trình pre-order sản phẩm Boss Gx-10</h5>
+                        <p class="card-text">Bạn là một guitarist đam mê và luôn tìm kiếm những công cụ âm nhạc hiện đại
+                            để
+                            nâng cao chất lượng âm thanh? Vậy thì Boss GX-10 chính là cái tên không thể bỏ qua.</p>
+                        <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bài đăng 5 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/posts/MIC-555x310-360x240.png" class="card-img-top"
+                         alt="Sự kiện: Music Corner in the City">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Sự kiện: Music Corner in the City</h5>
+                        <p class="card-text">Vào 3 ngày 08, 09, 10/11/2024 tại Vincom Đồng Khởi, 72 Lê Thánh Tôn, phường
+                            Bến
+                            Nghế, quận 1 sẽ diễn ra sự kiện Music Corner in the City.</p>
+                        <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bài đăng 6 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="assets/images/posts/RAW_0373-360x240.jpg" class="card-img-top"
+                         alt="Siêu phẩm Shigeru Kawai SK-5">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Siêu phẩm Shigeru Kawai SK-5 xuất hiện trong họp báo</h5>
+                        <p class="card-text">Shigeru Kawai SK-5 là một trong những cây đàn grand piano hàng đầu thế giới
+                            được sản xuất bởi thương hiệu Kawai nổi tiếng của Nhật Bản.</p>
+                        <a href="#" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="bg-primary mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- Phần Video bên trái chiếm 12 cột trên màn hình nhỏ và 6 cột trên màn hình lớn -->
+                <div class="col-12 col-md-6 mb-4 mb-md-0">
+                    <div class="embed-responsive embed-responsive-16by9 p-4">
+                        <iframe width="100%" height="360" src="https://www.youtube.com/embed/ZaK9Wi5ho0o"
+                                title="Eminem - Temporary (feat. Skylar Grey) [Official Music Video]" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <!-- Phần Nội dung bên phải chiếm 12 cột trên màn hình nhỏ và 6 cột trên màn hình lớn -->
+                <div class="col-12 col-md-6 d-flex flex-column justify-content-center">
+                    <h3 class="mb-4">Drum Store gần 30 năm phát triển</h3>
+                    <p class="mb-3">Hơn 70 đại lý lớn nhỏ tại các tỉnh thành Việt Nam</p>
+                    <p class="mb-3">Cam kết đem lại những lợi ích tốt nhất cho khách hàng</p>
+                    <p class="mb-3">Drum Store với hệ thống giáo trình theo tiêu chuẩn Quốc Tế</p>
+                    <p class="mb-3">Dịch vụ cho thuê nhạc cụ, âm thanh ánh sáng lớn nhất</p>
+                    <div class="mt-4">
+                        <img src="assets/images/logo/logovt.png" alt="Drum Store Logo" class="img-fluid">
+                        <img class="mx-4" width="99" height="38" src="assets/images/logo/logo4.png"
+                             alt="Drum Store Logo"
+                             class="img-fluid">
+                    </div>
+                </div>
+
             </div>
         </div>
+    </div>
 
-        <div class="row mt-4">
-            <div class="col-12 text-center">
-                <p>&copy; 2024 Công ty Cổ Phần TM-DV-SX Việt Thương. Tất cả quyền lợi được bảo lưu.</p>
+
+    <!-- Brands -->
+    <div class="bg-white py-5">
+        <div class="container">
+            <img src="assets/images/logo/logo_brands/acus-logo.png" alt="Acus" class="item">
+            <img src="assets/images/logo/logo_brands/boss.png" alt="Boss" class="item">
+            <img src="assets/images/logo/logo_brands/CASIO.png" alt="CASIO" class="item">
+            <img src="assets/images/logo/logo_brands/charvel.png" alt="Charvel" class="item">
+            <img src="assets/images/logo/logo_brands/Daddario_logo.png" alt="Daddario" class="item">
+            <img src="assets/images/logo/logo_brands/deviser-logo.jpg" alt="Deviser" class="item">
+            <img src="assets/images/logo/logo_brands/elixir.png" alt="Elixir" class="item">
+            <img src="assets/images/logo/logo_brands/evh.png" alt="EVH" class="item">
+            <img src="assets/images/logo/logo_brands/fender.png" alt="Fender" class="item">
+            <img src="assets/images/logo/logo_brands/footer_logo_02.gif" alt="Footer Logo" class="item">
+            <img src="assets/images/logo/logo_brands/gregbennet.png" alt="Greg Bennet" class="item">
+            <img src="assets/images/logo/logo_brands/gretsch.png" alt="Gretsch" class="item">
+            <img src="assets/images/logo/logo_brands/hammond.png" alt="Hammond" class="item">
+            <img src="assets/images/logo/logo_brands/Headrush-logo.jpg" alt="Headrush" class="item">
+            <img src="assets/images/logo/logo_brands/jackson.png" alt="Jackson" class="item">
+            <img src="assets/images/logo/logo_brands/kawai.png" alt="Kawai" class="item">
+            <img src="assets/images/logo/logo_brands/logo-kohler-campbell-01.jpg" alt="Kohler Campbell" class="item">
+            <img src="assets/images/logo/logo_brands/logo_dan_guitar_cordoba.jpg" alt="Cordoba" class="item">
+            <img src="assets/images/logo/logo_brands/logo_dan_piano_boston.png" alt="Boston" class="item">
+            <img src="assets/images/logo/logo_brands/LogoBlackstar.png" alt="Blackstar" class="item">
+            <img src="assets/images/logo/logo_brands/logofisman.png" alt="Fisman" class="item">
+            <img src="assets/images/logo/logo_brands/logosteinway.png" alt="Steinway" class="item">
+            <img src="assets/images/logo/logo_brands/no_image.png" alt="No Image" class="item">
+            <img src="assets/images/logo/logo_brands/rodgers.png" alt="Rodgers" class="item">
+            <img src="assets/images/logo/logo_brands/roland.png" alt="Roland" class="item">
+            <img src="assets/images/logo/logo_brands/samick.png" alt="Samick" class="item">
+            <img src="assets/images/logo/logo_brands/sire-logo.png" alt="Sire" class="item">
+            <img src="assets/images/logo/logo_brands/suzuki.png" alt="Suzuki" class="item">
+            <img src="assets/images/logo/logo_brands/takamine.png" alt="Takamine" class="item">
+            <img src="assets/images/logo/logo_brands/tanglewood_1.jpg" alt="Tanglewood" class="item">
+        </div>
+    </div>
+</section>
+<footer>
+
+
+    <!--Contact-->
+    <div class="bg-secondary py-5">
+        <div class="container text-black">
+            <div class="row justify-content-between align-items-center">
+                <!-- Phần bên trái: Thông tin liên hệ -->
+                <div class="col-12 col-md-6 mb-4 mb-md-0">
+                    <h4>LIÊN HỆ</h4>
+                    <p>Chúng tôi sẽ giúp bạn tìm đúng giải pháp cho đam mê của bạn.</p>
+                    <button class="btn btn-primary text-black">HOTLINE</button>
+                </div>
+
+                <!-- Phần bên phải: Form gửi email -->
+                <div class="col-12 col-md-6">
+                    <form>
+                        <div class="row">
+                            <div class="col-12 col-md-8 mb-3">
+                                <label for="contact-email" class="form-label">Địa chỉ email</label>
+                                <input type="email" class="form-control" id="contact-email"
+                                       placeholder="Nhập email của bạn"
+                                       required>
+                                <button type="submit" class="btn btn-primary w-100 w-md-25 mt-2 text-black">Gửi Email
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-dark text-white pt-4 pb-4">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 col-md-3 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Thông tin Drum Store</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Giới thiệu công ty</a></li>
+                        <li><a href="#" class="text-white">Hệ thống showroom, đại lý</a></li>
+                        <li><a href="#" class="text-white">Liên Hệ / Góp Ý</a></li>
+                        <li><a href="#" class="text-white">Mua trả góp</a></li>
+                        <li><a href="#" class="text-white">Chương trình Khách hàng thân thiết</a></li>
+                        <li><a href="#" class="text-white">Điều khoản sử dụng website</a></li>
+                        <li><a href="#" class="text-white">Tuyển dụng</a></li>
+                    </ul>
+                </div>
+
+
+                <div class="col-12 col-md-3 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Hướng dẫn chung</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Giao hàng - Đổi trả</a></li>
+                        <li><a href="#" class="text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#" class="text-white">Thanh toán và bảo mật</a></li>
+                        <li><a href="#" class="text-white">Chính sách bảo hành</a></li>
+                        <li><a href="#" class="text-white">Bảo trì đàn piano</a></li>
+                        <li><a href="#" class="text-white">Kích hoạt bảo hành</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-md-3 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>Gọi mua hàng: </strong><a href="tel:123-456-7890" class="text-white">123-456-7890 (Miễn
+                            phí)</a></li>
+                        <li><strong>Khiếu nại, Bảo hành: </strong><a href="tel:123-456-7890" class="text-white">123-456-7890</a></li>
+                        <li><strong>Thời gian phục vụ: </strong>8h-22h</li>
+                        <li><strong>Email: </strong><a href="mailto:drumstore@gmail.com" class="text-white">drumstore@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Cột 4: Social, Phương thức thanh toán, Chứng nhận -->
+                <div class="col-12 col-md-3">
+                    <h5 >MẠNG XÃ HỘI</h5>
+                    <ul class="list-unstyled d-flex gap-3">
+                        <li><a href="#" class="text-white" aria-label="Facebook"><i class="bi bi-facebook"></i></a></li>
+                        <li><a href="#" class="text-white" aria-label="TikTok"><i class="bi bi-tiktok"></i></a></li>
+                        <li><a href="#" class="text-white" aria-label="Instagram"><i class="bi bi-instagram"></i></a></li>
+                        <li><a href="#" class="text-white" aria-label="YouTube"><i class="bi bi-youtube"></i></a></li>
+                    </ul>
+
+                    <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
+                    <ul class="list-unstyled">
+                        <li><img src="assets/images/payments/visa.png" alt="Phương thức thanh toán" class="img-fluid"/>
+                        </li>
+                    </ul>
+
+                    <h5 class="text-uppercase mt-4">Chứng nhận</h5>
+                    <ul class="list-unstyled">
+                        <li><img src="assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid"/></li>
+                        <li><img src="assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid"/></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <p>&copy; 2024 Công ty Cổ Phần TM-DV-SX Drum Store. Tất cả quyền lợi được bảo lưu.</p>
+                </div>
             </div>
         </div>
     </div>
 </footer>
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-
+<script src="assets/libraries/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
