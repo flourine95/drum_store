@@ -11,6 +11,32 @@
     <link rel="stylesheet" href="assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/custom.css">
     <style>
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        /* CSS để hiển thị menu con khi hover vào submenu */
+        .dropdown-submenu:hover > .dropdown-menu {
+            display: block;
+        }
+
+        /* Đảm bảo dropdown-menu con nằm ngang với dropdown-menu cha */
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+            display: none;
+        }
+
+        /* Thêm sự kiện click cho các dropdown trong navbar */
+        .dropdown-menu a {
+            cursor: pointer;
+        }
+
+        /* Đảm bảo dropdown vẫn mở khi click vào item trong menu con */
+        .dropdown-menu .dropdown-toggle:focus {
+            background-color: #f8f9fa;
+        }
         .custom-box {
             display: flex;
             align-items: center; /* Căn giữa icon và nội dung theo chiều dọc */
@@ -60,8 +86,44 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-
         .navbar-nav .nav-link:hover {
+            background-color: black;
+            color: var(--bs-primary);
+        }
+
+        .navbar-nav .dropdown:hover > .dropdown-menu {
+            display: block;
+            background-color: var(--bs-primary);
+        }
+
+        .navbar-nav .dropdown-menu .dropdown-item {
+            color: black;
+            background-color: var(--bs-primary);
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar-nav .dropdown-menu .dropdown-item:hover {
+            background-color: black;
+            color: var(--bs-primary);
+        }
+
+        .navbar-nav .dropdown-submenu:hover > .dropdown-menu {
+            display: block;
+            background-color: var(--bs-primary);
+        }
+
+        .navbar-nav .dropdown-submenu .dropdown-item:hover {
+            background-color: black;
+            color: var(--bs-primary);
+        }
+
+        .navbar-nav .nav-item:hover {
+            background-color: black;
+            color: var(--bs-primary);
+        }
+
+        .navbar-nav .dropdown:hover > .nav-link {
             background-color: black;
             color: var(--bs-primary);
         }
@@ -105,30 +167,9 @@
     <img src="/assets/images/banners/promo_banners/thang-tri-an-11-2024-vtm-top.png" alt="Tháng Tri Ân Săn Sale"
          class="img-fluid w-100">
     <!-- Top Info -->
-    <div class="bg-black text-white py-2">
-        <div class="container">
-            <div class="row">
-                <!-- Email và Phone -->
-                <div class="col-12 col-md-6 d-flex align-items-center fw-lighter justify-content-center justify-content-md-start">
-                <span class="me-3">
-                    <i class="bi bi-envelope"></i>
-                    <span>drumstore@gmail.com</span>
-                </span>
-                    <span>
-                    <i class="bi bi-telephone"></i>
-                    <span>123-456-7890</span>
-                </span>
-                </div>
-                <!-- Hệ thống phân phối -->
-                <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end align-items-center mt-2 mt-md-0">
-                    <span>Hệ thống phân phối</span>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </header>
 <section>
-
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-primary">
         <div class="container">
@@ -147,12 +188,38 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <!-- Links ở giữa -->
                 <div class="navbar-nav mx-auto fw-bold">
+                    <a class="nav-link" href="#">TRANG CHỦ</a>
                     <a class="nav-link" href="#">GIỚI THIỆU</a>
-                    <a class="nav-link" href="#">SẢN PHẨM</a>
-                    <a class="nav-link" href="#">GIÁO DỤC</a>
-                    <a class="nav-link" href="#">KHUYẾN MÃI</a>
+
+                    <!-- Dropdown cho SẢN PHẨM -->
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            SẢN PHẨM
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item dropdown-toggle" href="#">Trống</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Trống điện tử</a></li>
+                                    <li><a class="dropdown-item" href="#">Trống cơ</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item dropdown-toggle" href="#">Phụ kiện</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Giá đỡ trống</a></li>
+                                    <li><a class="dropdown-item" href="#">Gậy trống</a></li>
+                                    <li><a class="dropdown-item" href="#">Túi đựng trống</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Âm thanh</a></li>
+                            <li><a class="dropdown-item" href="#">Dụng cụ tập luyện</a></li>
+                        </ul>
+                    </div>
+
                     <a class="nav-link" href="#">TIN TỨC</a>
-                    <a class="nav-link" href="#">TUYỂN DỤNG</a>
+                    <a class="nav-link" href="#">LIÊN HỆ</a>
+                    <a class="nav-link" href="#">CHI NHÁNH</a>
                 </div>
 
                 <!-- Thanh tìm kiếm trên thiết bị lớn -->
@@ -162,13 +229,13 @@
                 </form>
 
                 <!-- Icon Đăng nhập và Giỏ hàng -->
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center ms-auto order-lg-2"> <!-- ms-auto để đưa sang phải trên màn hình lớn -->
                     <!-- Giỏ hàng -->
                     <a href="#" class="btn btn-light me-3 position-relative">
                         <i class="bi bi-cart-fill"></i>
                         <!-- Badge hiển thị số lượng sản phẩm trong giỏ hàng -->
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        3 <!-- số lượng sản phẩm -->
+                    3 <!-- số lượng sản phẩm -->
                     </span>
                     </a>
 
@@ -193,6 +260,9 @@
             </div>
         </div>
     </nav>
+
+
+
 
 
     <!-- Carousel -->
@@ -963,5 +1033,16 @@
     </div>
 </footer>
 <script src="assets/libraries/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.querySelectorAll('.dropdown-submenu > a').forEach(function (element) {
+        element.addEventListener('click', function (e) {
+            var nextDropdown = this.nextElementSibling;
+            if (nextDropdown && nextDropdown.classList.contains('dropdown-menu')) {
+                e.preventDefault();  // Ngăn chặn hành động mặc định (click)
+                nextDropdown.classList.toggle('show');  // Tạo hiệu ứng mở/đóng menu
+            }
+        });
+    });
+</script>
 </body>
 </html>
