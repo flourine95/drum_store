@@ -63,6 +63,38 @@
     display: flex;
     flex: 1;
 }
+.button-group {
+    padding-bottom:10px ;
+    display: flex;
+    gap: 15px; /* Tạo khoảng cách giữa các nút */
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; /* Bo góc nút */
+    font-weight: bold;
+}
+
+.add-to-cart {
+    background-color: #f1f1f1; /* Màu nền xám nhạt */
+    color: #333; /* Màu chữ xám đậm */
+}
+
+.add-to-cart:hover {
+    background-color: #e0e0e0; /* Đổi màu khi hover */
+}
+
+.buy-now {
+    background-color: #ed1c24; /* Màu đỏ tươi */
+    color: #fff; /* Màu chữ trắng */
+}
+
+.buy-now:hover {
+    background-color: #d0001b; /* Đổi màu khi hover */
+}
 
 .button-group .btn {
     flex: 1;
@@ -111,4 +143,55 @@
     text-align: left;
     padding: 5px 15px;
     border-bottom: dashed 1px #d7d7d7;
+}
+.fs-thumit {
+    display: flex;
+    text-align: center;
+    margin: 0 auto;
+}
+.video_youtube {
+    font-size: 20px;
+    padding-right: 50px;
+}
+.image-gallery_full {
+    padding-right: 50px;
+}
+.fs-th5 i{
+    font-size: 20px;
+}
+.fs-th5 p{
+    font-size: 20px;
+}
+.tab-container {
+    margin: 20px 0;
+}
+
+.tab-menu {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-item:hover {
+    color: #007bff;
+}
+
+.tab-item.active {
+    border-bottom: 2px solid #000;
+    color: #000;
+}
+
+.tab-content {
+    text-align: center;
+    padding: 15px 0;
 }
