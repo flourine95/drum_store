@@ -62,17 +62,13 @@
     border: 1px solid;
 }
 
-.contact-form .form-label {
-    font-weight: bold;
-}
-
 .input-group .form-control {
     display: flex;
     flex: 1;
 }
 
 .button-group {
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     display: flex;
     gap: 15px;
     /* Tạo khoảng cách giữa các nút */
@@ -80,7 +76,7 @@
 
 .btn {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 20px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -110,6 +106,11 @@
 .buy-now:hover {
     background-color: #d0001b;
     /* Đổi màu khi hover */
+}
+
+.buy {
+    display: flex;
+    flex-direction: column;
 }
 
 .button-group .btn {
@@ -222,4 +223,7 @@
     display: flex;
     gap: 10px;
     margin-top: 20px;
+}
+.bg-brown {
+    background-color: brown;
 }
