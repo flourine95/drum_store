@@ -1,0 +1,1339 @@
+[
+    {
+        "id": 1,
+        "name": "Alesis Turbo Mesh Kit",
+        "description": "Không có mô tả chi tiết",
+        "price": 7990000,
+        "sale": 15,
+        "stock": 3,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/alesis-turbo-mesh-kit-400x400.jpg"
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Alesis Crimson II SE",
+        "description": "Không có mô tả chi tiết",
+        "price": 26990000,
+        "sale": 9,
+        "stock": 56,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/CRIMSONIISE-400x400.jpg"
+        ]
+    },
+    {
+        "id": 3,
+        "name": "ROLAND TD-02KV",
+        "description": "Không có mô tả chi tiết",
+        "price": 15000000,
+        "sale": 14,
+        "stock": 87,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/td-02kv_main-400x400.jpg"
+        ]
+    },
+    {
+        "id": 4,
+        "name": "PEARL T BỘ KÍCH 22",
+        "description": "Không có mô tả chi tiết",
+        "price": 15560000,
+        "sale": 10,
+        "stock": 52,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/catalog/pearl/RS525SBC-CVN91-2.jpg",
+            "https://vietthuong.vn/image/catalog/pearl/RS525SBC-CVN91-3.jpg",
+            "https://vietthuong.vn/image/catalog/pearl/RS525SBC-CVN91-4.jpg",
+            "https://vietthuong.vn/image/catalog/pearl/RS525SBC-CVN91-6.jpg"
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Combo EXX725SP/C760",
+        "description": "RTrống Pearl Export EXX725SP/CRCymbal Zildjian ZP4PKRGiá đỡ HWP-830",
+        "price": null,
+        "sale": 14,
+        "stock": 96,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Drum-Trong/EXX725SP-C760-1-400x400.jpg"
+        ]
+    },
+    {
+        "id": 6,
+        "name": "PEARL EXPORT EXX725SP/C777 TRỐNG BỘ MÀU SLIPSTREAM WHITE",
+        "description": "Không có mô tả chi tiết",
+        "price": 15860000,
+        "sale": 8,
+        "stock": 80,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/EXX725SP-C777-400x400.jpg"
+        ]
+    },
+    {
+        "id": 7,
+        "name": "PEARL EXPORT EXX725SP/C778 TRỐNG BỘ MÀU METALLIC SILVER TWST",
+        "description": "Không có mô tả chi tiết",
+        "price": 15860000,
+        "sale": 14,
+        "stock": 50,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/EXX725SP-C778-400x400.jpg"
+        ]
+    },
+    {
+        "id": 8,
+        "name": "PEARL EXPORT EXX725SP/C779 TRỐNG BỘ MÀU METALLIC AMETHYST TW",
+        "description": "Không có mô tả chi tiết",
+        "price": 15860000,
+        "sale": 10,
+        "stock": 68,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/EXX725SP-C779-400x400.jpg"
+        ]
+    },
+    {
+        "id": 9,
+        "name": "PEARL DECADE MAPLE DMPC925SP/C889 BỘ MÀU GLOSS EXOTIC MAPLE",
+        "description": "Không có mô tả chi tiết",
+        "price": 26780000,
+        "sale": 13,
+        "stock": 94,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/pearl-pearl-decade-22-maple-drum-kit-gloss-exotic-400x400.jpg"
+        ]
+    },
+    {
+        "id": 10,
+        "name": "PEARL DECADE MAPLE DMPC925SP/C828 BỘ MÀU MATEE DARK WALNUT",
+        "description": "Không có mô tả chi tiết",
+        "price": 26780000,
+        "sale": 5,
+        "stock": 32,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/pearl-pearl-decade-22-maple-drum-kit-matte-dark-wa-400x400.jpg"
+        ]
+    },
+    {
+        "id": 11,
+        "name": "PEARL DECADE MAPLE DMP905P/C215 TRỐNG BỘ MÀU SATIN GOLD",
+        "description": "Không có mô tả chi tiết",
+        "price": 25660000,
+        "sale": 9,
+        "stock": 15,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/DMP905P-C215-400x400.jpg"
+        ]
+    },
+    {
+        "id": 12,
+        "name": "PEARL DECADE MAPLE DMP925FP/C261 BỘ MÀU GLOSS DEEP RED BURST",
+        "description": "Không có mô tả chi tiết",
+        "price": 26560000,
+        "sale": 7,
+        "stock": 83,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/DMP925FP-C261-400x400.jpg"
+        ]
+    },
+    {
+        "id": 13,
+        "name": "PEARL DMP0807T/C261 TRỐNG TOM 8X7 MÀU GLOSS DEEP RED BURST",
+        "description": "Không có mô tả chi tiết",
+        "price": 3000000,
+        "sale": 12,
+        "stock": 42,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/DMP0807T-C261-400x400.jpg"
+        ]
+    },
+    {
+        "id": 14,
+        "name": "ALESIS NITROPROKIT",
+        "description": "Không có mô tả chi tiết",
+        "price": 17320000,
+        "sale": 11,
+        "stock": 90,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Drum-Trong/ALESIS_-_Nitro_Pro_-_Drum_Kit_Top_View_-_Web-400x400.jpg"
+        ]
+    },
+    {
+        "id": 15,
+        "name": "Trống Pearl Roadshow 505",
+        "description": "- Mua hàng trả góp 0%, Bảo hành chính hãng\n- Trang bị 9-lớp vỏ Polar cho âm sắc hoàn hảo\n- Phần cứng tiên tiến. Màu sắc đa dạng\n- Giá bán lẻ gồm trống, hardware, cymbal, pedal, ghế, dùi, bao đựng dùi",
+        "price": 11900000,
+        "sale": 15,
+        "stock": 38,
+        "colors": [
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/pearl-mau-703.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/pearl-mau-706.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/pearl-mau-707.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/pearl-mau-708.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/pearl-mau-91.jpg"
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/catalog/pearl/trong-pearl-roadshow-505-c703.jpg",
+            "https://vietthuong.vn/image/catalog/pearl/trong-pearl-roadshow-505-c706.jpg",
+            "https://vietthuong.vn/image/catalog/pearl/trong-pearl-roadshow-505-c707.jpg",
+            "https://vietthuong.vn/image/catalog/pearl/trong-pearl-roadshow-505-c708.jpg",
+            "https://vietthuong.vn/image/catalog/pearl/trong-pearl-roadshow-505-c91.jpg"
+        ]
+    },
+    {
+        "id": 16,
+        "name": "Alesis Command Mesh Kit",
+        "description": "- Mặt lưới được đan chặt chẽ với nhau, mặt lưới màu đen tạo cảm giác khi chơi và độ phản hồi vượt trội.\n- 5 pad (3 dual-zone tom mặt lưới ) size 8”, dual-zone Snare size 10” and Pad Kich lưới size 8”.\n- 3 lá cymbal size 10” gồm hi-hat, ride, and (1) crash w/choke.\n- Hộp tiếng trống với 74 bộ dụng cụ (54 tiếng set sẵn + 20 tiếng cho người dùng tự set ) và 671 âm thanh\n- Tải các file mẫu WAV hoặc MP3 và phát các bản nhạc qua cổng USB.\n- Ghi âm thời gian thực (5 bản nhạc trong nội bộ, lên đến 99 bản nhạcvới ổ USB)\n- Kết nối USB / MIDI để sử dụng bản ghi yêu thích của bạnthư viện phần mềm hoặc âm thanh\n- Giá đỡ bốn trụ cao cấp\n- Bộ trống gồm : Kick drum pedal, hi-hat pedal, khóa trống, dùi, cáp kết nối, hardware và bộ nguồn",
+        "price": 25100000,
+        "sale": 11,
+        "stock": 59,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Drum-Trong/alesis_command_mesh_kit-400x400.jpg"
+        ]
+    },
+    {
+        "id": 17,
+        "name": "Alesis Surge Mesh Kit",
+        "description": "- Mặt lưới được đan chặt chẽ vào nhau, mặt lưới màu trắng tạo cảm giác khi chơi và độ phản hồi vượt trội.\n- 5 pad gồm (3 dual-zone toms) size 8”, dual-zone snare size 10” và trống kich size 8”\n- 3 lá cymbal size 10 gồm hi-hat, crash w/choke, and ride w/choke.\n- Hộp tiếng bộ Surge với 40 bộ dụng cụ ( có 24 cài đặt sẵn + 16 chờ người dung set) và 385 âm thanh.\n- 60 bản nhạc phát dọc tích hợp, bộ đếm, máy đếm nhịp, máy ghi.\n- Đầu vào hỗ trợ CD / MP3 để chơi cùng với điện thoại của bạn hoặc thiết bị khác cầm tay\n- Kết nối USB / MIDI cho các nhạc cụ ảo và phần mềm ghi âm.\n- Giá đỡ bốn trụ.\n- Bộ trống gồm : Kick drum pedal, hi-hat pedal, khóa trống, dùi, cáp kết nối, hardware và bộ nguồn.",
+        "price": 16910000,
+        "sale": 6,
+        "stock": 81,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Drum-Trong/alesis_surge_mesh_kit-400x400.jpg"
+        ]
+    },
+    {
+        "id": 18,
+        "name": "Roland TD-17KL",
+        "description": "Phụ kiện bao gồm:MDS-COM",
+        "price": 37020000,
+        "sale": 14,
+        "stock": 92,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/work/td-17kl-400x400-400x400.jpg"
+        ]
+    },
+    {
+        "id": 19,
+        "name": "Roland TD-07KV",
+        "description": "Sản phẩm bao gồm: Trống TD-07KV",
+        "price": 26900000,
+        "sale": 11,
+        "stock": 49,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/work/td-07kv-400x400-400x400.jpg"
+        ]
+    },
+    {
+        "id": 20,
+        "name": "Roland TD-1DMK",
+        "description": "Sản phẩm bao gồm: Trống TD-1DMK",
+        "price": 23030000,
+        "sale": 6,
+        "stock": 54,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/trong-dien-tu-roland-td-1dmk--500x500-400x400.jpg"
+        ]
+    },
+    {
+        "id": 21,
+        "name": "ROLAND TD-02K",
+        "description": "Chỉ cần mua thêm : Ghế, dùi, tai nghe hoặc loa là có thể chơi được ngay'",
+        "price": 10500000,
+        "sale": 11,
+        "stock": 61,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-td-02k-02.png",
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-td-02k-03.png",
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-td-02k-04.png",
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-td-02k-05.png",
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-td-02k-06.png",
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-td-02k-07.png"
+        ]
+    },
+    {
+        "id": 22,
+        "name": "Roland VAD 504",
+        "description": "Không có mô tả chi tiết",
+        "price": null,
+        "sale": 15,
+        "stock": 99,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Drum-Trong/1-400x400.jpg"
+        ]
+    },
+    {
+        "id": 23,
+        "name": "Roland VAD 507",
+        "description": "Không có mô tả chi tiết",
+        "price": null,
+        "sale": 12,
+        "stock": 19,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Drum-Trong/507_(1)-400x400.jpg"
+        ]
+    },
+    {
+        "id": 24,
+        "name": "SPD-SX PRO",
+        "description": "Không có mô tả chi tiết",
+        "price": 35160000,
+        "sale": 10,
+        "stock": 93,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-spd-sx-pro-01.jpg",
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-spd-sx-pro-02.jpg",
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-spd-sx-pro-03.jpg",
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-spd-sx-pro-04.jpg",
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-spd-sx-pro-05.jpg",
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-spd-sx-pro-06.jpg",
+            "https://vietthuong.vn/image/catalog/roland/trong/roland-spd-sx-pro-07.jpg"
+        ]
+    },
+    {
+        "id": 25,
+        "name": "ROLAND TD-07DMK",
+        "description": "Không có mô tả chi tiết",
+        "price": null,
+        "sale": 9,
+        "stock": 79,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/trong-dien-Roland-TD-07DMK-400x400.jpg"
+        ]
+    },
+    {
+        "id": 26,
+        "name": "Roland VAD 706",
+        "description": "Giá chưa bao gồm phụ kiện.",
+        "price": 229340000,
+        "sale": 15,
+        "stock": 27,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Drum-Trong/706_(1)-400x400.jpg"
+        ]
+    },
+    {
+        "id": 27,
+        "name": "Alesis Nitro Max Kit",
+        "description": "Không có mô tả chi tiết",
+        "price": 15490000,
+        "sale": 6,
+        "stock": 64,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/catalog/NitroMax-LOWRES-Lifestyle-11.jpg",
+            "https://vietthuong.vn/image/catalog/NitroMax-LOWRES-Lifestyle-18.jpg",
+            "https://vietthuong.vn/image/catalog/NitroMax-LOWRES-Lifestyle-20.jpg"
+        ]
+    },
+    {
+        "id": 28,
+        "name": "Trống PEARL Roadshow RS525 standard",
+        "description": "- Cymbal, hi-hat và snare với một chân chống mạnh mẽ và cân bằng\n- Snare của bộ trống được trang bị đầy đủ và mạnh mẽ\n- Kick có nhiều sức căng và khả năng điều chỉnh mở rộng\n- Hoàn hảo cho một bộ trống với những người mới tập chơi\n- Giá bán lẻ gồm trống, hardware, cymbal, pedal, ghế, dùi, bao đựng dùi",
+        "price": null,
+        "sale": 13,
+        "stock": 84,
+        "colors": [
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/mau-pearl-c757.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/mau-pearl-c749.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/pearl-mau-91.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/pearl-mau-708.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/pearl-mau-707.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/pearl-mau-706.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/pearl-mau-703.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/jet-black.jpg"
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/drum-pearl-roadshow-525-757-400x400.jpg"
+        ]
+    },
+    {
+        "id": 29,
+        "name": "ROLAND TD-50KVX",
+        "description": "Không có mô tả chi tiết",
+        "price": 279130000,
+        "sale": 6,
+        "stock": 20,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Drum-Trong/td-50kv_kd-a22_f_gal-400x400.jpg"
+        ]
+    },
+    {
+        "id": 30,
+        "name": "Trống Pearl Roadshow 584 Jazz style",
+        "description": "- Mua hàng trả góp 0%, bảo hành chính hãng\n- Âm thanh mạnh mẽ, ấn tượng\n- Cymbal, hi-hat và snare với 1 chân chống mạnh mẽ và cân bằng\n- Đa dạng màu sắc để lựa chọn",
+        "price": 10200000,
+        "sale": 14,
+        "stock": 49,
+        "colors": [
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/1a-thai/Sonic_Gray.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/red-wine.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/jet-black.jpg"
+            },
+            {
+                "color_name": "",
+                "color_image": "https://vietthuong.vn/image/catalog/Color/ghost.jpg"
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/catalog/pearl/trong-pearl-roadshow-584-jazz-style-C706.jpg",
+            "https://vietthuong.vn/image/catalog/pearl/trong-pearl-roadshow-584-jazz-style-C707.jpg",
+            "https://vietthuong.vn/image/catalog/pearl/trong-pearl-roadshow-584-jazz-style-C91.jpg"
+        ]
+    },
+    {
+        "id": 31,
+        "name": "ROLAND TD-17KV-X2",
+        "description": "- MDS-COM",
+        "price": 52500000,
+        "sale": 10,
+        "stock": 54,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/catalog/Drum-Trong/trong-dien-roland-td-17-kvx2-3.jpg"
+        ]
+    },
+    {
+        "id": 32,
+        "name": "ROLAND TD-17KV-2",
+        "description": "- MDS-COM",
+        "price": 39800000,
+        "sale": 14,
+        "stock": 18,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/catalog/Drum-Trong/trong-dien-roland-td-17-kv2-3.jpg"
+        ]
+    },
+    {
+        "id": 33,
+        "name": "Trống Compact Traveler Kit PCTK-1810",
+        "description": "- Giá bán lẻ bao gồm trống, không bao gồm hardware, cymbal, pedal",
+        "price": 4590000,
+        "sale": 6,
+        "stock": 11,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/catalog/1bsanphamthang10/PTCK-1810-mat_sau.jpg",
+            "https://vietthuong.vn/image/catalog/1bsanphamthang10/PCTK1810_Compact_Traveler.jpg"
+        ]
+    },
+    {
+        "id": 34,
+        "name": "Roland TD-25KVX + KD-220",
+        "description": "- Mua hàng trả góp 0%\n- Bảo hành chính hãng\n- Âm thanh đẳng cấp\n- Thiết kế nhỏ gọn, dễ di chuyển\n- Sản phẩm bao gồm:TD-25KVX, MDS-STD, KD-220",
+        "price": 136940000,
+        "sale": 12,
+        "stock": 98,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/work/roland-td25kvx_(1)-400x400.jpg"
+        ]
+    },
+    {
+        "id": 35,
+        "name": "Roland TD-25KVX + KD-180",
+        "description": "- Mua hàng trả góp 0%\n- Bảo hành chính hãng\n- Âm thanh đẳng cấp\n- Thiết kế nhỏ gọn, dễ di chuyển",
+        "price": 136940000,
+        "sale": 13,
+        "stock": 44,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/work/roland-td25kvx-400x400.jpg"
+        ]
+    },
+    {
+        "id": 36,
+        "name": "Roland TD-50K",
+        "description": "- Bao gồm Gía đỡ MDS-50K; KD-120BKJ V-KICK TRIGGER; TD-50KA;\n- Đem lại hiệu suất cao cho buổi diễn cũng như phòng thu\n- Sở hữu bộ TD-50DP chuyên nghiệp\n- Khả năng tùy chỉnh chuyên sâu\n- Thiết lập nhanh chóng, thu âm dễ dàng\n- Nhiều tính năng thực hành để nâng cao kĩ năng",
+        "price": 170970000,
+        "sale": 11,
+        "stock": 29,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/work/roland-td50-400x400-400x400.jpg"
+        ]
+    },
+    {
+        "id": 37,
+        "name": "Alesis Debut Kit",
+        "description": "Không có mô tả chi tiết",
+        "price": 6990000,
+        "sale": 8,
+        "stock": 80,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/alesis-debut-kit-4-400x400.jpg"
+        ]
+    },
+    {
+        "id": 38,
+        "name": "Alesis Nitro Mesh Kit",
+        "description": "Không có mô tả chi tiết",
+        "price": 12490000,
+        "sale": 10,
+        "stock": 14,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/alesis-nitro-mesh-kit-400x400.jpg"
+        ]
+    },
+    {
+        "id": 39,
+        "name": "Alesis Surge SE Kit",
+        "description": "- Mặt trống màu trắng dệt dạng lưới đan, nâng cao cảm giác và phản hồi khi chơi.\n- 5 pad gồm (3 dual-zone toms) size 8”, dual-zone snare size 10” và trống kich size 8”.\n- 3 lá cymbal size 10 gồm hi-hat, crash w/choke, and ride w/choke.\n- Mô-đun Surge Drum với 40 bộ (24 Cài đặt sẵn + 16 cho phép người dùng tùy chỉnh) và 385 âm thanh.\n- 60 bản nhạc phát dọc tích hợp, bộ đếm, máy đếm nhịp, máy ghi.\n- Đầu vào phụ trợ CD/MP3 để phát cùng với điện thoại hoặc các thiết bị di động khác.\n- Kết nối USB/MIDI cho nhạc cụ ảo và phần mềm ghi âm.\n- Bộ trống gồm : Kick drum pedal, hi-hat pedal, khóa trống, dùi, hardware và bộ nguồn.",
+        "price": 15800000,
+        "sale": 10,
+        "stock": 57,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Drum-Trong/01-SurgeMeshKit_SE-400x400.jpg"
+        ]
+    },
+    {
+        "id": 40,
+        "name": "Alesis Command SE Kit",
+        "description": "- Mặt lưới được đan chặt chẽ với nhau, mặt lưới màu đen tạo cảm giác khi chơi và độ phản hồi vượt trội.\n- 5 pad (3 dual-zone tom mặt lưới ) size 8”, dual-zone Snare size 10” and Pad Kich lưới size 8”.\n- 3 lá cymbal size 10” gồm hi-hat, ride, and (1) crash w/choke.\n- Hộp tiếng trống với 74 bộ dụng cụ (54 tiếng set sẵn + 20 tiếng cho người dùng tự set ) và 671 âm thanh\n- Tải các file mẫu WAV hoặc MP3 và phát các bản nhạc qua cổng USB.\n- Ghi âm thời gian thực (5 bản nhạc trong nội bộ, lên đến 99 bản nhạcvới ổ USB)\n- Kết nối USB / MIDI để sử dụng bản ghi yêu thích của bạnthư viện phần mềm hoặc âm thanh\n- Giá đỡ bốn trụ cao cấp\n- Bộ trống gồm : Kick drum pedal, hi-hat pedal, khóa trống, dùi, cáp kết nối, hardware và bộ nguồn",
+        "price": 20900000,
+        "sale": 7,
+        "stock": 79,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Drum-Trong/01-CommandMeshKit_SE-400x400.jpg"
+        ]
+    },
+    {
+        "id": 41,
+        "name": "Alesis Nitro Mesh SE Kit",
+        "description": "Không có mô tả chi tiết",
+        "price": 12490000,
+        "sale": 11,
+        "stock": 91,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Drum-Trong/alesis_nitro_mesh_se-400x400.png"
+        ]
+    },
+    {
+        "id": 42,
+        "name": "VIVA VR-CAIX/CAIXN trống caixon",
+        "description": "Không có mô tả chi tiết",
+        "price": 8180000,
+        "sale": 12,
+        "stock": 38,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-caix-caixn-trong-caixon-400x400.jpg"
+        ]
+    },
+    {
+        "id": 43,
+        "name": "VIVA VR-BDSET-NH trống bass VIVA",
+        "description": "Không có mô tả chi tiết",
+        "price": 8810000,
+        "sale": 7,
+        "stock": 47,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-bdset-nh-trong-bass-viva-400x400.jpg"
+        ]
+    },
+    {
+        "id": 44,
+        "name": "VIVA VR-BDSET-SH trống bass VIVA",
+        "description": "Không có mô tả chi tiết",
+        "price": 8810000,
+        "sale": 11,
+        "stock": 40,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-bdset-sh-trong-bass-viva-400x400.jpg"
+        ]
+    },
+    {
+        "id": 45,
+        "name": "VIVA VR-CSET-SH trống congas VIVA",
+        "description": "Không có mô tả chi tiết",
+        "price": 7020000,
+        "sale": 11,
+        "stock": 43,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-cset-sh-trong-congas-viva-400x400.jpg"
+        ]
+    },
+    {
+        "id": 46,
+        "name": "VIVA VR-SDJ10-SH trống djembe VIVA",
+        "description": "Không có mô tả chi tiết",
+        "price": 2190000,
+        "sale": 10,
+        "stock": 1,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-sdj10-sh-trong-djembe-viva-400x400.jpg"
+        ]
+    },
+    {
+        "id": 47,
+        "name": "VIVA VR-SDJ12-NH trống djembe VIVA",
+        "description": "Không có mô tả chi tiết",
+        "price": 3030000,
+        "sale": 11,
+        "stock": 30,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-sdj12-nh-trong-djembe-viva-400x400.jpg"
+        ]
+    },
+    {
+        "id": 48,
+        "name": "VIVA VR-SDJ9-NH trống djembe VIVA",
+        "description": "Không có mô tả chi tiết",
+        "price": 1880000,
+        "sale": 9,
+        "stock": 49,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-sdj9-nh-trong-djembe-viva-400x400.jpg"
+        ]
+    },
+    {
+        "id": 49,
+        "name": "VIVA VR-SDSET-NH trống stack VIVA",
+        "description": "Không có mô tả chi tiết",
+        "price": 5240000,
+        "sale": 15,
+        "stock": 68,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-sdset-nh-trong-stack-viva-400x400.jpg"
+        ]
+    },
+    {
+        "id": 50,
+        "name": "VIVA VR-CSET-NH trống congas VIVA",
+        "description": "Không có mô tả chi tiết",
+        "price": 7020000,
+        "sale": 15,
+        "stock": 40,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-cset-nh-trong-congas-viva-400x400.jpg"
+        ]
+    },
+    {
+        "id": 51,
+        "name": "VIVA VR-SDJ9-SH trống djembe VIVA",
+        "description": "Không có mô tả chi tiết",
+        "price": 1880000,
+        "sale": 5,
+        "stock": 13,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-sdj9-sh-trong-djembe-viva-400x400.jpg"
+        ]
+    },
+    {
+        "id": 52,
+        "name": "VIVA VR-T12-SH trống timbas",
+        "description": "Không có mô tả chi tiết",
+        "price": 3980000,
+        "sale": 9,
+        "stock": 72,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-t12-sh-trong-timbas-400x400.jpg"
+        ]
+    },
+    {
+        "id": 53,
+        "name": "VIVA VR-SDSET-SH trống stack VIVA",
+        "description": "Không có mô tả chi tiết",
+        "price": 5240000,
+        "sale": 5,
+        "stock": 82,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-sdset-sh-trong-stack-viva-400x400.jpg"
+        ]
+    },
+    {
+        "id": 54,
+        "name": "VIVA VR-T12-NH trống timbas",
+        "description": "Không có mô tả chi tiết",
+        "price": 3980000,
+        "sale": 10,
+        "stock": 58,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/Meinl/viva-vr-t12-nh-trong-timbas-400x400.jpg"
+        ]
+    },
+    {
+        "id": 55,
+        "name": "ROLAND TD-17KV-L",
+        "description": "- Cảm giác chơi chân thực như chơi trống cơ nhờ nhờ có miếng lưới snare lớn PDX-12 12 inch và Hi-hat CY-5\n- Chế độ Huấn luyện COACH với các tính năng thực hành để hỗ trợ chế độ luyện tập hàng ngày\n- Bao gồm Các bài học trực tuyến và ứng dụng trên máy tính để bàn\n- Hoạt động bền bỉ",
+        "price": null,
+        "sale": 12,
+        "stock": 54,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/roland/trong/roland-td-17kv-l-400x400.jpg"
+        ]
+    },
+    {
+        "id": 56,
+        "name": "D'ADDARIO MẶT TRỐNG B13G2",
+        "description": "Không có mô tả chi tiết",
+        "price": 610000,
+        "sale": 5,
+        "stock": 68,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/phukien/trong/daddario-mat-trong-b13g2-400x400.jpg"
+        ]
+    },
+    {
+        "id": 57,
+        "name": "D'ADDARIO EVANS MẶT TRỐNG TT08ECR",
+        "description": "Không có mô tả chi tiết",
+        "price": 620000,
+        "sale": 14,
+        "stock": 15,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/phukien/trong/addario-evans-mat-trong-tt08ecr-400x400.jpg"
+        ]
+    },
+    {
+        "id": 58,
+        "name": "D'ADDAIO EVANS MẶT TRỐNG EQPC1",
+        "description": "Không có mô tả chi tiết",
+        "price": 190000,
+        "sale": 5,
+        "stock": 44,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/daddario/daddaio-evans-mat-trong-eqpc1-400x400.jpg"
+        ]
+    },
+    {
+        "id": 59,
+        "name": "ZILDJIAN ZS5A CẶP DÙI TRỐNG SUPER 5A",
+        "description": "Không có mô tả chi tiết",
+        "price": 290000,
+        "sale": 14,
+        "stock": 56,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/phukien/trong/zildjian-zs5a-cap-dui-trong-super-5a-400x400.jpg"
+        ]
+    },
+    {
+        "id": 60,
+        "name": "D'ADDARIO EVANS MẶT TRỐNG S13H30",
+        "description": "Không có mô tả chi tiết",
+        "price": 530000,
+        "sale": 13,
+        "stock": 25,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/phukien/trong/daddario-evans-mat-trong-s13h30-400x400.jpg"
+        ]
+    },
+    {
+        "id": 61,
+        "name": "Pad tập trống D'ADDARIO RF6D",
+        "description": "Không có mô tả chi tiết",
+        "price": 760000,
+        "sale": 5,
+        "stock": 61,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/phukien/trong/pad-tap-trong-d-addario-rf6d-400x400.jpg"
+        ]
+    },
+    {
+        "id": 62,
+        "name": "D'ADDRIO EVANS MẶT TRỐNG B1420",
+        "description": "Không có mô tả chi tiết",
+        "price": 740000,
+        "sale": 10,
+        "stock": 92,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/phukien/trong/daddrio-evans-mat-trong-b1420-400x400.jpg"
+        ]
+    },
+    {
+        "id": 63,
+        "name": "D'ADDARIO EVANS MẶT TRỐNG TT14HB",
+        "description": "Không có mô tả chi tiết",
+        "price": 750000,
+        "sale": 6,
+        "stock": 45,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/phukien/trong/daddario-evans-mat-trong-tt14hb-400x400.jpg"
+        ]
+    },
+    {
+        "id": 64,
+        "name": "D'ADDARIO EVANS MẶT TRỐNG TT13HB",
+        "description": "Không có mô tả chi tiết",
+        "price": 700000,
+        "sale": 9,
+        "stock": 51,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/phukien/trong/daddario-evans-mat-trong-tt13hb-400x400.jpg"
+        ]
+    },
+    {
+        "id": 65,
+        "name": "Pearl STH1450AL SensiTone Heritage Alloy 14",
+        "description": "Không có mô tả chi tiết",
+        "price": 7640000,
+        "sale": 14,
+        "stock": 0,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/pearl-sth1450al-sensitone-heritage-alloy-14-5-aluminum-snare-400x400.jpg"
+        ]
+    },
+    {
+        "id": 66,
+        "name": "Pearl STH1465AL SensiTone Heritage Alloy 14",
+        "description": "Không có mô tả chi tiết",
+        "price": 8600000,
+        "sale": 12,
+        "stock": 97,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/pearl-sth1465al-sensitone-heritage-alloy-14-6-5-aluminum-snare-400x400.jpg"
+        ]
+    },
+    {
+        "id": 67,
+        "name": "Pearl STH1465BR",
+        "description": "Không có mô tả chi tiết",
+        "price": 9870000,
+        "sale": 5,
+        "stock": 44,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/work/pearl-STH1465BR-logo-400x400-400x400.jpg"
+        ]
+    },
+    {
+        "id": 68,
+        "name": "Pearl STH1450BR",
+        "description": "Không có mô tả chi tiết",
+        "price": 8890000,
+        "sale": 14,
+        "stock": 18,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/work/pearl-STH1450BR-logo-400x400-400x400.jpg"
+        ]
+    },
+    {
+        "id": 69,
+        "name": "Lazer Pad tập trống PC13-51",
+        "description": "Không có mô tả chi tiết",
+        "price": null,
+        "sale": 7,
+        "stock": 60,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/images/product/04_2014/pc13-51.jpg"
+        ]
+    },
+    {
+        "id": 70,
+        "name": "Pearl S-930D",
+        "description": "Không có mô tả chi tiết",
+        "price": 2330000,
+        "sale": 11,
+        "stock": 64,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/pearl-s-930d-400x400.jpg"
+        ]
+    },
+    {
+        "id": 71,
+        "name": "Pearl Matte Natural MUS1465M224",
+        "description": "Không có mô tả chi tiết",
+        "price": 4980000,
+        "sale": 7,
+        "stock": 96,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/pearl-matte-natural-mus1465m224-400x400.jpg"
+        ]
+    },
+    {
+        "id": 72,
+        "name": "Lazer Pad tập trống PC13-52",
+        "description": "Không có mô tả chi tiết",
+        "price": null,
+        "sale": 9,
+        "stock": 23,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/upload/no_image.png"
+        ]
+    },
+    {
+        "id": 73,
+        "name": "ODERY CAFEKIT-BS TRỐNG BỘ MÀU BLUE SPARKLE FINISH",
+        "description": "Không có mô tả chi tiết",
+        "price": 12660000,
+        "sale": 11,
+        "stock": 9,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/odery/odery-cafekit-bs-trong-bo-mau-blue-sparkle-finish-400x400.jpg"
+        ]
+    },
+    {
+        "id": 74,
+        "name": "PEARL Trống bộ Conga PWC-202",
+        "description": "Không có mô tả chi tiết",
+        "price": 11220000,
+        "sale": 7,
+        "stock": 12,
+        "colors": [
+            {
+                "color_name": "Không có màu",
+                "color_image": null
+            }
+        ],
+        "images": [
+            "https://vietthuong.vn/image/cache/catalog/pearl/pearl-trong-bo-conga-pwc-202-400x400.jpg"
+        ]
+    }
+]
