@@ -4,11 +4,8 @@
     font-family: Arial, sans-serif;
 }
 body {
-    background-color: white;
-    display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     margin: 0;
 }
 p {
@@ -16,6 +13,8 @@ p {
     margin-bottom: 20px;
 }
 .login-container {
+    margin: 0 auto;
+    align-content: center;
     width: 800px;
     background-color: #fff;
     padding: 30px;
@@ -58,31 +57,25 @@ p {
 .divider:not(:empty)::after {
     margin-left: 10px;
 }
-.form-control {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    outline: none;
-}
-
-.form-control:focus {
-    border-bottom: 1px solid #fd0;
-}
-.form-control:focus::placeholder {
-    color: transparent;
-}
 
 .field {
     position: relative;
 }
 
 .field input {
+    width: 100%;
+    padding: 0.625rem;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
     color: #fd0;
     background: none;
-    padding: 0.625rem;
-    margin-bottom: 30px;
+
+    /*Ghi đè CSS của Bootstrap để tắt border khi focus input*/
+    /*outline: none; !* Tắt viền outline *!*/
+    /*box-shadow: none; !* Tắt hiệu ứng shadow *!*/
+    /*border: none; !* Tắt border *!*/
 }
 
 .field label {
@@ -105,6 +98,13 @@ label {
     visibility: visible;
 }
 .field::placeholder {
+    color: transparent;
+}
+
+.field input:focus {
+    border-bottom: 1px solid #fd0;
+}
+.field input:focus::placeholder {
     color: transparent;
 }
 
@@ -136,4 +136,150 @@ label {
     color: black;
     font-size: 13px;
     font-style: italic;
+}
+
+/*index page style by Nguyen Phy Long*/
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+    display: none;
+}
+
+.dropdown-menu a {
+    cursor: pointer;
+}
+
+.dropdown-menu .dropdown-toggle:focus {
+    background-color: #f8f9fa;
+}
+
+.custom-box {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: none;
+    background-color: #fd0;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.custom-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.icon-container {
+    font-size: 40px;
+    color: black;
+    margin-right: 15px;
+}
+
+.box-content {
+    text-align: left;
+}
+
+.box-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.box-description {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.item {
+    height: 40px;
+    display: inline-block;
+    margin: 15px 5px;
+}
+
+.navbar-nav .nav-link {
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: black;
+    color: var(--bs-primary);
+}
+
+.navbar-nav .dropdown:hover > .dropdown-menu {
+    display: block;
+    background-color: var(--bs-primary);
+}
+
+.navbar-nav .dropdown-menu .dropdown-item {
+    color: black;
+    background-color: var(--bs-primary);
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+    background-color: black;
+    color: var(--bs-primary);
+}
+
+.navbar-nav .dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+    background-color: var(--bs-primary);
+}
+
+.navbar-nav .dropdown-submenu .dropdown-item:hover {
+    background-color: black;
+    color: var(--bs-primary);
+}
+
+.navbar-nav .nav-item:hover {
+    background-color: black;
+    color: var(--bs-primary);
+}
+
+.navbar-nav .dropdown:hover > .nav-link {
+    background-color: black;
+    color: var(--bs-primary);
+}
+
+footer {
+    background-color: #222;
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer img {
+    max-width: 100px;
+    margin: 5px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.card-body .btn {
+    margin-top: auto;
 }
