@@ -63,23 +63,44 @@ body {
     outline: none;
 }
 
-placeholder-text {
-    color: #FFDD00;
-    transition: 0.1s;
-    pointer-events: none;
-}
 .form-control:focus {
     border-bottom: 1px solid #FFDD00;
 }
 .form-control:focus::placeholder {
     color: transparent;
 }
-/*.form-control.focused + .placeholder-text {*/
-/*    top: -20px;*/
-/*    font-size: 12px;*/
-/*    color: #FFDD00;*/
-/*}*/
 
+.field {
+    position: relative;
+}
+
+.field input {
+    color: #FFDD00;
+    background: none;
+    padding: 0.625rem;
+}
+
+.field label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    translate: 0.625rem 0.625rem;
+    color: #FFDD00;
+    padding-inline-start: 0.25rem;
+    pointer-events: none;
+    transition: translate 250ms;
+    visibility: hidden;
+}
+
+.field:focus-within label,
+.field:not(:has(:placeholder-shown))
+label {
+    translate: 0.5rem -1rem;
+    visibility: visible;
+}
+.field::placeholder {
+    color: transparent;
+}
 
 .btn-login {
     background-color: #FFDD00;
