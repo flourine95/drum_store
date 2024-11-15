@@ -1,142 +1,26 @@
-* {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
 body {
-    justify-content: center;
-    align-items: center;
-    margin: 0;
+    background-color: #f8f9fa;
 }
-p {
-    text-weight: normal;
-    margin-bottom: 20px;
-}
-.login-container {
-    margin: 0 auto;
-    align-content: center;
-    width: 800px;
-    background-color: #fff;
-    padding: 30px;
-    text-align: center;
+.cart-container {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.login-container h3 {
-    font-size: 24px;
+.product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+.quantity-input {
+    width: 60px;
+}
+.total-price {
     font-weight: bold;
-    margin-bottom: 20px;
+    font-size: 1.2em;
 }
-.social-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    margin-bottom: 20px;
-}
-.btn-social {
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    background-color: white;
-}
-.divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 20px 0;
-    color: black;
-}
-.divider::before, .divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #ccc;
-}
-.divider:not(:empty)::before {
-    margin-right: 10px;
-}
-.divider:not(:empty)::after {
-    margin-left: 10px;
-}
-
-.field {
-    position: relative;
-}
-
-.field input {
-    width: 100%;
-    padding: 0.625rem;
-    margin-bottom: 20px;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    outline: none;
-    color: #fd0;
-    background: none;
-
-    /*Ghi đè CSS của Bootstrap để tắt border khi focus input*/
-    /*outline: none; !* Tắt viền outline *!*/
-    /*box-shadow: none; !* Tắt hiệu ứng shadow *!*/
-    /*border: none; !* Tắt border *!*/
-}
-
-.field label {
-    position: absolute;
-    font-size: 14px;
-    top: 0;
-    left: 0;
-    translate: 0.625rem 0.625rem;
-    color: #fd0;
-    padding-inline-start: 0.25rem;
-    pointer-events: none;
-    transition: translate 250ms;
-    visibility: hidden;
-}
-
-.field:focus-within label,
-.field:not(:has(:placeholder-shown))
-label {
-    translate: 0.5rem -1rem;
-    visibility: visible;
-}
-.field::placeholder {
-    color: transparent;
-}
-
-.field input:focus {
-    border-bottom: 1px solid #fd0;
-}
-.field input:focus::placeholder {
-    color: transparent;
-}
-
-.btn-login {
-    background-color: #fd0;
-    color: black;
-    padding: 10px;
-    width: 100%;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-}
-.btn-login:hover {
-    background-color: #fd0;
-}
-.text-link {
-    color: #fd0;
-    text-decoration: none;
-}
-.text-link:hover {
-    text-decoration: underline;
-}
-.footer-links {
-    margin-top: 20px;
-}
-.forgot-password {
-    text-decoration: none;
-    color: black;
-    font-size: 13px;
-    font-style: italic;
+.slider-container {
+    margin-top: 40px;
 }
 
 /*index page style by Nguyen Phy Long*/
