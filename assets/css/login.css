@@ -65,18 +65,13 @@ p {
 
 .field input {
     width: 100%;
-    padding: 0.625rem;
-    margin-bottom: 20px;
+    padding: 0.5rem;
+    margin-bottom: 30px;
     border: none;
     border-bottom: 1px solid #ccc;
     outline: none;
     color: #fd0;
     background: none;
-
-    /*Ghi đè CSS của Bootstrap để tắt border khi focus input*/
-    /*outline: none; !* Tắt viền outline *!*/
-    /*box-shadow: none; !* Tắt hiệu ứng shadow *!*/
-    /*border: none; !* Tắt border *!*/
 }
 
 .field label {
@@ -107,6 +102,14 @@ label {
 }
 .field input:focus::placeholder {
     color: transparent;
+}
+
+.error-message {
+    text-align: left;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    color: red;
+    font-size: 10px;
 }
 
 .btn-login {
