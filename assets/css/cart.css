@@ -3,24 +3,93 @@ body {
 }
 .cart-container {
     padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
-.product-img {
-    width: 80px;
-    height: 80px;
+.order-container {
+    padding: 20px;
+    background-color: #F1F1F1;
+}
+.cart-container h5 {
+    padding: 10px;
+    background-color: #F1F1F1;
+}
+.order-container h5 {
+    background-color: #F1F1F1;
+}
+.divider {
+    display: flex;
+    margin: 20px 0 20px 0;
+    border-bottom: 2px solid #fd0;
+}
+.product-divider {
+    display: flex;
+    margin: 20px 0;
+    border-bottom: 2px dashed #fd0;
+}
+.product {
+    display: flex;
+    height: 180px;
+}
+.product img {
     object-fit: cover;
+    max-width: 180px;
+    height: 100%;
 }
-.quantity-input {
-    width: 60px;
+.product-information {
+    margin-left: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.product-detail {
+    width: 70%;
+    line-height: 1.5rem;
+}
+.product-option {
+    display: flex;
+    justify-content: space-between;
+}
+.option {
+
+}
+.product-detail2 {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+.product-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+.product-price {
+    color: gray;
+}
+
+.product-detail2 .product-price {
+    font-weight: bold;
+    font-size: 24px;
+    color: #fd0;
+}
+.product-status {
+
+}
+.favorite-button {
+    width: 125px;
+    height: 40px;
+    background-color: transparent;
+    cursor: pointer;
+}
+.delete-button {
+    width: 125px;
+    height: 40px;
+    margin-top: 10px;
+    background-color: #fd0;
+    cursor: pointer;
 }
 .total-price {
     font-weight: bold;
     font-size: 1.2em;
-}
-.slider-container {
-    margin-top: 40px;
 }
 
 /*index page style by Nguyen Phy Long*/
