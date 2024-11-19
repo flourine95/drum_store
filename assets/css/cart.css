@@ -2,18 +2,20 @@ body {
     background-color: #f8f9fa;
 }
 .cart-container {
-    padding: 20px;
     margin-top: 20px;
 }
 .order-container {
     padding: 20px;
     background-color: #F1F1F1;
+    width: 380px;
 }
 .cart-container h5 {
+    font-weight: bold;
     padding: 10px;
     background-color: #F1F1F1;
 }
 .order-container h5 {
+    font-weight: bold;
     background-color: #F1F1F1;
 }
 .divider {
@@ -131,9 +133,54 @@ body {
     background-color: black;
     cursor: pointer;
 }
-.total-price {
+.voucher-container {
+    display: block;
+}
+.voucher-container p {
+    font-size: 18px;
     font-weight: bold;
-    font-size: 1.2em;
+}
+.voucher-input {
+    display: flex;
+}
+.voucher-input input {
+    width: 240px;
+    height: 40px;
+    margin-left: 0;
+    border: none;
+    border-radius: 0;
+}
+.voucher-input button {
+    margin-left: 1px;
+    width: 100px;
+    height: 40px;
+    background-color: #fd0;
+    font-weight: bold;
+    border: none;
+}
+.calc-price {
+    display: flex;
+    padding-bottom: 10px;
+    padding-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 0.75rem;
+    color: #80808F;
+    justify-content: space-between;
+}
+.total-price {
+    display: flex;
+    font-size: 18px;
+    font-weight: bold;
+    justify-content: space-between;
+}
+.payment-button {
+    font-size: 22px;
+    font-weight: bold;
+    width: 340px;
+    height: 80px;
+    background-color: #fd0;
+    border: none;
 }
 
 /*index page style by Nguyen Phy Long*/
