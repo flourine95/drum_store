@@ -148,7 +148,7 @@
                                 <div class="option">
                                     <p>Size</p>
                                     <div class="dropdown">
-                                        <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">M</button>
+                                        <button class="dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">M</button>
                                         <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
                                             <li><a class="dropdown-item" href="#" data-size="S">S</a></li>
                                             <li><a class="dropdown-item" href="#" data-size="M">M</a></li>
@@ -160,15 +160,10 @@
                                 </div>
                                 <div class="option">
                                     <p>Quantity</p>
-                                    <div class="dropdown">
-                                        <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">1</button>
-                                        <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
-                                            <li><a class="dropdown-item" href="#" data-quantity="1">1</a></li>
-                                            <li><a class="dropdown-item" href="#" data-quantity="2">2</a></li>
-                                            <li><a class="dropdown-item" href="#" data-quantity="3">3</a></li>
-                                            <li><a class="dropdown-item" href="#" data-quantity="4">4</a></li>
-                                            <li><a class="dropdown-item" href="#" data-quantity="5">5</a></li>
-                                        </ul>
+                                    <div class="quantity-container">
+                                        <div id="decreaseBtn" class="quantity-button">-</div>
+                                        <input type="text" id="quantityInput" class="quantity-input" value="1" readonly>
+                                        <div id="increaseBtn" class="quantity-button">+</div>
                                     </div>
                                 </div>
                             </div>
@@ -338,6 +333,23 @@
     // Các phần tử cần cập nhật
     const indicatorsContainer = document.getElementById('carouselIndicators');
     const itemsContainer = document.getElementById('carouselItems');
+    const quantityInput = document.getElementById('quantityInput');
+    const increaseBtn = document.getElementById('increaseBtn');
+    const decreaseBtn = document.getElementById('decreaseBtn');
+
+    // Xử lý tăng số lượng
+    increaseBtn.addEventListener('click', () => {
+        let currentValue = parseInt(quantityInput.value, 10) || 1;
+        quantityInput.value = currentValue + 1;
+    });
+
+    // Xử lý giảm số lượng
+    decreaseBtn.addEventListener('click', () => {
+        let currentValue = parseInt(quantityInput.value, 10) || 1;
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    });
 
     // Duyệt qua mảng slides và tạo các phần tử HTML
     slides.forEach((slide, index) => {
@@ -366,19 +378,11 @@
     });
 
 
-    //cập nhật text của button khi người dùng chọn size, số lượng
+    // cập nhật text của button khi người dùng chọn size
     document.querySelectorAll('.dropdown-item').forEach(item => {
         item.addEventListener('click', function(event) {
             const selectedSize = event.target.getAttribute('data-size');
-            const selectedQuantity = event.target.getAttribute('data-quantity');
-
-            if (selectedSize) {
-                document.querySelector('.dropdown-toggle').textContent = `${selectedSize}`.toUpperCase();
-            }
-
-            if (selectedQuantity) {
-                document.querySelectorAll('.dropdown-toggle')[1].textContent = `${selectedQuantity}`.toUpperCase();
-            }
+            document.getElementById('dropdownMenuButton').textContent = `${selectedSize}`;
         });
     });
 </script>
