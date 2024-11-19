@@ -45,12 +45,26 @@ body {
     width: 70%;
     line-height: 1.5rem;
 }
+.product-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+.product-price {
+    color: gray;
+}
 .product-option {
     display: flex;
     justify-content: space-between;
 }
 .option {
-
+    margin: 0 auto;
+}
+.option button {
+    width: 120px;
+    height: 40px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    background-color: white;
 }
 .quantity-container {
     display: flex;
@@ -59,18 +73,21 @@ body {
 .quantity-button {
     width: 40px;
     height: 40px;
+    margin-top: 10px;
     border: 1px solid #ddd;
-    background-color: #f8f9fa;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    user-select: none;
 }
 .quantity-button:hover {
     background-color: #e9ecef;
 }
 .quantity-input {
-    width: 60px;
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
     text-align: center;
     border: 1px solid #ddd;
     border-left: none;
@@ -82,33 +99,36 @@ body {
     flex-direction: column;
     align-items: end;
 }
-.product-name {
-    font-size: 24px;
-    font-weight: bold;
-}
-.product-price {
-    color: gray;
-}
-
 .product-detail2 .product-price {
     font-weight: bold;
     font-size: 24px;
     color: #fd0;
 }
 .product-status {
-
+    color: #fd0;
 }
 .favorite-button {
     width: 125px;
     height: 40px;
+    background-image: url("https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Heart.svg");
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center;
     background-color: transparent;
     cursor: pointer;
+}
+.favorite-button:hover {
+    background-image: url("https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Heart_2.svg");
 }
 .delete-button {
     width: 125px;
     height: 40px;
     margin-top: 10px;
-    background-color: #fd0;
+    background-image: url("https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Trash_bin.svg");
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: black;
     cursor: pointer;
 }
 .total-price {
