@@ -189,6 +189,10 @@ body {
     border: none;
 }
 
+.button-add {
+    background-color: red;
+}
+
 /*index page style by Nguyen Phy Long*/
 .dropdown-submenu {
     position: relative;
