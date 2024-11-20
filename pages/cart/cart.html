@@ -365,21 +365,33 @@
 <script src="/assets/libraries/bootstrap-5.3.3-dist/js/bootstrap.bundle.js"></script>
 <script>
     const slides = [
-        {src: "/assets/images/banners/slides/banner0.png", alt: "Slide 1", name: "Product Name 1", price: "$50"},
-        {src: "/assets/images/banners/slides/banner1.png", alt: "Slide 2", name: "Product Name 1", price: "$50"},
-        {src: "/assets/images/banners/slides/banner2.png", alt: "Slide 3", name: "Product Name 1", price: "$50"},
-        {src: "/assets/images/banners/slides/banner3.png", alt: "Slide 4", name: "Product Name 1", price: "$50"},
-        {src: "/assets/images/banners/slides/banner4.png", alt: "Slide 5", name: "Product Name 1", price: "$50"},
-        {src: "/assets/images/banners/slides/banner5.png", alt: "Slide 6", name: "Product Name 1", price: "$50"},
-        {src: "/assets/images/banners/slides/banner6.png", alt: "Slide 7", name: "Product Name 1", price: "$50"}
+        {src: "https://i.ebayimg.com/images/g/~t8AAOSwLf9gbius/s-l1600.webp", alt: "Slide 1", name: "Vic Firth American Classic Drum Stick 7A-DCP", price: "$50"},
+        {src: "https://i.ebayimg.com/images/g/~t8AAOSwLf9gbius/s-l1600.webp", alt: "Slide 2", name: "Vic Firth American Classic Drum Stick 7A-DCP", price: "$50"},
+        {src: "https://i.ebayimg.com/images/g/~t8AAOSwLf9gbius/s-l1600.webp", alt: "Slide 3", name: "Vic Firth American Classic Drum Stick 7A-DCP", price: "$50"},
+        {src: "https://i.ebayimg.com/images/g/~t8AAOSwLf9gbius/s-l1600.webp", alt: "Slide 4", name: "Vic Firth American Classic Drum Stick 7A-DCP", price: "$50"},
+        {src: "https://i.ebayimg.com/images/g/KDkAAOSw-MtnNqwA/s-l1600.webp", alt: "Slide 5", name: "Vic Firth American Classic Drum Stick 7A-DCP", price: "$50"},
+        {src: "https://i.ebayimg.com/images/g/KDkAAOSw-MtnNqwA/s-l1600.webp", alt: "Slide 6", name: "Vic Firth American Classic Drum Stick 7A-DCP", price: "$50"},
+        {src: "https://i.ebayimg.com/images/g/KDkAAOSw-MtnNqwA/s-l1600.webp", alt: "Slide 7", name: "Vic Firth American Classic Drum Stick 7A-DCP", price: "$50"}
     ];
 
     // Các phần tử cần cập nhật
     const indicatorsContainer = document.getElementById('carouselIndicators');
     const itemsContainer = document.getElementById('carouselItems');
+    const carouselElement = document.getElementById('carouselExampleIndicators');
     const quantityInput = document.getElementById('quantityInput');
     const increaseBtn = document.getElementById('increaseBtn');
     const decreaseBtn = document.getElementById('decreaseBtn');
+
+    // Khởi tạo carousel bằng Bootstrap
+    const carousel = new bootstrap.Carousel(carouselElement, {
+        interval: 3000,
+        ride: 'carousel' // Tự động chạy khi trang được tải
+    });
+
+    // Bắt đầu tự động chuyển slide mỗi 3 giây
+    setInterval(() => {
+        carousel.next(); // Chuyển đến slide tiếp theo
+    }, 3000); // 3000ms = 3 giây
 
     // Nhóm các sản phẩm thành các cặp cho mỗi slide
     const groupedSlides = [];
@@ -409,30 +421,37 @@
 
         group.forEach(product => {
             const productDiv = document.createElement('div');
-            productDiv.classList.add('col-6', 'text-center'); // Mỗi sản phẩm chiếm 1/2 slide
+            productDiv.classList.add('col-6', 'product-slide'); // Mỗi sản phẩm chiếm 1/2 slide
+
+            const productDetailDiv = document.createElement('div');
+            productDetailDiv.classList.add('col-3', 'product-detail-slide');
 
             const img = document.createElement('img');
             img.src = product.src;
-            img.classList.add('col-4','img-fluid', 'rounded'); // Thêm các class Bootstrap
+            img.classList.add('col-4','img-fluid'); // Thêm các class Bootstrap
             img.alt = product.alt;
 
             const productName = document.createElement('h5');
             productName.textContent = product.name;
-            productName.classList.add('product-name');
+            productName.classList.add('product-name-slide');
 
             const productPrice = document.createElement('p');
             productPrice.textContent = product.price;
-            productPrice.classList.add('product-price');
+            productPrice.classList.add('product-price-slide');
 
             const button = document.createElement('button');
-            button.classList.add('btn', 'button-add');
-            button.textContent = 'Buy Now';
+            button.classList.add('button-add');
+            button.textContent = 'THÊM';
+
 
             // Thêm các thành phần vào sản phẩm
             productDiv.appendChild(img);
-            productDiv.appendChild(productName);
-            productDiv.appendChild(productPrice);
-            productDiv.appendChild(button);
+
+            productDetailDiv.appendChild(productName);
+            productDetailDiv.appendChild(productPrice);
+            productDetailDiv.appendChild(button);
+
+            productDiv.appendChild(productDetailDiv);
 
             slideContent.appendChild(productDiv);
         });
