@@ -13,15 +13,35 @@
     <link rel="stylesheet" href="../../assets/css/product_detail.css">
     <script src="https://kit.fontawesome.com/fb5ad3755d.js" crossorigin="anonymous"></script>
     <style>
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu:hover>.dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+            display: none;
+        }
+
+        .dropdown-menu a {
+            cursor: pointer;
+        }
+
+        .dropdown-menu .dropdown-toggle:focus {
+            background-color: #f8f9fa;
+        }
+
         .custom-box {
             display: flex;
             align-items: center;
-            /* Căn giữa icon và nội dung theo chiều dọc */
             justify-content: flex-start;
-            /* Căn trái */
             text-decoration: none;
             background-color: #fd0;
-            /* Màu nền vàng */
             border-radius: 8px;
             padding: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -36,14 +56,11 @@
         .icon-container {
             font-size: 40px;
             color: black;
-            /* Màu icon trắng để nổi bật trên nền vàng */
             margin-right: 15px;
-            /* Khoảng cách giữa icon và nội dung */
         }
 
         .box-content {
             text-align: left;
-            /* Đảm bảo nội dung căn trái */
         }
 
         .box-title {
@@ -62,6 +79,53 @@
             height: 40px;
             display: inline-block;
             margin: 15px 5px;
+        }
+
+        .navbar-nav .nav-link {
+            color: black;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: black;
+            color: var(--bs-primary);
+        }
+
+        .navbar-nav .dropdown:hover>.dropdown-menu {
+            display: block;
+            background-color: var(--bs-primary);
+        }
+
+        .navbar-nav .dropdown-menu .dropdown-item {
+            color: black;
+            background-color: var(--bs-primary);
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar-nav .dropdown-menu .dropdown-item:hover {
+            background-color: black;
+            color: var(--bs-primary);
+        }
+
+        .navbar-nav .dropdown-submenu:hover>.dropdown-menu {
+            display: block;
+            background-color: var(--bs-primary);
+        }
+
+        .navbar-nav .dropdown-submenu .dropdown-item:hover {
+            background-color: black;
+            color: var(--bs-primary);
+        }
+
+        .navbar-nav .nav-item:hover {
+            background-color: black;
+            color: var(--bs-primary);
+        }
+
+        .navbar-nav .dropdown:hover>.nav-link {
+            background-color: black;
+            color: var(--bs-primary);
         }
 
         footer {
@@ -98,71 +162,109 @@
 </head>
 
 <body>
-    <!-- Banner Image -->
-    <div class="container-fluid p-0">
-        <img src="/assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
-             class="img-fluid w-100">
-    </div>
+    <header>
+        <!-- Banner Image -->
+        <img src="/assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale" class="img-fluid w-100">
 
-    <!-- Top Info -->
-    <div class="bg-black text-white py-2">
-        <div class="container">
-            <div class="row">
-                <!-- Email và Phone -->
-                <div
-                    class="col-12 col-md-6 d-flex align-items-center fw-lighter justify-content-center justify-content-md-start">
-                    <span class="me-3">
-                        <i class="bi bi-envelope"></i>
-                        <span>info@example.com</span>
-                    </span>
-                    <span>
-                        <i class="bi bi-telephone"></i>
-                        <span>123-456-7890</span>
-                    </span>
+        <!-- Top Info -->
+        <section>
+            <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+                <div class="container">
+                    <!-- Logo -->
+                    <a class="navbar-brand" href="#">
+                        <img src="/assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
+                    </a>
+
+                    <!-- Navbar toggler cho thiết bị nhỏ -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- Các liên kết và thanh tìm kiếm -->
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <!-- Links ở giữa -->
+                        <div class="navbar-nav mx-auto fw-bold">
+                            <a class="nav-link" href="/pages/home.html">TRANG CHỦ</a>
+                            <a class="nav-link" href="/pages/about.html">GIỚI THIỆU</a>
+
+                            <!-- Dropdown cho SẢN PHẨM -->
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    SẢN PHẨM
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li class="dropdown-submenu">
+                                        <a class="dropdown-item dropdown-toggle" href="#">Trống</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Trống điện tử</a></li>
+                                            <li><a class="dropdown-item" href="#">Trống cơ</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu">
+                                        <a class="dropdown-item dropdown-toggle" href="#">Phụ kiện</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Giá đỡ trống</a></li>
+                                            <li><a class="dropdown-item" href="#">Gậy trống</a></li>
+                                            <li><a class="dropdown-item" href="#">Túi đựng trống</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Âm thanh</a></li>
+                                    <li><a class="dropdown-item" href="#">Dụng cụ tập luyện</a></li>
+                                </ul>
+                            </div>
+
+                            <a class="nav-link" href="/pages/posts/posts.html">TIN TỨC</a>
+                            <a class="nav-link" href="/pages/contact.html">LIÊN HỆ</a>
+                        </div>
+
+                        <!-- Thanh tìm kiếm trên thiết bị lớn -->
+                        <form class="d-flex mt-3 mt-lg-0 me-3">
+                            <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                            <button class="btn btn-dark" type="submit">Tìm</button>
+                        </form>
+
+                        <!-- Icon Đăng nhập và Giỏ hàng -->
+                        <div class="d-flex align-items-center ms-auto order-lg-2">
+                            <!-- ms-auto để đưa sang phải trên màn hình lớn -->
+                            <!-- Giỏ hàng -->
+                            <a href="#" class="btn btn-light me-3 position-relative">
+                                <i class="bi bi-cart-fill"></i>
+                                <!-- Badge hiển thị số lượng sản phẩm trong giỏ hàng -->
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    3 <!-- số lượng sản phẩm -->
+                                </span>
+                            </a>
+
+                            <!-- Đăng nhập -->
+                            <div class="dropdown">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="accountDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                                    <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
+                                    <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
+                                            tôi</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
+                                    <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- Hệ thống phân phối -->
-                <div
-                    class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end align-items-center mt-2 mt-md-0">
-                    <span>Hệ thống phân phối</span>
-                </div>
-            </div>
-        </div>
-    </div>
+            </nav>
+        </section>
+    </header>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-        <div class="container">
-            <!-- Logo -->
-            <a class="navbar-brand" href="#">
-                <img src="../../assets/images/logo/logovt.png" alt="Logo" style="height: 40px;">
-            </a>
-
-            <!-- Navbar toggler cho thiết bị nhỏ -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Các liên kết và thanh tìm kiếm -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Links ở giữa -->
-                <div class="navbar-nav mx-auto fw-bold">
-                    <a class="nav-link " href="#">GIỚI THIỆU</a>
-                    <a class="nav-link" href="#">SẢN PHẨM</a>
-                    <a class="nav-link" href="#">GIÁO DỤC</a>
-                    <a class="nav-link" href="#">KHUYẾN MÃI</a>
-                    <a class="nav-link" href="#">TIN TỨC</a>
-                    <a class="nav-link" href="#">TUYỂN DỤNG</a>
-                </div>
-
-                <!-- Thanh tìm kiếm trên thiết bị lớn -->
-                <form class="d-flex mt-3 mt-lg-0">
-                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                    <button class="btn btn-dark" type="submit">Tìm</button>
-                </form>
-            </div>
-        </div>
-    </nav>
     <div class="container">
         <ul class="breadcrumb">
             <li><a href="#">Trang chủ</a></li>
@@ -339,61 +441,63 @@
 
             <!-- Thông tin sản phẩm -->
             <div class="col-md-6">
-                <div class="buy">
+                <div class="buy" style=" flex-direction: column; display: flex; ">
                     <h1>Kawai ND-21 <span class="text-muted">( Mã SP : ND-21 )</span></h1>
-                    <p class="text-danger fw-bold">Giá: 93,000,000đ <span
-                            class="text-decoration-line-through text-muted">99,900,000đ</span> <span
-                            class="badge bg-danger">(-7%)</span></p>
-                    <div class="mb-3" style="display: flex; gap: 50px;">
-                        <label for="colorSelect" class="form-label" style="font-size: 30px;">Màu sắc:</label>
-                        <div style="padding-top:18px ;">
-                            <span class="color-swatch bg-black me-2"
-                                data-image="../../assets/images/products/featured_products/dan-piano-kawai-k300-mau-den-sang-trong.jpg"></span>
-                            <span class="color-swatch bg-brown me-2"
-                                data-image="../../assets/images/products/featured_products/casio-cdp-s160-bk.jpg"></span>
-                            <span class="color-swatch bg-white"></span>
-                        </div>
-
+                    <div 
+                        <p class="text-danger fw-bold">
+                            Giá: 93,000,000đ
+                            <span class="text-decoration-line-through text-muted">99,900,000đ</span>
+                            <span class="badge bg-danger">(-7%)</span>
+                        </p>
+                    </div>
+                    <!-- Màu sắc và Số lượng -->
+                    <div style="display: flex;gap: 100px;">
+                        <!-- Màu sắc -->
                         <div>
-
-                            <div class="input-group mb-3" style="max-width: 150px;">
-                                <label for="colorSelect" class="form-label" style="font-size: 30px;">Số lượng: </label>
+                            <label for="colorSelect" class="form-label">Màu sắc:</label>
+                            <div>
+                                <span class="color-swatch bg-black me-2"
+                                    data-image="../../assets/images/products/featured_products/dan-piano-kawai-k300-mau-den-sang-trong.jpg"></span>
+                                <span class="color-swatch bg-brown me-2"
+                                    data-image="../../assets/images/products/featured_products/casio-cdp-s160-bk.jpg"></span>
+                                <span class="color-swatch bg-white"></span>
+                            </div>
+                        </div>
+                        <!-- Số lượng -->
+                        <div>
+                            <label for="quantityInput" class="form-label">Số lượng:</label>
+                            <div class="input-group" style="max-width: 150px;">
                                 <button class="btn btn-outline-secondary" type="button" id="button-decrease"
                                     onclick="decreaseQuantity()">-</button>
-                                <input type="text" class="form-control text-center" style="color: red;"
+                                <input type="text" class="form-control text-center text-danger fw-bold"
                                     id="quantityInput" value="1" readonly>
                                 <button class="btn btn-outline-secondary" type="button" id="button-increase"
                                     onclick="increaseQuantity()">+</button>
                             </div>
                         </div>
                     </div>
-
+                    <!-- Nút Thêm vào giỏ và Mua ngay -->
                     <div class="button-group">
                         <button class="btn add-to-cart">Thêm vào giỏ</button>
                         <button class="btn buy-now">Mua ngay</button>
                     </div>
                 </div>
                 <!-- Ưu điểm nổi bật -->
-
                 <div class="box_uu_diem">Ưu điểm Nổi bật</div>
                 <div class="box_khuyen_mai">
                     <ul>
-                        <p><strong>Tặng Voucher học nhạc trị giá 500.000 vnđ khi đăng kí lớp nhạc tại trường âm
-                                nhạc Việt Thương Music.</strong></p>
-
-                        <p>-Bộ máy Cơ Kháng ẩm – Kháng nhiệt, làm từ sợi Carbon siêu bền, không bị biến dạng.
-                        </p>
-                        <p>-Truyền lực cực chính xác, không bị thất thoát lực tự nhiên như thông thường.</p>
-                        <p>-Thiết kế phím đàn dài hơn, giúp người chơi kiểm soát lực đàn rất hiệu quả.</p>
-                        <p>-Soundboard Gỗ Nguyên Khối, hong khô tự nhiên lên đến 5 năm.</p>
-                        <p>-Búa đàn 2 lớp nỉ cao cấp, sử dụng Gỗ Đặc Mahogany làm lõi búa.</p>
-                        <p>-Thép Vuông Bệ Đàn và Pát Bệ Đàn cho cấu trúc mạnh mẽ kinh ngạc.</p>
+                        <p><strong>Tặng Voucher học nhạc trị giá 500.000 vnđ khi đăng kí lớp nhạc tại trường âm nhạc
+                                Việt Thương Music.</strong></p>
+                        <p>- Bộ máy Cơ Kháng ẩm – Kháng nhiệt, làm từ sợi Carbon siêu bền, không bị biến dạng.</p>
+                        <p>- Truyền lực cực chính xác, không bị thất thoát lực tự nhiên như thông thường.</p>
+                        <p>- Thiết kế phím đàn dài hơn, giúp người chơi kiểm soát lực đàn rất hiệu quả.</p>
+                        <p>- Soundboard Gỗ Nguyên Khối, hong khô tự nhiên lên đến 5 năm.</p>
+                        <p>- Búa đàn 2 lớp nỉ cao cấp, sử dụng Gỗ Đặc Mahogany làm lõi búa.</p>
+                        <p>- Thép Vuông Bệ Đàn và Pát Bệ Đàn cho cấu trúc mạnh mẽ kinh ngạc.</p>
                     </ul>
                 </div>
-
-                <!-- Chọn màu sắc -->
-
             </div>
+
         </div>
     </div>
     <div class="tab-container">
@@ -426,75 +530,119 @@
     </div>
 
     </div>
-    <footer class="bg-dark text-white pt-4 pb-4">
-        <div class="container">
-            <div class="row">
-                <!-- Cột 1: Thông tin Việt Thương -->
-                <div class="col-12 col-md-3 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Thông tin Việt Thương</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Giới thiệu công ty</a></li>
-                        <li><a href="#" class="text-white">Hệ thống showroom, đại lý</a></li>
-                        <li><a href="#" class="text-white">Liên Hệ / Góp Ý</a></li>
-                        <li><a href="#" class="text-white">Mua trả góp</a></li>
-                        <li><a href="#" class="text-white">Chương trình Khách hàng thân thiết</a></li>
-                        <li><a href="#" class="text-white">Điều khoản sử dụng website</a></li>
-                        <li><a href="#" class="text-white">Tuyển dụng</a></li>
-                    </ul>
-                </div>
+    <footer>
+        <!--Contact-->
+        <div class="bg-secondary py-5">
+            <div class="container text-black">
+                <div class="row justify-content-between align-items-center">
+                    <!-- Phần bên trái: Thông tin liên hệ -->
+                    <div class="col-12 col-md-6 mb-4 mb-md-0">
+                        <h4>LIÊN HỆ</h4>
+                        <p>Chúng tôi sẽ giúp bạn tìm đúng giải pháp cho đam mê của bạn.</p>
+                        <button class="btn btn-primary text-black">HOTLINE</button>
+                    </div>
 
-                <!-- Cột 2: Hướng dẫn chung -->
-                <div class="col-12 col-md-3 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Hướng dẫn chung</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Giao hàng - Đổi trả</a></li>
-                        <li><a href="#" class="text-white">Hướng dẫn mua hàng</a></li>
-                        <li><a href="#" class="text-white">Thanh toán và bảo mật</a></li>
-                        <li><a href="#" class="text-white">Chính sách bảo hành</a></li>
-                        <li><a href="#" class="text-white">Bảo trì đàn piano</a></li>
-                        <li><a href="#" class="text-white">Kích hoạt bảo hành</a></li>
-                    </ul>
-                </div>
-
-                <!-- Cột 3: Hỗ trợ khách hàng -->
-                <div class="col-12 col-md-3 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
-                    <ul class="list-unstyled">
-                        <li><strong>Gọi mua hàng: </strong><a href="tel:18006715" class="text-white">1800 6715 (Miễn
-                                phí)</a></li>
-                        <li><strong>Khiếu nại, Bảo hành: </strong><a href="tel:02871088333" class="text-white">028710 88
-                                333</a></li>
-                        <li><strong>Thời gian phục vụ: </strong>8h-22h</li>
-                        <li><strong>Email: </strong><a href="mailto:info@vietthuong.vn"
-                                class="text-white">info@vietthuong.vn</a></li>
-                    </ul>
-                </div>
-
-                <!-- Cột 4: Social, Phương thức thanh toán, Chứng nhận -->
-                <div class="col-12 col-md-3">
-                    <h5 class="text-uppercase">Social</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Việt Thương Music Store</a></li>
-                        <li><a href="#" class="text-white">Việt Thương Music School</a></li>
-                    </ul>
-
-                    <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
-                    <ul class="list-unstyled">
-                        <li><img src="../../assets/images/payments/visa.png" alt="Phương thức thanh toán"
-                                class="img-fluid" /></li>
-                    </ul>
-
-                    <h5 class="text-uppercase mt-4">Chứng nhận</h5>
-                    <ul class="list-unstyled">
-                        <li><img src="../../assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid" /></li>
-                        <li><img src="../../assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid" /></li>
-                    </ul>
+                    <!-- Phần bên phải: Form gửi email -->
+                    <div class="col-12 col-md-6">
+                        <form>
+                            <div class="row">
+                                <div class="col-12 col-md-8 mb-3">
+                                    <label for="contact-email" class="form-label">Địa chỉ email</label>
+                                    <input type="email" class="form-control" id="contact-email"
+                                        placeholder="Nhập email của bạn" required>
+                                    <button type="submit" class="btn btn-primary w-100 w-md-25 mt-2 text-black">Gửi
+                                        Email
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="row mt-4">
-                <div class="col-12 text-center">
-                    <p>&copy; 2024 Công ty Cổ Phần TM-DV-SX Việt Thương. Tất cả quyền lợi được bảo lưu.</p>
+        <div class="bg-dark text-white pt-4 pb-4">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-12 col-md-3 mb-4 mb-md-0">
+                        <h5 class="text-uppercase">Thông tin Drum Store</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-white">Giới thiệu công ty</a></li>
+                            <li><a href="#" class="text-white">Hệ thống showroom, đại lý</a></li>
+                            <li><a href="#" class="text-white">Liên Hệ / Góp Ý</a></li>
+                            <li><a href="#" class="text-white">Mua trả góp</a></li>
+                            <li><a href="#" class="text-white">Chương trình Khách hàng thân thiết</a></li>
+                            <li><a href="#" class="text-white">Điều khoản sử dụng website</a></li>
+                            <li><a href="#" class="text-white">Tuyển dụng</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div class="col-12 col-md-3 mb-4 mb-md-0">
+                        <h5 class="text-uppercase">Hướng dẫn chung</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-white">Giao hàng - Đổi trả</a></li>
+                            <li><a href="#" class="text-white">Hướng dẫn mua hàng</a></li>
+                            <li><a href="#" class="text-white">Thanh toán và bảo mật</a></li>
+                            <li><a href="#" class="text-white">Chính sách bảo hành</a></li>
+                            <li><a href="#" class="text-white">Bảo trì đàn piano</a></li>
+                            <li><a href="#" class="text-white">Kích hoạt bảo hành</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-12 col-md-3 mb-4 mb-md-0">
+                        <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                <strong>Gọi mua hàng: </strong>
+                                <a href="tel:123-456-7890" class="text-white">123-456-7890 (Miễn phí)</a>
+                            </li>
+                            <li>
+                                <strong>Khiếu nại, Bảo hành: </strong>
+                                <a href="tel:123-456-7890" class="text-white">123-456-7890</a>
+                            </li>
+                            <li><strong>Thời gian phục vụ: </strong>8h-22h</li>
+                            <li>
+                                <strong>Email: </strong>
+                                <a href="mailto:drumstore@gmail.com" class="text-white">drumstore@gmail.com</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Cột 4: Social, Phương thức thanh toán, Chứng nhận -->
+                    <div class="col-12 col-md-3">
+                        <h5>MẠNG XÃ HỘI</h5>
+                        <ul class="list-unstyled d-flex gap-3">
+                            <li><a href="#" class="text-white" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                            </li>
+                            <li><a href="#" class="text-white" aria-label="TikTok"><i class="bi bi-tiktok"></i></a></li>
+                            <li><a href="#" class="text-white" aria-label="Instagram"><i
+                                        class="bi bi-instagram"></i></a>
+                            </li>
+                            <li><a href="#" class="text-white" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                            </li>
+                        </ul>
+
+                        <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
+                        <ul class="list-unstyled">
+                            <li><img src="/assets/images/payments/visa.png" alt="Phương thức thanh toán"
+                                    class="img-fluid" />
+                            </li>
+                        </ul>
+
+                        <h5 class="text-uppercase mt-4">Chứng nhận</h5>
+                        <ul class="list-unstyled">
+                            <li><img src="/assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid" /></li>
+                            <li><img src="/assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid" /></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <p>&copy; 2024 Công ty Cổ Phần TM-DV-SX Drum Store. Tất cả quyền lợi được bảo lưu.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -558,6 +706,17 @@
             }
         }
 
+    </script>
+    <script>
+        document.querySelectorAll('.dropdown-submenu > a').forEach(function (element) {
+            element.addEventListener('click', function (e) {
+                let nextDropdown = this.nextElementSibling;
+                if (nextDropdown && nextDropdown.classList.contains('dropdown-menu')) {
+                    e.preventDefault();  // Ngăn chặn hành động mặc định (click)
+                    nextDropdown.classList.toggle('show');  // Tạo hiệu ứng mở/đóng menu
+                }
+            });
+        });
     </script>
 </body>
 
