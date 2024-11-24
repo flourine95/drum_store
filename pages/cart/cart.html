@@ -144,15 +144,14 @@
                             <p class="product-price"><strong>Giá:</strong> 11.990.000 VND</p>
                             <div class="product-option">
                                 <div class="option">
-                                    <strong>Size</strong>
+                                    <strong>Màu</strong>
                                     <div class="dropdown">
-                                        <button class="dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">M</button>
+                                        <button class="dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Đen</button>
                                         <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
-                                            <li><a class="dropdown-item" href="#" data-size="S">S</a></li>
-                                            <li><a class="dropdown-item" href="#" data-size="M">M</a></li>
-                                            <li><a class="dropdown-item" href="#" data-size="L">L</a></li>
-                                            <li><a class="dropdown-item" href="#" data-size="XL">XL</a></li>
-                                            <li><a class="dropdown-item" href="#" data-size="XXL">XXL</a></li>
+                                            <li><a class="dropdown-item" href="#" data-color="Đen">Đen</a></li>
+                                            <li><a class="dropdown-item" href="#" data-color="Trắng">Trắng</a></li>
+                                            <li><a class="dropdown-item" href="#" data-color="Đỏ">Đỏ</a></li>
+                                            <li><a class="dropdown-item" href="#" data-color="Vàng">Vàng</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -184,15 +183,14 @@
                             <p class="product-price"><strong>Giá:</strong> 7.990.000 VND</p>
                             <div class="product-option">
                                 <div class="option">
-                                    <strong>Size</strong>
+                                    <strong>Màu</strong>
                                     <div class="dropdown">
-                                        <button class="dropdown-toggle" id="dropdownMenuButton1" type="button" data-bs-toggle="dropdown" aria-expanded="false">M</button>
+                                        <button class="dropdown-toggle" id="dropdownMenuButton1" type="button" data-bs-toggle="dropdown" aria-expanded="false">Đen</button>
                                         <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
-                                            <li><a class="dropdown-item" href="#" data-size="S">S</a></li>
-                                            <li><a class="dropdown-item" href="#" data-size="M">M</a></li>
-                                            <li><a class="dropdown-item" href="#" data-size="L">L</a></li>
-                                            <li><a class="dropdown-item" href="#" data-size="XL">XL</a></li>
-                                            <li><a class="dropdown-item" href="#" data-size="XXL">XXL</a></li>
+                                            <li><a class="dropdown-item" href="#" data-color="Đen">Đen</a></li>
+                                            <li><a class="dropdown-item" href="#" data-color="Trắng">Trắng</a></li>
+                                            <li><a class="dropdown-item" href="#" data-color="Đỏ">Đỏ</a></li>
+                                            <li><a class="dropdown-item" href="#" data-color="Vàng">Vàng</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -236,14 +234,14 @@
                         <p>Giảm</p>
                     </div>
                     <div>
-                        <p id="price" style="text-align: right">965.000 VND</p>
-                        <p id="sale" style="text-align: right">87.000 VND</p>
+                        <p id="price" style="text-align: right">19.980.000 VND</p>
+                        <p id="sale" style="text-align: right">1.000.000 VND</p>
                     </div>
                 </div>
                 <div class="product-divider"></div>
                 <div class="total-price">
                     <p>TẠM TÍNH</p>
-                    <p id="total-price" style="text-align: right;font-size: 20px">878.000 VND</p>
+                    <p id="total-price" style="text-align: right;font-size: 20px">19.980.000 VND</p>
                 </div>
                 <button class="payment-button">TIẾP TỤC THANH TOÁN</button>
 
@@ -477,8 +475,8 @@
     // cập nhật text của button khi người dùng chọn size
     document.querySelectorAll('.dropdown-item').forEach(item => {
         item.addEventListener('click', function(event) {
-            const selectedSize = event.target.getAttribute('data-size');
-            document.getElementById('dropdownMenuButton').textContent = `${selectedSize}`;
+            const selectedColor = event.target.getAttribute('data-color');
+            document.getElementById('dropdownMenuButton').textContent = `${selectedColor}`;
         });
     });
 </script>

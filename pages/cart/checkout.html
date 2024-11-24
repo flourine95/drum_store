@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout Page</title>
     <link rel="icon" href="/assets/images/logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -114,20 +115,137 @@
 
 <div class="container my-5">
     <div class="row">
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-6">
             <div class="checkout-container">
+                <h5 class="background-color: #F1F1F1;">THÔNG TIN GIAO HÀNG</h5>
+                <div class="card-body">
+                    <!-- Add New Address Button -->
+                    <a href="add-address.html" class="btn btn-primary mb-3 text-black">Thêm địa chỉ mới</a>
 
+                    <!-- Wrap Content Address using row and col -->
+                    <div class="row">
+                        <!-- Phần hiển thị địa chỉ -->
+                        <div class="col-lg-6 col-md-12 mb-3">
+                            <div class="card mb-3 address-card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span>Nguyễn Hữu Nam (Địa chỉ mặc định)</span>
+                                    <div>
+                                        <button class="btn btn-link text-decoration-none btn-primary"
+                                                id="edit-btn"><i class="bi bi-pencil text-black"></i></button>
+                                        <button class="btn  text-decoration-none btn-danger"><i
+                                                class="bi bi-x text-black"></i></button>
+                                    </div>
+                                </div>
+                                <div class="card-body" id="address-content">
+                                    <p><strong>Họ tên:</strong> Nguyễn Hữu Nam</p>
+                                    <p><strong>Công ty:</strong> ABC Company</p>
+                                    <p><strong>Địa chỉ:</strong> 123 Đường ABC, Phường XYZ, Quận 1, TP. Hồ Chí
+                                        Minh
+                                    </p>
+                                    <p><strong>Điện thoại:</strong> 0375174172</p>
+                                </div>
+                                <div id="address-form" style="display: none;">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="ho" class="form-label">Họ</label>
+                                            <input type="text" class="form-control" id="ho" placeholder="Họ">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="ten" class="form-label">Tên</label>
+                                            <input type="text" class="form-control" id="ten" placeholder="Tên">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="congty" class="form-label">Công ty</label>
+                                            <input type="text" class="form-control" id="congty"
+                                                   placeholder="Công ty">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="diachi1" class="form-label">Địa chỉ 1</label>
+                                            <input type="text" class="form-control" id="diachi1"
+                                                   placeholder="Địa chỉ 1">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="diachi2" class="form-label">Địa chỉ 2</label>
+                                            <input type="text" class="form-control" id="diachi2"
+                                                   placeholder="Địa chỉ 2">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="quocgia" class="form-label">Quốc gia</label>
+                                            <select class="form-select" id="quocgia">
+                                                <option selected>Chọn quốc gia</option>
+                                                <option value="Vietnam">Vietnam</option>
+                                                <option value="Khac">Khác</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="sodienthoai" class="form-label">Số điện thoại</label>
+                                            <input type="text" class="form-control" id="sodienthoai"
+                                                   placeholder="Số điện thoại">
+                                        </div>
+                                        <div class="form-check mb-3">
+                                            <input type="checkbox" class="form-check-input" id="macdinh">
+                                            <label class="form-check-label" for="macdinh">Đặt làm địa chỉ mặc
+                                                định</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-dark">Sửa</button>
+                                        <button type="button" class="btn btn-link" id="cancel-btn">Hủy</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <h5 class="background-color: #F1F1F1;">PHƯƠNG THỨC GIAO HÀNG</h5>
+                <div class="shipment-method">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="shipment-method" checked>
+                        <label class="form-check-label" for="shipment-method">
+                            Tốc độ tiêu chuẩn (từ 2 - 5 ngày làm việc)
+                        </label>
+                    </div>
+                </div>
+                <h5 class="background-color: #F1F1F1;">PHƯƠNG THỨC THANH TOÁN</h5>
+                <div class="payment-method">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="group1" id="radio1" value="option1">
+                        <label class="form-check-label" for="radio1">
+                            Thanh toán trực tiếp khi giao hàng
+                        </label>
+                        <img src="https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/icon_COD.svg">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="group1" id="radio2" value="option2">
+                        <label class="form-check-label" for="radio2">
+                            Thanh toán bằng Thẻ quốc tế / Thẻ nội địa / QR Code
+                        </label>
+                        <img src="https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/card_icon.svg">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-12 col-md-4">
-            <div class="order-container">
+        <div class="col-12 col-md-6">
+            <div class="checkout-payment-container">
                 <h5>ĐƠN HÀNG</h5>
                 <div class="divider"></div>
-                <div class="voucher-container">
-                    <p>NHẬP MÃ KHUYẾN MÃI</p>
-                    <div class="voucher-input">
-                        <input type="text" class="form-control" id="voucher-input">
-                        <button>ÁP DỤNG</button>
+                <div class="checkout-product">
+                    <div class="product-detail">
+                        <p><strong>PEARL Export Lacquer EXL725SP Standard</strong></p>
+                        <p>Màu: Đen</p>
+                    </div>
+                    <div class="product-detail2">
+                        <p>Giá: 11.990.000 VND</p>
+                        <p>x1</p>
+                    </div>
+                </div>
+                <div class="checkout-product">
+                    <div class="product-detail">
+                        <p><strong>Alesis Turbo Mesh Kit</strong></p>
+                        <p>Màu: Đen</p>
+                    </div>
+                    <div class="product-detail2">
+                        <p>Giá: 7.990.000 VND</p>
+                        <p>x1</p>
                     </div>
                 </div>
                 <div class="product-divider"></div>
@@ -135,18 +253,20 @@
                     <div>
                         <p>Đơn hàng</p>
                         <p>Giảm</p>
+                        <p>Phí vận chuyển</p>
                     </div>
                     <div>
-                        <p id="price" style="text-align: right">965.000 VND</p>
-                        <p id="sale" style="text-align: right">87.000 VND</p>
+                        <p id="price" style="text-align: right">19.980.000 VND</p>
+                        <p id="sale" style="text-align: right">1.000.000 VND</p>
+                        <p id="ship" style="text-align: right">0 VND</p>
                     </div>
                 </div>
                 <div class="product-divider"></div>
                 <div class="total-price">
                     <p>TẠM TÍNH</p>
-                    <p id="total-price" style="text-align: right;font-size: 20px">878.000 VND</p>
+                    <p id="total-price" style="text-align: right;font-size: 20px">19.980.000 VND</p>
                 </div>
-                <button class="payment-button">TIẾP TỤC THANH TOÁN</button>
+                <button class="payment-button">HOÀN TẤT ĐẶT HÀNG</button>
 
             </div>
         </div>
