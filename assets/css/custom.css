@@ -1,17 +1,35 @@
 :root {
     --bs-primary: #fd0;
-    --bs-secondary: #ffdd57;
-    --bs-success: #38c172;
-    --bs-danger: #e3342f;
+    --bs-secondary: #a93232;
+    --text-color: #333;
+    --hover-color: #000;
+    --text-white: #fff;
+    --mobile-header-height: 120px; 
+    --mobile-bottom-nav-height: 60px; 
 }
+
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
 .bg-primary {
-    background-color: #fd0 !important;
+    background-color: var(--bs-primary) !important;
 }
-.btn-primary{
-    background-color: #fd0 !important;
-    border-color: #fd0 !important;
+
+
+
+.btn-primary {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
 }
 
 .bg-secondary {
-    background-color: #e6e7e8 !important; /* Thay đổi thành màu vàng */
+    background-color: #e6e7e8 !important;
 }
