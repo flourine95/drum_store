@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
     <style>
+        /* Giữ nguyên các style cũ */
         .dropdown-submenu {
             position: relative;
         }
@@ -33,51 +34,6 @@
 
         .dropdown-menu .dropdown-toggle:focus {
             background-color: #f8f9fa;
-        }
-
-        .custom-box {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            text-decoration: none;
-            background-color: #fd0;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .custom-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .icon-container {
-            font-size: 40px;
-            color: black;
-            margin-right: 15px;
-        }
-
-        .box-content {
-            text-align: left;
-        }
-
-        .box-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .box-description {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .item {
-            height: 40px;
-            display: inline-block;
-            margin: 15px 5px;
         }
 
         .navbar-nav .nav-link {
@@ -156,11 +112,92 @@
         .card-body .btn {
             margin-top: auto;
         }
+
+        /* Thêm các style mới */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .section-title {
+            color: #343a40;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: var(--bs-primary);
+        }
+
+        .card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .bg-gradient-primary {
+            background: linear-gradient(45deg, var(--bs-primary), #007bff);
+        }
+
+        .text-primary {
+            color: var(--bs-primary) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .icon-box {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .icon-box:hover {
+            background-color: var(--bs-primary);
+            color: #fff;
+        }
+
+        .icon-box:hover .icon {
+            color: #fff;
+        }
+
+        .icon-box .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--bs-primary);
+        }
+
+        main {
+            padding-top: 120px;
+            /* Chiều cao của header */
+        }
     </style>
 </head>
 
 <body>
-    <header>
+    <!-- Giữ nguyên header -->
+    <header class="fixed-top">
         <!-- Banner Image -->
         <img src="/assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale" class="img-fluid w-100">
 
@@ -184,7 +221,7 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <!-- Links ở giữa -->
                         <div class="navbar-nav mx-auto fw-bold">
-                            <a class="nav-link" href="/pages/home.html">TRANG CHỦ</a>
+                            <a class="nav-link" href="/index.html">TRANG CHỦ</a>
                             <a class="nav-link" href="/pages/about.html">GIỚI THIỆU</a>
 
                             <!-- Dropdown cho SẢN PHẨM -->
@@ -250,8 +287,7 @@
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
-                                            tôi</a>
-                                    </li>
+                                            tôi</a></li>
                                     <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
                                     <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
                                 </ul>
@@ -267,7 +303,7 @@
             <div class="row">
                 <!-- Cột trái: Latest News -->
                 <div class="col-lg-3">
-                    <h5 class="mb-3">Latest News</h5>
+                    <h5 class="mb-3">Tin tức mới nhất</h5>
                     <div class="news-item d-flex mb-3">
                         <img src="../../assets/images/posts/trong-dien-tu-gia-re-la-bao-nhieu.jpg" alt="News 1"
                             class="me-3 rounded" style="width: 80px; height: 80px;">
@@ -312,10 +348,12 @@
                         </div>
                     </div>
                     <div class="news-item d-flex mb-3">
-                        <img src="../../assets/images/posts/kiluc.webp" alt="News 2" class="me-3 rounded"  style="width: 80px; height: 80px;">
+                        <img src="../../assets/images/posts/kiluc.webp" alt="News 2" class="me-3 rounded"
+                            style="width: 80px; height: 80px;">
                         <div>
                             <small class="text-muted">Kỉ lục dàn trống lớn nhất thế giới</small>
-                            <h6 class="mt-1 mb-1">Một dàn trống gồm 7.951 tay trống ở Shillong đã lập kỉ lục thế giới </h6>
+                            <h6 class="mt-1 mb-1">Một dàn trống gồm 7.951 tay trống ở Shillong đã lập kỉ lục thế giới
+                            </h6>
                         </div>
                     </div>
                     <!-- Add more news items here -->
@@ -323,7 +361,7 @@
 
                 <!-- Cột giữa: Featured News -->
                 <div class="col-lg-6">
-                    <h5 class="mb-3">Featured News</h5>
+                    <h4 class="mb-3">Tin tức nổi bật</h4>
                     <div class="featured mb-4">
                         <img src="../../assets/images/posts/viet-nam-gianh-chien-thang-cuoc-thi-drum-off-global-2019.jpg"
                             alt="Featured News" style="width: 630px; height: 400px;">
@@ -387,7 +425,7 @@
 
                 <!-- Cột phải: Most Popular -->
                 <div class="col-lg-3">
-                    <h5 class="mb-3">Most Popular</h5>
+                    <h5 class="mb-3">Tin tức phổ biến</h5>
                     <div class="popular-item mb-3">
                         <img src="../../assets/images/posts/1649_3149_trong-dong-dong-son.jpg" alt="Popular 1"
                             style="width: 300px; height: 150px;">
@@ -415,6 +453,7 @@
         </div>
     </main>
 
+    <!-- Giữ nguyên footer -->
     <footer>
         <!--Contact-->
         <div class="bg-secondary py-5">
