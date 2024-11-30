@@ -465,4 +465,82 @@
     </div>
 </footer>
 </body>
+<script>
+    const adjustDesktopPadding = () => {
+        if (window.innerWidth >= 992) {  // chỉ áp dụng cho desktop
+            const header = document.querySelector('.fixed-top');
+            const main = document.querySelector('main');
+            if (header && main) {
+                const headerHeight = header.offsetHeight - 85;
+                main.style.paddingTop = headerHeight + 'px';
+            }
+        }
+    };
+
+    // Hàm điều chỉnh padding cho mobile
+    const adjustMobilePadding = () => {
+        if (window.innerWidth < 992) {  // chỉ áp dụng cho mobile
+            const mobileHeader = document.querySelector('.mobile-header');
+            const main = document.querySelector('main');
+            if (mobileHeader && main) {
+                const headerHeight = mobileHeader.offsetHeight;
+                document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+                main.style.paddingTop = `${headerHeight}px`;
+            }
+        }
+    };
+
+    // Hàm chung để điều chỉnh padding dựa trên kích thước màn hình
+    const adjustLayoutPadding = () => {
+        const main = document.querySelector('main');
+        // Reset padding trước khi áp dụng
+        if (main) {
+            main.style.paddingTop = '0';
+        }
+
+        // Áp dụng padding tương ứng với layout
+        if (window.innerWidth >= 992) {
+            adjustDesktopPadding();
+        } else {
+            adjustMobilePadding();
+        }
+    };
+
+    // Xử lý menu mobile
+    const initMobileMenu = () => {
+        const menuToggle = document.getElementById('menuToggle');
+        const sideMenu = document.getElementById('sideMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        if (menuToggle && sideMenu && menuOverlay) {
+            menuToggle.addEventListener('click', () => {
+                sideMenu.classList.add('active');
+                menuOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            menuOverlay.addEventListener('click', () => {
+                sideMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+    };
+
+    // Event listeners
+    window.addEventListener('load', () => {
+        adjustLayoutPadding();
+        initMobileMenu();
+
+        // Xử lý khi ảnh header load xong
+        const headerImages = document.querySelectorAll('header img');
+        headerImages.forEach(img => {
+            img.addEventListener('load', adjustLayoutPadding);
+        });
+    });
+
+    window.addEventListener('resize', () => {
+        adjustLayoutPadding();
+    });
+</script>
 </html>
