@@ -33,38 +33,31 @@ body {
     width: 100%;
     height: auto;
 }
-.product img {
-    object-fit: cover;
-    width: 20%;
-    aspect-ratio: 3/2;
-    height: 100%;
-}
 .product-information {
     display: flex;
     width: 100%;
 }
-@media (max-width: 768px) {
-    .product {
-        word-wrap: break-word;
-    }
-    .product-information {
-        flex-direction: column;
-    }
-    .product-detail {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .product-detail2 {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-    }
-}
 .product-detail {
-    width: 50%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
     line-height: 1.5rem;
+    /*overflow: hidden;*/
+}
+.product-detail img {
+    position: absolute;
+    object-fit: cover;
+    width: 30%;
+    height: 100%;
+}
+.product-detail .detail-content {
+    margin-left: 30%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px;
 }
 .product-name {
     font-size: 1.2rem;
@@ -75,10 +68,9 @@ body {
 }
 .product-option {
     display: flex;
-    justify-content: space-between;
 }
 .option {
-    margin: 0 auto;
+    margin: 0 2rem;
 }
 .option button {
     width: 120px;
@@ -117,14 +109,16 @@ body {
 .product-detail2 {
     width: 30%;
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
     text-align: right;
     align-items: end;
 }
+.product-detail2 .option {
+    margin: 0;
+}
 .product-detail2 .product-price {
     font-weight: bold;
-    font-size: 24px;
+    font-size: 1.2rem;
     color: #fd0;
 }
 .product-status {
@@ -133,7 +127,7 @@ body {
 .favorite-button {
     width: 125px;
     height: 40px;
-    background-image: url("https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Heart.svg");
+    background-image: url("../../assets/images/icon/Heart.svg");
     background-size: auto;
     background-repeat: no-repeat;
     background-position: center;
@@ -141,19 +135,93 @@ body {
     cursor: pointer;
 }
 .favorite-button:hover {
-    background-image: url("https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Heart_2.svg");
+    background-image: url("../../assets/images/icon/Heart_2.svg");
 }
 .delete-button {
     width: 125px;
     height: 40px;
     margin-top: 10px;
-    background-image: url("https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Trash_bin.svg");
+    background-image: url("../images/icon/Trash_bin.svg");
     background-size: auto;
     background-repeat: no-repeat;
     background-position: center;
     background-color: black;
     cursor: pointer;
 }
+@media (max-width: 768px) {
+    .product {
+        display: flex;
+        flex-direction: column;
+    }
+    .product-information {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .product-detail {
+        position: relative;
+        width: 100%;
+        display: flex;
+        line-height: 1rem;
+    }
+    .product-detail img {
+        position: absolute;
+        object-fit: cover;
+        width: 30%;
+        height: 100%;
+    }
+    .product-detail .detail-content {
+        width: 100%;
+        margin-left: 30%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 4px;
+    }
+    .product-name {
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+    .product-price {
+        color: gray;
+    }
+    .option {
+        margin: 0 1rem;
+    }
+    .product-option {
+        display: flex;
+    }
+    .option button {
+        width: 80px;
+        height: 30px;
+        border: 1px solid #ddd;
+    }
+    .product-detail2 {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: normal;
+        justify-content: center;
+    }
+    .product-detail2 .detail-content {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .product-detail2 .option {
+        width: 100%;
+        flex-direction: row;
+    }
+    .product-detail2 .detail-content .product-price {
+        font-size: 1.2rem;
+    }
+    .product-detail2 .detail-content .product-status {
+
+    }
+}
+
 .voucher-container {
     display: block;
 }
