@@ -201,9 +201,9 @@
 
 <div class="container my-5">
     <div class="row">
-        <div class="col-12 col-md-8">
-            <h5 style="padding-top: 20px">BẠN CÓ CẦN THÊM?</h5>
-            <div class="divider"></div>
+        <div class="col-12 col-md-8 mt-4">
+            <h5 class="">BẠN CÓ CẦN THÊM?</h5>
+            <div class="divider mt-3 mb-3"></div>
 
             <!--slide products-->
             <div id="carouselExampleIndicators" class="carousel slide">
@@ -220,10 +220,10 @@
             </div>
 
             <div class="cart-container">
-                <h5>GIỎ HÀNG</h5>
+                <h5 class="p-3">GIỎ HÀNG</h5>
                 <div class="product">
                     <div class="product-information">
-                        <img src="https://vietthuong.vn/image/catalog/pearl/trong-pearl-export-lacquer-725-standard-c248.jpg" alt="pearl">
+                        <img class="me-2" src="https://vietthuong.vn/image/catalog/pearl/trong-pearl-export-lacquer-725-standard-c248.jpg" alt="pearl">
                         <div class="product-detail">
                             <p class="product-name">PEARL Export Lacquer EXL725SP Standard</p>
                             <p class="product-price"><strong>Giá:</strong> 11.990.000 VND</p>
@@ -262,9 +262,9 @@
                 <div class="product-divider"></div>
                 <div class="product">
                     <div class="product-information">
-                        <img src="https://vietthuong.vn/image/cache/catalog/alesis-turbo-mesh-kit-400x400.jpg" alt="digital drum">
+                        <img class="me-2" src="https://vietthuong.vn/image/cache/catalog/alesis-turbo-mesh-kit-400x400.jpg" alt="digital drum">
                         <div class="product-detail">
-                            <p class="product-name" id="product-name">Alesis Turbo Mesh Kit</p>
+                            <p class="product-name" id="product-name">Alesis Turbo Mesh Kit Alesis</p>
                             <p class="product-price"><strong>Giá:</strong> 7.990.000 VND</p>
                             <div class="product-option">
                                 <div class="option">
@@ -298,11 +298,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="divider"></div>
+                <div class="divider "></div>
             </div>
         </div>
-        <div class="col-12 col-md-4">
-            <div class="order-container">
+        <div class="col-12 col-md-4 mt-4">
+            <div class="order-container p-4">
                 <h5>ĐƠN HÀNG</h5>
                 <div class="divider"></div>
                 <div class="voucher-container">
@@ -585,11 +585,11 @@
             productDiv.classList.add('col-6', 'product-slide'); // Mỗi sản phẩm chiếm 1/2 slide
 
             const productDetailDiv = document.createElement('div');
-            productDetailDiv.classList.add('col-3', 'product-detail-slide');
+            productDetailDiv.classList.add('col-3', 'ps-3', 'product-detail-slide');
 
             const img = document.createElement('img');
             img.src = product.src;
-            img.classList.add('col-4','img-fluid'); // Thêm các class Bootstrap
+            img.classList.add('col-4','img-fluid', 'product-img-slide'); // Thêm các class Bootstrap
             img.alt = product.alt;
 
             const productName = document.createElement('h5');
