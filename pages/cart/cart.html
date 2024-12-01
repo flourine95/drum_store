@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart Page</title>
-
+    <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@400;600&display=swap"
+            rel="stylesheet">
     <link rel="icon" href="/assets/images/logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
@@ -13,112 +15,195 @@
 </head>
 <body>
 <header>
-    <!-- Banner Image -->
-    <img src="/assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
-         class="img-fluid w-100">
-    <!-- Top Info -->
-
-</header>
-<section>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-        <div class="container">
-            <!-- Logo -->
-            <a class="navbar-brand" href="#">
-                <img src="/assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
-            </a>
-
-            <!-- Navbar toggler cho thiết bị nhỏ -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Các liên kết và thanh tìm kiếm -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Links ở giữa -->
-                <div class="navbar-nav mx-auto fw-bold">
-                    <a class="nav-link" href="#home">TRANG CHỦ</a>
-                    <a class="nav-link" href="pages/about.html">GIỚI THIỆU</a>
-
-                    <!-- Dropdown cho SẢN PHẨM -->
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            SẢN PHẨM
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">Trống</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Trống điện tử</a></li>
-                                    <li><a class="dropdown-item" href="#">Trống cơ</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">Phụ kiện</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Giá đỡ trống</a></li>
-                                    <li><a class="dropdown-item" href="#">Gậy trống</a></li>
-                                    <li><a class="dropdown-item" href="#">Túi đựng trống</a></li>
-                                </ul>
-                            </li>
-                            <li><a class="dropdown-item" href="#">Âm thanh</a></li>
-                            <li><a class="dropdown-item" href="#">Dụng cụ tập luyện</a></li>
-                        </ul>
+    <div class="fixed-top d-none d-lg-block">
+        <img src="/assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
+             class="img-fluid w-100 banner-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <div class="container">
+                <!-- Logo -->
+                <a class="navbar-brand" href="#">
+                    <img src="/assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
+                </a>
+                <!-- Toggle button -->
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Navbar content -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <!-- Search form -->
+                    <form class="search-form d-lg-none">
+                        <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                        <button class="btn btn-dark" type="submit">Tìm</button>
+                    </form>
+                    <!-- Navigation links -->
+                    <div class="navbar-nav mx-auto fw-bold">
+                        <a class="nav-link" href="/pages/home.html">TRANG CHỦ</a>
+                        <a class="nav-link" href="/pages/about.html">GIỚI THIỆU</a>
+                        <a class="nav-link" href="/pages/about.html">SẢN PHẨM</a>
+                        <a class="nav-link" href="/pages/posts/posts.html">TIN TỨC</a>
+                        <a class="nav-link" href="/pages/contact.html">LIÊN HỆ</a>
                     </div>
+                    <!-- Action buttons for mobile -->
+                    <div class="action-buttons d-lg-none">
+                        <div class="account-button-container">
+                            <a href="#" class="btn btn-light position-relative">
+                                <i class="bi bi-cart-fill"></i>
+                                <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        3
+                                    </span>
+                            </a>
+                        </div>
 
-                    <a class="nav-link" href="#">TIN TỨC</a>
-                    <a class="nav-link" href="#">LIÊN HỆ</a>
-                    <a class="nav-link" href="#">CHI NHÁNH</a>
-                </div>
-
-                <!-- Thanh tìm kiếm trên thiết bị lớn -->
-                <form class="d-flex mt-3 mt-lg-0 me-3">
-                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                    <button class="btn btn-dark" type="submit">Tìm</button>
-                </form>
-
-                <!-- Icon Đăng nhập và Giỏ hàng -->
-                <div class="d-flex align-items-center ms-auto order-lg-2">
-                    <!-- ms-auto để đưa sang phải trên màn hình lớn -->
-                    <!-- Giỏ hàng -->
-                    <a href="#" class="btn btn-light me-3 position-relative">
-                        <i class="bi bi-cart-fill"></i>
-                        <!-- Badge hiển thị số lượng sản phẩm trong giỏ hàng -->
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    3 <!-- số lượng sản phẩm -->
-                    </span>
-                    </a>
-
-                    <!-- Đăng nhập -->
-                    <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle" type="button" id="accountDropdown"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                            <li><a class="dropdown-item" href="#">Đăng nhập</a></li>
-                            <li><a class="dropdown-item" href="#">Đăng ký</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Tài khoản của tôi</a></li>
-                            <li><a class="dropdown-item" href="#">Đơn hàng</a></li>
-                            <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
-                        </ul>
+                        <div class="account-button-container dropdown">
+                            <button class="btn btn-light w-100" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu mobile-dropdown-menu">
+                                <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
+                                    tôi</a></li>
+                                <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Desktop search form -->
+                    <form class="d-none d-lg-flex mt-lg-0 me-3">
+                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                        <button class="btn btn-dark" type="submit">Tìm</button>
+                    </form>
+                    <!-- Desktop action buttons -->
+                    <div class="d-none d-lg-flex align-items-center">
+                        <a href="#" class="btn btn-light me-3 position-relative">
+                            <i class="bi bi-cart-fill"></i>
+                            <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    3
+                            </span>
+                        </a>
+                        <!-- Account dropdown for desktop -->
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="desktopAccountDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopAccountDropdown">
+                                <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
+                                    tôi</a>
+                                </li>
+                                <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
+        </nav>
+    </div>
+    <div class="mobile-header d-lg-none">
+        <div class="mobile-banner">
+            Giảm giá 20% cho đơn hàng đầu tiên 🎉
+        </div>
+        <div class="mobile-main-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn p-0" id="menuToggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                <a href="/" class="logo">
+                    <img src="/assets/images/logo.png" alt="Logo" height="40">
+                </a>
+                <a href="/cart" class="position-relative">
+                    <i class="bi bi-cart fs-4"></i>
+                    <span class="cart-badge">3</span>
+                </a>
+            </div>
+            <div class="mobile-search">
+                <input type="text" placeholder="Tìm kiếm sản phẩm..."/>
+                <button><i class="bi bi-search"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-side-menu" id="sideMenu">
+        <div class="menu-header">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-person-circle fs-1 me-3"></i>
+                <div>
+                    <h6 class="mb-1">Xin chào!</h6>
+                    <a href="/login" class="text-primary">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+        <div class="menu-items">
+            <a href="/" class="menu-item">
+                <i class="bi bi-house"></i>
+                Trang chủ
+            </a>
+            <a href="/categories" class="menu-item">
+                <i class="bi bi-grid"></i>
+                Danh mục sản phẩm
+            </a>
+            <a href="/orders" class="menu-item">
+                <i class="bi bi-bag"></i>
+                Đơn hàng của tôi
+            </a>
+            <a href="/wishlist" class="menu-item">
+                <i class="bi bi-heart"></i>
+                Sản phẩm yêu thích
+            </a>
+            <a href="/notifications" class="menu-item">
+                <i class="bi bi-bell"></i>
+                Thông báo
+            </a>
+            <a href="/account" class="menu-item">
+                <i class="bi bi-person"></i>
+                Tài khoản của tôi
+            </a>
+        </div>
+    </div>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <nav class="mobile-bottom-nav d-lg-none">
+        <div class="mobile-nav-items">
+            <a href="/" class="mobile-nav-item active">
+                <i class="bi bi-house"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="/categories" class="mobile-nav-item">
+                <i class="bi bi-grid"></i>
+                <span>Danh mục</span>
+            </a>
+            <a href="/cart" class="mobile-nav-item">
+                <i class="bi bi-cart"></i>
+                <span>Giỏ hàng</span>
+            </a>
+            <a href="/account" class="mobile-nav-item">
+                <i class="bi bi-person"></i>
+                <span>Tài khoản</span>
+            </a>
         </div>
     </nav>
-</section>
+</header>
 
 <div class="container my-5">
     <div class="row">
-        <div class="col-12 col-md-8">
-            <h5 style="padding-top: 20px">BẠN CÓ CẦN THÊM?</h5>
-            <div class="divider"></div>
+        <div class="col-12 col-md-8 mt-4">
+            <h5 class="">BẠN CÓ CẦN THÊM?</h5>
+            <div class="divider mt-3 mb-3"></div>
 
             <!--slide products-->
             <div id="carouselExampleIndicators" class="carousel slide">
@@ -135,89 +220,101 @@
             </div>
 
             <div class="cart-container">
-                <h5>GIỎ HÀNG</h5>
+                <h5 class="p-3">GIỎ HÀNG</h5>
                 <div class="product">
                     <div class="product-information">
-                        <img src="https://vietthuong.vn/image/catalog/pearl/trong-pearl-export-lacquer-725-standard-c248.jpg" alt="pearl">
                         <div class="product-detail">
-                            <p class="product-name">PEARL Export Lacquer EXL725SP Standard</p>
-                            <p class="product-price"><strong>Giá:</strong> 11.990.000 VND</p>
-                            <div class="product-option">
-                                <div class="option">
-                                    <strong>Màu</strong>
-                                    <div class="dropdown">
-                                        <button class="dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Đen</button>
-                                        <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
-                                            <li><a class="dropdown-item" href="#" data-color="Đen">Đen</a></li>
-                                            <li><a class="dropdown-item" href="#" data-color="Trắng">Trắng</a></li>
-                                            <li><a class="dropdown-item" href="#" data-color="Đỏ">Đỏ</a></li>
-                                            <li><a class="dropdown-item" href="#" data-color="Vàng">Vàng</a></li>
-                                        </ul>
+                            <img class="me-2" src="/assets/images/instruments/pearl-export-lacquer.jpg" alt="pearl">
+                            <div class="detail-content">
+                                <p class="product-name">PEARL Export Lacquer EXL725SP Standard</p>
+                                <p class="product-price"><strong>Giá:</strong> 11.990.000 VND</p>
+                                <div class="product-option">
+                                    <div class="option">
+                                        <strong>Màu</strong>
+                                        <div class="dropdown">
+                                            <button class="dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Đen</button>
+                                            <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
+                                                <li><a class="dropdown-item" href="#" data-color="Đen">Đen</a></li>
+                                                <li><a class="dropdown-item" href="#" data-color="Trắng">Trắng</a></li>
+                                                <li><a class="dropdown-item" href="#" data-color="Đỏ">Đỏ</a></li>
+                                                <li><a class="dropdown-item" href="#" data-color="Vàng">Vàng</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="option">
-                                    <strong>Số lượng</strong>
-                                    <div class="quantity-container">
-                                        <div id="decreaseBtn" class="quantity-button">-</div>
-                                        <input type="text" id="quantityInput" class="quantity-input" value="1" readonly>
-                                        <div id="increaseBtn" class="quantity-button">+</div>
+                                    <div class="option">
+                                        <strong>Số lượng</strong>
+                                        <div class="quantity-container">
+                                            <div id="decreaseBtn" class="quantity-button">-</div>
+                                            <input type="text" id="quantityInput" class="quantity-input" value="1" readonly>
+                                            <div id="increaseBtn" class="quantity-button">+</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="product-detail2">
-                            <p class="product-price">11.990.000 VND</p>
-                            <p class="product-status">còn hàng</p>
-                            <button class="favorite-button"></button>
-                            <button class="delete-button"></button>
+                            <div class="detail-content">
+                                <p class="product-price">11.990.000 VND</p>
+                                <p class="product-status">còn hàng</p>
+                            </div>
+                            <div class="option">
+                                <button class="favorite-button"><img src="/assets/images/icon/Heart.svg" alt=""></button>
+                                <button class="delete-button"><img src="/assets/images/icon/Trash_bin.svg.svg" alt=""></button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="product-divider"></div>
                 <div class="product">
                     <div class="product-information">
-                        <img src="https://vietthuong.vn/image/cache/catalog/alesis-turbo-mesh-kit-400x400.jpg" alt="digital drum">
                         <div class="product-detail">
-                            <p class="product-name" id="product-name">Alesis Turbo Mesh Kit</p>
-                            <p class="product-price"><strong>Giá:</strong> 7.990.000 VND</p>
-                            <div class="product-option">
-                                <div class="option">
-                                    <strong>Màu</strong>
-                                    <div class="dropdown">
-                                        <button class="dropdown-toggle" id="dropdownMenuButton1" type="button" data-bs-toggle="dropdown" aria-expanded="false">Đen</button>
-                                        <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
-                                            <li><a class="dropdown-item" href="#" data-color="Đen">Đen</a></li>
-                                            <li><a class="dropdown-item" href="#" data-color="Trắng">Trắng</a></li>
-                                            <li><a class="dropdown-item" href="#" data-color="Đỏ">Đỏ</a></li>
-                                            <li><a class="dropdown-item" href="#" data-color="Vàng">Vàng</a></li>
-                                        </ul>
+                            <img class="me-2" src="/assets/images/instruments/alesis-turbo.jpg" alt="digital drum">
+                            <div class="detail-content">
+                                <p class="product-name" id="product-name">Alesis Turbo Mesh Kit Alesis</p>
+                                <p class="product-price"><strong>Giá:</strong> 7.990.000 VND</p>
+                                <div class="product-option">
+                                    <div class="option">
+                                        <strong>Màu</strong>
+                                        <div class="dropdown">
+                                            <button class="dropdown-toggle" id="dropdownMenuButton1" type="button" data-bs-toggle="dropdown" aria-expanded="false">Đen</button>
+                                            <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
+                                                <li><a class="dropdown-item" href="#" data-color="Đen">Đen</a></li>
+                                                <li><a class="dropdown-item" href="#" data-color="Trắng">Trắng</a></li>
+                                                <li><a class="dropdown-item" href="#" data-color="Đỏ">Đỏ</a></li>
+                                                <li><a class="dropdown-item" href="#" data-color="Vàng">Vàng</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="option">
-                                    <strong>Số lượng</strong>
-                                    <div class="quantity-container">
-                                        <div id="decreaseBtn1" class="quantity-button">-</div>
-                                        <input type="text" id="quantityInput1" class="quantity-input" value="1" readonly>
-                                        <div id="increaseBtn1" class="quantity-button">+</div>
+                                    <div class="option">
+                                        <strong>Số lượng</strong>
+                                        <div class="quantity-container">
+                                            <div id="decreaseBtn1" class="quantity-button">-</div>
+                                            <input type="text" id="quantityInput1" class="quantity-input" value="1" readonly>
+                                            <div id="increaseBtn1" class="quantity-button">+</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="product-detail2">
-                            <p class="product-price">7.990.000 VND</p>
-                            <p class="product-status">còn hàng</p>
-                            <button class="favorite-button"></button>
-                            <button class="delete-button"></button>
+                            <div class="detail-content">
+                                <p class="product-price">7.990.000 VND</p>
+                                <p class="product-status">còn hàng</p>
+                            </div>
+                            <div class="option">
+                                <button class="favorite-button"><img src="/assets/images/icon/Heart.svg" alt=""></button>
+                                <button class="delete-button"><img src="/assets/images/icon/Trash_bin.svg" alt=""></button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="divider"></div>
+                <div class="divider "></div>
             </div>
         </div>
-        <div class="col-12 col-md-4">
-            <div class="order-container">
+        <div class="col-12 col-md-4 mt-4">
+            <div class="order-container p-4">
                 <h5>ĐƠN HÀNG</h5>
                 <div class="divider"></div>
                 <div class="voucher-container">
@@ -362,6 +459,84 @@
 
 <script src="/assets/libraries/bootstrap-5.3.3-dist/js/bootstrap.bundle.js"></script>
 <script>
+    const adjustDesktopPadding = () => {
+        if (window.innerWidth >= 992) {  // chỉ áp dụng cho desktop
+            const header = document.querySelector('.fixed-top');
+            const main = document.querySelector('main');
+            if (header && main) {
+                const headerHeight = header.offsetHeight - 85;
+                main.style.paddingTop = headerHeight + 'px';
+            }
+        }
+    };
+
+    // Hàm điều chỉnh padding cho mobile
+    const adjustMobilePadding = () => {
+        if (window.innerWidth < 992) {  // chỉ áp dụng cho mobile
+            const mobileHeader = document.querySelector('.mobile-header');
+            const main = document.querySelector('main');
+            if (mobileHeader && main) {
+                const headerHeight = mobileHeader.offsetHeight;
+                document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+                main.style.paddingTop = `${headerHeight}px`;
+            }
+        }
+    };
+
+    // Hàm chung để điều chỉnh padding dựa trên kích thước màn hình
+    const adjustLayoutPadding = () => {
+        const main = document.querySelector('main');
+        // Reset padding trước khi áp dụng
+        if (main) {
+            main.style.paddingTop = '0';
+        }
+
+        // Áp dụng padding tương ứng với layout
+        if (window.innerWidth >= 992) {
+            adjustDesktopPadding();
+        } else {
+            adjustMobilePadding();
+        }
+    };
+
+    // Xử lý menu mobile
+    const initMobileMenu = () => {
+        const menuToggle = document.getElementById('menuToggle');
+        const sideMenu = document.getElementById('sideMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        if (menuToggle && sideMenu && menuOverlay) {
+            menuToggle.addEventListener('click', () => {
+                sideMenu.classList.add('active');
+                menuOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            menuOverlay.addEventListener('click', () => {
+                sideMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+    };
+
+    // Event listeners
+    window.addEventListener('load', () => {
+        adjustLayoutPadding();
+        initMobileMenu();
+
+        // Xử lý khi ảnh header load xong
+        const headerImages = document.querySelectorAll('header img');
+        headerImages.forEach(img => {
+            img.addEventListener('load', adjustLayoutPadding);
+        });
+    });
+
+    window.addEventListener('resize', () => {
+        adjustLayoutPadding();
+    });
+</script>
+<script>
     const slides = [
         {src: "https://i.ebayimg.com/images/g/~t8AAOSwLf9gbius/s-l1600.webp", alt: "Slide 1", name: "Vic Firth American Classic Drum Stick 7A-DCP", price: "$50"},
         {src: "https://i.ebayimg.com/images/g/~t8AAOSwLf9gbius/s-l1600.webp", alt: "Slide 2", name: "Vic Firth American Classic Drum Stick 7A-DCP", price: "$50"},
@@ -422,11 +597,11 @@
             productDiv.classList.add('col-6', 'product-slide'); // Mỗi sản phẩm chiếm 1/2 slide
 
             const productDetailDiv = document.createElement('div');
-            productDetailDiv.classList.add('col-3', 'product-detail-slide');
+            productDetailDiv.classList.add('col-3', 'ps-3', 'product-detail-slide');
 
             const img = document.createElement('img');
             img.src = product.src;
-            img.classList.add('col-4','img-fluid'); // Thêm các class Bootstrap
+            img.classList.add('col-4','img-fluid', 'product-img-slide'); // Thêm các class Bootstrap
             img.alt = product.alt;
 
             const productName = document.createElement('h5');
