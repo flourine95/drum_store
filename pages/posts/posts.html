@@ -254,7 +254,6 @@
             main {
                 padding-top: calc(var(--header-height) + 10px);
                 padding-bottom: calc(var(--bottom-nav-height) + 10px);
-
             }
 
             /* Cart Badge */
@@ -269,7 +268,6 @@
                 font-size: 0.7rem;
             }
 
-
         }
     </style>
 </head>
@@ -278,42 +276,36 @@
     <!-- Giữ nguyên header -->
     <header>
         <div class="fixed-top d-none d-lg-block">
-            <img src="/assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
-                class="img-fluid w-100 banner-header">
+            <img src="../../assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
+                 class="img-fluid w-100 banner-header">
             <nav class="navbar navbar-expand-lg navbar-light bg-primary">
                 <div class="container">
-                    <!-- Logo -->
-                    <a class="navbar-brand" href="#">
-                        <img src="/assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
+                    <a class="navbar-brand" href="../../index.html">
+                        <img src="../../assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
                     </a>
-                    <!-- Toggle button -->
                     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                        aria-label="Toggle navigation">
+                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                            aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <!-- Navbar content -->
                     <div class="collapse navbar-collapse" id="navbarNav">
-                        <!-- Search form -->
                         <form class="search-form d-lg-none">
                             <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
                             <button class="btn btn-dark" type="submit">Tìm</button>
                         </form>
-                        <!-- Navigation links -->
                         <div class="navbar-nav mx-auto fw-bold">
-                            <a class="nav-link" href="/pages/home.html">TRANG CHỦ</a>
-                            <a class="nav-link" href="/pages/about.html">GIỚI THIỆU</a>
-                            <a class="nav-link" href="/pages/about.html">SẢN PHẨM</a>
-                            <a class="nav-link" href="/pages/posts/posts.html">TIN TỨC</a>
-                            <a class="nav-link" href="/pages/contact.html">LIÊN HỆ</a>
+                            <a class="nav-link" href="../home.html">TRANG CHỦ</a>
+                            <a class="nav-link" href="../about.html">GIỚI THIỆU</a>
+                            <a class="nav-link" href="../products/products.html">SẢN PHẨM</a>
+                            <a class="nav-link" href="../posts/posts.html">TIN TỨC</a>
+                            <a class="nav-link" href="../contact.html">LIÊN HỆ</a>
                         </div>
-                        <!-- Action buttons for mobile -->
                         <div class="action-buttons d-lg-none">
                             <div class="account-button-container">
-                                <a href="#" class="btn btn-light position-relative">
+                                <a href="../cart/cart.html" class="btn btn-light position-relative">
                                     <i class="bi bi-cart-fill"></i>
                                     <span
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                         3
                                     </span>
                                 </a>
@@ -321,19 +313,19 @@
 
                             <div class="account-button-container dropdown">
                                 <button class="btn btn-light w-100" type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
+                                        aria-expanded="false">
                                     <i class="bi bi-person-circle"></i>
                                 </button>
                                 <ul class="dropdown-menu mobile-dropdown-menu">
-                                    <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
+                                    <li><a class="dropdown-item" href="../account/login.html">Đăng nhập</a></li>
+                                    <li><a class="dropdown-item" href="../account/register.html">Đăng ký</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
-                                            tôi</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
+                                    <li><a class="dropdown-item" href="../account/my-account.html">Tài khoản của
+                                        tôi</a></li>
+                                    <li><a class="dropdown-item" href="../account/orders.html">Đơn hàng</a></li>
+                                    <li><a class="dropdown-item" href="../../index.html">Đăng xuất</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -344,30 +336,30 @@
                         </form>
                         <!-- Desktop action buttons -->
                         <div class="d-none d-lg-flex align-items-center">
-                            <a href="#" class="btn btn-light me-3 position-relative">
+                            <a href="../cart/cart.html" class="btn btn-light me-3 position-relative">
                                 <i class="bi bi-cart-fill"></i>
                                 <span
-                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     3
-                                </span>
+                            </span>
                             </a>
                             <!-- Account dropdown for desktop -->
                             <div class="dropdown">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="desktopAccountDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                        data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-person-circle"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopAccountDropdown">
-                                    <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
+                                    <li><a class="dropdown-item" href="../account/login.html">Đăng nhập</a></li>
+                                    <li><a class="dropdown-item" href="../account/register.html">Đăng ký</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
-                                            tôi</a>
+                                    <li><a class="dropdown-item" href="../account/my-account.html">Tài khoản của
+                                        tôi</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
+                                    <li><a class="dropdown-item" href="../account/orders.html">Đơn hàng</a></li>
+                                    <li><a class="dropdown-item" href="../../index.html">Đăng xuất</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -377,23 +369,23 @@
         </div>
         <div class="mobile-header d-lg-none">
             <div class="mobile-banner">
-                Giảm giá 20% cho đơn hàng đầu tiên 🎉
+                Thổi hồn vào âm nhạc của bạn 🎉
             </div>
             <div class="mobile-main-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <button class="btn p-0" id="menuToggle">
                         <i class="bi bi-list fs-4"></i>
                     </button>
-                    <a href="/" class="logo">
-                        <img src="/assets/images/logo.png" alt="Logo" height="40">
+                    <a href="../../index.html" class="logo">
+                        <img src="../../assets/images/logo.png" alt="Logo" height="40">
                     </a>
-                    <a href="/cart" class="position-relative">
+                    <a href="../cart/cart.html" class="position-relative">
                         <i class="bi bi-cart fs-4"></i>
                         <span class="cart-badge">3</span>
                     </a>
                 </div>
                 <div class="mobile-search">
-                    <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+                    <input type="text" placeholder="Tìm kiếm sản phẩm..."/>
                     <button><i class="bi bi-search"></i></button>
                 </div>
             </div>
@@ -405,32 +397,29 @@
                     <i class="bi bi-person-circle fs-1 me-3"></i>
                     <div>
                         <h6 class="mb-1">Xin chào!</h6>
-                        <a href="/login" class="text-primary">Đăng nhập</a>
+                        <a href="../account/login.html" class="text-primary">Đăng nhập</a>
                     </div>
                 </div>
             </div>
             <div class="menu-items">
-                <a href="/" class="menu-item">
+                <a href="../../index.html" class="menu-item">
                     <i class="bi bi-house"></i>
                     Trang chủ
                 </a>
-                <a href="/categories" class="menu-item">
+                <a href="../products/products.html" class="menu-item">
                     <i class="bi bi-grid"></i>
                     Danh mục sản phẩm
                 </a>
-                <a href="/orders" class="menu-item">
+                <a href="../account/orders.html" class="menu-item">
                     <i class="bi bi-bag"></i>
                     Đơn hàng của tôi
                 </a>
-                <a href="/wishlist" class="menu-item">
+                <a href="../account/wishlist.html" class="menu-item">
                     <i class="bi bi-heart"></i>
                     Sản phẩm yêu thích
                 </a>
-                <a href="/notifications" class="menu-item">
-                    <i class="bi bi-bell"></i>
-                    Thông báo
-                </a>
-                <a href="/account" class="menu-item">
+
+                <a href="../account/my-account.html" class="menu-item">
                     <i class="bi bi-person"></i>
                     Tài khoản của tôi
                 </a>
@@ -441,19 +430,19 @@
 
         <nav class="mobile-bottom-nav d-lg-none">
             <div class="mobile-nav-items">
-                <a href="/" class="mobile-nav-item active">
+                <a href="../../index.html" class="mobile-nav-item active">
                     <i class="bi bi-house"></i>
                     <span>Trang chủ</span>
                 </a>
-                <a href="/categories" class="mobile-nav-item">
+                <a href="../products/products.html" class="mobile-nav-item">
                     <i class="bi bi-grid"></i>
                     <span>Danh mục</span>
                 </a>
-                <a href="/cart" class="mobile-nav-item">
+                <a href="../cart/cart.html" class="mobile-nav-item">
                     <i class="bi bi-cart"></i>
                     <span>Giỏ hàng</span>
                 </a>
-                <a href="/account" class="mobile-nav-item">
+                <a href="../account/my-account.html" class="mobile-nav-item">
                     <i class="bi bi-person"></i>
                     <span>Tài khoản</span>
                 </a>
@@ -565,7 +554,7 @@
                     </div>
                     <div class="featured mb-4">
                         <img src="../../assets/images/posts/5f97a8be12584.jpg" alt="Featured News"
-                            style="width: 630px; height: 300;">
+                            style="width: 630px; height: 300px;">
                         <h4 class="mt-3">Top 10 sự kiện lễ hội âm nhạc Việt Nam được mong chờ nhất trong năm nhưng bị bỏ
                             lỡ vì covid</h4>
                         <p style="text-indent: 20px;">Hẳn nhà mình còn nhớ rất nhiều lễ hội đã được tổ chức năm 2019 rất
@@ -619,36 +608,6 @@
 
     <!-- Giữ nguyên footer -->
     <footer>
-        <!--Contact-->
-        <div class="bg-secondary py-5">
-            <div class="container text-black">
-                <div class="row justify-content-between align-items-center">
-                    <!-- Phần bên trái: Thông tin liên hệ -->
-                    <div class="col-12 col-md-6 mb-4 mb-md-0">
-                        <h4>LIÊN HỆ</h4>
-                        <p>Chúng tôi sẽ giúp bạn tìm đúng giải pháp cho đam mê của bạn.</p>
-                        <button class="btn btn-primary text-black">HOTLINE</button>
-                    </div>
-
-                    <!-- Phần bên phải: Form gửi email -->
-                    <div class="col-12 col-md-6">
-                        <form>
-                            <div class="row">
-                                <div class="col-12 col-md-8 mb-3">
-                                    <label for="contact-email" class="form-label">Địa chỉ email</label>
-                                    <input type="email" class="form-control" id="contact-email"
-                                        placeholder="Nhập email của bạn" required>
-                                    <button type="submit" class="btn btn-primary w-100 w-md-25 mt-2 text-black">Gửi
-                                        Email
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="bg-dark text-white pt-4 pb-4">
             <div class="container">
                 <div class="row">
@@ -656,29 +615,10 @@
                     <div class="col-12 col-md-3 mb-4 mb-md-0">
                         <h5 class="text-uppercase">Thông tin Drum Store</h5>
                         <ul class="list-unstyled">
-                            <li><a href="#" class="text-white">Giới thiệu công ty</a></li>
-                            <li><a href="#" class="text-white">Hệ thống showroom, đại lý</a></li>
-                            <li><a href="#" class="text-white">Liên Hệ / Góp Ý</a></li>
-                            <li><a href="#" class="text-white">Mua trả góp</a></li>
-                            <li><a href="#" class="text-white">Chương trình Khách hàng thân thiết</a></li>
-                            <li><a href="#" class="text-white">Điều khoản sử dụng website</a></li>
-                            <li><a href="#" class="text-white">Tuyển dụng</a></li>
+                            <li><a href="../about.html" class="text-white">Giới thiệu công ty</a></li>
+
                         </ul>
                     </div>
-
-
-                    <div class="col-12 col-md-3 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Hướng dẫn chung</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-white">Giao hàng - Đổi trả</a></li>
-                            <li><a href="#" class="text-white">Hướng dẫn mua hàng</a></li>
-                            <li><a href="#" class="text-white">Thanh toán và bảo mật</a></li>
-                            <li><a href="#" class="text-white">Chính sách bảo hành</a></li>
-                            <li><a href="#" class="text-white">Bảo trì đàn piano</a></li>
-                            <li><a href="#" class="text-white">Kích hoạt bảo hành</a></li>
-                        </ul>
-                    </div>
-
                     <div class="col-12 col-md-3 mb-4 mb-md-0">
                         <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
                         <ul class="list-unstyled">
@@ -698,31 +638,33 @@
                         </ul>
                     </div>
 
-                    <!-- Cột 4: Social, Phương thức thanh toán, Chứng nhận -->
                     <div class="col-12 col-md-3">
                         <h5>MẠNG XÃ HỘI</h5>
                         <ul class="list-unstyled d-flex gap-3">
-                            <li><a href="#" class="text-white" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                            <li><a href="https://www.facebook.com/" class="text-white" aria-label="Facebook"><i
+                                    class="bi bi-facebook"></i></a>
                             </li>
-                            <li><a href="#" class="text-white" aria-label="TikTok"><i class="bi bi-tiktok"></i></a></li>
-                            <li><a href="#" class="text-white" aria-label="Instagram"><i
-                                        class="bi bi-instagram"></i></a>
+                            <li><a href="https://www.tiktok.com/" class="text-white" aria-label="TikTok"><i
+                                    class="bi bi-tiktok"></i></a></li>
+                            <li><a href="https://www.instagram.com/" class="text-white" aria-label="Instagram"><i
+                                    class="bi bi-instagram"></i></a>
                             </li>
-                            <li><a href="#" class="text-white" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                            <li><a href="https://www.youtube.com/" class="text-white" aria-label="YouTube"><i
+                                    class="bi bi-youtube"></i></a>
                             </li>
                         </ul>
 
                         <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
                         <ul class="list-unstyled">
-                            <li><img src="/assets/images/payments/visa.png" alt="Phương thức thanh toán"
-                                    class="img-fluid" />
+                            <li><img src="../../assets/images/payments/visa.png" alt="Phương thức thanh toán"
+                                     class="img-fluid"/>
                             </li>
                         </ul>
 
                         <h5 class="text-uppercase mt-4">Chứng nhận</h5>
                         <ul class="list-unstyled">
-                            <li><img src="/assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid" /></li>
-                            <li><img src="/assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid" /></li>
+                            <li><img src="../../assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid"/></li>
+                            <li><img src="../../assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid"/></li>
                         </ul>
                     </div>
                 </div>
