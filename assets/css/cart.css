@@ -1,16 +1,9 @@
 body {
     background-color: #f8f9fa;
 }
-.cart-container {
-
-}
 .order-container {
     background-color: #F1F1F1;
     max-width: 380px;
-}
-.cart-container h5 {
-    font-weight: bold;
-    background-color: #F1F1F1;
 }
 .order-container h5 {
     font-weight: bold;
