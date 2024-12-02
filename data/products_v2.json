@@ -1,0 +1,812 @@
+[
+    {
+        "id": 1,
+        "name": "Alesis Crimson II SE",
+        "image": "alesis-crimson-ii-se.jpg",
+        "price_old": 76202490,
+        "price_new": 16522036,
+        "description": "Trống điện tử này được trang bị các tính năng tiên tiến, mang đến trải nghiệm âm nhạc tuyệt vời, phù hợp cho cả người mới bắt đầu và các tay trống chuyên nghiệp.",
+        "average_rating": 3.13,
+        "total_views": 399
+    },
+    {
+        "id": 2,
+        "name": "ROLAND TD-02KV",
+        "image": "roland-td-02kv.jpg",
+        "price_old": 60769112,
+        "price_new": 28398509,
+        "description": "Một bộ trống điện tử hoàn hảo cho những ai yêu thích âm nhạc, với các tính năng điều chỉnh âm thanh và độ nhạy cao, mang lại trải nghiệm không thể tuyệt vời hơn.",
+        "average_rating": 3.23,
+        "total_views": 774
+    },
+    {
+        "id": 3,
+        "name": "PEARL T BỘ KÍCH 22",
+        "image": "pearl-t-bo-kich-22.jpg",
+        "price_old": 67212708,
+        "price_new": 14815684,
+        "description": "Một bộ trống điện tử mạnh mẽ, với các tính năng hiện đại giúp bạn dễ dàng luyện tập và biểu diễn. Thiết kế nhỏ gọn và dễ dàng điều chỉnh.",
+        "average_rating": 4.07,
+        "total_views": 652
+    },
+    {
+        "id": 4,
+        "name": "Combo EXX725SP/C760",
+        "image": "combo-exx725sp-c760.jpg",
+        "price_old": 68743208,
+        "price_new": 25113687,
+        "description": "Sản phẩm trống điện tử chất lượng cao, với âm thanh sống động và độ bền vượt trội, lý tưởng cho những người yêu thích chơi trống.",
+        "average_rating": 4.84,
+        "total_views": 962
+    },
+    {
+        "id": 5,
+        "name": "PEARL EXPORT EXX725SP/C777 TRỐNG BỘ MÀU SLIPSTREAM WHITE",
+        "image": "pearl-export-exx725sp-c777-trong-bo-mau-slipstream-white.jpg",
+        "price_old": 32811581,
+        "price_new": 9810191,
+        "description": "Một bộ trống điện tử hoàn hảo cho những ai yêu thích âm nhạc, với các tính năng điều chỉnh âm thanh và độ nhạy cao, mang lại trải nghiệm không thể tuyệt vời hơn.",
+        "average_rating": 3.1,
+        "total_views": 983
+    },
+    {
+        "id": 6,
+        "name": "PEARL EXPORT EXX725SP/C778 TRỐNG BỘ MÀU METALLIC SILVER TWST",
+        "image": "pearl-export-exx725sp-c778-trong-bo-mau-metallic-silver-twst.jpg",
+        "price_old": 44006712,
+        "price_new": 17467030,
+        "description": "Trống điện tử với thiết kế đẹp mắt và âm thanh tuyệt vời, phù hợp với mọi không gian luyện tập. Chắc chắn sẽ là người bạn đồng hành tuyệt vời cho các tay trống.",
+        "average_rating": 3.6,
+        "total_views": 830
+    },
+    {
+        "id": 7,
+        "name": "PEARL EXPORT EXX725SP/C779 TRỐNG BỘ MÀU METALLIC AMETHYST TW",
+        "image": "pearl-export-exx725sp-c779-trong-bo-mau-metallic-amethyst-tw.jpg",
+        "price_old": 47558101,
+        "price_new": 37194024,
+        "description": "Bộ trống điện tử này kết hợp giữa chất lượng âm thanh cao cấp và tính năng linh hoạt, giúp người chơi trống có thể sáng tạo và luyện tập hiệu quả hơn.",
+        "average_rating": 4.07,
+        "total_views": 926
+    },
+    {
+        "id": 8,
+        "name": "PEARL DECADE MAPLE DMPC925SP/C889 BỘ MÀU GLOSS EXOTIC MAPLE",
+        "image": "pearl-decade-maple-dmpc925sp-c889-bo-mau-gloss-exotic-maple.jpg",
+        "price_old": 10360444,
+        "price_new": 5904354,
+        "description": "Sản phẩm trống điện tử chất lượng cao, với âm thanh sống động và độ bền vượt trội, lý tưởng cho những người yêu thích chơi trống.",
+        "average_rating": 4.85,
+        "total_views": 412
+    },
+    {
+        "id": 9,
+        "name": "PEARL DECADE MAPLE DMPC925SP/C828 BỘ MÀU MATEE DARK WALNUT",
+        "image": "pearl-decade-maple-dmpc925sp-c828-bo-mau-matee-dark-walnut.jpg",
+        "price_old": 56278624,
+        "price_new": 20723992,
+        "description": "Một bộ trống điện tử mạnh mẽ, với các tính năng hiện đại giúp bạn dễ dàng luyện tập và biểu diễn. Thiết kế nhỏ gọn và dễ dàng điều chỉnh.",
+        "average_rating": 3.65,
+        "total_views": 227
+    },
+    {
+        "id": 10,
+        "name": "PEARL DECADE MAPLE DMPC925SP/C828 BỘ MÀU MATEE DARK WALNUT",
+        "image": "pearl-decade-maple-dmpc925sp-c828-bo-mau-matee-dark-walnut.jpg",
+        "price_old": 37763552,
+        "price_new": 27415169,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 4.85,
+        "total_views": 329
+    },
+    {
+        "id": 11,
+        "name": "PEARL DECADE MAPLE DMP905P/C215 TRỐNG BỘ MÀU SATIN GOLD",
+        "image": "pearl-decade-maple-dmp905p-c215-trong-bo-mau-satin-gold.jpg",
+        "price_old": 28964103,
+        "price_new": 4264170,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 4.3,
+        "total_views": 469
+    },
+    {
+        "id": 12,
+        "name": "PEARL DECADE MAPLE DMP925FP/C261 BỘ MÀU GLOSS DEEP RED BURST",
+        "image": "pearl-decade-maple-dmp925fp-c261-bo-mau-gloss-deep-red-burst.jpg",
+        "price_old": 6926518,
+        "price_new": 1972655,
+        "description": "Một bộ trống điện tử hoàn hảo cho những ai yêu thích âm nhạc, với các tính năng điều chỉnh âm thanh và độ nhạy cao, mang lại trải nghiệm không thể tuyệt vời hơn.",
+        "average_rating": 3.51,
+        "total_views": 831
+    },
+    {
+        "id": 13,
+        "name": "PEARL DMP0807T/C261 TRỐNG TOM 8X7 MÀU GLOSS DEEP RED BURST",
+        "image": "pearl-dmp0807t-c261-trong-tom-8x7-mau-gloss-deep-red-burst.jpg",
+        "price_old": 80693214,
+        "price_new": 24612416,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 3.06,
+        "total_views": 499
+    },
+    {
+        "id": 14,
+        "name": "ALESIS NITROPROKIT",
+        "image": "alesis-nitroprokit.jpg",
+        "price_old": 23235413,
+        "price_new": 22284095,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 4.38,
+        "total_views": 771
+    },
+    {
+        "id": 15,
+        "name": "Trống Pearl Roadshow 505",
+        "image": "trong-pearl-roadshow-505.jpg",
+        "price_old": 47147367,
+        "price_new": 18077734,
+        "description": "Bộ trống điện tử này kết hợp giữa chất lượng âm thanh cao cấp và tính năng linh hoạt, giúp người chơi trống có thể sáng tạo và luyện tập hiệu quả hơn.",
+        "average_rating": 3.34,
+        "total_views": 818
+    },
+    {
+        "id": 16,
+        "name": "Alesis Command Mesh Kit",
+        "image": "alesis-command-mesh-kit.jpg",
+        "price_old": 82218093,
+        "price_new": 60331796,
+        "description": "Trống điện tử với thiết kế đẹp mắt và âm thanh tuyệt vời, phù hợp với mọi không gian luyện tập. Chắc chắn sẽ là người bạn đồng hành tuyệt vời cho các tay trống.",
+        "average_rating": 3.91,
+        "total_views": 996
+    },
+    {
+        "id": 17,
+        "name": "Alesis Surge Mesh Kit",
+        "image": "alesis-surge-mesh-kit.jpg",
+        "price_old": 32913509,
+        "price_new": 15672917,
+        "description": "Sản phẩm trống điện tử này mang lại một trải nghiệm âm nhạc tuyệt vời, với các tùy chọn âm thanh đa dạng và dễ dàng kết nối với các thiết bị khác.",
+        "average_rating": 3.59,
+        "total_views": 902
+    },
+    {
+        "id": 18,
+        "name": "Roland TD-17KL",
+        "image": "roland-td-17kl.jpg",
+        "price_old": 15857593,
+        "price_new": 4217200,
+        "description": "Một bộ trống điện tử mạnh mẽ, với các tính năng hiện đại giúp bạn dễ dàng luyện tập và biểu diễn. Thiết kế nhỏ gọn và dễ dàng điều chỉnh.",
+        "average_rating": 4.44,
+        "total_views": 772
+    },
+    {
+        "id": 19,
+        "name": "Roland TD-17KL",
+        "image": "roland-td-17kl.jpg",
+        "price_old": 40111602,
+        "price_new": 26442503,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 3.07,
+        "total_views": 501
+    },
+    {
+        "id": 20,
+        "name": "Roland TD-07KV",
+        "image": "roland-td-07kv.jpg",
+        "price_old": 30180081,
+        "price_new": 19324607,
+        "description": "Với bộ trống điện tử này, bạn sẽ có cảm giác như đang chơi một bộ trống thật, với chất lượng âm thanh ấn tượng và khả năng điều chỉnh linh hoạt.",
+        "average_rating": 4.5,
+        "total_views": 512
+    },
+    {
+        "id": 21,
+        "name": "Roland TD-1DMK",
+        "image": "roland-td-1dmk.jpg",
+        "price_old": 58873566,
+        "price_new": 26178904,
+        "description": "Một bộ trống điện tử mạnh mẽ, với các tính năng hiện đại giúp bạn dễ dàng luyện tập và biểu diễn. Thiết kế nhỏ gọn và dễ dàng điều chỉnh.",
+        "average_rating": 4.4,
+        "total_views": 583
+    },
+    {
+        "id": 22,
+        "name": "ROLAND TD-02K",
+        "image": "roland-td-02k.png",
+        "price_old": 26242022,
+        "price_new": 5210713,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 4.88,
+        "total_views": 735
+    },
+    {
+        "id": 23,
+        "name": "Roland VAD 504",
+        "image": "roland-vad-504.jpg",
+        "price_old": 34597671,
+        "price_new": 19675154,
+        "description": "Sản phẩm trống điện tử này mang lại một trải nghiệm âm nhạc tuyệt vời, với các tùy chọn âm thanh đa dạng và dễ dàng kết nối với các thiết bị khác.",
+        "average_rating": 3.68,
+        "total_views": 483
+    },
+    {
+        "id": 24,
+        "name": "Roland VAD 507",
+        "image": "roland-vad-507.jpg",
+        "price_old": 31331457,
+        "price_new": 5815043,
+        "description": "Một bộ trống điện tử hoàn hảo cho những ai yêu thích âm nhạc, với các tính năng điều chỉnh âm thanh và độ nhạy cao, mang lại trải nghiệm không thể tuyệt vời hơn.",
+        "average_rating": 4.03,
+        "total_views": 513
+    },
+    {
+        "id": 25,
+        "name": "SPD-SX PRO",
+        "image": "spd-sx-pro.jpg",
+        "price_old": 76585962,
+        "price_new": 4194610,
+        "description": "Bộ trống điện tử với các pad cảm ứng nhạy, giúp bạn tạo ra những âm thanh chính xác và sống động, lý tưởng cho những buổi luyện tập hoặc biểu diễn nhỏ.",
+        "average_rating": 3.38,
+        "total_views": 297
+    },
+    {
+        "id": 26,
+        "name": "ROLAND TD-07DMK",
+        "image": "roland-td-07dmk.jpg",
+        "price_old": 93729287,
+        "price_new": 80086706,
+        "description": "Bộ trống điện tử với các pad cảm ứng nhạy, giúp bạn tạo ra những âm thanh chính xác và sống động, lý tưởng cho những buổi luyện tập hoặc biểu diễn nhỏ.",
+        "average_rating": 3.48,
+        "total_views": 211
+    },
+    {
+        "id": 27,
+        "name": "Roland VAD 706",
+        "image": "roland-vad-706.jpg",
+        "price_old": 79098226,
+        "price_new": 22792728,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 4.75,
+        "total_views": 836
+    },
+    {
+        "id": 28,
+        "name": "Roland VAD 706",
+        "image": "roland-vad-706.jpg",
+        "price_old": 99476605,
+        "price_new": 66477805,
+        "description": "Một bộ trống điện tử mạnh mẽ, với các tính năng hiện đại giúp bạn dễ dàng luyện tập và biểu diễn. Thiết kế nhỏ gọn và dễ dàng điều chỉnh.",
+        "average_rating": 3.77,
+        "total_views": 648
+    },
+    {
+        "id": 29,
+        "name": "Alesis Nitro Max Kit",
+        "image": "alesis-nitro-max-kit.png",
+        "price_old": 86856177,
+        "price_new": 27386453,
+        "description": "Bộ trống điện tử với các pad cảm ứng nhạy, giúp bạn tạo ra những âm thanh chính xác và sống động, lý tưởng cho những buổi luyện tập hoặc biểu diễn nhỏ.",
+        "average_rating": 3.72,
+        "total_views": 250
+    },
+    {
+        "id": 30,
+        "name": "Trống PEARL Roadshow RS525 standard",
+        "image": "trong-pearl-roadshow-rs525-standard.jpg",
+        "price_old": 3099230,
+        "price_new": 1230563,
+        "description": "Bộ trống điện tử với các pad cảm ứng nhạy, giúp bạn tạo ra những âm thanh chính xác và sống động, lý tưởng cho những buổi luyện tập hoặc biểu diễn nhỏ.",
+        "average_rating": 3.41,
+        "total_views": 616
+    },
+    {
+        "id": 31,
+        "name": "ROLAND TD-50KVX",
+        "image": "roland-td-50kvx.jpg",
+        "price_old": 41098686,
+        "price_new": 32429705,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 3.82,
+        "total_views": 103
+    },
+    {
+        "id": 32,
+        "name": "Trống Pearl Roadshow 584 Jazz style",
+        "image": "trong-pearl-roadshow-584-jazz-style.gif",
+        "price_old": 81559254,
+        "price_new": 65153265,
+        "description": "Trống điện tử này được trang bị các tính năng tiên tiến, mang đến trải nghiệm âm nhạc tuyệt vời, phù hợp cho cả người mới bắt đầu và các tay trống chuyên nghiệp.",
+        "average_rating": 3.96,
+        "total_views": 571
+    },
+    {
+        "id": 33,
+        "name": "ROLAND TD-17KV-X2",
+        "image": "roland-td-17kv-x2.jpg",
+        "price_old": 54796989,
+        "price_new": 29815555,
+        "description": "Một bộ trống điện tử hoàn hảo cho những ai yêu thích âm nhạc, với các tính năng điều chỉnh âm thanh và độ nhạy cao, mang lại trải nghiệm không thể tuyệt vời hơn.",
+        "average_rating": 4.65,
+        "total_views": 810
+    },
+    {
+        "id": 34,
+        "name": "ROLAND TD-17KV-2",
+        "image": "roland-td-17kv-2.jpg",
+        "price_old": 65063533,
+        "price_new": 53299506,
+        "description": "Sản phẩm trống điện tử này mang lại một trải nghiệm âm nhạc tuyệt vời, với các tùy chọn âm thanh đa dạng và dễ dàng kết nối với các thiết bị khác.",
+        "average_rating": 4.03,
+        "total_views": 309
+    },
+    {
+        "id": 35,
+        "name": "Trống Compact Traveler Kit PCTK-1810",
+        "image": "trong-compact-traveler-kit-pctk-1810.gif",
+        "price_old": 51195983,
+        "price_new": 48986387,
+        "description": "Sản phẩm trống điện tử chất lượng cao, với âm thanh sống động và độ bền vượt trội, lý tưởng cho những người yêu thích chơi trống.",
+        "average_rating": 4.31,
+        "total_views": 607
+    },
+    {
+        "id": 36,
+        "name": "Roland TD-25KVX + KD-220",
+        "image": "roland-td-25kvx-kd-220.jpg",
+        "price_old": 18353009,
+        "price_new": 6259529,
+        "description": "Với bộ trống điện tử này, bạn sẽ có cảm giác như đang chơi một bộ trống thật, với chất lượng âm thanh ấn tượng và khả năng điều chỉnh linh hoạt.",
+        "average_rating": 3.54,
+        "total_views": 694
+    },
+    {
+        "id": 37,
+        "name": "Roland TD-25KVX + KD-220",
+        "image": "roland-td-25kvx-kd-220.jpg",
+        "price_old": 83608898,
+        "price_new": 30004795,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 3.84,
+        "total_views": 112
+    },
+    {
+        "id": 38,
+        "name": "Roland TD-25KVX + KD-180",
+        "image": "roland-td-25kvx-kd-180.jpg",
+        "price_old": 36888781,
+        "price_new": 20288229,
+        "description": "Bộ trống điện tử với các pad cảm ứng nhạy, giúp bạn tạo ra những âm thanh chính xác và sống động, lý tưởng cho những buổi luyện tập hoặc biểu diễn nhỏ.",
+        "average_rating": 3.81,
+        "total_views": 576
+    },
+    {
+        "id": 39,
+        "name": "Roland TD-50K",
+        "image": "roland-td-50k.jpg",
+        "price_old": 31482185,
+        "price_new": 11832485,
+        "description": "Bộ trống điện tử với các pad cảm ứng nhạy, giúp bạn tạo ra những âm thanh chính xác và sống động, lý tưởng cho những buổi luyện tập hoặc biểu diễn nhỏ.",
+        "average_rating": 3.59,
+        "total_views": 902
+    },
+    {
+        "id": 40,
+        "name": "Alesis Debut Kit",
+        "image": "alesis-debut-kit.jpg",
+        "price_old": 23146197,
+        "price_new": 11967051,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 4.87,
+        "total_views": 320
+    },
+    {
+        "id": 41,
+        "name": "Alesis Nitro Mesh Kit",
+        "image": "alesis-nitro-mesh-kit.jpg",
+        "price_old": 91901780,
+        "price_new": 56390009,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 3.61,
+        "total_views": 253
+    },
+    {
+        "id": 42,
+        "name": "Alesis Surge SE Kit",
+        "image": "alesis-surge-se-kit.jpg",
+        "price_old": 74999963,
+        "price_new": 10463190,
+        "description": "Trống điện tử với thiết kế đẹp mắt và âm thanh tuyệt vời, phù hợp với mọi không gian luyện tập. Chắc chắn sẽ là người bạn đồng hành tuyệt vời cho các tay trống.",
+        "average_rating": 4.11,
+        "total_views": 940
+    },
+    {
+        "id": 43,
+        "name": "Alesis Command SE Kit",
+        "image": "alesis-command-se-kit.jpg",
+        "price_old": 59997841,
+        "price_new": 14906728,
+        "description": "Với bộ trống điện tử này, bạn sẽ có cảm giác như đang chơi một bộ trống thật, với chất lượng âm thanh ấn tượng và khả năng điều chỉnh linh hoạt.",
+        "average_rating": 4.44,
+        "total_views": 141
+    },
+    {
+        "id": 44,
+        "name": "Alesis Nitro Mesh SE Kit",
+        "image": "alesis-nitro-mesh-se-kit.png",
+        "price_old": 71287218,
+        "price_new": 23905639,
+        "description": "Sản phẩm trống điện tử chất lượng cao, với âm thanh sống động và độ bền vượt trội, lý tưởng cho những người yêu thích chơi trống.",
+        "average_rating": 3.93,
+        "total_views": 248
+    },
+    {
+        "id": 45,
+        "name": "VIVA VR-CAIX/CAIXN trống caixon",
+        "image": "viva-vr-caix-caixn-trong-caixon.jpg",
+        "price_old": 36608866,
+        "price_new": 11864281,
+        "description": "Bộ trống điện tử này kết hợp giữa chất lượng âm thanh cao cấp và tính năng linh hoạt, giúp người chơi trống có thể sáng tạo và luyện tập hiệu quả hơn.",
+        "average_rating": 3.41,
+        "total_views": 796
+    },
+    {
+        "id": 46,
+        "name": "VIVA VR-CAIX/CAIXN trống caixon",
+        "image": "viva-vr-caix-caixn-trong-caixon.jpg",
+        "price_old": 63842718,
+        "price_new": 21126887,
+        "description": "Sản phẩm trống điện tử chất lượng cao, với âm thanh sống động và độ bền vượt trội, lý tưởng cho những người yêu thích chơi trống.",
+        "average_rating": 4.42,
+        "total_views": 735
+    },
+    {
+        "id": 47,
+        "name": "VIVA VR-BDSET-NH trống bass VIVA",
+        "image": "viva-vr-bdset-nh-trong-bass-viva.jpg",
+        "price_old": 57317717,
+        "price_new": 18247364,
+        "description": "Với bộ trống điện tử này, bạn sẽ có cảm giác như đang chơi một bộ trống thật, với chất lượng âm thanh ấn tượng và khả năng điều chỉnh linh hoạt.",
+        "average_rating": 3.06,
+        "total_views": 725
+    },
+    {
+        "id": 48,
+        "name": "VIVA VR-BDSET-SH trống bass VIVA",
+        "image": "viva-vr-bdset-sh-trong-bass-viva.jpg",
+        "price_old": 92171116,
+        "price_new": 45048744,
+        "description": "Bộ trống điện tử này kết hợp giữa chất lượng âm thanh cao cấp và tính năng linh hoạt, giúp người chơi trống có thể sáng tạo và luyện tập hiệu quả hơn.",
+        "average_rating": 4.54,
+        "total_views": 242
+    },
+    {
+        "id": 49,
+        "name": "VIVA VR-CSET-SH trống congas VIVA",
+        "image": "viva-vr-cset-sh-trong-congas-viva.jpg",
+        "price_old": 89303043,
+        "price_new": 73353389,
+        "description": "Bộ trống điện tử với các pad cảm ứng nhạy, giúp bạn tạo ra những âm thanh chính xác và sống động, lý tưởng cho những buổi luyện tập hoặc biểu diễn nhỏ.",
+        "average_rating": 3.19,
+        "total_views": 699
+    },
+    {
+        "id": 50,
+        "name": "VIVA VR-SDJ10-SH trống djembe VIVA",
+        "image": "viva-vr-sdj10-sh-trong-djembe-viva.jpg",
+        "price_old": 98580107,
+        "price_new": 41031882,
+        "description": "Một bộ trống điện tử hoàn hảo cho những ai yêu thích âm nhạc, với các tính năng điều chỉnh âm thanh và độ nhạy cao, mang lại trải nghiệm không thể tuyệt vời hơn.",
+        "average_rating": 3.35,
+        "total_views": 900
+    },
+    {
+        "id": 51,
+        "name": "VIVA VR-SDJ12-NH trống djembe VIVA",
+        "image": "viva-vr-sdj12-nh-trong-djembe-viva.jpg",
+        "price_old": 64258707,
+        "price_new": 26184978,
+        "description": "Trống điện tử với thiết kế đẹp mắt và âm thanh tuyệt vời, phù hợp với mọi không gian luyện tập. Chắc chắn sẽ là người bạn đồng hành tuyệt vời cho các tay trống.",
+        "average_rating": 4.13,
+        "total_views": 173
+    },
+    {
+        "id": 52,
+        "name": "VIVA VR-SDJ9-NH trống djembe VIVA",
+        "image": "viva-vr-sdj9-nh-trong-djembe-viva.jpg",
+        "price_old": 55624993,
+        "price_new": 24673867,
+        "description": "Bộ trống điện tử này kết hợp giữa chất lượng âm thanh cao cấp và tính năng linh hoạt, giúp người chơi trống có thể sáng tạo và luyện tập hiệu quả hơn.",
+        "average_rating": 4.02,
+        "total_views": 841
+    },
+    {
+        "id": 53,
+        "name": "VIVA VR-SDSET-NH trống stack VIVA",
+        "image": "viva-vr-sdset-nh-trong-stack-viva.jpg",
+        "price_old": 87180152,
+        "price_new": 50054012,
+        "description": "Bộ trống điện tử này kết hợp giữa chất lượng âm thanh cao cấp và tính năng linh hoạt, giúp người chơi trống có thể sáng tạo và luyện tập hiệu quả hơn.",
+        "average_rating": 4.88,
+        "total_views": 646
+    },
+    {
+        "id": 54,
+        "name": "VIVA VR-CSET-NH trống congas VIVA",
+        "image": "viva-vr-cset-nh-trong-congas-viva.jpg",
+        "price_old": 26440192,
+        "price_new": 11468238,
+        "description": "Bộ trống điện tử này kết hợp giữa chất lượng âm thanh cao cấp và tính năng linh hoạt, giúp người chơi trống có thể sáng tạo và luyện tập hiệu quả hơn.",
+        "average_rating": 4.76,
+        "total_views": 987
+    },
+    {
+        "id": 55,
+        "name": "VIVA VR-CSET-NH trống congas VIVA",
+        "image": "viva-vr-cset-nh-trong-congas-viva.jpg",
+        "price_old": 10040510,
+        "price_new": 8642374,
+        "description": "Một bộ trống điện tử mạnh mẽ, với các tính năng hiện đại giúp bạn dễ dàng luyện tập và biểu diễn. Thiết kế nhỏ gọn và dễ dàng điều chỉnh.",
+        "average_rating": 4.26,
+        "total_views": 287
+    },
+    {
+        "id": 56,
+        "name": "VIVA VR-SDJ9-SH trống djembe VIVA",
+        "image": "viva-vr-sdj9-sh-trong-djembe-viva.jpg",
+        "price_old": 48872911,
+        "price_new": 35080894,
+        "description": "Sản phẩm trống điện tử này mang lại một trải nghiệm âm nhạc tuyệt vời, với các tùy chọn âm thanh đa dạng và dễ dàng kết nối với các thiết bị khác.",
+        "average_rating": 4.06,
+        "total_views": 123
+    },
+    {
+        "id": 57,
+        "name": "VIVA VR-T12-SH trống timbas",
+        "image": "viva-vr-t12-sh-trong-timbas.jpg",
+        "price_old": 57576058,
+        "price_new": 27471787,
+        "description": "Bộ trống điện tử với các pad cảm ứng nhạy, giúp bạn tạo ra những âm thanh chính xác và sống động, lý tưởng cho những buổi luyện tập hoặc biểu diễn nhỏ.",
+        "average_rating": 4.6,
+        "total_views": 431
+    },
+    {
+        "id": 58,
+        "name": "VIVA VR-SDSET-SH trống stack VIVA",
+        "image": "viva-vr-sdset-sh-trong-stack-viva.jpg",
+        "price_old": 87997794,
+        "price_new": 71405292,
+        "description": "Với bộ trống điện tử này, bạn sẽ có cảm giác như đang chơi một bộ trống thật, với chất lượng âm thanh ấn tượng và khả năng điều chỉnh linh hoạt.",
+        "average_rating": 3.02,
+        "total_views": 213
+    },
+    {
+        "id": 59,
+        "name": "VIVA VR-T12-NH trống timbas",
+        "image": "viva-vr-t12-nh-trong-timbas.jpg",
+        "price_old": 91392378,
+        "price_new": 31902893,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 4.53,
+        "total_views": 883
+    },
+    {
+        "id": 60,
+        "name": "ROLAND TD-17KV-L",
+        "image": "roland-td-17kv-l.jpg",
+        "price_old": 94601546,
+        "price_new": 79855990,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 4.65,
+        "total_views": 927
+    },
+    {
+        "id": 61,
+        "name": "D'ADDARIO MẶT TRỐNG B13G2",
+        "image": "d-addario-mat-trong-b13g2.jpg",
+        "price_old": 36438514,
+        "price_new": 2186416,
+        "description": "Một bộ trống điện tử mạnh mẽ, với các tính năng hiện đại giúp bạn dễ dàng luyện tập và biểu diễn. Thiết kế nhỏ gọn và dễ dàng điều chỉnh.",
+        "average_rating": 4.67,
+        "total_views": 159
+    },
+    {
+        "id": 62,
+        "name": "D'ADDARIO EVANS MẶT TRỐNG TT08ECR",
+        "image": "d-addario-evans-mat-trong-tt08ecr.jpg",
+        "price_old": 6511501,
+        "price_new": 1763154,
+        "description": "Một bộ trống điện tử hoàn hảo cho những ai yêu thích âm nhạc, với các tính năng điều chỉnh âm thanh và độ nhạy cao, mang lại trải nghiệm không thể tuyệt vời hơn.",
+        "average_rating": 3.28,
+        "total_views": 787
+    },
+    {
+        "id": 63,
+        "name": "D'ADDAIO EVANS MẶT TRỐNG EQPC1",
+        "image": "d-addaio-evans-mat-trong-eqpc1.jpg",
+        "price_old": 9201226,
+        "price_new": 6000012,
+        "description": "Bộ trống điện tử với các pad cảm ứng nhạy, giúp bạn tạo ra những âm thanh chính xác và sống động, lý tưởng cho những buổi luyện tập hoặc biểu diễn nhỏ.",
+        "average_rating": 3.49,
+        "total_views": 962
+    },
+    {
+        "id": 64,
+        "name": "D'ADDAIO EVANS MẶT TRỐNG EQPC1",
+        "image": "d-addaio-evans-mat-trong-eqpc1.jpg",
+        "price_old": 84782754,
+        "price_new": 8224498,
+        "description": "Một bộ trống điện tử hoàn hảo cho những ai yêu thích âm nhạc, với các tính năng điều chỉnh âm thanh và độ nhạy cao, mang lại trải nghiệm không thể tuyệt vời hơn.",
+        "average_rating": 4.86,
+        "total_views": 130
+    },
+    {
+        "id": 65,
+        "name": "ZILDJIAN ZS5A CẶP DÙI TRỐNG SUPER 5A",
+        "image": "zildjian-zs5a-cap-dui-trong-super-5a.jpg",
+        "price_old": 69585798,
+        "price_new": 59429631,
+        "description": "Trống điện tử với thiết kế đẹp mắt và âm thanh tuyệt vời, phù hợp với mọi không gian luyện tập. Chắc chắn sẽ là người bạn đồng hành tuyệt vời cho các tay trống.",
+        "average_rating": 4.33,
+        "total_views": 816
+    },
+    {
+        "id": 66,
+        "name": "D'ADDARIO EVANS MẶT TRỐNG S13H30",
+        "image": "d-addario-evans-mat-trong-s13h30.jpg",
+        "price_old": 10143297,
+        "price_new": 7832097,
+        "description": "Sản phẩm trống điện tử này mang lại một trải nghiệm âm nhạc tuyệt vời, với các tùy chọn âm thanh đa dạng và dễ dàng kết nối với các thiết bị khác.",
+        "average_rating": 4.17,
+        "total_views": 420
+    },
+    {
+        "id": 67,
+        "name": "Pad tập trống D'ADDARIO RF6D",
+        "image": "pad-tap-trong-d-addario-rf6d.jpg",
+        "price_old": 58730715,
+        "price_new": 54409146,
+        "description": "Một bộ trống điện tử hoàn hảo cho những ai yêu thích âm nhạc, với các tính năng điều chỉnh âm thanh và độ nhạy cao, mang lại trải nghiệm không thể tuyệt vời hơn.",
+        "average_rating": 3.1,
+        "total_views": 880
+    },
+    {
+        "id": 68,
+        "name": "D'ADDRIO EVANS MẶT TRỐNG B1420",
+        "image": "d-addrio-evans-mat-trong-b1420.jpg",
+        "price_old": 10991161,
+        "price_new": 5362402,
+        "description": "Sản phẩm trống điện tử chất lượng cao, với âm thanh sống động và độ bền vượt trội, lý tưởng cho những người yêu thích chơi trống.",
+        "average_rating": 4.88,
+        "total_views": 375
+    },
+    {
+        "id": 69,
+        "name": "D'ADDARIO EVANS MẶT TRỐNG TT14HB",
+        "image": "d-addario-evans-mat-trong-tt14hb.jpg",
+        "price_old": 61544607,
+        "price_new": 4525596,
+        "description": "Sản phẩm trống điện tử này mang lại một trải nghiệm âm nhạc tuyệt vời, với các tùy chọn âm thanh đa dạng và dễ dàng kết nối với các thiết bị khác.",
+        "average_rating": 4.07,
+        "total_views": 959
+    },
+    {
+        "id": 70,
+        "name": "D'ADDARIO EVANS MẶT TRỐNG TT13HB",
+        "image": "d-addario-evans-mat-trong-tt13hb.jpg",
+        "price_old": 85213906,
+        "price_new": 56493933,
+        "description": "Trống điện tử này được trang bị các tính năng tiên tiến, mang đến trải nghiệm âm nhạc tuyệt vời, phù hợp cho cả người mới bắt đầu và các tay trống chuyên nghiệp.",
+        "average_rating": 3.66,
+        "total_views": 970
+    },
+    {
+        "id": 71,
+        "name": "Pearl STH1450AL SensiTone Heritage Alloy 14",
+        "image": "pearl-sth1450al-sensitone-heritage-alloy-14.jpg",
+        "price_old": 18115657,
+        "price_new": 6311148,
+        "description": "Trống điện tử này được trang bị các tính năng tiên tiến, mang đến trải nghiệm âm nhạc tuyệt vời, phù hợp cho cả người mới bắt đầu và các tay trống chuyên nghiệp.",
+        "average_rating": 3.86,
+        "total_views": 753
+    },
+    {
+        "id": 72,
+        "name": "Pearl STH1465AL SensiTone Heritage Alloy 14",
+        "image": "pearl-sth1465al-sensitone-heritage-alloy-14.jpg",
+        "price_old": 92749395,
+        "price_new": 15045970,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 3.96,
+        "total_views": 766
+    },
+    {
+        "id": 73,
+        "name": "Pearl STH1465AL SensiTone Heritage Alloy 14",
+        "image": "pearl-sth1465al-sensitone-heritage-alloy-14.jpg",
+        "price_old": 76051847,
+        "price_new": 71029943,
+        "description": "Với bộ trống điện tử này, bạn sẽ có cảm giác như đang chơi một bộ trống thật, với chất lượng âm thanh ấn tượng và khả năng điều chỉnh linh hoạt.",
+        "average_rating": 3.43,
+        "total_views": 660
+    },
+    {
+        "id": 74,
+        "name": "Pearl STH1465BR",
+        "image": "pearl-sth1465br.jpg",
+        "price_old": 29081101,
+        "price_new": 20186663,
+        "description": "Một bộ trống điện tử mạnh mẽ, với các tính năng hiện đại giúp bạn dễ dàng luyện tập và biểu diễn. Thiết kế nhỏ gọn và dễ dàng điều chỉnh.",
+        "average_rating": 3.97,
+        "total_views": 698
+    },
+    {
+        "id": 75,
+        "name": "Pearl STH1450BR",
+        "image": "pearl-sth1450br.jpg",
+        "price_old": 67603926,
+        "price_new": 3083898,
+        "description": "Trống điện tử với công nghệ tiên tiến, phù hợp cho cả người chơi nghiệp dư và chuyên nghiệp. Thực sự là sự lựa chọn hoàn hảo cho những ai đam mê âm nhạc.",
+        "average_rating": 3.68,
+        "total_views": 873
+    },
+    {
+        "id": 76,
+        "name": "Lazer Pad tập trống PC13-51",
+        "image": "lazer-pad-tap-trong-pc13-51.jpg",
+        "price_old": 79962801,
+        "price_new": 46799970,
+        "description": "Sản phẩm trống điện tử này mang lại một trải nghiệm âm nhạc tuyệt vời, với các tùy chọn âm thanh đa dạng và dễ dàng kết nối với các thiết bị khác.",
+        "average_rating": 3.58,
+        "total_views": 563
+    },
+    {
+        "id": 77,
+        "name": "Pearl S-930D",
+        "image": "pearl-s-930d.jpg",
+        "price_old": 43374892,
+        "price_new": 6986040,
+        "description": "Bộ trống điện tử này kết hợp giữa chất lượng âm thanh cao cấp và tính năng linh hoạt, giúp người chơi trống có thể sáng tạo và luyện tập hiệu quả hơn.",
+        "average_rating": 3.17,
+        "total_views": 783
+    },
+    {
+        "id": 78,
+        "name": "Pearl Matte Natural MUS1465M224",
+        "image": "pearl-matte-natural-mus1465m224.jpg",
+        "price_old": 72146640,
+        "price_new": 25243644,
+        "description": "Bộ trống điện tử này kết hợp giữa chất lượng âm thanh cao cấp và tính năng linh hoạt, giúp người chơi trống có thể sáng tạo và luyện tập hiệu quả hơn.",
+        "average_rating": 4.37,
+        "total_views": 863
+    },
+    {
+        "id": 79,
+        "name": "Lazer Pad tập trống PC13-52",
+        "image": "lazer-pad-tap-trong-pc13-52.png",
+        "price_old": 30914557,
+        "price_new": 6790682,
+        "description": "Trống điện tử này được trang bị các tính năng tiên tiến, mang đến trải nghiệm âm nhạc tuyệt vời, phù hợp cho cả người mới bắt đầu và các tay trống chuyên nghiệp.",
+        "average_rating": 4.79,
+        "total_views": 645
+    },
+    {
+        "id": 80,
+        "name": "ODERY CAFEKIT-BS TRỐNG BỘ MÀU BLUE SPARKLE FINISH",
+        "image": "odery-cafekit-bs-trong-bo-mau-blue-sparkle-finish.jpg",
+        "price_old": 55132965,
+        "price_new": 21863491,
+        "description": "Một bộ trống điện tử hoàn hảo cho những ai yêu thích âm nhạc, với các tính năng điều chỉnh âm thanh và độ nhạy cao, mang lại trải nghiệm không thể tuyệt vời hơn.",
+        "average_rating": 3.56,
+        "total_views": 903
+    },
+    {
+        "id": 81,
+        "name": "PEARL Trống bộ Conga PWC-202",
+        "image": "pearl-trong-bo-conga-pwc-202.jpg",
+        "price_old": 45768514,
+        "price_new": 16336981,
+        "description": "Trống điện tử này được trang bị các tính năng tiên tiến, mang đến trải nghiệm âm nhạc tuyệt vời, phù hợp cho cả người mới bắt đầu và các tay trống chuyên nghiệp.",
+        "average_rating": 4.84,
+        "total_views": 988
+    }
+]
