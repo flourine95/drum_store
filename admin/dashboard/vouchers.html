@@ -253,25 +253,20 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="config.html" class="sidebar-link">
+                <a href="profile.html" class="sidebar-link">
                     <i class="bi bi-person"></i>
                     <span>Thông tin cá nhân</span>
                 </a>
             </li>
-            <li class="sidebar-item">
-                <a href="config.html" class="sidebar-link">
-                    <i class="bi bi-gear"></i>
-                    <span>Cấu hình</span>
+
+
+            <li class="sidebar-footer">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Đăng xuất</span>
                 </a>
             </li>
-
         </ul>
-        <div class="sidebar-footer">
-            <a href="#" class="sidebar-link">
-                <i class="bi bi-box-arrow-left"></i>
-                <span>Đăng xuất</span>
-            </a>
-        </div>
     </aside>
     <div class="main">
 
@@ -606,8 +601,8 @@
                 dataSrc: ''
             },
             columns: [
-                { data: 'id' },
-                { data: 'code' },
+                {data: 'id'},
+                {data: 'code'},
                 {
                     data: 'discount_type',
                     render: function (data) {
@@ -620,8 +615,8 @@
                         return typeMapping[data] || "Không xác định";
                     }
                 },
-                { data: 'discount_value' },
-                { data: 'usage_limit' },
+                {data: 'discount_value'},
+                {data: 'usage_limit'},
                 {
                     data: 'start_date',
                     render: (data) => {
@@ -634,7 +629,7 @@
                         return new Date(data).toLocaleDateString();
                     }
                 },
-                { data: 'status' },
+                {data: 'status'},
                 {
                     data: 'id',
                     orderable: false,
