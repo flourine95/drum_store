@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Drum Store</title>
     <link rel="icon" href="/assets/images/logo.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
     <style>
@@ -357,7 +357,7 @@
     <header>
         <div class="fixed-top d-none d-lg-block">
             <img src="/assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
-                 class="img-fluid w-100 banner-header">
+                class="img-fluid w-100 banner-header">
             <nav class="navbar navbar-expand-lg navbar-light bg-primary">
                 <div class="container">
                     <!-- Logo -->
@@ -366,8 +366,8 @@
                     </a>
                     <!-- Toggle button -->
                     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                            aria-label="Toggle navigation">
+                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <!-- Navbar content -->
@@ -391,15 +391,15 @@
                                 <a href="#" class="btn btn-light position-relative">
                                     <i class="bi bi-cart-fill"></i>
                                     <span
-                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            3
-                                        </span>
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        3
+                                    </span>
                                 </a>
                             </div>
-    
+
                             <div class="account-button-container dropdown">
                                 <button class="btn btn-light w-100" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
+                                    aria-expanded="false">
                                     <i class="bi bi-person-circle"></i>
                                 </button>
                                 <ul class="dropdown-menu mobile-dropdown-menu">
@@ -409,7 +409,7 @@
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
-                                        tôi</a></li>
+                                            tôi</a></li>
                                     <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
                                     <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
                                 </ul>
@@ -425,14 +425,14 @@
                             <a href="#" class="btn btn-light me-3 position-relative">
                                 <i class="bi bi-cart-fill"></i>
                                 <span
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        3
-                                    </span>
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    3
+                                </span>
                             </a>
                             <!-- Account dropdown for desktop -->
                             <div class="dropdown">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="desktopAccountDropdown"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-person-circle"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopAccountDropdown">
@@ -442,7 +442,7 @@
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
-                                        tôi</a>
+                                            tôi</a>
                                     </li>
                                     <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
                                     <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
@@ -471,12 +471,12 @@
                     </a>
                 </div>
                 <div class="mobile-search">
-                    <input type="text" placeholder="Tìm kiếm sản phẩm..."/>
+                    <input type="text" placeholder="Tìm kiếm sản phẩm..." />
                     <button><i class="bi bi-search"></i></button>
                 </div>
             </div>
         </div>
-    
+
         <div class="mobile-side-menu" id="sideMenu">
             <div class="menu-header">
                 <div class="d-flex align-items-center">
@@ -514,9 +514,9 @@
                 </a>
             </div>
         </div>
-    
+
         <div class="menu-overlay" id="menuOverlay"></div>
-    
+
         <nav class="mobile-bottom-nav d-lg-none">
             <div class="mobile-nav-items">
                 <a href="/" class="mobile-nav-item active">
@@ -538,7 +538,7 @@
             </div>
         </nav>
     </header>
-    <main style="margin-top: 100px; min-height: 700px;" >
+    <main style="margin-top: 100px; min-height: 700px;">
         <div class="container mt-4">
             <div class="row">
                 <!-- Sidebar -->
@@ -585,33 +585,24 @@
                                             <div>
                                                 <button class="btn btn-link text-decoration-none btn-primary"
                                                     id="edit-btn"><i class="bi bi-pencil text-black"></i></button>
-                                                <button class="btn  text-decoration-none btn-danger"><i
+                                                <button class="btn text-decoration-none btn-danger"><i
                                                         class="bi bi-x text-black"></i></button>
                                             </div>
                                         </div>
                                         <div class="card-body" id="address-content">
                                             <p><strong>Họ tên:</strong> Nguyễn Hữu Nam</p>
-                                            <p><strong>Công ty:</strong> ABC Company</p>
                                             <p><strong>Địa chỉ:</strong> 123 Đường ABC, Phường XYZ, Quận 1, TP. Hồ Chí
-                                                Minh
-                                            </p>
+                                                Minh</p>
                                             <p><strong>Điện thoại:</strong> 0375174172</p>
                                         </div>
                                         <div id="address-form" style="display: none;">
                                             <form>
                                                 <div class="mb-3">
-                                                    <label for="ho" class="form-label">Họ</label>
-                                                    <input type="text" class="form-control" id="ho" placeholder="Họ">
+                                                    <label for="ho" class="form-label">Họ và tên</label>
+                                                    <input type="text" class="form-control" id="ho"
+                                                        placeholder="Họ và tên">
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="ten" class="form-label">Tên</label>
-                                                    <input type="text" class="form-control" id="ten" placeholder="Tên">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="congty" class="form-label">Công ty</label>
-                                                    <input type="text" class="form-control" id="congty"
-                                                        placeholder="Công ty">
-                                                </div>
+
                                                 <div class="mb-3">
                                                     <label for="diachi1" class="form-label">Địa chỉ 1</label>
                                                     <input type="text" class="form-control" id="diachi1"
@@ -621,14 +612,6 @@
                                                     <label for="diachi2" class="form-label">Địa chỉ 2</label>
                                                     <input type="text" class="form-control" id="diachi2"
                                                         placeholder="Địa chỉ 2">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="quocgia" class="form-label">Quốc gia</label>
-                                                    <select class="form-select" id="quocgia">
-                                                        <option selected>Chọn quốc gia</option>
-                                                        <option value="Vietnam">Vietnam</option>
-                                                        <option value="Khac">Khác</option>
-                                                    </select>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="sodienthoai" class="form-label">Số điện thoại</label>
@@ -647,6 +630,48 @@
                                     </div>
                                 </div>
 
+                                <!-- Add New Address Form -->
+                                <div class="col-lg-6 col-md-12 mb-3">
+                                    <div class="card mb-3 address-card">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Thêm địa chỉ mới</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label for="ho-them" class="form-label">Họ và tên</label>
+                                                    <input type="text" class="form-control" id="ho-them"
+                                                        placeholder="Họ và tên">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="diachi1-them" class="form-label">Địa chỉ 1</label>
+                                                    <input type="text" class="form-control" id="diachi1-them"
+                                                        placeholder="Địa chỉ 1">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="diachi2-them" class="form-label">Địa chỉ 2</label>
+                                                    <input type="text" class="form-control" id="diachi2-them"
+                                                        placeholder="Địa chỉ 2">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="sodienthoai-them" class="form-label">Số điện
+                                                        thoại</label>
+                                                    <input type="text" class="form-control" id="sodienthoai-them"
+                                                        placeholder="Số điện thoại">
+                                                </div>
+                                                <div class="form-check mb-3">
+                                                    <input type="checkbox" class="form-check-input" id="macdinh-them">
+                                                    <label class="form-check-label" for="macdinh-them">Đặt làm địa chỉ
+                                                        mặc định</label>
+                                                </div>
+                                                <button type="submit" class="btn btn-dark">Thêm</button>
+                                                <button type="button" class="btn btn-link"
+                                                    id="cancel-btn-them">Hủy</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -772,7 +797,8 @@
             </div>
         </div>
     </footer>
-    <script src="/assets/libraries/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.querySelectorAll('.dropdown-submenu > a').forEach(function (element) {
             element.addEventListener('click', function (e) {
