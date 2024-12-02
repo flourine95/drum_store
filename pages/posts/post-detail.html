@@ -2,791 +2,765 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Trang tin tức</title>
-  <link rel="icon" href="/assets/images/logo.png" type="image/png">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/assets/css/custom.css">
-  <style>
-    .dropdown-menu a {
-      cursor: pointer;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Trang tin tức</title>
+    <link rel="icon" href="/assets/images/logo.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <style>
+        .dropdown-menu a {
+            cursor: pointer;
+        }
 
-    .navbar-nav .nav-link {
-      position: relative;
-      padding: 0.5rem 1rem;
-      margin: 0 0.2rem;
-      transition: all 0.3s ease;
-      color: black;
-    }
+        .navbar-nav .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            transition: all 0.3s ease;
+            color: black;
+        }
 
-    .navbar-nav .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: var(--hover-color);
-      transition: width 0.3s ease;
-    }
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--hover-color);
+            transition: width 0.3s ease;
+        }
 
-    .navbar-nav .nav-link:hover::after {
-      width: 100%;
-    }
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
 
-    .navbar-nav .nav-link:hover {
-      color: whitesmoke;
-    }
+        .navbar-nav .nav-link:hover {
+            color: whitesmoke;
+        }
 
-    .custom-box {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      text-decoration: none;
-      background: linear-gradient(145deg, var(--bs-primary), #f1dc4f);
-      border-radius: 8px;
-      border: none;
-      padding: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+        .custom-box {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-decoration: none;
+            background: linear-gradient(145deg, var(--bs-primary), #f1dc4f);
+            border-radius: 8px;
+            border: none;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-    .custom-box:hover {
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-
-    .card {
-      border: none;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-title {
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-
-    .card-body {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-    }
-
-    .card-body .btn {
-      margin-top: auto;
-    }
-
-    @media (max-width: 991.98px) {
-
-      :root {
-        --header-height: 60px;
-        --bottom-nav-height: 60px;
-        --primary-color: #0d6efd;
-        --secondary-color: #f8f9fa;
-      }
-
-      /* Mobile Header */
-      .mobile-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1030;
-        background: #fff;
-      }
-
-      .mobile-banner {
-        background: linear-gradient(90deg, var(--primary-color), #ffea6f);
-        padding: 6px;
-        text-align: center;
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: #fff;
-      }
-
-      .mobile-main-header {
-        padding: 10px 15px;
-        background: #fff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      }
-
-      /* Improved Search Bar */
-      .mobile-search {
-        position: relative;
-        margin: 12px 0 8px;
-      }
-
-      .mobile-search input {
-        width: 100%;
-        padding: 12px 45px 12px 20px;
-        border: none;
-        border-radius: 25px;
-        background: var(--secondary-color);
-        font-size: 0.95rem;
-      }
-
-      .mobile-search button {
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        border: none;
-        background: none;
-        color: #666;
-      }
-
-      /* Side Menu Improvements */
-      .mobile-side-menu {
-        position: fixed;
-        top: 0;
-        left: -300px;
-        width: 300px;
-        height: 100vh;
-        background: #fff;
-        z-index: 1040;
-        transition: 0.3s ease-out;
-        overflow-y: auto;
-      }
-
-      .mobile-side-menu.active {
-        left: 0;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .menu-header {
-        padding: 20px;
-        background: var(--secondary-color);
-        border-bottom: 1px solid #eee;
-      }
-
-      .menu-items {
-        padding: 15px 0;
-      }
-
-      .menu-item {
-        display: flex;
-        align-items: center;
-        padding: 12px 20px;
-        color: #333;
-        text-decoration: none;
-        transition: 0.2s;
-      }
-
-      .menu-item:hover {
-        background: var(--secondary-color);
-      }
-
-      .menu-item i {
-        margin-right: 15px;
-        font-size: 1.2rem;
-        color: var(--primary-color);
-      }
-
-      /* Bottom Navigation */
-      .mobile-bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #fff;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-        z-index: 1030;
-        padding: 8px 0 5px;
-      }
-
-      .mobile-nav-items {
-        display: flex;
-        justify-content: space-around;
-      }
-
-      .mobile-nav-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        color: #666;
-        text-decoration: none;
-        font-size: 0.8rem;
-        padding: 5px;
-      }
-
-      .mobile-nav-item i {
-        font-size: 1.4rem;
-        margin-bottom: 4px;
-      }
-
-      .mobile-nav-item.active {
-        color: var(--primary-color);
-      }
-
-      /* Overlay */
-      .menu-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 1035;
-        opacity: 0;
-        visibility: hidden;
-        transition: 0.3s;
-      }
-
-      .menu-overlay.active {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      /* Main Content Adjustment */
-      main {
-        padding-top: calc(var(--header-height) + 10px);
-        padding-bottom: calc(var(--bottom-nav-height) + 10px);
-
-      }
-
-      /* Cart Badge */
-      .cart-badge {
-        position: absolute;
-        top: -5px;
-        right: -8px;
-        background: #dc3545;
-        color: white;
-        border-radius: 50%;
-        padding: 3px 6px;
-        font-size: 0.7rem;
-      }
+        .custom-box:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
 
 
-    }
-  </style>
+        .card {
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .card-body .btn {
+            margin-top: auto;
+        }
+
+        @media (max-width: 991.98px) {
+
+            :root {
+                --header-height: 60px;
+                --bottom-nav-height: 60px;
+                --primary-color: #0d6efd;
+                --secondary-color: #f8f9fa;
+            }
+
+            /* Mobile Header */
+            .mobile-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1030;
+                background: #fff;
+            }
+
+            .mobile-banner {
+                background: linear-gradient(90deg, var(--primary-color), #ffea6f);
+                padding: 6px;
+                text-align: center;
+                font-size: 0.85rem;
+                font-weight: 500;
+                color: #fff;
+            }
+
+            .mobile-main-header {
+                padding: 10px 15px;
+                background: #fff;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            }
+
+            /* Improved Search Bar */
+            .mobile-search {
+                position: relative;
+                margin: 12px 0 8px;
+            }
+
+            .mobile-search input {
+                width: 100%;
+                padding: 12px 45px 12px 20px;
+                border: none;
+                border-radius: 25px;
+                background: var(--secondary-color);
+                font-size: 0.95rem;
+            }
+
+            .mobile-search button {
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                border: none;
+                background: none;
+                color: #666;
+            }
+
+            /* Side Menu Improvements */
+            .mobile-side-menu {
+                position: fixed;
+                top: 0;
+                left: -300px;
+                width: 300px;
+                height: 100vh;
+                background: #fff;
+                z-index: 1040;
+                transition: 0.3s ease-out;
+                overflow-y: auto;
+            }
+
+            .mobile-side-menu.active {
+                left: 0;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .menu-header {
+                padding: 20px;
+                background: var(--secondary-color);
+                border-bottom: 1px solid #eee;
+            }
+
+            .menu-items {
+                padding: 15px 0;
+            }
+
+            .menu-item {
+                display: flex;
+                align-items: center;
+                padding: 12px 20px;
+                color: #333;
+                text-decoration: none;
+                transition: 0.2s;
+            }
+
+            .menu-item:hover {
+                background: var(--secondary-color);
+            }
+
+            .menu-item i {
+                margin-right: 15px;
+                font-size: 1.2rem;
+                color: var(--primary-color);
+            }
+
+            /* Bottom Navigation */
+            .mobile-bottom-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: #fff;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+                z-index: 1030;
+                padding: 8px 0 5px;
+            }
+
+            .mobile-nav-items {
+                display: flex;
+                justify-content: space-around;
+            }
+
+            .mobile-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: #666;
+                text-decoration: none;
+                font-size: 0.8rem;
+                padding: 5px;
+            }
+
+            .mobile-nav-item i {
+                font-size: 1.4rem;
+                margin-bottom: 4px;
+            }
+
+            .mobile-nav-item.active {
+                color: var(--primary-color);
+            }
+
+            /* Overlay */
+            .menu-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1035;
+                opacity: 0;
+                visibility: hidden;
+                transition: 0.3s;
+            }
+
+            .menu-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            /* Main Content Adjustment */
+            main {
+                padding-top: calc(var(--header-height) + 10px);
+                padding-bottom: calc(var(--bottom-nav-height) + 10px);
+
+            }
+
+            /* Cart Badge */
+            .cart-badge {
+                position: absolute;
+                top: -5px;
+                right: -8px;
+                background: #dc3545;
+                color: white;
+                border-radius: 50%;
+                padding: 3px 6px;
+                font-size: 0.7rem;
+            }
+
+
+        }
+    </style>
 </head>
 
 <body>
-  <!-- Giữ nguyên header -->
-  <header>
+<!-- Giữ nguyên header -->
+<header>
     <div class="fixed-top d-none d-lg-block">
-      <img src="/assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
-        class="img-fluid w-100 banner-header">
-      <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-        <div class="container">
-          <!-- Logo -->
-          <a class="navbar-brand" href="#">
-            <img src="/assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
-          </a>
-          <!-- Toggle button -->
-          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <!-- Navbar content -->
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <!-- Search form -->
-            <form class="search-form d-lg-none">
-              <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
-              <button class="btn btn-dark" type="submit">Tìm</button>
-            </form>
-            <!-- Navigation links -->
-            <div class="navbar-nav mx-auto fw-bold">
-              <a class="nav-link" href="/pages/home.html">TRANG CHỦ</a>
-              <a class="nav-link" href="/pages/about.html">GIỚI THIỆU</a>
-              <a class="nav-link" href="/pages/about.html">SẢN PHẨM</a>
-              <a class="nav-link" href="/pages/posts/posts.html">TIN TỨC</a>
-              <a class="nav-link" href="/pages/contact.html">LIÊN HỆ</a>
-            </div>
-            <!-- Action buttons for mobile -->
-            <div class="action-buttons d-lg-none">
-              <div class="account-button-container">
-                <a href="#" class="btn btn-light position-relative">
-                  <i class="bi bi-cart-fill"></i>
-                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    3
-                  </span>
+        <img src="../../assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
+             class="img-fluid w-100 banner-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../index.html">
+                    <img src="../../assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
                 </a>
-              </div>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <form class="search-form d-lg-none">
+                        <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                        <button class="btn btn-dark" type="submit">Tìm</button>
+                    </form>
+                    <div class="navbar-nav mx-auto fw-bold">
+                        <a class="nav-link" href="../home.html">TRANG CHỦ</a>
+                        <a class="nav-link" href="../about.html">GIỚI THIỆU</a>
+                        <a class="nav-link" href="../products/products.html">SẢN PHẨM</a>
+                        <a class="nav-link" href="../posts/posts.html">TIN TỨC</a>
+                        <a class="nav-link" href="../contact.html">LIÊN HỆ</a>
+                    </div>
+                    <div class="action-buttons d-lg-none">
+                        <div class="account-button-container">
+                            <a href="../cart/cart.html" class="btn btn-light position-relative">
+                                <i class="bi bi-cart-fill"></i>
+                                <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        3
+                                    </span>
+                            </a>
+                        </div>
 
-              <div class="account-button-container dropdown">
-                <button class="btn btn-light w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="bi bi-person-circle"></i>
-                </button>
-                <ul class="dropdown-menu mobile-dropdown-menu">
-                  <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
-                  <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
-                      tôi</a></li>
-                  <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
-                  <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
-                </ul>
-              </div>
+                        <div class="account-button-container dropdown">
+                            <button class="btn btn-light w-100" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu mobile-dropdown-menu">
+                                <li><a class="dropdown-item" href="../account/login.html">Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="../account/register.html">Đăng ký</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="../account/my-account.html">Tài khoản của
+                                    tôi</a></li>
+                                <li><a class="dropdown-item" href="../account/orders.html">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="../../index.html">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Desktop search form -->
+                    <form class="d-none d-lg-flex mt-lg-0 me-3">
+                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                        <button class="btn btn-dark" type="submit">Tìm</button>
+                    </form>
+                    <!-- Desktop action buttons -->
+                    <div class="d-none d-lg-flex align-items-center">
+                        <a href="../cart/cart.html" class="btn btn-light me-3 position-relative">
+                            <i class="bi bi-cart-fill"></i>
+                            <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    3
+                            </span>
+                        </a>
+                        <!-- Account dropdown for desktop -->
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="desktopAccountDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopAccountDropdown">
+                                <li><a class="dropdown-item" href="../account/login.html">Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="../account/register.html">Đăng ký</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="../account/my-account.html">Tài khoản của
+                                    tôi</a>
+                                </li>
+                                <li><a class="dropdown-item" href="../account/orders.html">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="../../index.html">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- Desktop search form -->
-            <form class="d-none d-lg-flex mt-lg-0 me-3">
-              <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
-              <button class="btn btn-dark" type="submit">Tìm</button>
-            </form>
-            <!-- Desktop action buttons -->
-            <div class="d-none d-lg-flex align-items-center">
-              <a href="#" class="btn btn-light me-3 position-relative">
-                <i class="bi bi-cart-fill"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  3
-                </span>
-              </a>
-              <!-- Account dropdown for desktop -->
-              <div class="dropdown">
-                <button class="btn btn-light dropdown-toggle" type="button" id="desktopAccountDropdown"
-                  data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="bi bi-person-circle"></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopAccountDropdown">
-                  <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
-                  <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
-                      tôi</a>
-                  </li>
-                  <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
-                  <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
+        </nav>
     </div>
     <div class="mobile-header d-lg-none">
-      <div class="mobile-banner">
-        Giảm giá 20% cho đơn hàng đầu tiên 🎉
-      </div>
-      <div class="mobile-main-header">
-        <div class="d-flex justify-content-between align-items-center">
-          <button class="btn p-0" id="menuToggle">
-            <i class="bi bi-list fs-4"></i>
-          </button>
-          <a href="/" class="logo">
-            <img src="/assets/images/logo.png" alt="Logo" height="40">
-          </a>
-          <a href="/cart" class="position-relative">
-            <i class="bi bi-cart fs-4"></i>
-            <span class="cart-badge">3</span>
-          </a>
+        <div class="mobile-banner">
+            Thổi hồn vào âm nhạc của bạn 🎉
         </div>
-        <div class="mobile-search">
-          <input type="text" placeholder="Tìm kiếm sản phẩm..." />
-          <button><i class="bi bi-search"></i></button>
+        <div class="mobile-main-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn p-0" id="menuToggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                <a href="../../index.html" class="logo">
+                    <img src="../../assets/images/logo.png" alt="Logo" height="40">
+                </a>
+                <a href="../cart/cart.html" class="position-relative">
+                    <i class="bi bi-cart fs-4"></i>
+                    <span class="cart-badge">3</span>
+                </a>
+            </div>
+            <div class="mobile-search">
+                <input type="text" placeholder="Tìm kiếm sản phẩm..."/>
+                <button><i class="bi bi-search"></i></button>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="mobile-side-menu" id="sideMenu">
-      <div class="menu-header">
-        <div class="d-flex align-items-center">
-          <i class="bi bi-person-circle fs-1 me-3"></i>
-          <div>
-            <h6 class="mb-1">Xin chào!</h6>
-            <a href="/login" class="text-primary">Đăng nhập</a>
-          </div>
+        <div class="menu-header">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-person-circle fs-1 me-3"></i>
+                <div>
+                    <h6 class="mb-1">Xin chào!</h6>
+                    <a href="../account/login.html" class="text-primary">Đăng nhập</a>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="menu-items">
-        <a href="/" class="menu-item">
-          <i class="bi bi-house"></i>
-          Trang chủ
-        </a>
-        <a href="/categories" class="menu-item">
-          <i class="bi bi-grid"></i>
-          Danh mục sản phẩm
-        </a>
-        <a href="/orders" class="menu-item">
-          <i class="bi bi-bag"></i>
-          Đơn hàng của tôi
-        </a>
-        <a href="/wishlist" class="menu-item">
-          <i class="bi bi-heart"></i>
-          Sản phẩm yêu thích
-        </a>
-        <a href="/notifications" class="menu-item">
-          <i class="bi bi-bell"></i>
-          Thông báo
-        </a>
-        <a href="/account" class="menu-item">
-          <i class="bi bi-person"></i>
-          Tài khoản của tôi
-        </a>
-      </div>
+        <div class="menu-items">
+            <a href="../../index.html" class="menu-item">
+                <i class="bi bi-house"></i>
+                Trang chủ
+            </a>
+            <a href="../products/products.html" class="menu-item">
+                <i class="bi bi-grid"></i>
+                Danh mục sản phẩm
+            </a>
+            <a href="../account/orders.html" class="menu-item">
+                <i class="bi bi-bag"></i>
+                Đơn hàng của tôi
+            </a>
+            <a href="../account/wishlist.html" class="menu-item">
+                <i class="bi bi-heart"></i>
+                Sản phẩm yêu thích
+            </a>
+
+            <a href="../account/my-account.html" class="menu-item">
+                <i class="bi bi-person"></i>
+                Tài khoản của tôi
+            </a>
+        </div>
     </div>
 
     <div class="menu-overlay" id="menuOverlay"></div>
 
     <nav class="mobile-bottom-nav d-lg-none">
-      <div class="mobile-nav-items">
-        <a href="/" class="mobile-nav-item active">
-          <i class="bi bi-house"></i>
-          <span>Trang chủ</span>
-        </a>
-        <a href="/categories" class="mobile-nav-item">
-          <i class="bi bi-grid"></i>
-          <span>Danh mục</span>
-        </a>
-        <a href="/cart" class="mobile-nav-item">
-          <i class="bi bi-cart"></i>
-          <span>Giỏ hàng</span>
-        </a>
-        <a href="/account" class="mobile-nav-item">
-          <i class="bi bi-person"></i>
-          <span>Tài khoản</span>
-        </a>
-      </div>
+        <div class="mobile-nav-items">
+            <a href="../../index.html" class="mobile-nav-item active">
+                <i class="bi bi-house"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="../products/products.html" class="mobile-nav-item">
+                <i class="bi bi-grid"></i>
+                <span>Danh mục</span>
+            </a>
+            <a href="../cart/cart.html" class="mobile-nav-item">
+                <i class="bi bi-cart"></i>
+                <span>Giỏ hàng</span>
+            </a>
+            <a href="../account/my-account.html" class="mobile-nav-item">
+                <i class="bi bi-person"></i>
+                <span>Tài khoản</span>
+            </a>
+        </div>
     </nav>
-  </header>
-  <main style="margin-top: 50px;">
+</header>
+<main style="margin-top: 50px;">
     <div class="container py-4">
-      <div class="row">
-        <!-- Cột giữa: Featured News -->
-        <div class="col-lg-10 fs-4">
-          <a href="#">Văn hóa - Văn nghệ</title></a>
-          <h1 class="mb-3">Thí sinh Việt Nam xuất sắc giành giải nhất cuộc thi trống quốc tế Drum Off Global 2019</h1>
-          <hr>
-          <h3>(NLĐO)- Hai thí sinh của Trường Đại học Văn hóa Nghệ thuật Quân đội là Nguyễn Đức Minh Dương và Phạm Duy
-            Anh đã giành chiến thắng trong bảng thi Duo (song tấu) tại Cuộc thi Drum Off Global 2019 diễn ra vào chiều
-            ngày 31-8 tại Singapore.</h3>
-          <p>Vượt qua hàng trăm "đối thủ" đến từ nhiều quốc gia trên thế giới, hai thí sinh Việt Nam Nguyễn Đức Minh
-            Dương và Phạm Duy Anh của Trường Đại học Văn hóa Nghệ thuật Quân đội đã xuất sắc giành giải Nhất song tấu
-            trống tại Cuộc thi Drum Off Global 2019 diễn ra ngày 31-8 tại Singapore.</p>
-          <div class="featured mb-4">
-            <img src="../../assets/images/posts/anh-chup-man-hinh-2019-09-01-luc-123304-1567316003526220422713.webp"
-              alt="Featured News" style="width: 80%;display: block;margin: auto;">
-            <p>Drum Off Global 2019 là cuộc thi trống quốc tế, có quy mô lớn và là cuộc thi quốc tế thường niên, uy tín,
-              dành cho người chơi trống.</p>
-            <p>Drum Off Global hội tụ nhiều tài năng trống ở các lứa tuổi trên thế giới, từ Châu Á Thái Bình Dương và xa
-              như Bắc Mỹ và Châu Âu. Đây là cơ hội để các tay trống chuyên nghiệp thể hiện các kỹ năng của mình, là nơi
-              cọ sát, giao lưu làm nền tảng để phát triển sự nghiệp cá nhân sau này.</p>
-          </div class="featured mb-4">
-          <div>
-            <img src="../../assets/images/posts/viet-nam-gianh-chien-thang-cuoc-thi-drum-off-global-2019.jpg"
-              alt="Featured News" class="w-100">
-            <p>Đại tá Xuân Thủy, Hiệu trưởng Trường Đại học văn hóa nghệ thuật Quân đội (giữa), có mặt tại Singapore để
-              chúc mừng các sinh viên Phạm Duy Anh (trái) và Nguyễn Đức Minh Dương (phải)</p>
-            <p>Thành phần Ban giám khảo cũng là những nghệ sĩ trống đình đám như: Eloy Casagrande (Brazil), Lim Yoonghun
-              (Korea), Jared Faced (Canada), Sdjmalik (USA), Thomas Pridgen (USA), Cuộc thi Drum Off Global 2019 thi thể
-              loại mới là Song tấu trống (Rhythm DUO).</p>
-            <p>Với niềm đam mê trống từ bé, Nguyễn Đức Minh Dương và Phạm Duy Anh đã không ngại thử thách bản thân ở
-              phần thi mới này và được xướng tên với giải cao nhất của cuộc thi. Chiến thắng của hai chàng trai không
-              chỉ là thành tích của bản thân và ngôi trường Đại học Văn hóa Nghệ thuật Quân đội mà còn là niềm tự hào
-              của Việt Nam.</p>
-          </div>
-          <hr>
-          <div>
-            <h3>Bình Luận</h3>
-            <textarea class="form-control mb-2" style="width: 100%; height: 100px;"
-              placeholder="Chia sẻ cảm nhận chi tiết..."></textarea>
-            <button type="submit" class="btn btn-primary btn-sm">Gửi Bình Luận</button>
-          </div>
-          <hr>
-          <div class="container mt-4">
-            <h2 class="mb-3">Đừng Bỏ Lỡ</h2>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="card mb-4">
-                  <img
-                    src="../../assets/images/posts/462563036-1474594919873034-4202349763977647162-n-1732893671078898812755-160-0-966-1290-crop-1732893678765295190642.webp"
-                    class="card-img-top" alt="Hình ảnh 1">
-                  <div class="card-body" style="height: 170px; object-fit: cover;">
-                    <h5 class=" card-title"> Hơn 100 văn nghệ sĩ TP HCM trao tặng quà người dân làng Nù, Lào Cai</h5>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4">
-                  <img
-                    src="../../assets/images/posts/edit-z6081907169465ccc5f05123d7c9a22a33119488cf48e9-1732890121858850847070-0-20-412-679-crop-17328901305461514384808.webp"
-                    class="card-img-top" alt="Hình ảnh 2">
-                  <div class="card-body" style="height: 170px; object-fit: cover;">
-                    <h5 class=" card-title">Tạm giữ nhóm "vệ sĩ" dẹp đường cho đoàn xe đám cưới gây xôn xao ở Thanh Hóa
-                    </h5>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4">
-                  <img
-                    src="../../assets/images/posts/lam-dong-da-huoai-1-17328829032561611084056-107-0-1707-2560-crop-1732882997051910183067.webp"
-                    class="card-img-top" alt="Hình ảnh 3">
-                  <div class="card-body" style="height: 170px; object-fit: cover;">
-                    <h5 class=" card-title">LĐLĐ TP HCM chủ trì xây dựng nhà lưu trú cho người lao động</h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="card mb-4">
-                  <img
-                    src="../../assets/images/posts/img20241129203301-17328872907661847710158-32-0-735-1125-crop-1732887463430926364580.webp"
-                    class="card-img-top" alt="Hình ảnh 1">
-                  <div class="card-body" style="height: 170px; object-fit: cover;">
-                    <h5 class=" card-title">Clip người đàn ông liều lĩnh bám đầu xe tải ở Thử Đức</h5>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4">
-                  <img
-                    src="../../assets/images/posts/vegan-meat-1732849796781949896799-0-0-750-1200-crop-17328499074271747052526.webp"
-                    class="card-img-top" alt="Hình ảnh 2">
-                  <div class="card-body" style="height: 170px; object-fit: cover;">
-                    <h5 class=" card-title">Dễ đổ bệnh vì ăn chay nhưng mắc sai lầm này
-                    </h5>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4">
-                  <img
-                    src="../../assets/images/posts/3-chot-1732284688527174879488-0-0-1280-2048-crop-1732284836496187084027.webp"
-                    class="card-img-top" alt="Hình ảnh 3">
-                  <div class="card-body" style="height: 170px; object-fit: cover;">
-                    <h5 class=" card-title">LĐLĐ TP HCM chủ trì xây dựng nhà lưu trú cho người lao động</h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container mt-4">
-            <h2 class="mb-3">Đọc Thêm</h2>
-
-            <div class="row border-bottom pb-3 mb-3">
-              <div class="col-md-3">
-                <img src="../../assets/images/posts/20200201_074814.jpg" class="img-fluid rounded" alt="Hình ảnh 1"
-                  style="width: 300px; height: 150px;">
-              </div>
-              <div class="col-md-9">
-                <h5 class="font-weight-bold">Cuộc thi “Vươn ra thế giới” TRỐNG TRẬN TÂY SƠN</h5>
-                <p class="text-muted">Trống trận Tây Sơn (còn có những tên gọi khác như trống trận Quang Trung hay nhạc
-                  võ Tây Sơn) - một biểu tượng văn hóa của Bình Định đã được hậu duệ nhà Nguyễn....</p>
-              </div>
-            </div>
-
-            <div class="row border-bottom pb-3 mb-3">
-              <div class="col-md-3">
-                <img src="../../assets/images/posts/bon-anh-trai-say-hi-sieu-hot-lap-nhom-nhac-35483.jpg"
-                  class="img-fluid rounded" alt="Hình ảnh 2" style="width: 300px; height: 150px;">
-              </div>
-              <div class="col-md-9">
-                <h5 class="font-weight-bold">'Anh trai say hi' mở concert 4, xuất hiện nhóm nhạc với các chàng trai siêu
-                  hot</h5>
-                <p class="text-muted">''Anh trai say hi'' khiến người hâm mộ hào hứng khi xác nhận có concert. Bên cạnh
-                  đó 4 ca sĩ xuất thân từ chương trình gồm Jsol, Quang Hùng MasterD, Dương Domic và Hurrykng thành lập
-                  nhóm nhạc.</p>
-              </div>
-            </div>
-            <div class="row border-bottom pb-3 mb-3">
-              <div class="col-md-3">
-                <img src="../../assets/images/posts/base64-16881423701471532398276.webp" class="img-fluid rounded"
-                  alt="Hình ảnh 1" style="width: 300px; height: 150px;">
-              </div>
-              <div class="col-md-9">
-                <h5 class="font-weight-bold">'Thần đồng đánh trống' Trọng Nhân nhận học bổng tại Mỹ</h5>
-                <p class="text-muted">Nguyễn Trọng Nhân (sinh năm 2007) giành ngôi quán quân Vietnam's Got Talent 2016,
-                  khi mới 9 tuổi với tài đánh trống nổi trội. Năm đó, ....
-                </p>
-              </div>
-            </div>
-            <div class="row border-bottom pb-3 mb-3">
-              <div class="col-md-3">
-                <img src="../../assets/images/posts/Z3323214798655_0185E.jpg" class="img-fluid rounded" alt="Hình ảnh 1"
-                  style="width: 300px; height: 150px;">
-              </div>
-              <div class="col-md-9">
-                <h5 class="font-weight-bold">Nhạc cụ cổ truyền Việt Nam</h5>
-                <p class="text-muted">TÂm nhạc là một trong những món ăn tinh thần không thể thiếu trong đời sống của
-                  người dân Việt. Nền âm nhạc Việt Nam được biết đến với một kho tàng phong phú.
-              </div>
-            </div>
-            <div class="row border-bottom pb-3 mb-3">
-              <div class="col-md-3">
-                <img src="../../assets/images/posts/401564399-772495134892280-1414890838405770283-n-6965.webp"
-                  class="img-fluid rounded" alt="Hình ảnh 1" style="width: 300px; height: 150px;">
-              </div>
-              <div class="col-md-9">
-                <h5 class="font-weight-bold">Cuộc thi Fschools’s Got Talent 2023 tại Trường TH&THCS FPT Đà Nẵng</h5>
-                <p class="text-muted">TNăm học 2023-2024, Trường TH&THCS FPT Đà Nẵng tổ chức Cuộc thi tìm kiếm tài năng
-                  cho toàn thể Fschoolers. Với chủ đề “So you think you can shine”, FPT Schools’s Got Talent 2023 hứa
-                  hẹn ....</p>
-              </div>
-            </div>
-            <!-- Thêm các phần tương tự nếu cần -->
-
-          </div>
-        </div>
-
-        <!-- Cột phải: Most Popular -->
-        <div class="col-lg-2">
-          <h5 class="mb-3">Tin tức phổ biến</h5>
-          <!-- Tin phổ biến -->
-          <div class="popular-item mb-3">
-            <img src="../../assets/images/posts/1649_3149_trong-dong-dong-son.jpg" alt="Popular 1" class="w-100">
-            <h6>Văn hóa Đông Sơn: Nghệ thuật đỉnh cao Việt Nam thời nguyên thủy</h6>
-          </div>
-          <!-- Quảng cáo -->
-          <div class="ad-box my-3">
-            <img src="../../assets/images/posts/banner-km-tet-1024x1024.jpg" alt="Ad" class="w-100">
-          </div>
-          <!-- Tin phổ biến thêm -->
-          <div class="popular-item mb-3">
-            <img src="../../assets/images/posts/Z3323214798655_0185E.jpg" alt="Popular 2" class="w-100">
-            <small>Nhạc cụ cổ truyền Việt Nam</small>
-            <h6>Âm nhạc là một trong những món ăn tinh thần không thể thiếu trong đời sống của người dân
-              Việt.</h6>
-          </div>
-          <div class="popular-item mb-3">
-            <img
-              src="../../assets/images/posts/ttxvn_lien_hoan_van_hoa_nghe_thuat_dan_gian_viet_nam_lan_thu_hai_2.jpg.webp"
-              alt="Popular 3" class="w-100">
-            <small>Lễ hội và âm nhạc</small>
-            <h6>Trải nghiệm các nhạc cụ truyền thống qua lễ hội dân gian dân tộc</h6>
-          </div>
-        </div>
-        <hr>
-
-      </div>
-    </div>
-    </div>
-  </main>
-
-  <!-- Giữ nguyên footer -->
-  <footer>
-    <!--Contact-->
-    <div class="bg-secondary py-5">
-      <div class="container text-black">
-        <div class="row justify-content-between align-items-center">
-          <!-- Phần bên trái: Thông tin liên hệ -->
-          <div class="col-12 col-md-6 mb-4 mb-md-0">
-            <h4>LIÊN HỆ</h4>
-            <p>Chúng tôi sẽ giúp bạn tìm đúng giải pháp cho đam mê của bạn.</p>
-            <button class="btn btn-primary text-black">HOTLINE</button>
-          </div>
-
-          <!-- Phần bên phải: Form gửi email -->
-          <div class="col-12 col-md-6">
-            <form>
-              <div class="row">
-                <div class="col-12 col-md-8 mb-3">
-                  <label for="contact-email" class="form-label">Địa chỉ email</label>
-                  <input type="email" class="form-control" id="contact-email" placeholder="Nhập email của bạn" required>
-                  <button type="submit" class="btn btn-primary w-100 w-md-25 mt-2 text-black">Gửi
-                    Email
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-dark text-white pt-4 pb-4">
-      <div class="container">
         <div class="row">
+            <!-- Cột giữa: Featured News -->
+            <div class="col-lg-10 fs-4">
+                <a href="#">Văn hóa - Văn nghệ</title></a>
+                <h1 class="mb-3">Thí sinh Việt Nam xuất sắc giành giải nhất cuộc thi trống quốc tế Drum Off Global
+                    2019</h1>
+                <hr>
+                <h3>(NLĐO)- Hai thí sinh của Trường Đại học Văn hóa Nghệ thuật Quân đội là Nguyễn Đức Minh Dương và Phạm
+                    Duy
+                    Anh đã giành chiến thắng trong bảng thi Duo (song tấu) tại Cuộc thi Drum Off Global 2019 diễn ra vào
+                    chiều
+                    ngày 31-8 tại Singapore.</h3>
+                <p>Vượt qua hàng trăm "đối thủ" đến từ nhiều quốc gia trên thế giới, hai thí sinh Việt Nam Nguyễn Đức
+                    Minh
+                    Dương và Phạm Duy Anh của Trường Đại học Văn hóa Nghệ thuật Quân đội đã xuất sắc giành giải Nhất
+                    song tấu
+                    trống tại Cuộc thi Drum Off Global 2019 diễn ra ngày 31-8 tại Singapore.</p>
+                <div class="featured mb-4">
+                    <img src="../../assets/images/posts/anh-chup-man-hinh-2019-09-01-luc-123304-1567316003526220422713.webp"
+                         alt="Featured News" style="width: 80%;display: block;margin: auto;">
+                    <p>Drum Off Global 2019 là cuộc thi trống quốc tế, có quy mô lớn và là cuộc thi quốc tế thường niên,
+                        uy tín,
+                        dành cho người chơi trống.</p>
+                    <p>Drum Off Global hội tụ nhiều tài năng trống ở các lứa tuổi trên thế giới, từ Châu Á Thái Bình
+                        Dương và xa
+                        như Bắc Mỹ và Châu Âu. Đây là cơ hội để các tay trống chuyên nghiệp thể hiện các kỹ năng của
+                        mình, là nơi
+                        cọ sát, giao lưu làm nền tảng để phát triển sự nghiệp cá nhân sau này.</p>
+                </div class="featured mb-4">
+                <div>
+                    <img src="../../assets/images/posts/viet-nam-gianh-chien-thang-cuoc-thi-drum-off-global-2019.jpg"
+                         alt="Featured News" class="w-100">
+                    <p>Đại tá Xuân Thủy, Hiệu trưởng Trường Đại học văn hóa nghệ thuật Quân đội (giữa), có mặt tại
+                        Singapore để
+                        chúc mừng các sinh viên Phạm Duy Anh (trái) và Nguyễn Đức Minh Dương (phải)</p>
+                    <p>Thành phần Ban giám khảo cũng là những nghệ sĩ trống đình đám như: Eloy Casagrande (Brazil), Lim
+                        Yoonghun
+                        (Korea), Jared Faced (Canada), Sdjmalik (USA), Thomas Pridgen (USA), Cuộc thi Drum Off Global
+                        2019 thi thể
+                        loại mới là Song tấu trống (Rhythm DUO).</p>
+                    <p>Với niềm đam mê trống từ bé, Nguyễn Đức Minh Dương và Phạm Duy Anh đã không ngại thử thách bản
+                        thân ở
+                        phần thi mới này và được xướng tên với giải cao nhất của cuộc thi. Chiến thắng của hai chàng
+                        trai không
+                        chỉ là thành tích của bản thân và ngôi trường Đại học Văn hóa Nghệ thuật Quân đội mà còn là niềm
+                        tự hào
+                        của Việt Nam.</p>
+                </div>
+                <div class="container mt-4">
+                    <h2 class="mb-3">Đừng Bỏ Lỡ</h2>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <img
+                                        src="../../assets/images/posts/462563036-1474594919873034-4202349763977647162-n-1732893671078898812755-160-0-966-1290-crop-1732893678765295190642.webp"
+                                        class="card-img-top" alt="Hình ảnh 1">
+                                <div class="card-body" style="height: 170px; object-fit: cover;">
+                                    <h5 class=" card-title"> Hơn 100 văn nghệ sĩ TP HCM trao tặng quà người dân làng Nù,
+                                        Lào Cai</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <img
+                                        src="../../assets/images/posts/edit-z6081907169465ccc5f05123d7c9a22a33119488cf48e9-1732890121858850847070-0-20-412-679-crop-17328901305461514384808.webp"
+                                        class="card-img-top" alt="Hình ảnh 2">
+                                <div class="card-body" style="height: 170px; object-fit: cover;">
+                                    <h5 class=" card-title">Tạm giữ nhóm "vệ sĩ" dẹp đường cho đoàn xe đám cưới gây xôn
+                                        xao ở Thanh Hóa
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <img
+                                        src="../../assets/images/posts/lam-dong-da-huoai-1-17328829032561611084056-107-0-1707-2560-crop-1732882997051910183067.webp"
+                                        class="card-img-top" alt="Hình ảnh 3">
+                                <div class="card-body" style="height: 170px; object-fit: cover;">
+                                    <h5 class=" card-title">LĐLĐ TP HCM chủ trì xây dựng nhà lưu trú cho người lao
+                                        động</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <img
+                                        src="../../assets/images/posts/img20241129203301-17328872907661847710158-32-0-735-1125-crop-1732887463430926364580.webp"
+                                        class="card-img-top" alt="Hình ảnh 1">
+                                <div class="card-body" style="height: 170px; object-fit: cover;">
+                                    <h5 class=" card-title">Clip người đàn ông liều lĩnh bám đầu xe tải ở Thử Đức</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <img
+                                        src="../../assets/images/posts/vegan-meat-1732849796781949896799-0-0-750-1200-crop-17328499074271747052526.webp"
+                                        class="card-img-top" alt="Hình ảnh 2">
+                                <div class="card-body" style="height: 170px; object-fit: cover;">
+                                    <h5 class=" card-title">Dễ đổ bệnh vì ăn chay nhưng mắc sai lầm này
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <img
+                                        src="../../assets/images/posts/3-chot-1732284688527174879488-0-0-1280-2048-crop-1732284836496187084027.webp"
+                                        class="card-img-top" alt="Hình ảnh 3">
+                                <div class="card-body" style="height: 170px; object-fit: cover;">
+                                    <h5 class=" card-title">LĐLĐ TP HCM chủ trì xây dựng nhà lưu trú cho người lao
+                                        động</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container mt-4">
+                    <h2 class="mb-3">Đọc Thêm</h2>
 
-          <div class="col-12 col-md-3 mb-4 mb-md-0">
-            <h5 class="text-uppercase">Thông tin Drum Store</h5>
-            <ul class="list-unstyled">
-              <li><a href="#" class="text-white">Giới thiệu công ty</a></li>
-              <li><a href="#" class="text-white">Hệ thống showroom, đại lý</a></li>
-              <li><a href="#" class="text-white">Liên Hệ / Góp Ý</a></li>
-              <li><a href="#" class="text-white">Mua trả góp</a></li>
-              <li><a href="#" class="text-white">Chương trình Khách hàng thân thiết</a></li>
-              <li><a href="#" class="text-white">Điều khoản sử dụng website</a></li>
-              <li><a href="#" class="text-white">Tuyển dụng</a></li>
-            </ul>
-          </div>
+                    <div class="row border-bottom pb-3 mb-3">
+                        <div class="col-md-3">
+                            <img src="../../assets/images/posts/20200201_074814.jpg" class="img-fluid rounded"
+                                 alt="Hình ảnh 1"
+                                 style="width: 300px; height: 150px;">
+                        </div>
+                        <div class="col-md-9">
+                            <h5 class="font-weight-bold">Cuộc thi “Vươn ra thế giới” TRỐNG TRẬN TÂY SƠN</h5>
+                            <p class="text-muted">Trống trận Tây Sơn (còn có những tên gọi khác như trống trận Quang
+                                Trung hay nhạc
+                                võ Tây Sơn) - một biểu tượng văn hóa của Bình Định đã được hậu duệ nhà Nguyễn....</p>
+                        </div>
+                    </div>
 
+                    <div class="row border-bottom pb-3 mb-3">
+                        <div class="col-md-3">
+                            <img src="../../assets/images/posts/bon-anh-trai-say-hi-sieu-hot-lap-nhom-nhac-35483.jpg"
+                                 class="img-fluid rounded" alt="Hình ảnh 2" style="width: 300px; height: 150px;">
+                        </div>
+                        <div class="col-md-9">
+                            <h5 class="font-weight-bold">'Anh trai say hi' mở concert 4, xuất hiện nhóm nhạc với các
+                                chàng trai siêu
+                                hot</h5>
+                            <p class="text-muted">''Anh trai say hi'' khiến người hâm mộ hào hứng khi xác nhận có
+                                concert. Bên cạnh
+                                đó 4 ca sĩ xuất thân từ chương trình gồm Jsol, Quang Hùng MasterD, Dương Domic và
+                                Hurrykng thành lập
+                                nhóm nhạc.</p>
+                        </div>
+                    </div>
+                    <div class="row border-bottom pb-3 mb-3">
+                        <div class="col-md-3">
+                            <img src="../../assets/images/posts/base64-16881423701471532398276.webp"
+                                 class="img-fluid rounded"
+                                 alt="Hình ảnh 1" style="width: 300px; height: 150px;">
+                        </div>
+                        <div class="col-md-9">
+                            <h5 class="font-weight-bold">'Thần đồng đánh trống' Trọng Nhân nhận học bổng tại Mỹ</h5>
+                            <p class="text-muted">Nguyễn Trọng Nhân (sinh năm 2007) giành ngôi quán quân Vietnam's Got
+                                Talent 2016,
+                                khi mới 9 tuổi với tài đánh trống nổi trội. Năm đó, ....
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row border-bottom pb-3 mb-3">
+                        <div class="col-md-3">
+                            <img src="../../assets/images/posts/Z3323214798655_0185E.jpg" class="img-fluid rounded"
+                                 alt="Hình ảnh 1"
+                                 style="width: 300px; height: 150px;">
+                        </div>
+                        <div class="col-md-9">
+                            <h5 class="font-weight-bold">Nhạc cụ cổ truyền Việt Nam</h5>
+                            <p class="text-muted">TÂm nhạc là một trong những món ăn tinh thần không thể thiếu trong đời
+                                sống của
+                                người dân Việt. Nền âm nhạc Việt Nam được biết đến với một kho tàng phong phú.
+                        </div>
+                    </div>
+                    <div class="row border-bottom pb-3 mb-3">
+                        <div class="col-md-3">
+                            <img src="../../assets/images/posts/401564399-772495134892280-1414890838405770283-n-6965.webp"
+                                 class="img-fluid rounded" alt="Hình ảnh 1" style="width: 300px; height: 150px;">
+                        </div>
+                        <div class="col-md-9">
+                            <h5 class="font-weight-bold">Cuộc thi Fschools’s Got Talent 2023 tại Trường TH&THCS FPT Đà
+                                Nẵng</h5>
+                            <p class="text-muted">TNăm học 2023-2024, Trường TH&THCS FPT Đà Nẵng tổ chức Cuộc thi tìm
+                                kiếm tài năng
+                                cho toàn thể Fschoolers. Với chủ đề “So you think you can shine”, FPT Schools’s Got
+                                Talent 2023 hứa
+                                hẹn ....</p>
+                        </div>
+                    </div>
+                    <!-- Thêm các phần tương tự nếu cần -->
 
-          <div class="col-12 col-md-3 mb-4 mb-md-0">
-            <h5 class="text-uppercase">Hướng dẫn chung</h5>
-            <ul class="list-unstyled">
-              <li><a href="#" class="text-white">Giao hàng - Đổi trả</a></li>
-              <li><a href="#" class="text-white">Hướng dẫn mua hàng</a></li>
-              <li><a href="#" class="text-white">Thanh toán và bảo mật</a></li>
-              <li><a href="#" class="text-white">Chính sách bảo hành</a></li>
-              <li><a href="#" class="text-white">Bảo trì đàn piano</a></li>
-              <li><a href="#" class="text-white">Kích hoạt bảo hành</a></li>
-            </ul>
-          </div>
+                </div>
+            </div>
 
-          <div class="col-12 col-md-3 mb-4 mb-md-0">
-            <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
-            <ul class="list-unstyled">
-              <li>
-                <strong>Gọi mua hàng: </strong>
-                <a href="tel:123-456-7890" class="text-white">123-456-7890 (Miễn phí)</a>
-              </li>
-              <li>
-                <strong>Khiếu nại, Bảo hành: </strong>
-                <a href="tel:123-456-7890" class="text-white">123-456-7890</a>
-              </li>
-              <li><strong>Thời gian phục vụ: </strong>8h-22h</li>
-              <li>
-                <strong>Email: </strong>
-                <a href="mailto:drumstore@gmail.com" class="text-white">drumstore@gmail.com</a>
-              </li>
-            </ul>
-          </div>
+            <!-- Cột phải: Most Popular -->
+            <div class="col-lg-2">
+                <h5 class="mb-3">Tin tức phổ biến</h5>
+                <!-- Tin phổ biến -->
+                <div class="popular-item mb-3">
+                    <img src="../../assets/images/posts/1649_3149_trong-dong-dong-son.jpg" alt="Popular 1"
+                         class="w-100">
+                    <h6>Văn hóa Đông Sơn: Nghệ thuật đỉnh cao Việt Nam thời nguyên thủy</h6>
+                </div>
+                <!-- Quảng cáo -->
+                <div class="ad-box my-3">
+                    <img src="../../assets/images/posts/banner-km-tet-1024x1024.jpg" alt="Ad" class="w-100">
+                </div>
+                <!-- Tin phổ biến thêm -->
+                <div class="popular-item mb-3">
+                    <img src="../../assets/images/posts/Z3323214798655_0185E.jpg" alt="Popular 2" class="w-100">
+                    <small>Nhạc cụ cổ truyền Việt Nam</small>
+                    <h6>Âm nhạc là một trong những món ăn tinh thần không thể thiếu trong đời sống của người dân
+                        Việt.</h6>
+                </div>
+                <div class="popular-item mb-3">
+                    <img
+                            src="../../assets/images/posts/ttxvn_lien_hoan_van_hoa_nghe_thuat_dan_gian_viet_nam_lan_thu_hai_2.jpg.webp"
+                            alt="Popular 3" class="w-100">
+                    <small>Lễ hội và âm nhạc</small>
+                    <h6>Trải nghiệm các nhạc cụ truyền thống qua lễ hội dân gian dân tộc</h6>
+                </div>
+            </div>
+            <hr>
 
-          <!-- Cột 4: Social, Phương thức thanh toán, Chứng nhận -->
-          <div class="col-12 col-md-3">
-            <h5>MẠNG XÃ HỘI</h5>
-            <ul class="list-unstyled d-flex gap-3">
-              <li><a href="#" class="text-white" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-              </li>
-              <li><a href="#" class="text-white" aria-label="TikTok"><i class="bi bi-tiktok"></i></a></li>
-              <li><a href="#" class="text-white" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-              </li>
-              <li><a href="#" class="text-white" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-              </li>
-            </ul>
-
-            <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
-            <ul class="list-unstyled">
-              <li><img src="/assets/images/payments/visa.png" alt="Phương thức thanh toán" class="img-fluid" />
-              </li>
-            </ul>
-
-            <h5 class="text-uppercase mt-4">Chứng nhận</h5>
-            <ul class="list-unstyled">
-              <li><img src="/assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid" /></li>
-              <li><img src="/assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid" /></li>
-            </ul>
-          </div>
         </div>
-
-        <div class="row mt-4">
-          <div class="col-12 text-center">
-            <p>&copy; 2024 Công ty Cổ Phần TM-DV-SX Drum Store. Tất cả quyền lợi được bảo lưu.</p>
-          </div>
-        </div>
-      </div>
     </div>
-  </footer>
-  <script src="/assets/libraries/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+</main>
+
+<!-- Giữ nguyên footer -->
+<footer>
+    <div class="bg-dark text-white pt-4 pb-4">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 col-md-3 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Thông tin Drum Store</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="../about.html" class="text-white">Giới thiệu công ty</a></li>
+
+                    </ul>
+                </div>
+                <div class="col-12 col-md-3 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <strong>Gọi mua hàng: </strong>
+                            <a href="tel:123-456-7890" class="text-white">123-456-7890 (Miễn phí)</a>
+                        </li>
+                        <li>
+                            <strong>Khiếu nại, Bảo hành: </strong>
+                            <a href="tel:123-456-7890" class="text-white">123-456-7890</a>
+                        </li>
+                        <li><strong>Thời gian phục vụ: </strong>8h-22h</li>
+                        <li>
+                            <strong>Email: </strong>
+                            <a href="mailto:drumstore@gmail.com" class="text-white">drumstore@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <h5>MẠNG XÃ HỘI</h5>
+                    <ul class="list-unstyled d-flex gap-3">
+                        <li><a href="https://www.facebook.com/" class="text-white" aria-label="Facebook"><i
+                                class="bi bi-facebook"></i></a>
+                        </li>
+                        <li><a href="https://www.tiktok.com/" class="text-white" aria-label="TikTok"><i
+                                class="bi bi-tiktok"></i></a></li>
+                        <li><a href="https://www.instagram.com/" class="text-white" aria-label="Instagram"><i
+                                class="bi bi-instagram"></i></a>
+                        </li>
+                        <li><a href="https://www.youtube.com/" class="text-white" aria-label="YouTube"><i
+                                class="bi bi-youtube"></i></a>
+                        </li>
+                    </ul>
+
+                    <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
+                    <ul class="list-unstyled">
+                        <li><img src="../../assets/images/payments/visa.png" alt="Phương thức thanh toán"
+                                 class="img-fluid"/>
+                        </li>
+                    </ul>
+
+                    <h5 class="text-uppercase mt-4">Chứng nhận</h5>
+                    <ul class="list-unstyled">
+                        <li><img src="../../assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid"/></li>
+                        <li><img src="../../assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid"/></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <p>&copy; 2024 Công ty Cổ Phần TM-DV-SX Drum Store. Tất cả quyền lợi được bảo lưu.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="/assets/libraries/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
