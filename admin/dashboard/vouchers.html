@@ -247,7 +247,7 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="vouchers.html" class="sidebar-link">
+                <a href="categories.html" class="sidebar-link">
                     <i class="bi bi-collection"></i>
                     <span>Quản lý danh mục</span>
                 </a>
@@ -275,101 +275,113 @@
     </aside>
     <div class="main">
 
-        <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
+        <div class="modal fade" id="addVoucherModal" tabindex="-1" aria-labelledby="addVoucherModalLabel"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addProductModalLabel">Thêm sản phẩm mới</h5>
+                        <h5 class="modal-title" id="addVoucherModalLabel">Thêm mã giảm giá mới</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="addProductForm">
+                        <form id="addVoucherForm">
                             <div class="mb-3">
-                                <label for="addName" class="form-label">Tên sản phẩm</label>
-                                <input type="text" class="form-control" id="addName" required>
+                                <label for="addCode" class="form-label">Mã giảm giá</label>
+                                <input type="text" class="form-control" id="addCode" required>
                             </div>
                             <div class="mb-3">
-                                <label for="addPrice" class="form-label">Giá</label>
-                                <input type="number" class="form-control" id="addPrice" required>
+                                <label for="addType" class="form-label">Loại</label>
+                                <input type="text" class="form-control" id="addType" required>
                             </div>
                             <div class="mb-3">
-                                <label for="addCategory" class="form-label">Danh mục</label>
-                                <input type="text" class="form-control" id="addCategory" required>
+                                <label for="addAmount" class="form-label">Giá trị</label>
+                                <input type="number" class="form-control" id="addAmount" required>
                             </div>
                             <div class="mb-3">
-                                <label for="addStock" class="form-label">Số lượng tồn kho</label>
-                                <input type="number" class="form-control" id="addStock" required>
+                                <label for="addUsageLimit" class="form-label">Số lượng</label>
+                                <input type="number" class="form-control" id="addUsageLimit" required>
                             </div>
                             <div class="mb-3">
-                                <label for="addImage" class="form-label">Hình ảnh</label>
-                                <input type="file" class="form-control" id="addImage" accept="image/*">
+                                <label for="addStartDate" class="form-label">Ngày bắt đầu</label>
+                                <input type="date" class="form-control" id="addStartDate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="addEndDate" class="form-label">Ngày kết thúc</label>
+                                <input type="date" class="form-control" id="addEndDate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="addStatus" class="form-label">Trạng thái</label>
+                                <input type="text" class="form-control" id="addStatus" required>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" form="addProductForm" class="btn btn-primary">Thêm sản phẩm</button>
+                        <button type="submit" form="addVoucherForm" class="btn btn-primary">Thêm mã giảm giá</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+        <div class="modal fade" id="editVoucherModal" tabindex="-1" aria-labelledby="editVoucherModalLabel"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editProductModalLabel">Chỉnh sửa sản phẩm</h5>
+                        <h5 class="modal-title" id="editVoucherModalLabel">Chỉnh sửa mã giảm giá</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="editProductForm">
+                        <form id="editVoucherForm">
                             <div class="mb-3">
-                                <label for="editName" class="form-label">Tên sản phẩm</label>
-                                <input type="text" class="form-control" id="editName" required>
+                                <label for="editCode" class="form-label">Mã giảm giá</label>
+                                <input type="text" class="form-control" id="editCode" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editPrice" class="form-label">Giá</label>
-                                <input type="number" class="form-control" id="editPrice" required>
+                                <label for="editType" class="form-label">Loại</label>
+                                <input type="text" class="form-control" id="editType" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editCategory" class="form-label">Danh mục</label>
-                                <input type="text" class="form-control" id="editCategory" required>
+                                <label for="editAmount" class="form-label">Giá trị</label>
+                                <input type="number" class="form-control" id="editAmount" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editStock" class="form-label">Số lượng tồn kho</label>
-                                <input type="number" class="form-control" id="editStock" required>
+                                <label for="editUsageLimit" class="form-label">Số lượng</label>
+                                <input type="number" class="form-control" id="editUsageLimit" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editImage" class="form-label">Hình ảnh</label>
-                                <input type="file" class="form-control" id="editImage" accept="image/*">
+                                <label for="editStartDate" class="form-label">Ngày bắt đầu</label>
+                                <input type="date" class="form-control" id="editStartDate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editEndDate" class="form-label">Ngày kết thúc</label>
+                                <input type="date" class="form-control" id="editEndDate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editStatus" class="form-label">Trạng thái</label>
+                                <input type="text" class="form-control" id="editStatus" required>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" form="editProductForm" class="btn btn-primary">Lưu thay đổi</button>
+                        <button type="submit" form="editVoucherForm" class="btn btn-primary">Lưu thay đổi</button>
                     </div>
                 </div>
             </div>
         </div>
 
 
-        <div id="productDetailModal" class="modal fade" tabindex="-1" role="dialog">
+        <div id="voucherDetailModal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Chi tiết sản phẩm</h5>
+                        <h5 class="modal-title">Chi tiết mã giảm giá</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="text-center mb-4">
-                            <img id="detail-image" alt="Hình ảnh sản phẩm" class="img-fluid" src="">
-                        </div>
-
                         <div class="row mb-3">
                             <div class="col-4">
                                 <strong>ID:</strong>
@@ -380,43 +392,59 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-4">
-                                <strong>Tên sản phẩm:</strong>
+                                <strong>Mã giảm giá:</strong>
                             </div>
                             <div class="col-8">
-                                <span id="detail-name"></span>
+                                <span id="detail-code"></span>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-4">
-                                <strong>Giá:</strong>
+                                <strong>Loại:</strong>
                             </div>
                             <div class="col-8">
-                                <span id="detail-price"></span>
+                                <span id="detail-type"></span>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-4">
-                                <strong>Danh mục:</strong>
+                                <strong>Giá trị:</strong>
                             </div>
                             <div class="col-8">
-                                <span id="detail-category"></span>
+                                <span id="detail-amount"></span>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-4">
-                                <strong>Số lượng tồn kho:</strong>
+                                <strong>Số lượng:</strong>
                             </div>
                             <div class="col-8">
-                                <span id="detail-stock"></span>
+                                <span id="detail-usage-limit"></span>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-4">
-                                <strong>Ngày tạo:</strong>
+                                <strong>Ngày bắt đầu:</strong>
                             </div>
                             <div class="col-8">
-                                <span id="detail-created"></span>
+                                <span id="detail-start-date"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <strong>Ngày kết thúc:</strong>
+                            </div>
+                            <div class="col-8">
+                                <span id="detail-end-date"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <strong>Trạng thái:</strong>
+                            </div>
+                            <div class="col-8">
+                                <span id="detail-status"></span>
                             </div>
                         </div>
 
@@ -435,36 +463,40 @@
                     <div class="col-12">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="page-title">Danh sách sản phẩm</h4>
+                                <h4 class="page-title">Danh sách mã giảm giá</h4>
 
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <table id="products" class="table table-striped table-hover table-bordered" style="width:100%">
+                <table id="vouchers" class="table table-striped table-hover table-bordered" style="width:100%">
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Sản phẩm</th>
-                        <th>Giá</th>
-                        <th>Danh mục</th>
-                        <th>Số lượng tồn kho</th>
-                        <th>Ngày tạo</th>
+                        <th>Mã giảm giá</th>
+                        <th>Loại</th>
+                        <th>Giá trị</th>
+                        <th>Số lượng</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Trạng thái</th>
                         <th>Thao tác</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Dữ liệu sản phẩm sẽ được load ở đây -->
+
                     </tbody>
                     <tfoot>
                     <tr>
                         <th>#</th>
-                        <th>Sản phẩm</th>
-                        <th>Giá</th>
-                        <th>Danh mục</th>
-                        <th>Số lượng tồn kho</th>
-                        <th>Ngày tạo</th>
+                        <th>Mã giảm giá</th>
+                        <th>Loại</th>
+                        <th>Giá trị</th>
+                        <th>Số lượng</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Trạng thái</th>
                         <th>Thao tác</th>
                     </tr>
                     </tfoot>
@@ -496,49 +528,52 @@
         document.querySelector("#sidebar").classList.toggle("expand");
     });
 
-    const findProductById = (id) => {
-        const table = $('#products').DataTable();
+    const findVoucherById = (id) => {
+        const table = $('#vouchers').DataTable();
         return table.rows().data().toArray().find(item => item.id === id);
     }
 
-    const viewProductDetails = (id) => {
-        const product = findProductById(id);
+    const viewVoucherDetails = (id) => {
+        const voucher = findVoucherById(id);
 
-        if (product) {
-            $('#detail-id').text(product.id);
-            $('#detail-name').text(product.name);
-            $('#detail-price').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price));
-            $('#detail-category').text(product.category);
-            $('#detail-stock').text(product.stock);
-            $('#detail-created').text(new Date(product.created_at).toLocaleDateString());
-            $('#detail-image').attr('src', product.image);
+        if (voucher) {
+            $('#detail-id').text(voucher.id);
+            $('#detail-code').text(voucher.code);
+            $('#detail-type').text(voucher.discount_type);
+            $('#detail-amount').text(voucher.discount_value);
+            $('#detail-usage-limit').text(voucher.usage_limit);
+            $('#detail-start-date').text(new Date(voucher.start_date).toLocaleDateString());
+            $('#detail-end-date').text(new Date(voucher.end_date).toLocaleDateString())
+            $('#detail-status').text(voucher.status);
 
-            $('#productDetailModal').modal('show');
+            $('#voucherDetailModal').modal('show');
         }
     }
 
-    const deleleProduct = (id) => {
-        confirm(`Bạn có chắc chắn muốn xóa sản phẩm có id: ${id} không?`);
+    const deleleVoucher = (id) => {
+        confirm(`Bạn có chắc chắn muốn xóa mã giảm giá có id: ${id} không?`);
     }
 
     const openEditModal = (id) => {
-        const product = findProductById(id);
-        document.getElementById('editName').value = product.name;
-        document.getElementById('editPrice').value = product.price;
-        document.getElementById('editCategory').value = product.category;
-        document.getElementById('editStock').value = product.stock;
+        const voucher = findVoucherById(id);
+        document.getElementById('editCode').value = voucher.code;
+        document.getElementById('editType').value = voucher.discount_type;
+        document.getElementById('editAmount').value = voucher.discount_value;
+        document.getElementById('editStartDate').value = voucher.start_date;
+        document.getElementById('editEndDate').value = voucher.end_date;
+        document.getElementById('editStatus').value = voucher.status;
 
-        $('#editProductModal').modal('show');
+        $('#editVoucherModal').modal('show');
     };
 
-    const openAddProductModal = () => {
-        $('#addProductModal').modal('show');
+    const openAddVoucherModal = () => {
+        $('#addVoucherModal').modal('show');
     };
 
 </script>
 <script>
     $(document).ready(function () {
-        $('#products').DataTable({
+        $('#vouchers').DataTable({
             initComplete: function () {
                 const table = this.api();
                 const thead = $(table.table().header());
@@ -549,7 +584,7 @@
                     let column = this;
                     let title = column.header().textContent;
 
-                    if (index === 6) {
+                    if (index === 8) {
                         filterRow.append('<td></td>');
                     } else {
                         let input = $('<input>', {
@@ -567,34 +602,39 @@
                 });
             },
             ajax: {
-                url: '../../data/products.json',
+                url: '../../data/vouchers.json',
                 dataSrc: ''
             },
             columns: [
                 { data: 'id' },
+                { data: 'code' },
                 {
-                    data: null,
-                    render: (data, type, row) => {
-                        const image = row.images[0] || 'default-product.jpg';
-                        const name = row.name || 'Chưa có tên';
-                        return `<img src="${image}" alt="${name}" class="mr-2 rounded-circle shadow" style="height: 50px; width: 50px; object-fit: cover;" />
-                                <a href="#" class="text-body font-weight-semibold">${name}</a>`;
-                    }
-                },
-                {
-                    data: 'price',
+                    data: 'discount_type',
                     render: function (data) {
-                        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data);
+                        const typeMapping = {
+                            0: "Giảm giá gốc",
+                            1: "Giảm theo phần trăm",
+                            2: "Giảm giá ship"
+                        };
+
+                        return typeMapping[data] || "Không xác định";
                     }
                 },
-                { data: 'category_id' },
-                { data: 'stock' },
+                { data: 'discount_value' },
+                { data: 'usage_limit' },
                 {
-                    data: 'created_at',
+                    data: 'start_date',
                     render: (data) => {
                         return new Date(data).toLocaleDateString();
                     }
                 },
+                {
+                    data: 'end_date',
+                    render: (data) => {
+                        return new Date(data).toLocaleDateString();
+                    }
+                },
+                { data: 'status' },
                 {
                     data: 'id',
                     orderable: false,
@@ -602,10 +642,10 @@
                         const editBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-primary me-2 btn-icon editBtn" onclick="openEditModal(${data})" title="Chỉnh sửa">
                             <i class="bi bi-pencil"></i>
                          </a>`;
-                        const deleteBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-danger me-2 btn-icon" onclick="deleleProduct(${data})" title="Xóa">
+                        const deleteBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-danger me-2 btn-icon" onclick="deleleVoucher(${data})" title="Xóa">
                             <i class="bi bi-trash"></i>
                          </a>`;
-                        const detailBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-info btn-icon" onclick="viewProductDetails(${data})" title="Xem chi tiết">
+                        const detailBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-info btn-icon" onclick="viewVoucherDetails(${data})" title="Xem chi tiết">
                             <i class="bi bi-eye"></i>
                          </a>`;
 
@@ -614,9 +654,9 @@
                 }
             ],
             language: {
-                lengthMenu: 'Hiển thị _MENU_ sản phẩm',
+                lengthMenu: 'Hiển thị _MENU_ mã giảm giá',
                 zeroRecords: 'Không tìm thấy dữ liệu',
-                info: 'Hiển thị _START_ đến _END_ của _TOTAL_ sản phẩm',
+                info: 'Hiển thị _START_ đến _END_ của _TOTAL_ mã giảm giá',
                 infoEmpty: 'Hiển thị 0 đến 0 của 0 mục',
                 infoFiltered: '(lọc từ _MAX_ mục)',
                 search: 'Tìm kiếm:',
@@ -647,13 +687,13 @@
                     width: '5%'
                 },
                 {
-                    targets: [2, 3, 4],
-                    responsivePriority: 2,
+                    targets: [1, 2],
+                    responsivePriority: 0,
                     width: '15%'
                 },
                 {
-                    targets: 5,
-                    responsivePriority: 0,
+                    targets: [3, 4, 5, 6],
+                    responsivePriority: 1,
                     width: '10%'
                 },
                 {
@@ -667,10 +707,10 @@
                 topStart: {
                     buttons: [
                         {
-                            text: '<i class="bi bi-plus-circle me-2"></i>Thêm sản phẩm',
+                            text: '<i class="bi bi-plus-circle me-2"></i>Thêm mã giảm giá',
                             className: 'btn btn-secondary me-2',
                             action: function () {
-                                openAddProductModal();
+                                openAddVoucherModal();
                             }
                         },
                         {

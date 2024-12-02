@@ -1,59 +1,63 @@
 [
   {
-    "customer": "Trống Điện Alesis Nitro Mesh Kit",
-    "address": 16850000.0,
-
-    "total_amount": 51,
-    "total_views": 2202,
-    "is_featured": 1,
-    "status": 1,
-    "slug": "trong-dien-alesis-nitro-mesh-electronic-drum-kit",
-    "category_id": "Trống điện",
-    "brand_id": "Alesis",
-    "images": [
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-nitro-mesh-kit-viet-music.jpg?v=1689725668&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-nitro-mesh-kit-viet-music-2.jpg?v=1689725669&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-nitro-mesh-kit-viet-music-3.jpg?v=1689725670&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-nitro-mesh-kit-viet-music-4.jpg?v=1689725671&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-nitro-mesh-kit-viet-music-5.jpg?v=1689725671&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-nitro-mesh-kit-viet-music-6.jpg?v=1689725672&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-nitro-mesh-kit-viet-music-7.jpg?v=1689725673&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-nitro-mesh-kit-viet-music-8.jpg?v=1689725674&width=1946"
-    ],
+    "customer": "Diêm Phụng",
+    "customer_id": 1,
+    "address": "thanh pho abc",
+    "total_amount": 16850000.0,
     "created_at": "2023-09-16T01:10:50Z",
-    "updated_at": "2024-02-06T14:09:52Z",
-    "deleted_at": null,
+    "status": 1,
+    "payment": "Momo",
     "id": 1
   },
   {
-    "name": "Trống Điện Alesis Surge Mesh Kit",
-    "price": 13400000.0,
-    "description": [
-      "Đặc Điểm:",
-      "Series: Alesis Surge Mesh\n        \n\nSố Lượng Trống: 5 Trống\nSố Lượng Cymbal: 3 Cymbals\nCảm Biến Đa Vùng: Có\nBao Gồm Pedal: Kick Pedal, Hi-hat Pedal\nĐầu Vào Bổ Xung: Tom, Crash\nSố Bộ Trống Trong Module: 26 - 50"
-    ],
-    "stock": 27,
-    "total_views": 2601,
-    "is_featured": 1,
+    "customer": "Dương Dương Huấn",
+    "customer_id": 2,
+    "address": "thanh pho xyz",
+    "total_amount": 16850000.0,
+    "created_at": "2023-09-16T01:10:50Z",
     "status": 1,
-    "slug": "trong-dien-alesis-surge-mesh-electronic-drum-kit",
-    "category_id": "Trống điện",
-    "brand_id": "Alesis",
-    "images": [
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-surge-mesh-kit-viet-music.jpg?v=1689725695&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-surge-mesh-kit-viet-music-2.jpg?v=1689725696&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-surge-mesh-kit-viet-music-3.jpg?v=1689725697&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-surge-mesh-kit-viet-music-4.jpg?v=1689725698&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-surge-mesh-kit-viet-music-5.jpg?v=1689725699&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-surge-mesh-kit-viet-music-6.jpg?v=1689725699&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-surge-mesh-kit-viet-music-7.jpg?v=1689725700&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-surge-mesh-kit-viet-music-8.jpg?v=1689725701&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-surge-mesh-kit-viet-music-9.jpg?v=1689725702&width=1946",
-      "//vietmusic.vn/cdn/shop/files/trong-dien-alesis-surge-mesh-kit-viet-music-10.jpg?v=1689725703&width=1946"
-    ],
-    "created_at": "2023-01-13T12:53:26Z",
-    "updated_at": "2024-06-15T03:45:16Z",
-    "deleted_at": null,
+    "payment": "COD",
     "id": 2
+  },
+  {
+    "customer": "Cô. Lã Thương",
+    "customer_id": 3,
+    "address": "thanh pho xyz",
+    "total_amount": 16850000.0,
+    "created_at": "2023-09-16T01:10:50Z",
+    "status": 1,
+    "payment": "COD",
+    "id": 3
+  },
+  {
+    "customer": "Em. Cấn Minh",
+    "customer_id": 4,
+    "address": "thanh pho xyz",
+    "total_amount": 16850000.0,
+    "created_at": "2023-09-16T01:10:50Z",
+    "status": 1,
+    "payment": "COD",
+    "id": 4
+  },
+  {
+    "customer": "Cô. Lã Hiểu Nhân",
+    "customer_id": 5,
+    "address": "thanh pho xyz",
+    "total_amount": 16850000.0,
+    "created_at": "2023-09-16T01:10:50Z",
+    "status": 1,
+    "payment": "COD",
+    "id": 5
+  },
+  {
+    "customer": "Dương Hoàng Khanh",
+    "customer_id": 6,
+    "address": "thanh pho xyz",
+    "total_amount": 16850000.0,
+    "created_at": "2023-09-16T01:10:50Z",
+    "status": 1,
+    "payment": "COD",
+    "id": 6
   }
+
 ]

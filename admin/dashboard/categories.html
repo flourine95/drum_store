@@ -247,7 +247,7 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="vouchers.html" class="sidebar-link">
+                <a href="categories.html" class="sidebar-link">
                     <i class="bi bi-collection"></i>
                     <span>Quản lý danh mục</span>
                 </a>
@@ -275,88 +275,72 @@
     </aside>
     <div class="main">
 
-        <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
+        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addProductModalLabel">Thêm sản phẩm mới</h5>
+                        <h5 class="modal-title" id="addCategoryModalLabel">Thêm sản phẩm mới</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="addProductForm">
+                        <form id="addCategoryForm">
                             <div class="mb-3">
-                                <label for="addName" class="form-label">Tên sản phẩm</label>
+                                <label for="addName" class="form-label">Tên danh mục</label>
                                 <input type="text" class="form-control" id="addName" required>
                             </div>
                             <div class="mb-3">
-                                <label for="addPrice" class="form-label">Giá</label>
-                                <input type="number" class="form-control" id="addPrice" required>
+                                <label for="addDescription" class="form-label">Mô tả</label>
+                                <input type="text" class="form-control" id="addDescription" required>
                             </div>
                             <div class="mb-3">
-                                <label for="addCategory" class="form-label">Danh mục</label>
-                                <input type="text" class="form-control" id="addCategory" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="addStock" class="form-label">Số lượng tồn kho</label>
-                                <input type="number" class="form-control" id="addStock" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="addImage" class="form-label">Hình ảnh</label>
-                                <input type="file" class="form-control" id="addImage" accept="image/*">
+                                <label for="addCreatedAt" class="form-label">Ngày tạo</label>
+                                <input type="date" class="form-control" id="addCreatedAt" required>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" form="addProductForm" class="btn btn-primary">Thêm sản phẩm</button>
+                        <button type="submit" form="addCategoryForm" class="btn btn-primary">Thêm sản phẩm</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editProductModalLabel">Chỉnh sửa sản phẩm</h5>
+                        <h5 class="modal-title" id="editCategoryModalLabel">Chỉnh sửa sản phẩm</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="editProductForm">
+                        <form id="editCategoryForm">
                             <div class="mb-3">
-                                <label for="editName" class="form-label">Tên sản phẩm</label>
+                                <label for="editName" class="form-label">Tên danh mục</label>
                                 <input type="text" class="form-control" id="editName" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editPrice" class="form-label">Giá</label>
-                                <input type="number" class="form-control" id="editPrice" required>
+                                <label for="editDescription" class="form-label">Mô tả</label>
+                                <input type="text" class="form-control" id="editDescription" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editCategory" class="form-label">Danh mục</label>
-                                <input type="text" class="form-control" id="editCategory" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editStock" class="form-label">Số lượng tồn kho</label>
-                                <input type="number" class="form-control" id="editStock" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editImage" class="form-label">Hình ảnh</label>
-                                <input type="file" class="form-control" id="editImage" accept="image/*">
+                                <label for="editCreatedAt" class="form-label">Danh mục</label>
+                                <input type="date" class="form-control" id="editCreatedAt" required>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" form="editProductForm" class="btn btn-primary">Lưu thay đổi</button>
+                        <button type="submit" form="editCategoryForm" class="btn btn-primary">Lưu thay đổi</button>
                     </div>
                 </div>
             </div>
         </div>
 
 
-        <div id="productDetailModal" class="modal fade" tabindex="-1" role="dialog">
+        <div id="categoryDetailModal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -366,10 +350,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="text-center mb-4">
-                            <img id="detail-image" alt="Hình ảnh sản phẩm" class="img-fluid" src="">
-                        </div>
-
                         <div class="row mb-3">
                             <div class="col-4">
                                 <strong>ID:</strong>
@@ -380,7 +360,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-4">
-                                <strong>Tên sản phẩm:</strong>
+                                <strong>Tên danh mục:</strong>
                             </div>
                             <div class="col-8">
                                 <span id="detail-name"></span>
@@ -388,27 +368,10 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-4">
-                                <strong>Giá:</strong>
+                                <strong>Mô tả:</strong>
                             </div>
                             <div class="col-8">
-                                <span id="detail-price"></span>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-4">
-                                <strong>Danh mục:</strong>
-                            </div>
-                            <div class="col-8">
-                                <span id="detail-category"></span>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-4">
-                                <strong>Số lượng tồn kho:</strong>
-                            </div>
-                            <div class="col-8">
-                                <span id="detail-stock"></span>
+                                <span id="detail-description"></span>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -416,10 +379,9 @@
                                 <strong>Ngày tạo:</strong>
                             </div>
                             <div class="col-8">
-                                <span id="detail-created"></span>
+                                <span id="detail-created-at"></span>
                             </div>
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -442,28 +404,24 @@
                     </div>
                 </div>
 
-                <table id="products" class="table table-striped table-hover table-bordered" style="width:100%">
+                <table id="categories" class="table table-striped table-hover table-bordered" style="width:100%">
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Sản phẩm</th>
-                        <th>Giá</th>
-                        <th>Danh mục</th>
-                        <th>Số lượng tồn kho</th>
+                        <th>Tên danh mục</th>
+                        <th>Mô tả</th>
                         <th>Ngày tạo</th>
                         <th>Thao tác</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Dữ liệu sản phẩm sẽ được load ở đây -->
+
                     </tbody>
                     <tfoot>
                     <tr>
                         <th>#</th>
-                        <th>Sản phẩm</th>
-                        <th>Giá</th>
-                        <th>Danh mục</th>
-                        <th>Số lượng tồn kho</th>
+                        <th>Tên danh mục</th>
+                        <th>Mô tả</th>
                         <th>Ngày tạo</th>
                         <th>Thao tác</th>
                     </tr>
@@ -495,49 +453,45 @@
         document.querySelector("#sidebar").classList.toggle("expand");
     });
 
-    const findProductById = (id) => {
-        const table = $('#products').DataTable();
+    const findCategoryById = (id) => {
+        const table = $('#categories').DataTable();
         return table.rows().data().toArray().find(item => item.id === id);
     }
 
-    const viewProductDetails = (id) => {
-        const product = findProductById(id);
+    const viewCategoryDetails = (id) => {
+        const category = findCategoryById(id);
 
-        if (product) {
-            $('#detail-id').text(product.id);
-            $('#detail-name').text(product.name);
-            $('#detail-price').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price));
-            $('#detail-category').text(product.category);
-            $('#detail-stock').text(product.stock);
-            $('#detail-created').text(new Date(product.created_at).toLocaleDateString());
-            $('#detail-image').attr('src', product.image);
+        if (category) {
+            $('#detail-id').text(category.id);
+            $('#detail-name').text(category.name);
+            $('#detail-description').text(category.description);
+            $('#detail-created-at').text(new Date(category.created_at).toLocaleDateString());
 
-            $('#productDetailModal').modal('show');
+            $('#categoryDetailModal').modal('show');
         }
     }
 
-    const deleleProduct = (id) => {
+    const deleleCategory = (id) => {
         confirm(`Bạn có chắc chắn muốn xóa sản phẩm có id: ${id} không?`);
     }
 
     const openEditModal = (id) => {
-        const product = findProductById(id);
-        document.getElementById('editName').value = product.name;
-        document.getElementById('editPrice').value = product.price;
-        document.getElementById('editCategory').value = product.category;
-        document.getElementById('editStock').value = product.stock;
+        const category = findCategoryById(id);
+        document.getElementById('editName').value = category.name;
+        document.getElementById('editDescription').value = category.description;
+        document.getElementById('editCreatedAt').value = category.created_at;
 
-        $('#editProductModal').modal('show');
+        $('#editCategoryModal').modal('show');
     };
 
-    const openAddProductModal = () => {
-        $('#addProductModal').modal('show');
+    const openAddCategoryModal = () => {
+        $('#addCategoryModal').modal('show');
     };
 
 </script>
 <script>
     $(document).ready(function () {
-        $('#products').DataTable({
+        $('#categories').DataTable({
             initComplete: function () {
                 const table = this.api();
                 const thead = $(table.table().header());
@@ -548,7 +502,7 @@
                     let column = this;
                     let title = column.header().textContent;
 
-                    if (index === 6) {
+                    if (index === 3) {
                         filterRow.append('<td></td>');
                     } else {
                         let input = $('<input>', {
@@ -566,28 +520,13 @@
                 });
             },
             ajax: {
-                url: '../../data/products.json',
+                url: '../../data/categories.json',
                 dataSrc: ''
             },
             columns: [
                 { data: 'id' },
-                {
-                    data: null,
-                    render: (data, type, row) => {
-                        const image = row.images[0] || 'default-product.jpg';
-                        const name = row.name || 'Chưa có tên';
-                        return `<img src="${image}" alt="${name}" class="mr-2 rounded-circle shadow" style="height: 50px; width: 50px; object-fit: cover;" />
-                                <a href="#" class="text-body font-weight-semibold">${name}</a>`;
-                    }
-                },
-                {
-                    data: 'price',
-                    render: function (data) {
-                        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data);
-                    }
-                },
-                { data: 'category_id' },
-                { data: 'stock' },
+                { data: 'name' },
+                { data: 'description' },
                 {
                     data: 'created_at',
                     render: (data) => {
@@ -601,10 +540,10 @@
                         const editBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-primary me-2 btn-icon editBtn" onclick="openEditModal(${data})" title="Chỉnh sửa">
                             <i class="bi bi-pencil"></i>
                          </a>`;
-                        const deleteBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-danger me-2 btn-icon" onclick="deleleProduct(${data})" title="Xóa">
+                        const deleteBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-danger me-2 btn-icon" onclick="deleleCategory(${data})" title="Xóa">
                             <i class="bi bi-trash"></i>
                          </a>`;
-                        const detailBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-info btn-icon" onclick="viewProductDetails(${data})" title="Xem chi tiết">
+                        const detailBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-info btn-icon" onclick="viewCategoryDetails(${data})" title="Xem chi tiết">
                             <i class="bi bi-eye"></i>
                          </a>`;
 
@@ -646,14 +585,14 @@
                     width: '5%'
                 },
                 {
-                    targets: [2, 3, 4],
-                    responsivePriority: 2,
-                    width: '15%'
+                    targets: [1, 3],
+                    responsivePriority: 1,
+                    width: '10%'
                 },
                 {
-                    targets: 5,
+                    targets: 2,
                     responsivePriority: 0,
-                    width: '10%'
+                    width: '20%'
                 },
                 {
                     targets: -1,
@@ -669,7 +608,7 @@
                             text: '<i class="bi bi-plus-circle me-2"></i>Thêm sản phẩm',
                             className: 'btn btn-secondary me-2',
                             action: function () {
-                                openAddProductModal();
+                                openAddCategoryModal();
                             }
                         },
                         {
