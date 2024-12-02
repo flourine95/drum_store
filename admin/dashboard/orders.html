@@ -280,36 +280,40 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addProductModalLabel">Thêm sản phẩm mới</h5>
+            <h5 class="modal-title" id="addProductModalLabel">Thêm đơn hàng mới</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form id="addProductForm">
               <div class="mb-3">
-                <label for="addName" class="form-label">Tên sản phẩm</label>
-                <input type="text" class="form-control" id="addName" required>
+                <label for="addCustomer" class="form-label">Khách hàng</label>
+                <input type="text" class="form-control" id="addCustomer" required>
               </div>
               <div class="mb-3">
-                <label for="addPrice" class="form-label">Giá</label>
-                <input type="number" class="form-control" id="addPrice" required>
+                <label for="addAddress" class="form-label">Địa chỉ</label>
+                <input type="text" class="form-control" id="addAddress" required>
               </div>
               <div class="mb-3">
-                <label for="addCategory" class="form-label">Danh mục</label>
-                <input type="text" class="form-control" id="addCategory" required>
+                <label for="addTotalAmount" class="form-label">Tổng tiền</label>
+                <input type="number" class="form-control" id="addTotalAmount" required>
               </div>
               <div class="mb-3">
-                <label for="addStock" class="form-label">Số lượng tồn kho</label>
-                <input type="number" class="form-control" id="addStock" required>
+                <label for="addCreatedAt" class="form-label">Ngày đặt</label>
+                <input type="date" class="form-control" id="addCreatedAt" required>
               </div>
               <div class="mb-3">
-                <label for="addImage" class="form-label">Hình ảnh</label>
-                <input type="file" class="form-control" id="addImage" accept="image/*">
+                <label for="addStatus" class="form-label">Trạng thái</label>
+                <input type="text" class="form-control" id="addStatus" required>
+              </div>
+              <div class="mb-3">
+                <label for="addPayment" class="form-label">Thanh toán</label>
+                <input type="text" class="form-control" id="addPayment" required>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-            <button type="submit" form="addProductForm" class="btn btn-primary">Thêm sản phẩm</button>
+            <button type="submit" form="addProductForm" class="btn btn-primary">Thêm đơn hàng</button>
           </div>
         </div>
       </div>
@@ -320,30 +324,34 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="editProductModalLabel">Chỉnh sửa sản phẩm</h5>
+            <h5 class="modal-title" id="editProductModalLabel">Chỉnh sửa đơn hàng</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form id="editProductForm">
               <div class="mb-3">
-                <label for="editName" class="form-label">Tên sản phẩm</label>
-                <input type="text" class="form-control" id="editName" required>
+                <label for="editCustomer" class="form-label">Khách hàng</label>
+                <input type="text" class="form-control" id="editCustomer" required>
               </div>
               <div class="mb-3">
-                <label for="editPrice" class="form-label">Giá</label>
-                <input type="number" class="form-control" id="editPrice" required>
+                <label for="editAddress" class="form-label">Địa chỉ</label>
+                <input type="number" class="form-control" id="editAddress" required>
               </div>
               <div class="mb-3">
-                <label for="editCategory" class="form-label">Danh mục</label>
-                <input type="text" class="form-control" id="editCategory" required>
+                <label for="editTotalAmount" class="form-label">Tổng tiền</label>
+                <input type="text" class="form-control" id="editTotalAmount" required>
               </div>
               <div class="mb-3">
-                <label for="editStock" class="form-label">Số lượng tồn kho</label>
-                <input type="number" class="form-control" id="editStock" required>
+                <label for="editCreatedAt" class="form-label">Ngày đặt</label>
+                <input type="number" class="form-control" id="editCreatedAt" required>
               </div>
               <div class="mb-3">
-                <label for="editImage" class="form-label">Hình ảnh</label>
-                <input type="file" class="form-control" id="editImage" accept="image/*">
+                <label for="editStatus" class="form-label">Trạng thái</label>
+                <input type="text" class="form-control" id="editStatus" required>
+              </div>
+              <div class="mb-3">
+                <label for="editPayment" class="form-label">Thanh toán</label>
+                <input type="text" class="form-control" id="editPayment" required>
               </div>
             </form>
           </div>
@@ -360,16 +368,12 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Chi tiết sản phẩm</h5>
+            <h5 class="modal-title">Chi tiết đơn hàng</h5>
             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <div class="text-center mb-4">
-              <img id="detail-image" alt="Hình ảnh sản phẩm" class="img-fluid" src="">
-            </div>
-
             <div class="row mb-3">
               <div class="col-4">
                 <strong>ID:</strong>
@@ -380,43 +384,43 @@
             </div>
             <div class="row mb-3">
               <div class="col-4">
-                <strong>Tên sản phẩm:</strong>
+                <strong>Khách hàng:</strong>
               </div>
               <div class="col-8">
-                <span id="detail-name"></span>
+                <span id="detail-customer"></span>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-4">
-                <strong>Giá:</strong>
+                <strong>Ngày đặt:</strong>
               </div>
               <div class="col-8">
-                <span id="detail-price"></span>
+                <span id="detail-created-at"></span>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-4">
-                <strong>Danh mục:</strong>
+                <strong>Tổng tiền:</strong>
               </div>
               <div class="col-8">
-                <span id="detail-category"></span>
+                <span id="detail-total-amount"></span>
               </div>
             </div>
 
             <div class="row mb-3">
               <div class="col-4">
-                <strong>Số lượng tồn kho:</strong>
+                <strong>Trạng thái:</strong>
               </div>
               <div class="col-8">
-                <span id="detail-stock"></span>
+                <span id="detail-status"></span>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-4">
-                <strong>Ngày tạo:</strong>
+                <strong>Thanh toán:</strong>
               </div>
               <div class="col-8">
-                <span id="detail-created"></span>
+                <span id="detail-payment"></span>
               </div>
             </div>
 
@@ -435,7 +439,7 @@
           <div class="col-12">
             <div class="row">
               <div class="col-12 d-flex justify-content-between align-items-center mb-3">
-                <h4 class="page-title">Danh sách sản phẩm</h4>
+                <h4 class="page-title">Danh sách đơn hàng</h4>
 
               </div>
             </div>
@@ -446,25 +450,72 @@
           <thead>
           <tr>
             <th>#</th>
-            <th>Sản phẩm</th>
-            <th>Giá</th>
-            <th>Danh mục</th>
-            <th>Số lượng tồn kho</th>
-            <th>Ngày tạo</th>
+            <th>ID khách hàng</th>
+            <th>Địa chỉ</th>
+            <th>Tổng tiền</th>
+            <th>Ngày đặt</th>
+            <th>Trạng thái</th>
+            <th>Thanh toán</th>
             <th>Thao tác</th>
           </tr>
           </thead>
           <tbody>
-          <!-- Dữ liệu sản phẩm sẽ được load ở đây -->
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>address</td>
+            <td>total</td>
+            <td>date</td>
+            <td>status</td>
+            <td>Momo</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>address</td>
+            <td>total</td>
+            <td>date</td>
+            <td>status</td>
+            <td>Momo</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>address</td>
+            <td>total</td>
+            <td>date</td>
+            <td>status</td>
+            <td>Momo</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>address</td>
+            <td>total</td>
+            <td>date</td>
+            <td>status</td>
+            <td>Momo</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>address</td>
+            <td>total</td>
+            <td>date</td>
+            <td>status</td>
+            <td>Momo</td>
+          </tr>
+
           </tbody>
           <tfoot>
           <tr>
             <th>#</th>
-            <th>Sản phẩm</th>
-            <th>Giá</th>
-            <th>Danh mục</th>
-            <th>Số lượng tồn kho</th>
-            <th>Ngày tạo</th>
+            <th>ID khách hàng</th>
+            <th>Địa chỉ</th>
+            <th>Tổng tiền</th>
+            <th>Ngày đặt</th>
+            <th>Trạng thái</th>
+            <th>Thanh toán</th>
             <th>Thao tác</th>
           </tr>
           </tfoot>
@@ -489,14 +540,6 @@
   </div>
 </div>
 <script src="../../assets/libraries/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  const hamBurger = document.querySelector(".toggle-btn");
-
-  hamBurger.addEventListener("click", function () {
-    document.querySelector("#sidebar").classList.toggle("expand");
-  });
-
-</script>
 
 <script>
   const hamBurger = document.querySelector(".toggle-btn");
@@ -505,37 +548,36 @@
     document.querySelector("#sidebar").classList.toggle("expand");
   });
 
-  const findProductById = (id) => {
-    const table = $('#products').DataTable();
+  const findOrderById = (id) => {
+    const table = $('#orders').DataTable();
     return table.rows().data().toArray().find(item => item.id === id);
   }
 
-  const viewProductDetails = (id) => {
-    const product = findProductById(id);
+  const viewOrderDetails = (id) => {
+    const order = findOrderById(id);
 
-    if (product) {
-      $('#detail-id').text(product.id);
-      $('#detail-name').text(product.name);
-      $('#detail-price').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price));
-      $('#detail-category').text(product.category);
-      $('#detail-stock').text(product.stock);
-      $('#detail-created').text(new Date(product.created_at).toLocaleDateString());
-      $('#detail-image').attr('src', product.image);
-
+    if (order) {
+      $('#detail-id').text(order.id);
+      $('#detail-name').text(order.name);
+      $('#detail-price').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.price));
+      $('#detail-category').text(order.category);
+      $('#detail-stock').text(order.stock);
+      $('#detail-created').text(new Date(order.created_at).toLocaleDateString());
+      $('#detail-image').attr('src', order.image);
       $('#productDetailModal').modal('show');
     }
   }
 
-  const deleleProduct = (id) => {
-    confirm(`Bạn có chắc chắn muốn xóa sản phẩm có id: ${id} không?`);
+  const deleleOrder = (id) => {
+    confirm(`Bạn có chắc chắn muốn xóa đơn hàng có id: ${id} không?`);
   }
 
   const openEditModal = (id) => {
-    const product = findProductById(id);
-    document.getElementById('editName').value = product.name;
-    document.getElementById('editPrice').value = product.price;
-    document.getElementById('editCategory').value = product.category;
-    document.getElementById('editStock').value = product.stock;
+    const order = findOrderById(id);
+    document.getElementById('editCustomer').value = order.customer;
+    document.getElementById('editPrice').value = order.price;
+    document.getElementById('editCategory').value = order.category;
+    document.getElementById('editStock').value = order.stock;
 
     $('#editProductModal').modal('show');
   };
@@ -575,10 +617,6 @@
           }
         });
       },
-      ajax: {
-        url: '../../data/products.json',
-        dataSrc: ''
-      },
       columns: [
         { data: 'id' },
         {
@@ -611,10 +649,10 @@
             const editBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-primary me-2 btn-icon editBtn" onclick="openEditModal(${data})" title="Chỉnh sửa">
                             <i class="bi bi-pencil"></i>
                          </a>`;
-            const deleteBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-danger me-2 btn-icon" onclick="deleleProduct(${data})" title="Xóa">
+            const deleteBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-danger me-2 btn-icon" onclick="deleleOrder(${data})" title="Xóa">
                             <i class="bi bi-trash"></i>
                          </a>`;
-            const detailBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-info btn-icon" onclick="viewProductDetails(${data})" title="Xem chi tiết">
+            const detailBtn = `<a href="javascript:void(0)" class="btn btn-sm btn-info btn-icon" onclick="viewOrderDetails(${data})" title="Xem chi tiết">
                             <i class="bi bi-eye"></i>
                          </a>`;
 
@@ -676,7 +714,7 @@
         topStart: {
           buttons: [
             {
-              text: '<i class="bi bi-plus-circle me-2"></i>Thêm sản phẩm',
+              text: '<i class="bi bi-plus-circle me-2"></i>Thêm đơn hàng',
               className: 'btn btn-secondary me-2',
               action: function () {
                 openAddProductModal();
