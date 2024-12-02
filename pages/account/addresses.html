@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Drum Store</title>
-    <link rel="icon" href="/assets/images/logo.png" type="image/png">
+    <title>Địa chỉ</title>
+    <link rel="icon" href="../../assets/images/logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="../../assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/custom.css">
     <style>
         .dropdown-menu a {
             cursor: pointer;
@@ -270,6 +270,7 @@
 
         }
     </style>
+
     <style>
         .wrap_content_address .col-md-4 {
             display: flex;
@@ -354,322 +355,313 @@
 </head>
 
 <body>
-    <header>
-        <div class="fixed-top d-none d-lg-block">
-            <img src="/assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
-                class="img-fluid w-100 banner-header">
-            <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-                <div class="container">
-                    <!-- Logo -->
-                    <a class="navbar-brand" href="#">
-                        <img src="/assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
-                    </a>
-                    <!-- Toggle button -->
-                    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+<header>
+    <div class="fixed-top d-none d-lg-block">
+        <img src="../../assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
+             class="img-fluid w-100 banner-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../index.html">
+                    <img src="../../assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                         aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <!-- Navbar content -->
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <!-- Search form -->
-                        <form class="search-form d-lg-none">
-                            <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                            <button class="btn btn-dark" type="submit">Tìm</button>
-                        </form>
-                        <!-- Navigation links -->
-                        <div class="navbar-nav mx-auto fw-bold">
-                            <a class="nav-link" href="/pages/home.html">TRANG CHỦ</a>
-                            <a class="nav-link" href="/pages/about.html">GIỚI THIỆU</a>
-                            <a class="nav-link" href="/pages/about.html">SẢN PHẨM</a>
-                            <a class="nav-link" href="/pages/posts/posts.html">TIN TỨC</a>
-                            <a class="nav-link" href="/pages/contact.html">LIÊN HỆ</a>
-                        </div>
-                        <!-- Action buttons for mobile -->
-                        <div class="action-buttons d-lg-none">
-                            <div class="account-button-container">
-                                <a href="#" class="btn btn-light position-relative">
-                                    <i class="bi bi-cart-fill"></i>
-                                    <span
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <form class="search-form d-lg-none">
+                        <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                        <button class="btn btn-dark" type="submit">Tìm</button>
+                    </form>
+                    <div class="navbar-nav mx-auto fw-bold">
+                        <a class="nav-link" href="../home.html">TRANG CHỦ</a>
+                        <a class="nav-link" href="../about.html">GIỚI THIỆU</a>
+                        <a class="nav-link" href="products.html">SẢN PHẨM</a>
+                        <a class="nav-link" href="../posts/posts.html">TIN TỨC</a>
+                        <a class="nav-link" href="../contact.html">LIÊN HỆ</a>
+                    </div>
+                    <div class="action-buttons d-lg-none">
+                        <div class="account-button-container">
+                            <a href="../cart/cart.html" class="btn btn-light position-relative">
+                                <i class="bi bi-cart-fill"></i>
+                                <span
                                         class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                         3
                                     </span>
-                                </a>
-                            </div>
-
-                            <div class="account-button-container dropdown">
-                                <button class="btn btn-light w-100" type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <i class="bi bi-person-circle"></i>
-                                </button>
-                                <ul class="dropdown-menu mobile-dropdown-menu">
-                                    <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
-                                            tôi</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
-                                </ul>
-                            </div>
+                            </a>
                         </div>
-                        <!-- Desktop search form -->
-                        <form class="d-none d-lg-flex mt-lg-0 me-3">
-                            <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                            <button class="btn btn-dark" type="submit">Tìm</button>
-                        </form>
-                        <!-- Desktop action buttons -->
-                        <div class="d-none d-lg-flex align-items-center">
-                            <a href="#" class="btn btn-light me-3 position-relative">
-                                <i class="bi bi-cart-fill"></i>
-                                <span
+
+                        <div class="account-button-container dropdown">
+                            <button class="btn btn-light w-100" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu mobile-dropdown-menu">
+                                <li><a class="dropdown-item" href="../account/login.html">Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="../account/register.html">Đăng ký</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="../account/my-account.html">Tài khoản của
+                                    tôi</a></li>
+                                <li><a class="dropdown-item" href="../account/orders.html">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="../../index.html">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Desktop search form -->
+                    <form class="d-none d-lg-flex mt-lg-0 me-3">
+                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                        <button class="btn btn-dark" type="submit">Tìm</button>
+                    </form>
+                    <!-- Desktop action buttons -->
+                    <div class="d-none d-lg-flex align-items-center">
+                        <a href="../cart/cart.html" class="btn btn-light me-3 position-relative">
+                            <i class="bi bi-cart-fill"></i>
+                            <span
                                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     3
-                                </span>
-                            </a>
-                            <!-- Account dropdown for desktop -->
-                            <div class="dropdown">
-                                <button class="btn btn-light dropdown-toggle" type="button" id="desktopAccountDropdown"
+                            </span>
+                        </a>
+                        <!-- Account dropdown for desktop -->
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="desktopAccountDropdown"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-person-circle"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopAccountDropdown">
-                                    <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
-                                            tôi</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
-                                </ul>
-                            </div>
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopAccountDropdown">
+                                <li><a class="dropdown-item" href="../account/login.html">Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="../account/register.html">Đăng ký</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="../account/my-account.html">Tài khoản của
+                                    tôi</a>
+                                </li>
+                                <li><a class="dropdown-item" href="../account/orders.html">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="../../index.html">Đăng xuất</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </nav>
-        </div>
-        <div class="mobile-header d-lg-none">
-            <div class="mobile-banner">
-                Giảm giá 20% cho đơn hàng đầu tiên 🎉
-            </div>
-            <div class="mobile-main-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <button class="btn p-0" id="menuToggle">
-                        <i class="bi bi-list fs-4"></i>
-                    </button>
-                    <a href="/" class="logo">
-                        <img src="/assets/images/logo.png" alt="Logo" height="40">
-                    </a>
-                    <a href="/cart" class="position-relative">
-                        <i class="bi bi-cart fs-4"></i>
-                        <span class="cart-badge">3</span>
-                    </a>
-                </div>
-                <div class="mobile-search">
-                    <input type="text" placeholder="Tìm kiếm sản phẩm..." />
-                    <button><i class="bi bi-search"></i></button>
-                </div>
-            </div>
-        </div>
-
-        <div class="mobile-side-menu" id="sideMenu">
-            <div class="menu-header">
-                <div class="d-flex align-items-center">
-                    <i class="bi bi-person-circle fs-1 me-3"></i>
-                    <div>
-                        <h6 class="mb-1">Xin chào!</h6>
-                        <a href="/login" class="text-primary">Đăng nhập</a>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-items">
-                <a href="/" class="menu-item">
-                    <i class="bi bi-house"></i>
-                    Trang chủ
-                </a>
-                <a href="/categories" class="menu-item">
-                    <i class="bi bi-grid"></i>
-                    Danh mục sản phẩm
-                </a>
-                <a href="/orders" class="menu-item">
-                    <i class="bi bi-bag"></i>
-                    Đơn hàng của tôi
-                </a>
-                <a href="/wishlist" class="menu-item">
-                    <i class="bi bi-heart"></i>
-                    Sản phẩm yêu thích
-                </a>
-                <a href="/notifications" class="menu-item">
-                    <i class="bi bi-bell"></i>
-                    Thông báo
-                </a>
-                <a href="/account" class="menu-item">
-                    <i class="bi bi-person"></i>
-                    Tài khoản của tôi
-                </a>
-            </div>
-        </div>
-
-        <div class="menu-overlay" id="menuOverlay"></div>
-
-        <nav class="mobile-bottom-nav d-lg-none">
-            <div class="mobile-nav-items">
-                <a href="/" class="mobile-nav-item active">
-                    <i class="bi bi-house"></i>
-                    <span>Trang chủ</span>
-                </a>
-                <a href="/categories" class="mobile-nav-item">
-                    <i class="bi bi-grid"></i>
-                    <span>Danh mục</span>
-                </a>
-                <a href="/cart" class="mobile-nav-item">
-                    <i class="bi bi-cart"></i>
-                    <span>Giỏ hàng</span>
-                </a>
-                <a href="/account" class="mobile-nav-item">
-                    <i class="bi bi-person"></i>
-                    <span>Tài khoản</span>
-                </a>
             </div>
         </nav>
-    </header>
-    <main style="margin-top: 100px; min-height: 700px;">
-        <div class="container mt-4">
-            <div class="row">
-                <!-- Sidebar -->
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <div class="avatar mb-3">NN</div>
-                            <h5 class="card-title text-center">Xin chào <strong>Nguyễn Hữu Nam</strong></h5>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <a href="my-account.html" class="list-group-item"><i class="bi bi-person-circle me-2"></i>
-                                Thông
-                                tin tài khoản</a>
-                            <a href="orders.html" class="list-group-item"><i class="bi bi-file-earmark-text me-2"></i>
-                                Quản
-                                lý đơn hàng</a>
-                            <a href="addresses.html" class="list-group-item active"><i class="bi bi-geo-alt me-2"></i>
-                                Danh
-                                sách địa chỉ</a>
-                            <a href="../home.html" class="list-group-item"><i class="bi bi-box-arrow-right me-2"></i>
-                                Đăng
-                                xuất</a>
-                        </ul>
-                    </div>
+    </div>
+    <div class="mobile-header d-lg-none">
+        <div class="mobile-banner">
+            Thổi hồn vào âm nhạc của bạn 🎉
+        </div>
+        <div class="mobile-main-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn p-0" id="menuToggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                <a href="../../index.html" class="logo">
+                    <img src="../../assets/images/logo.png" alt="Logo" height="40">
+                </a>
+                <a href="../cart/cart.html" class="position-relative">
+                    <i class="bi bi-cart fs-4"></i>
+                    <span class="cart-badge">3</span>
+                </a>
+            </div>
+            <div class="mobile-search">
+                <input type="text" placeholder="Tìm kiếm sản phẩm..."/>
+                <button><i class="bi bi-search"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-side-menu" id="sideMenu">
+        <div class="menu-header">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-person-circle fs-1 me-3"></i>
+                <div>
+                    <h6 class="mb-1">Xin chào!</h6>
+                    <a href="../account/login.html" class="text-primary">Đăng nhập</a>
                 </div>
+            </div>
+        </div>
+        <div class="menu-items">
+            <a href="../../index.html" class="menu-item">
+                <i class="bi bi-house"></i>
+                Trang chủ
+            </a>
+            <a href="../products/products.html" class="menu-item">
+                <i class="bi bi-grid"></i>
+                Danh mục sản phẩm
+            </a>
+            <a href="../account/orders.html" class="menu-item">
+                <i class="bi bi-bag"></i>
+                Đơn hàng của tôi
+            </a>
+            <a href="../account/wishlist.html" class="menu-item">
+                <i class="bi bi-heart"></i>
+                Sản phẩm yêu thích
+            </a>
 
-                <!-- Main Content -->
-                <div class="col-md-9">
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h5 class="mb-0">DANH SÁCH ĐỊA CHỈ</h5>
-                        </div>
-                        <div class="card-body">
-                            <!-- Add New Address Button -->
-                            <a href="add-address.html" class="btn btn-primary mb-3 text-black">Thêm địa chỉ mới</a>
+            <a href="../account/my-account.html" class="menu-item">
+                <i class="bi bi-person"></i>
+                Tài khoản của tôi
+            </a>
+        </div>
+    </div>
 
-                            <!-- Wrap Content Address using row and col -->
-                            <div class="row">
-                                <!-- Phần hiển thị địa chỉ -->
-                                <div class="col-lg-6 col-md-12 mb-3">
-                                    <div class="card mb-3 address-card">
-                                        <div class="card-header d-flex justify-content-between align-items-center">
-                                            <span>Nguyễn Hữu Nam (Địa chỉ mặc định)</span>
-                                            <div>
-                                                <button class="btn btn-link text-decoration-none btn-primary"
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <nav class="mobile-bottom-nav d-lg-none">
+        <div class="mobile-nav-items">
+            <a href="../../index.html" class="mobile-nav-item active">
+                <i class="bi bi-house"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="../products/products.html" class="mobile-nav-item">
+                <i class="bi bi-grid"></i>
+                <span>Danh mục</span>
+            </a>
+            <a href="../cart/cart.html" class="mobile-nav-item">
+                <i class="bi bi-cart"></i>
+                <span>Giỏ hàng</span>
+            </a>
+            <a href="../account/my-account.html" class="mobile-nav-item">
+                <i class="bi bi-person"></i>
+                <span>Tài khoản</span>
+            </a>
+        </div>
+    </nav>
+</header>
+<main style="margin-top: 100px; min-height: 700px;">
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <div class="avatar mb-3">NN</div>
+                        <h5 class="card-title text-center">Xin chào <strong>Nguyễn Hữu Nam</strong></h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <a href="my-account.html" class="list-group-item"><i class="bi bi-person-circle me-2"></i>
+                            Thông
+                            tin tài khoản</a>
+                        <a href="orders.html" class="list-group-item"><i class="bi bi-file-earmark-text me-2"></i>
+                            Quản
+                            lý đơn hàng</a>
+                        <a href="addresses.html" class="list-group-item active"><i class="bi bi-geo-alt me-2"></i>
+                            Danh
+                            sách địa chỉ</a>
+                        <a href="../../index.html" class="list-group-item"><i class="bi bi-box-arrow-right me-2"></i>
+                            Đăng
+                            xuất</a>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="mb-0">DANH SÁCH ĐỊA CHỈ</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Add New Address Button -->
+                        <a href="add-address.html" class="btn btn-primary mb-3 text-black">Thêm địa chỉ mới</a>
+
+                        <!-- Wrap Content Address using row and col -->
+                        <div class="row">
+                            <!-- Phần hiển thị địa chỉ -->
+                            <div class="col-lg-6 col-md-12 mb-3">
+                                <div class="card mb-3 address-card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span>Nguyễn Hữu Nam (Địa chỉ mặc định)</span>
+                                        <div>
+                                            <button class="btn btn-link text-decoration-none btn-primary"
                                                     id="edit-btn"><i class="bi bi-pencil text-black"></i></button>
-                                                <button class="btn text-decoration-none btn-danger"><i
-                                                        class="bi bi-x text-black"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="card-body" id="address-content">
-                                            <p><strong>Họ tên:</strong> Nguyễn Hữu Nam</p>
-                                            <p><strong>Địa chỉ:</strong> 123 Đường ABC, Phường XYZ, Quận 1, TP. Hồ Chí
-                                                Minh</p>
-                                            <p><strong>Điện thoại:</strong> 0375174172</p>
-                                        </div>
-                                        <div id="address-form" style="display: none;">
-                                            <form>
-                                                <div class="mb-3">
-                                                    <label for="ho" class="form-label">Họ và tên</label>
-                                                    <input type="text" class="form-control" id="ho"
-                                                        placeholder="Họ và tên">
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="diachi1" class="form-label">Địa chỉ 1</label>
-                                                    <input type="text" class="form-control" id="diachi1"
-                                                        placeholder="Địa chỉ 1">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="diachi2" class="form-label">Địa chỉ 2</label>
-                                                    <input type="text" class="form-control" id="diachi2"
-                                                        placeholder="Địa chỉ 2">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="sodienthoai" class="form-label">Số điện thoại</label>
-                                                    <input type="text" class="form-control" id="sodienthoai"
-                                                        placeholder="Số điện thoại">
-                                                </div>
-                                                <div class="form-check mb-3">
-                                                    <input type="checkbox" class="form-check-input" id="macdinh">
-                                                    <label class="form-check-label" for="macdinh">Đặt làm địa chỉ mặc
-                                                        định</label>
-                                                </div>
-                                                <button type="submit" class="btn btn-dark">Sửa</button>
-                                                <button type="button" class="btn btn-link" id="cancel-btn">Hủy</button>
-                                            </form>
+                                            <button class="btn text-decoration-none btn-danger"><i
+                                                    class="bi bi-x text-black"></i></button>
                                         </div>
                                     </div>
+                                    <div class="card-body" id="address-content">
+                                        <p><strong>Họ tên:</strong> Nguyễn Hữu Nam</p>
+                                        <p><strong>Địa chỉ:</strong> 123 Đường ABC, Phường XYZ, Quận 1, TP. Hồ Chí
+                                            Minh</p>
+                                        <p><strong>Điện thoại:</strong> 0375174172</p>
+                                    </div>
+                                    <div id="address-form" style="display: none;">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="ho" class="form-label">Họ và tên</label>
+                                                <input type="text" class="form-control" id="ho"
+                                                       placeholder="Họ và tên">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="diachi1" class="form-label">Địa chỉ 1</label>
+                                                <input type="text" class="form-control" id="diachi1"
+                                                       placeholder="Địa chỉ 1">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="diachi2" class="form-label">Địa chỉ 2</label>
+                                                <input type="text" class="form-control" id="diachi2"
+                                                       placeholder="Địa chỉ 2">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="sodienthoai" class="form-label">Số điện thoại</label>
+                                                <input type="text" class="form-control" id="sodienthoai"
+                                                       placeholder="Số điện thoại">
+                                            </div>
+                                            <div class="form-check mb-3">
+                                                <input type="checkbox" class="form-check-input" id="macdinh">
+                                                <label class="form-check-label" for="macdinh">Đặt làm địa chỉ mặc
+                                                    định</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-dark">Sửa</button>
+                                            <button type="button" class="btn btn-link" id="cancel-btn">Hủy</button>
+                                        </form>
+                                    </div>
                                 </div>
+                            </div>
 
-                                <!-- Add New Address Form -->
-                                <div class="col-lg-6 col-md-12 mb-3">
-                                    <div class="card mb-3 address-card">
-                                        <div class="card-header">
-                                            <h5 class="mb-0">Thêm địa chỉ mới</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <form>
-                                                <div class="mb-3">
-                                                    <label for="ho-them" class="form-label">Họ và tên</label>
-                                                    <input type="text" class="form-control" id="ho-them"
-                                                        placeholder="Họ và tên">
-                                                </div>
+                            <!-- Add New Address Form -->
+                            <div class="col-lg-6 col-md-12 mb-3">
+                                <div class="card mb-3 address-card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Thêm địa chỉ mới</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="ho-them" class="form-label">Họ và tên</label>
+                                                <input type="text" class="form-control" id="ho-them"
+                                                       placeholder="Họ và tên">
+                                            </div>
 
-                                                <div class="mb-3">
-                                                    <label for="diachi1-them" class="form-label">Địa chỉ 1</label>
-                                                    <input type="text" class="form-control" id="diachi1-them"
-                                                        placeholder="Địa chỉ 1">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="diachi2-them" class="form-label">Địa chỉ 2</label>
-                                                    <input type="text" class="form-control" id="diachi2-them"
-                                                        placeholder="Địa chỉ 2">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="sodienthoai-them" class="form-label">Số điện
-                                                        thoại</label>
-                                                    <input type="text" class="form-control" id="sodienthoai-them"
-                                                        placeholder="Số điện thoại">
-                                                </div>
-                                                <div class="form-check mb-3">
-                                                    <input type="checkbox" class="form-check-input" id="macdinh-them">
-                                                    <label class="form-check-label" for="macdinh-them">Đặt làm địa chỉ
-                                                        mặc định</label>
-                                                </div>
-                                                <button type="submit" class="btn btn-dark">Thêm</button>
-                                                <button type="button" class="btn btn-link"
-                                                    id="cancel-btn-them">Hủy</button>
-                                            </form>
-                                        </div>
+                                            <div class="mb-3">
+                                                <label for="diachi1-them" class="form-label">Địa chỉ 1</label>
+                                                <input type="text" class="form-control" id="diachi1-them"
+                                                       placeholder="Địa chỉ 1">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="diachi2-them" class="form-label">Địa chỉ 2</label>
+                                                <input type="text" class="form-control" id="diachi2-them"
+                                                       placeholder="Địa chỉ 2">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="sodienthoai-them" class="form-label">Số điện
+                                                    thoại</label>
+                                                <input type="text" class="form-control" id="sodienthoai-them"
+                                                       placeholder="Số điện thoại">
+                                            </div>
+                                            <div class="form-check mb-3">
+                                                <input type="checkbox" class="form-check-input" id="macdinh-them">
+                                                <label class="form-check-label" for="macdinh-them">Đặt làm địa chỉ
+                                                    mặc định</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-dark">Thêm</button>
+                                            <button type="button" class="btn btn-link"
+                                                    id="cancel-btn-them">Hủy
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -678,159 +670,113 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
-    <footer>
-        <!--Contact-->
-        <div class="bg-secondary py-5">
-            <div class="container text-black">
-                <div class="row justify-content-between align-items-center">
-                    <!-- Phần bên trái: Thông tin liên hệ -->
-                    <div class="col-12 col-md-6 mb-4 mb-md-0">
-                        <h4>LIÊN HỆ</h4>
-                        <p>Chúng tôi sẽ giúp bạn tìm đúng giải pháp cho đam mê của bạn.</p>
-                        <button class="btn btn-primary text-black">HOTLINE</button>
-                    </div>
+<footer>
+    <div class="bg-dark text-white pt-4 pb-4">
+        <div class="container">
+            <div class="row">
 
-                    <!-- Phần bên phải: Form gửi email -->
-                    <div class="col-12 col-md-6">
-                        <form>
-                            <div class="row">
-                                <div class="col-12 col-md-8 mb-3">
-                                    <label for="contact-email" class="form-label">Địa chỉ email</label>
-                                    <input type="email" class="form-control" id="contact-email"
-                                        placeholder="Nhập email của bạn" required>
-                                    <button type="submit" class="btn btn-primary w-100 w-md-25 mt-2 text-black">Gửi
-                                        Email
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                <div class="col-12 col-md-3 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Thông tin Drum Store</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="../about.html" class="text-white">Giới thiệu công ty</a></li>
+
+                    </ul>
+                </div>
+                <div class="col-12 col-md-3 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <strong>Gọi mua hàng: </strong>
+                            <a href="tel:123-456-7890" class="text-white">123-456-7890 (Miễn phí)</a>
+                        </li>
+                        <li>
+                            <strong>Khiếu nại, Bảo hành: </strong>
+                            <a href="tel:123-456-7890" class="text-white">123-456-7890</a>
+                        </li>
+                        <li><strong>Thời gian phục vụ: </strong>8h-22h</li>
+                        <li>
+                            <strong>Email: </strong>
+                            <a href="mailto:drumstore@gmail.com" class="text-white">drumstore@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <h5>MẠNG XÃ HỘI</h5>
+                    <ul class="list-unstyled d-flex gap-3">
+                        <li><a href="https://www.facebook.com/" class="text-white" aria-label="Facebook"><i
+                                class="bi bi-facebook"></i></a>
+                        </li>
+                        <li><a href="https://www.tiktok.com/" class="text-white" aria-label="TikTok"><i
+                                class="bi bi-tiktok"></i></a></li>
+                        <li><a href="https://www.instagram.com/" class="text-white" aria-label="Instagram"><i
+                                class="bi bi-instagram"></i></a>
+                        </li>
+                        <li><a href="https://www.youtube.com/" class="text-white" aria-label="YouTube"><i
+                                class="bi bi-youtube"></i></a>
+                        </li>
+                    </ul>
+
+                    <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
+                    <ul class="list-unstyled">
+                        <li><img src="../../assets/images/payments/visa.png" alt="Phương thức thanh toán"
+                                 class="img-fluid"/>
+                        </li>
+                    </ul>
+
+                    <h5 class="text-uppercase mt-4">Chứng nhận</h5>
+                    <ul class="list-unstyled">
+                        <li><img src="../../assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid"/></li>
+                        <li><img src="../../assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid"/></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <p>&copy; 2024 Công ty Cổ Phần TM-DV-SX Drum Store. Tất cả quyền lợi được bảo lưu.</p>
                 </div>
             </div>
         </div>
-
-        <div class="bg-dark text-white pt-4 pb-4">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-12 col-md-3 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Thông tin Drum Store</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-white">Giới thiệu công ty</a></li>
-                            <li><a href="#" class="text-white">Hệ thống showroom, đại lý</a></li>
-                            <li><a href="#" class="text-white">Liên Hệ / Góp Ý</a></li>
-                            <li><a href="#" class="text-white">Mua trả góp</a></li>
-                            <li><a href="#" class="text-white">Chương trình Khách hàng thân thiết</a></li>
-                            <li><a href="#" class="text-white">Điều khoản sử dụng website</a></li>
-                            <li><a href="#" class="text-white">Tuyển dụng</a></li>
-                        </ul>
-                    </div>
-
-
-                    <div class="col-12 col-md-3 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Hướng dẫn chung</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-white">Giao hàng - Đổi trả</a></li>
-                            <li><a href="#" class="text-white">Hướng dẫn mua hàng</a></li>
-                            <li><a href="#" class="text-white">Thanh toán và bảo mật</a></li>
-                            <li><a href="#" class="text-white">Chính sách bảo hành</a></li>
-                            <li><a href="#" class="text-white">Bảo trì đàn piano</a></li>
-                            <li><a href="#" class="text-white">Kích hoạt bảo hành</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col-12 col-md-3 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
-                        <ul class="list-unstyled">
-                            <li>
-                                <strong>Gọi mua hàng: </strong>
-                                <a href="tel:123-456-7890" class="text-white">123-456-7890 (Miễn phí)</a>
-                            </li>
-                            <li>
-                                <strong>Khiếu nại, Bảo hành: </strong>
-                                <a href="tel:123-456-7890" class="text-white">123-456-7890</a>
-                            </li>
-                            <li><strong>Thời gian phục vụ: </strong>8h-22h</li>
-                            <li>
-                                <strong>Email: </strong>
-                                <a href="mailto:drumstore@gmail.com" class="text-white">drumstore@gmail.com</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Cột 4: Social, Phương thức thanh toán, Chứng nhận -->
-                    <div class="col-12 col-md-3">
-                        <h5>MẠNG XÃ HỘI</h5>
-                        <ul class="list-unstyled d-flex gap-3">
-                            <li><a href="#" class="text-white" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                            </li>
-                            <li><a href="#" class="text-white" aria-label="TikTok"><i class="bi bi-tiktok"></i></a></li>
-                            <li><a href="#" class="text-white" aria-label="Instagram"><i
-                                        class="bi bi-instagram"></i></a>
-                            </li>
-                            <li><a href="#" class="text-white" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-                            </li>
-                        </ul>
-
-                        <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
-                        <ul class="list-unstyled">
-                            <li><img src="/assets/images/payments/visa.png" alt="Phương thức thanh toán"
-                                    class="img-fluid" />
-                            </li>
-                        </ul>
-
-                        <h5 class="text-uppercase mt-4">Chứng nhận</h5>
-                        <ul class="list-unstyled">
-                            <li><img src="/assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid" /></li>
-                            <li><img src="/assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid" /></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-12 text-center">
-                        <p>&copy; 2024 Công ty Cổ Phần TM-DV-SX Drum Store. Tất cả quyền lợi được bảo lưu.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.querySelectorAll('.dropdown-submenu > a').forEach(function (element) {
-            element.addEventListener('click', function (e) {
-                let nextDropdown = this.nextElementSibling;
-                if (nextDropdown && nextDropdown.classList.contains('dropdown-menu')) {
-                    e.preventDefault();  // Ngăn chặn hành động mặc định (click)
-                    nextDropdown.classList.toggle('show');  // Tạo hiệu ứng mở/đóng menu
-                }
-            });
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.querySelectorAll('.dropdown-submenu > a').forEach(function (element) {
+        element.addEventListener('click', function (e) {
+            let nextDropdown = this.nextElementSibling;
+            if (nextDropdown && nextDropdown.classList.contains('dropdown-menu')) {
+                e.preventDefault();  // Ngăn chặn hành động mặc định (click)
+                nextDropdown.classList.toggle('show');  // Tạo hiệu ứng mở/đóng menu
+            }
         });
-    </script>
-    <script>
+    });
+</script>
+<script>
 
-        const editBtn = document.getElementById("edit-btn");
-        const cancelBtn = document.getElementById("cancel-btn");
-        const addressContent = document.getElementById("address-content");
-        const addressForm = document.getElementById("address-form");
+    const editBtn = document.getElementById("edit-btn");
+    const cancelBtn = document.getElementById("cancel-btn");
+    const addressContent = document.getElementById("address-content");
+    const addressForm = document.getElementById("address-form");
 
-        // Khi nhấn vào nút "Sửa"
-        editBtn.addEventListener("click", function () {
-            addressContent.style.display = "none";  // Ẩn thông tin địa chỉ
-            addressForm.style.display = "block";   // Hiện form nhập địa chỉ
-        });
+    // Khi nhấn vào nút "Sửa"
+    editBtn.addEventListener("click", function () {
+        addressContent.style.display = "none";  // Ẩn thông tin địa chỉ
+        addressForm.style.display = "block";   // Hiện form nhập địa chỉ
+    });
 
-        // Khi nhấn vào "Hủy"
-        cancelBtn.addEventListener("click", function () {
-            addressContent.style.display = "block";  // Hiện lại thông tin địa chỉ
-            addressForm.style.display = "none";     // Ẩn form nhập địa chỉ
-        });
+    // Khi nhấn vào "Hủy"
+    cancelBtn.addEventListener("click", function () {
+        addressContent.style.display = "block";  // Hiện lại thông tin địa chỉ
+        addressForm.style.display = "none";     // Ẩn form nhập địa chỉ
+    });
 
-    </script>
-    <!--     render elements-->
+</script>
+<!--     render elements-->
 
 </body>
 
