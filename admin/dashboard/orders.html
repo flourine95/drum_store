@@ -247,7 +247,7 @@
         </a>
       </li>
       <li class="sidebar-item">
-        <a href="vouchers.html" class="sidebar-link">
+        <a href="categories.html" class="sidebar-link">
           <i class="bi bi-collection"></i>
           <span>Quản lý danh mục</span>
         </a>
@@ -275,16 +275,16 @@
   </aside>
   <div class="main">
 
-    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
+    <div class="modal fade" id="addOrderModal" tabindex="-1" aria-labelledby="addOrderModalLabel"
          aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addProductModalLabel">Thêm đơn hàng mới</h5>
+            <h5 class="modal-title" id="addOrderModalLabel">Thêm đơn hàng mới</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form id="addProductForm">
+            <form id="addOrderForm">
               <div class="mb-3">
                 <label for="addCustomer" class="form-label">Khách hàng</label>
                 <input type="text" class="form-control" id="addCustomer" required>
@@ -313,22 +313,22 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-            <button type="submit" form="addProductForm" class="btn btn-primary">Thêm đơn hàng</button>
+            <button type="submit" form="addOrderForm" class="btn btn-primary">Thêm đơn hàng</button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+    <div class="modal fade" id="editOrderModal" tabindex="-1" aria-labelledby="editOrderModalLabel"
          aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="editProductModalLabel">Chỉnh sửa đơn hàng</h5>
+            <h5 class="modal-title" id="editOrderModalLabel">Chỉnh sửa đơn hàng</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form id="editProductForm">
+            <form id="editOrderForm">
               <div class="mb-3">
                 <label for="editCustomer" class="form-label">Khách hàng</label>
                 <input type="text" class="form-control" id="editCustomer" required>
@@ -357,14 +357,14 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-            <button type="submit" form="editProductForm" class="btn btn-primary">Lưu thay đổi</button>
+            <button type="submit" form="editOrderForm" class="btn btn-primary">Lưu thay đổi</button>
           </div>
         </div>
       </div>
     </div>
 
 
-    <div id="productDetailModal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="orderDetailModal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -446,7 +446,7 @@
           </div>
         </div>
 
-        <table id="products" class="table table-striped table-hover table-bordered" style="width:100%">
+        <table id="orders" class="table table-striped table-hover table-bordered" style="width:100%">
           <thead>
           <tr>
             <th>#</th>
@@ -460,51 +460,6 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>address</td>
-            <td>total</td>
-            <td>date</td>
-            <td>status</td>
-            <td>Momo</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>address</td>
-            <td>total</td>
-            <td>date</td>
-            <td>status</td>
-            <td>Momo</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>address</td>
-            <td>total</td>
-            <td>date</td>
-            <td>status</td>
-            <td>Momo</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>address</td>
-            <td>total</td>
-            <td>date</td>
-            <td>status</td>
-            <td>Momo</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>address</td>
-            <td>total</td>
-            <td>date</td>
-            <td>status</td>
-            <td>Momo</td>
-          </tr>
 
           </tbody>
           <tfoot>
@@ -558,13 +513,14 @@
 
     if (order) {
       $('#detail-id').text(order.id);
-      $('#detail-name').text(order.name);
-      $('#detail-price').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.price));
-      $('#detail-category').text(order.category);
-      $('#detail-stock').text(order.stock);
-      $('#detail-created').text(new Date(order.created_at).toLocaleDateString());
-      $('#detail-image').attr('src', order.image);
-      $('#productDetailModal').modal('show');
+      $('#detail-customer').text(order.customer);
+      $('#detail-address').text(order.address);
+      $('#detail-total-amount').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.total_amount));
+      $('#detail-created-at').text(new Date(order.created_at).toLocaleDateString());
+      $('#detail-status').text(order.status);
+      $('#detail-payment').text(order.payment);
+
+      $('#orderDetailModal').modal('show');
     }
   }
 
@@ -575,21 +531,23 @@
   const openEditModal = (id) => {
     const order = findOrderById(id);
     document.getElementById('editCustomer').value = order.customer;
-    document.getElementById('editPrice').value = order.price;
-    document.getElementById('editCategory').value = order.category;
-    document.getElementById('editStock').value = order.stock;
+    document.getElementById('editAddress').value = order.price;
+    document.getElementById('editTotalAmount').value = order.total_amount;
+    document.getElementById('editCreatedAt').value = order.created_at;
+    document.getElementById('editStatus').value = order.status;
+    document.getElementById('editPayment').value = order.payment;
 
-    $('#editProductModal').modal('show');
+    $('#editOrderModal').modal('show');
   };
 
-  const openAddProductModal = () => {
-    $('#addProductModal').modal('show');
+  const openAddOrderModal = () => {
+    $('#addOrderModal').modal('show');
   };
 
 </script>
 <script>
   $(document).ready(function () {
-    $('#products').DataTable({
+    $('#orders').DataTable({
       initComplete: function () {
         const table = this.api();
         const thead = $(table.table().header());
@@ -600,7 +558,7 @@
           let column = this;
           let title = column.header().textContent;
 
-          if (index === 6) {
+          if (index === 7) {
             filterRow.append('<td></td>');
           } else {
             let input = $('<input>', {
@@ -617,31 +575,27 @@
           }
         });
       },
+      ajax: {
+        url: '../../data/orders.json',
+        dataSrc: ''
+      },
       columns: [
         { data: 'id' },
-        {
-          data: null,
-          render: (data, type, row) => {
-            const image = row.images[0] || 'default-product.jpg';
-            const name = row.name || 'Chưa có tên';
-            return `<img src="${image}" alt="${name}" class="mr-2 rounded-circle shadow" style="height: 50px; width: 50px; object-fit: cover;" />
-                                <a href="#" class="text-body font-weight-semibold">${name}</a>`;
-          }
-        },
-        {
-          data: 'price',
+        { data: 'customer' },
+        { data: 'address' },
+        { data: 'total_amount',
           render: function (data) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data);
           }
         },
-        { data: 'category_id' },
-        { data: 'stock' },
         {
           data: 'created_at',
           render: (data) => {
             return new Date(data).toLocaleDateString();
           }
         },
+        { data: 'status' },
+        { data: 'payment' },
         {
           data: 'id',
           orderable: false,
@@ -661,9 +615,9 @@
         }
       ],
       language: {
-        lengthMenu: 'Hiển thị _MENU_ sản phẩm',
+        lengthMenu: 'Hiển thị _MENU_ đơn hàng',
         zeroRecords: 'Không tìm thấy dữ liệu',
-        info: 'Hiển thị _START_ đến _END_ của _TOTAL_ sản phẩm',
+        info: 'Hiển thị _START_ đến _END_ của _TOTAL_ đơn hàng',
         infoEmpty: 'Hiển thị 0 đến 0 của 0 mục',
         infoFiltered: '(lọc từ _MAX_ mục)',
         search: 'Tìm kiếm:',
@@ -717,7 +671,7 @@
               text: '<i class="bi bi-plus-circle me-2"></i>Thêm đơn hàng',
               className: 'btn btn-secondary me-2',
               action: function () {
-                openAddProductModal();
+                openAddOrderModal();
               }
             },
             {
