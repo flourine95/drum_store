@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Drum Store</title>
     <link rel="icon" href="/assets/images/logo.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
@@ -572,9 +573,41 @@
                             <h5 class="mb-0">DANH SÁCH ĐỊA CHỈ</h5>
                         </div>
                         <div class="card-body">
-                            <!-- Add New Address Button -->
-                            <a href="add-address.html" class="btn btn-primary mb-3 text-black">Thêm địa chỉ mới</a>
+                            <a href="#" class="btn btn-primary mb-3 text-black" id="add-address-btns">Thêm địa chỉ
+                                mới</a>
+                                <div id="add-address-form" style="display: none;">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="ho" class="form-label">Họ và tên</label>
+                                            <input type="text" class="form-control" id="ho"
+                                                placeholder="Họ và tên">
+                                        </div>
 
+                                        <div class="mb-3">
+                                            <label for="diachi1" class="form-label">Địa chỉ 1</label>
+                                            <input type="text" class="form-control" id="diachi1"
+                                                placeholder="Địa chỉ 1">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="diachi2" class="form-label">Địa chỉ 2</label>
+                                            <input type="text" class="form-control" id="diachi2"
+                                                placeholder="Địa chỉ 2">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="sodienthoai" class="form-label">Số điện thoại</label>
+                                            <input type="text" class="form-control" id="sodienthoai"
+                                                placeholder="Số điện thoại">
+                                        </div>
+                                        <div class="form-check mb-3">
+                                            <input type="checkbox" class="form-check-input" id="macdinh">
+                                            <label class="form-check-label" for="macdinh">Đặt làm địa chỉ mặc
+                                                định</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-dark">Thêm</button>
+                                        <button type="button" class="btn btn-link" id="huy">Hủy</button>
+                                        <hr>
+                                    </form>
+                                </div>
                             <!-- Wrap Content Address using row and col -->
                             <div class="row">
                                 <!-- Phần hiển thị địa chỉ -->
@@ -583,10 +616,9 @@
                                         <div class="card-header d-flex justify-content-between align-items-center">
                                             <span>Nguyễn Hữu Nam (Địa chỉ mặc định)</span>
                                             <div>
-                                                <button class="btn btn-link text-decoration-none btn-primary"
-                                                    id="edit-btn"><i class="bi bi-pencil text-black"></i></button>
-                                                <button class="btn text-decoration-none btn-danger"><i
-                                                        class="bi bi-x text-black"></i></button>
+                                                <button class="btn text-decoration-none btn-primary"
+                                                    id="edit-btn"><i>Sửa</i></button>
+                                                <button class="btn text-decoration-none btn-danger"><i>Xóa</i></button>
                                             </div>
                                         </div>
                                         <div class="card-body" id="address-content">
@@ -623,51 +655,8 @@
                                                     <label class="form-check-label" for="macdinh">Đặt làm địa chỉ mặc
                                                         định</label>
                                                 </div>
-                                                <button type="submit" class="btn btn-dark">Sửa</button>
+                                                <button type="submit" class="btn btn-dark" >Sửa</button>
                                                 <button type="button" class="btn btn-link" id="cancel-btn">Hủy</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Add New Address Form -->
-                                <div class="col-lg-6 col-md-12 mb-3">
-                                    <div class="card mb-3 address-card">
-                                        <div class="card-header">
-                                            <h5 class="mb-0">Thêm địa chỉ mới</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <form>
-                                                <div class="mb-3">
-                                                    <label for="ho-them" class="form-label">Họ và tên</label>
-                                                    <input type="text" class="form-control" id="ho-them"
-                                                        placeholder="Họ và tên">
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="diachi1-them" class="form-label">Địa chỉ 1</label>
-                                                    <input type="text" class="form-control" id="diachi1-them"
-                                                        placeholder="Địa chỉ 1">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="diachi2-them" class="form-label">Địa chỉ 2</label>
-                                                    <input type="text" class="form-control" id="diachi2-them"
-                                                        placeholder="Địa chỉ 2">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="sodienthoai-them" class="form-label">Số điện
-                                                        thoại</label>
-                                                    <input type="text" class="form-control" id="sodienthoai-them"
-                                                        placeholder="Số điện thoại">
-                                                </div>
-                                                <div class="form-check mb-3">
-                                                    <input type="checkbox" class="form-check-input" id="macdinh-them">
-                                                    <label class="form-check-label" for="macdinh-them">Đặt làm địa chỉ
-                                                        mặc định</label>
-                                                </div>
-                                                <button type="submit" class="btn btn-dark">Thêm</button>
-                                                <button type="button" class="btn btn-link"
-                                                    id="cancel-btn-them">Hủy</button>
                                             </form>
                                         </div>
                                     </div>
@@ -813,24 +802,37 @@
     <script>
 
         const editBtn = document.getElementById("edit-btn");
+        const addaddressbtn = document.getElementById("add-address-btns");
         const cancelBtn = document.getElementById("cancel-btn");
+        const huyadd = document.getElementById("huy");
         const addressContent = document.getElementById("address-content");
         const addressForm = document.getElementById("address-form");
+        const addaddressForms = document.getElementById("add-address-form");
 
         // Khi nhấn vào nút "Sửa"
         editBtn.addEventListener("click", function () {
             addressContent.style.display = "none";  // Ẩn thông tin địa chỉ
             addressForm.style.display = "block";   // Hiện form nhập địa chỉ
         });
+        addaddressbtn.addEventListener("click", function () {
+            // addressContent.style.display = "none";  // Ẩn thông tin địa chỉ
+            addaddressForms.style.display = "block";   // Hiện form nhập địa chỉ
+        });
+
 
         // Khi nhấn vào "Hủy"
         cancelBtn.addEventListener("click", function () {
             addressContent.style.display = "block";  // Hiện lại thông tin địa chỉ
             addressForm.style.display = "none";     // Ẩn form nhập địa chỉ
         });
+        // Khi nhấn vào "Hủy"
+        huyadd.addEventListener("click", function () {
+            // addressContent.style.display = "block";  // Hiện lại thông tin địa chỉ
+            addaddressForms.style.display = "none";     // Ẩn form nhập địa chỉ
+        });
 
     </script>
-    <!--     render elements-->
+
 
 </body>
 
