@@ -4,101 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giới thiệu | Drum Store</title>
-    <link rel="icon" href="/assets/images/logo.png" type="image/png">
+    <link rel="icon" href="../assets/images/logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/custom.css">
     <style>
-        /* Giữ nguyên các style cũ */
-        .dropdown-submenu {
-            position: relative;
-        }
-
-        .dropdown-submenu:hover > .dropdown-menu {
-            display: block;
-        }
-
-        .dropdown-submenu .dropdown-menu {
-            top: 0;
-            left: 100%;
-            margin-top: -1px;
-            display: none;
-        }
-
-        .dropdown-menu a {
-            cursor: pointer;
-        }
-
-        .dropdown-menu .dropdown-toggle:focus {
-            background-color: #f8f9fa;
-        }
-
-        .navbar-nav .nav-link {
-            color: black;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .navbar-nav .nav-link:hover {
-            background-color: black;
-            color: var(--bs-primary);
-        }
-
-        .navbar-nav .dropdown:hover > .dropdown-menu {
-            display: block;
-            background-color: var(--bs-primary);
-        }
-
-        .navbar-nav .dropdown-menu .dropdown-item {
-            color: black;
-            background-color: var(--bs-primary);
-            padding: 10px 20px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .navbar-nav .dropdown-menu .dropdown-item:hover {
-            background-color: black;
-            color: var(--bs-primary);
-        }
-
-        .navbar-nav .dropdown-submenu:hover > .dropdown-menu {
-            display: block;
-            background-color: var(--bs-primary);
-        }
-
-        .navbar-nav .dropdown-submenu .dropdown-item:hover {
-            background-color: black;
-            color: var(--bs-primary);
-        }
-
-        .navbar-nav .nav-item:hover {
-            background-color: black;
-            color: var(--bs-primary);
-        }
-
-        .navbar-nav .dropdown:hover > .nav-link {
-            background-color: black;
-            color: var(--bs-primary);
-        }
-
-        footer {
-            background-color: #222;
-            color: #fff;
-        }
-
-        a {
-            text-decoration: none;
-            color: black;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        footer img {
-            max-width: 100px;
-            margin: 5px;
-        }
-
         .card-body {
             display: flex;
             flex-direction: column;
@@ -106,11 +16,8 @@
             height: 100%;
         }
 
-        .card-body .btn {
-            margin-top: auto;
-        }
+      
 
-        /* Thêm các style mới */
         body {
             background-color: #f8f9fa;
         }
@@ -152,16 +59,6 @@
             color: var(--bs-primary) !important;
         }
 
-        .btn-primary {
-            background-color: var(--bs-primary);
-            border-color: var(--bs-primary);
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
         .icon-box {
             background-color: #fff;
             border-radius: 10px;
@@ -185,112 +82,424 @@
             color: var(--bs-primary);
         }
     </style>
+    <style>
+        .dropdown-menu a {
+            cursor: pointer;
+        }
+
+        .navbar-nav .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            transition: all 0.3s ease;
+            color: black;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--hover-color);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: whitesmoke;
+        }
+
+
+        .card {
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+
+        @media (max-width: 991.98px) {
+
+            :root {
+                --header-height: 60px;
+                --bottom-nav-height: 60px;
+                --primary-color: #0d6efd;
+                --secondary-color: #f8f9fa;
+            }
+
+            /* Mobile Header */
+            .mobile-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1030;
+                background: #fff;
+            }
+
+            .mobile-banner {
+                background: linear-gradient(90deg, var(--primary-color), #ffea6f);
+                padding: 6px;
+                text-align: center;
+                font-size: 0.85rem;
+                font-weight: 500;
+                color: #fff;
+            }
+
+            .mobile-main-header {
+                padding: 10px 15px;
+                background: #fff;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            }
+
+            /* Improved Search Bar */
+            .mobile-search {
+                position: relative;
+                margin: 12px 0 8px;
+            }
+
+            .mobile-search input {
+                width: 100%;
+                padding: 12px 45px 12px 20px;
+                border: none;
+                border-radius: 25px;
+                background: var(--secondary-color);
+                font-size: 0.95rem;
+            }
+
+            .mobile-search button {
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                border: none;
+                background: none;
+                color: #666;
+            }
+
+            /* Side Menu Improvements */
+            .mobile-side-menu {
+                position: fixed;
+                top: 0;
+                left: -300px;
+                width: 300px;
+                height: 100vh;
+                background: #fff;
+                z-index: 1040;
+                transition: 0.3s ease-out;
+                overflow-y: auto;
+            }
+
+            .mobile-side-menu.active {
+                left: 0;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .menu-header {
+                padding: 20px;
+                background: var(--secondary-color);
+                border-bottom: 1px solid #eee;
+            }
+
+            .menu-items {
+                padding: 15px 0;
+            }
+
+            .menu-item {
+                display: flex;
+                align-items: center;
+                padding: 12px 20px;
+                color: #333;
+                text-decoration: none;
+                transition: 0.2s;
+            }
+
+            .menu-item:hover {
+                background: var(--secondary-color);
+            }
+
+            .menu-item i {
+                margin-right: 15px;
+                font-size: 1.2rem;
+                color: var(--primary-color);
+            }
+
+            /* Bottom Navigation */
+            .mobile-bottom-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: #fff;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+                z-index: 1030;
+                padding: 8px 0 5px;
+            }
+
+            .mobile-nav-items {
+                display: flex;
+                justify-content: space-around;
+            }
+
+            .mobile-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: #666;
+                text-decoration: none;
+                font-size: 0.8rem;
+                padding: 5px;
+            }
+
+            .mobile-nav-item i {
+                font-size: 1.4rem;
+                margin-bottom: 4px;
+            }
+
+            .mobile-nav-item.active {
+                color: var(--primary-color);
+            }
+
+            /* Overlay */
+            .menu-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1035;
+                opacity: 0;
+                visibility: hidden;
+                transition: 0.3s;
+            }
+
+            .menu-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            /* Main Content Adjustment */
+            main {
+                padding-top: calc(var(--header-height) + 10px);
+                padding-bottom: calc(var(--bottom-nav-height) + 10px);
+            }
+
+            /* Cart Badge */
+            .cart-badge {
+                position: absolute;
+                top: -5px;
+                right: -8px;
+                background: #dc3545;
+                color: white;
+                border-radius: 50%;
+                padding: 3px 6px;
+                font-size: 0.7rem;
+            }
+
+        }
+    </style>
 </head>
 <body>
-<!-- Giữ nguyên header -->
-<header class="fixed-top">
-    <!-- Banner Image -->
-    <img src="/assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
-         class="img-fluid w-100">
-
-    <!-- Top Info -->
-    <section>
-        <!-- Navigation -->
+<header>
+    <div class="fixed-top d-none d-lg-block">
+        <img src="../assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
+             class="img-fluid w-100 banner-header">
         <nav class="navbar navbar-expand-lg navbar-light bg-primary">
             <div class="container">
-                <!-- Logo -->
-                <a class="navbar-brand" href="#">
-                    <img src="/assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
+                <a class="navbar-brand" href="../index.html">
+                    <img src="../assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
                 </a>
-
-                <!-- Navbar toggler cho thiết bị nhỏ -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <!-- Các liên kết và thanh tìm kiếm -->
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <!-- Links ở giữa -->
-                    <div class="navbar-nav mx-auto fw-bold">
-                        <a class="nav-link" href="/index.html">TRANG CHỦ</a>
-                        <a class="nav-link" href="/pages/about.html">GIỚI THIỆU</a>
-
-                        <!-- Dropdown cho SẢN PHẨM -->
-                        <div class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                SẢN PHẨM
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="#">Trống</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Trống điện tử</a></li>
-                                        <li><a class="dropdown-item" href="#">Trống cơ</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="#">Phụ kiện</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Giá đỡ trống</a></li>
-                                        <li><a class="dropdown-item" href="#">Gậy trống</a></li>
-                                        <li><a class="dropdown-item" href="#">Túi đựng trống</a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="dropdown-item" href="#">Âm thanh</a></li>
-                                <li><a class="dropdown-item" href="#">Dụng cụ tập luyện</a></li>
-                            </ul>
-                        </div>
-
-                        <a class="nav-link" href="/pages/posts/posts.html">TIN TỨC</a>
-                        <a class="nav-link" href="/pages/contact.html">LIÊN HỆ</a>
-                    </div>
-
-                    <!-- Thanh tìm kiếm trên thiết bị lớn -->
-                    <form class="d-flex mt-3 mt-lg-0 me-3">
-                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                    <form class="search-form d-lg-none">
+                        <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
                         <button class="btn btn-dark" type="submit">Tìm</button>
                     </form>
+                    <div class="navbar-nav mx-auto fw-bold">
+                        <a class="nav-link" href="home.html">TRANG CHỦ</a>
+                        <a class="nav-link" href="about.html">GIỚI THIỆU</a>
+                        <a class="nav-link" href="products/products.html">SẢN PHẨM</a>
+                        <a class="nav-link" href="posts/posts.html">TIN TỨC</a>
+                        <a class="nav-link" href="contact.html">LIÊN HỆ</a>
+                    </div>
+                    <div class="action-buttons d-lg-none">
+                        <div class="account-button-container">
+                            <a href="cart/cart.html" class="btn btn-light position-relative">
+                                <i class="bi bi-cart-fill"></i>
+                                <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        3
+                                    </span>
+                            </a>
+                        </div>
 
-                    <!-- Icon Đăng nhập và Giỏ hàng -->
-                    <div class="d-flex align-items-center ms-auto order-lg-2">
-                        <!-- ms-auto để đưa sang phải trên màn hình lớn -->
-                        <!-- Giỏ hàng -->
-                        <a href="#" class="btn btn-light me-3 position-relative">
-                            <i class="bi bi-cart-fill"></i>
-                            <!-- Badge hiển thị số lượng sản phẩm trong giỏ hàng -->
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    3 <!-- số lượng sản phẩm -->
-                    </span>
-                        </a>
-
-                        <!-- Đăng nhập -->
-                        <div class="dropdown">
-                            <button class="btn btn-light dropdown-toggle" type="button" id="accountDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="account-button-container dropdown">
+                            <button class="btn btn-light w-100" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                 <i class="bi bi-person-circle"></i>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                                <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
-                                <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
+                            <ul class="dropdown-menu mobile-dropdown-menu">
+                                <li><a class="dropdown-item" href="account/login.html">Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="account/register.html">Đăng ký</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của tôi</a></li>
-                                <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
-                                <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
+                                <li><a class="dropdown-item" href="account/my-account.html">Tài khoản của
+                                    tôi</a></li>
+                                <li><a class="dropdown-item" href="account/orders.html">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="../index.html">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Desktop search form -->
+                    <form class="d-none d-lg-flex mt-lg-0 me-3">
+                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                        <button class="btn btn-dark" type="submit">Tìm</button>
+                    </form>
+                    <!-- Desktop action buttons -->
+                    <div class="d-none d-lg-flex align-items-center">
+                        <a href="cart/cart.html" class="btn btn-light me-3 position-relative">
+                            <i class="bi bi-cart-fill"></i>
+                            <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    3
+                            </span>
+                        </a>
+                        <!-- Account dropdown for desktop -->
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="desktopAccountDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopAccountDropdown">
+                                <li><a class="dropdown-item" href="account/login.html">Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="account/register.html">Đăng ký</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="account/my-account.html">Tài khoản của
+                                    tôi</a>
+                                </li>
+                                <li><a class="dropdown-item" href="account/orders.html">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="../index.html">Đăng xuất</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
-    </section>
+    </div>
+    <div class="mobile-header d-lg-none">
+        <div class="mobile-banner">
+            Thổi hồn vào âm nhạc của bạn 🎉
+        </div>
+        <div class="mobile-main-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn p-0" id="menuToggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                <a href="../index.html" class="logo">
+                    <img src="../assets/images/logo.png" alt="Logo" height="40">
+                </a>
+                <a href="cart/cart.html" class="position-relative">
+                    <i class="bi bi-cart fs-4"></i>
+                    <span class="cart-badge">3</span>
+                </a>
+            </div>
+            <div class="mobile-search">
+                <input type="text" placeholder="Tìm kiếm sản phẩm..."/>
+                <button><i class="bi bi-search"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-side-menu" id="sideMenu">
+        <div class="menu-header">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-person-circle fs-1 me-3"></i>
+                <div>
+                    <h6 class="mb-1">Xin chào!</h6>
+                    <a href="account/login.html" class="text-primary">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+        <div class="menu-items">
+            <a href="../index.html" class="menu-item">
+                <i class="bi bi-house"></i>
+                Trang chủ
+            </a>
+            <a href="products/products.html" class="menu-item">
+                <i class="bi bi-grid"></i>
+                Danh mục sản phẩm
+            </a>
+            <a href="account/orders.html" class="menu-item">
+                <i class="bi bi-bag"></i>
+                Đơn hàng của tôi
+            </a>
+            <a href="account/wishlist.html" class="menu-item">
+                <i class="bi bi-heart"></i>
+                Sản phẩm yêu thích
+            </a>
+
+            <a href="account/my-account.html" class="menu-item">
+                <i class="bi bi-person"></i>
+                Tài khoản của tôi
+            </a>
+        </div>
+    </div>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <nav class="mobile-bottom-nav d-lg-none">
+        <div class="mobile-nav-items">
+            <a href="../index.html" class="mobile-nav-item active">
+                <i class="bi bi-house"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="products/products.html" class="mobile-nav-item">
+                <i class="bi bi-grid"></i>
+                <span>Danh mục</span>
+            </a>
+            <a href="cart/cart.html" class="mobile-nav-item">
+                <i class="bi bi-cart"></i>
+                <span>Giỏ hàng</span>
+            </a>
+            <a href="account/my-account.html" class="mobile-nav-item">
+                <i class="bi bi-person"></i>
+                <span>Tài khoản</span>
+            </a>
+        </div>
+    </nav>
 </header>
 
 <!-- Hero Section -->
-<section id="home" class="vh-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/images/about/about.jpg') no-repeat center center; background-size: cover;">
+<section id="home" class="vh-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/about/about.jpg') no-repeat center center; background-size: cover;">
     <div class="container text-center text-white">
         <h1 class="display-1 fw-bold mb-4">DRUM STORE</h1>
         <p class="lead mb-4">Tiên phong trong lĩnh vực nhạc cụ từ năm 1993</p>
@@ -305,7 +514,7 @@
         <h2 class="section-title text-center mb-5">Giới thiệu về Drum Store</h2>
         <div class="row align-items-center">
             <div class="col-md-6 mb-4 mb-md-0">
-                <img src="/assets/images/about/pexels-saptashwa-mandal-656231969-17962296.jpg" class="img-fluid rounded shadow-lg" alt="Drum Store">
+                <img src="../assets/images/about/pexels-saptashwa-mandal-656231969-17962296.jpg" class="img-fluid rounded shadow-lg" alt="Drum Store">
             </div>
             <div class="col-md-6">
                 <p class="lead mb-4">Drum Store được thành lập vào năm 1993 với sứ mệnh mang âm nhạc đến gần hơn với mọi người, đặc biệt là trong lĩnh vực nhạc cụ gõ.</p>
@@ -482,35 +691,7 @@
 
 <!-- Giữ nguyên footer -->
 <footer>
-    <!--Contact-->
-    <div class="bg-secondary py-5">
-        <div class="container text-black">
-            <div class="row justify-content-between align-items-center">
-                <!-- Phần bên trái: Thông tin liên hệ -->
-                <div class="col-12 col-md-6 mb-4 mb-md-0">
-                    <h4>LIÊN HỆ</h4>
-                    <p>Chúng tôi sẽ giúp bạn tìm đúng giải pháp cho đam mê của bạn.</p>
-                    <button class="btn btn-primary text-black">HOTLINE</button>
-                </div>
 
-                <!-- Phần bên phải: Form gửi email -->
-                <div class="col-12 col-md-6">
-                    <form>
-                        <div class="row">
-                            <div class="col-12 col-md-8 mb-3">
-                                <label for="contact-email" class="form-label">Địa chỉ email</label>
-                                <input type="email" class="form-control" id="contact-email"
-                                       placeholder="Nhập email của bạn"
-                                       required>
-                                <button type="submit" class="btn btn-primary w-100 w-md-25 mt-2 text-black">Gửi Email
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="bg-dark text-white pt-4 pb-4">
         <div class="container">
@@ -519,28 +700,11 @@
                 <div class="col-12 col-md-3 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Thông tin Drum Store</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Giới thiệu công ty</a></li>
-                        <li><a href="#" class="text-white">Hệ thống showroom, đại lý</a></li>
-                        <li><a href="#" class="text-white">Liên Hệ / Góp Ý</a></li>
-                        <li><a href="#" class="text-white">Mua trả góp</a></li>
-                        <li><a href="#" class="text-white">Chương trình Khách hàng thân thiết</a></li>
-                        <li><a href="#" class="text-white">Điều khoản sử dụng website</a></li>
-                        <li><a href="#" class="text-white">Tuyển dụng</a></li>
+                        <li><a href="about.html" class="text-white">Giới thiệu công ty</a></li>
+
                     </ul>
                 </div>
 
-
-                <div class="col-12 col-md-3 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Hướng dẫn chung</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Giao hàng - Đổi trả</a></li>
-                        <li><a href="#" class="text-white">Hướng dẫn mua hàng</a></li>
-                        <li><a href="#" class="text-white">Thanh toán và bảo mật</a></li>
-                        <li><a href="#" class="text-white">Chính sách bảo hành</a></li>
-                        <li><a href="#" class="text-white">Bảo trì đàn piano</a></li>
-                        <li><a href="#" class="text-white">Kích hoạt bảo hành</a></li>
-                    </ul>
-                </div>
 
                 <div class="col-12 col-md-3 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
@@ -561,27 +725,30 @@
                     </ul>
                 </div>
 
-                <!-- Cột 4: Social, Phương thức thanh toán, Chứng nhận -->
                 <div class="col-12 col-md-3">
                     <h5>MẠNG XÃ HỘI</h5>
                     <ul class="list-unstyled d-flex gap-3">
-                        <li><a href="#" class="text-white" aria-label="Facebook"><i class="bi bi-facebook"></i></a></li>
-                        <li><a href="#" class="text-white" aria-label="TikTok"><i class="bi bi-tiktok"></i></a></li>
-                        <li><a href="#" class="text-white" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <li><a href="https://www.facebook.com/" class="text-white" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
                         </li>
-                        <li><a href="#" class="text-white" aria-label="YouTube"><i class="bi bi-youtube"></i></a></li>
+                        <li><a href="https://www.tiktok.com/" class="text-white" aria-label="TikTok"><i class="bi bi-tiktok"></i></a></li>
+                        <li><a href="https://www.instagram.com/" class="text-white" aria-label="Instagram"><i
+                                class="bi bi-instagram"></i></a>
+                        </li>
+                        <li><a href="https://www.youtube.com/" class="text-white" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                        </li>
                     </ul>
 
                     <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
                     <ul class="list-unstyled">
-                        <li><img src="/assets/images/payments/visa.png" alt="Phương thức thanh toán" class="img-fluid"/>
+                        <li><img src="../assets/images/payments/visa.png" alt="Phương thức thanh toán"
+                                 class="img-fluid"/>
                         </li>
                     </ul>
 
                     <h5 class="text-uppercase mt-4">Chứng nhận</h5>
                     <ul class="list-unstyled">
-                        <li><img src="/assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid"/></li>
-                        <li><img src="/assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid"/></li>
+                        <li><img src="../assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid"/></li>
+                        <li><img src="../assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid"/></li>
                     </ul>
                 </div>
             </div>
@@ -595,15 +762,15 @@
     </div>
 </footer>
 
-<script src="/assets/libraries/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/libraries/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const slides = [
-            '/assets/images/about/about.jpg',
-            '/assets/images/about/about2.jpg',
-            '/assets/images/about/about3.jpg',
-            '/assets/images/about/about4.jpg',
-            '/assets/images/about/about5.jpg'
+            '../assets/images/about/about.jpg',
+            '../assets/images/about/about2.jpg',
+            '../assets/images/about/about3.jpg',
+            '../assets/images/about/about4.jpg',
+            '../assets/images/about/about5.jpg'
         ];
 
         const heroSlidesContainer = document.querySelector('.hero-slides');
