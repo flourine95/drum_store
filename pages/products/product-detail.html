@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Chi tiết sản phẩm</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/libraries/bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/css/custom.css">
@@ -275,726 +275,673 @@
 </head>
 
 <body>
-    <header>
-        <div class="fixed-top d-none d-lg-block">
-            <img src="/assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
-                class="img-fluid w-100 banner-header">
-            <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-                <div class="container">
-                    <!-- Logo -->
-                    <a class="navbar-brand" href="#">
-                        <img src="/assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
-                    </a>
-                    <!-- Toggle button -->
-                    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+<header>
+    <div class="fixed-top d-none d-lg-block">
+        <img src="../../assets/images/banners/banner_header.png" alt="Tháng Tri Ân Săn Sale"
+             class="img-fluid w-100 banner-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../index.html">
+                    <img src="../../assets/images/logo.png" alt="Logo" style="height: 60px;width: auto">
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                         aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <!-- Navbar content -->
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <!-- Search form -->
-                        <form class="search-form d-lg-none">
-                            <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                            <button class="btn btn-dark" type="submit">Tìm</button>
-                        </form>
-                        <!-- Navigation links -->
-                        <div class="navbar-nav mx-auto fw-bold">
-                            <a class="nav-link" href="/pages/home.html">TRANG CHỦ</a>
-                            <a class="nav-link" href="/pages/about.html">GIỚI THIỆU</a>
-                            <a class="nav-link" href="/pages/about.html">SẢN PHẨM</a>
-                            <a class="nav-link" href="/pages/posts/posts.html">TIN TỨC</a>
-                            <a class="nav-link" href="/pages/contact.html">LIÊN HỆ</a>
-                        </div>
-                        <!-- Action buttons for mobile -->
-                        <div class="action-buttons d-lg-none">
-                            <div class="account-button-container">
-                                <a href="#" class="btn btn-light position-relative">
-                                    <i class="bi bi-cart-fill"></i>
-                                    <span
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <form class="search-form d-lg-none">
+                        <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                        <button class="btn btn-dark" type="submit">Tìm</button>
+                    </form>
+                    <div class="navbar-nav mx-auto fw-bold">
+                        <a class="nav-link" href="../home.html">TRANG CHỦ</a>
+                        <a class="nav-link" href="../about.html">GIỚI THIỆU</a>
+                        <a class="nav-link" href="products.html">SẢN PHẨM</a>
+                        <a class="nav-link" href="../posts/posts.html">TIN TỨC</a>
+                        <a class="nav-link" href="../contact.html">LIÊN HỆ</a>
+                    </div>
+                    <div class="action-buttons d-lg-none">
+                        <div class="account-button-container">
+                            <a href="../cart/cart.html" class="btn btn-light position-relative">
+                                <i class="bi bi-cart-fill"></i>
+                                <span
                                         class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                         3
                                     </span>
-                                </a>
-                            </div>
-
-                            <div class="account-button-container dropdown">
-                                <button class="btn btn-light w-100" type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <i class="bi bi-person-circle"></i>
-                                </button>
-                                <ul class="dropdown-menu mobile-dropdown-menu">
-                                    <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
-                                            tôi</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
-                                </ul>
-                            </div>
+                            </a>
                         </div>
-                        <!-- Desktop search form -->
-                        <form class="d-none d-lg-flex mt-lg-0 me-3">
-                            <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                            <button class="btn btn-dark" type="submit">Tìm</button>
-                        </form>
-                        <!-- Desktop action buttons -->
-                        <div class="d-none d-lg-flex align-items-center">
-                            <a href="#" class="btn btn-light me-3 position-relative">
-                                <i class="bi bi-cart-fill"></i>
-                                <span
+
+                        <div class="account-button-container dropdown">
+                            <button class="btn btn-light w-100" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu mobile-dropdown-menu">
+                                <li><a class="dropdown-item" href="../account/login.html">Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="../account/register.html">Đăng ký</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="../account/my-account.html">Tài khoản của
+                                    tôi</a></li>
+                                <li><a class="dropdown-item" href="../account/orders.html">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="../../index.html">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Desktop search form -->
+                    <form class="d-none d-lg-flex mt-lg-0 me-3">
+                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                        <button class="btn btn-dark" type="submit">Tìm</button>
+                    </form>
+                    <!-- Desktop action buttons -->
+                    <div class="d-none d-lg-flex align-items-center">
+                        <a href="../cart/cart.html" class="btn btn-light me-3 position-relative">
+                            <i class="bi bi-cart-fill"></i>
+                            <span
                                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     3
-                                </span>
-                            </a>
-                            <!-- Account dropdown for desktop -->
-                            <div class="dropdown">
-                                <button class="btn btn-light dropdown-toggle" type="button" id="desktopAccountDropdown"
+                            </span>
+                        </a>
+                        <!-- Account dropdown for desktop -->
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="desktopAccountDropdown"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-person-circle"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopAccountDropdown">
-                                    <li><a class="dropdown-item" href="/pages/account/login.html">Đăng nhập</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/register.html">Đăng ký</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="/pages/account/my-account.html">Tài khoản của
-                                            tôi</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="/pages/account/orders.html">Đơn hàng</a></li>
-                                    <li><a class="dropdown-item" href="/pages/account/logout.html">Đăng xuất</a></li>
-                                </ul>
-                            </div>
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopAccountDropdown">
+                                <li><a class="dropdown-item" href="../account/login.html">Đăng nhập</a></li>
+                                <li><a class="dropdown-item" href="../account/register.html">Đăng ký</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="../account/my-account.html">Tài khoản của
+                                    tôi</a>
+                                </li>
+                                <li><a class="dropdown-item" href="../account/orders.html">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="../../index.html">Đăng xuất</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </nav>
-        </div>
-        <div class="mobile-header d-lg-none">
-            <div class="mobile-banner">
-                Giảm giá 20% cho đơn hàng đầu tiên 🎉
-            </div>
-            <div class="mobile-main-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <button class="btn p-0" id="menuToggle">
-                        <i class="bi bi-list fs-4"></i>
-                    </button>
-                    <a href="/" class="logo">
-                        <img src="/assets/images/logo.png" alt="Logo" height="40">
-                    </a>
-                    <a href="/cart" class="position-relative">
-                        <i class="bi bi-cart fs-4"></i>
-                        <span class="cart-badge">3</span>
-                    </a>
-                </div>
-                <div class="mobile-search">
-                    <input type="text" placeholder="Tìm kiếm sản phẩm..." />
-                    <button><i class="bi bi-search"></i></button>
-                </div>
-            </div>
-        </div>
-
-        <div class="mobile-side-menu" id="sideMenu">
-            <div class="menu-header">
-                <div class="d-flex align-items-center">
-                    <i class="bi bi-person-circle fs-1 me-3"></i>
-                    <div>
-                        <h6 class="mb-1">Xin chào!</h6>
-                        <a href="/login" class="text-primary">Đăng nhập</a>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-items">
-                <a href="/" class="menu-item">
-                    <i class="bi bi-house"></i>
-                    Trang chủ
-                </a>
-                <a href="/categories" class="menu-item">
-                    <i class="bi bi-grid"></i>
-                    Danh mục sản phẩm
-                </a>
-                <a href="/orders" class="menu-item">
-                    <i class="bi bi-bag"></i>
-                    Đơn hàng của tôi
-                </a>
-                <a href="/wishlist" class="menu-item">
-                    <i class="bi bi-heart"></i>
-                    Sản phẩm yêu thích
-                </a>
-                <a href="/notifications" class="menu-item">
-                    <i class="bi bi-bell"></i>
-                    Thông báo
-                </a>
-                <a href="/account" class="menu-item">
-                    <i class="bi bi-person"></i>
-                    Tài khoản của tôi
-                </a>
-            </div>
-        </div>
-
-        <div class="menu-overlay" id="menuOverlay"></div>
-
-        <nav class="mobile-bottom-nav d-lg-none">
-            <div class="mobile-nav-items">
-                <a href="/" class="mobile-nav-item active">
-                    <i class="bi bi-house"></i>
-                    <span>Trang chủ</span>
-                </a>
-                <a href="/categories" class="mobile-nav-item">
-                    <i class="bi bi-grid"></i>
-                    <span>Danh mục</span>
-                </a>
-                <a href="/cart" class="mobile-nav-item">
-                    <i class="bi bi-cart"></i>
-                    <span>Giỏ hàng</span>
-                </a>
-                <a href="/account" class="mobile-nav-item">
-                    <i class="bi bi-person"></i>
-                    <span>Tài khoản</span>
-                </a>
             </div>
         </nav>
-    </header>
-    <main style="margin-top: 50px;">
-        <div class="container">
-            <ul class="breadcrumb">
-                <li><a href="#">Trang chủ</a></li>
-                <li><a href="#">Nhạc cụ</a></li>
-                <li><a href="#">Đàn Piano</a></li>
-                <li><a href="#">Đàn Piano Cơ</a></li>
-                <li><a href="#">Đàn Piano Upright</a></li>
-                <li><a href="#">Kawai</a></li>
-                <li>Trống Tama Drum 5 Pcs <span class="rating">★★★★★</span></li>
-            </ul>
+    </div>
+    <div class="mobile-header d-lg-none">
+        <div class="mobile-banner">
+            Thổi hồn vào âm nhạc của bạn 🎉
         </div>
+        <div class="mobile-main-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn p-0" id="menuToggle">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                <a href="../../index.html" class="logo">
+                    <img src="../../assets/images/logo.png" alt="Logo" height="40">
+                </a>
+                <a href="../cart/cart.html" class="position-relative">
+                    <i class="bi bi-cart fs-4"></i>
+                    <span class="cart-badge">3</span>
+                </a>
+            </div>
+            <div class="mobile-search">
+                <input type="text" placeholder="Tìm kiếm sản phẩm..."/>
+                <button><i class="bi bi-search"></i></button>
+            </div>
+        </div>
+    </div>
 
-        <div class="container">
-            <div class="product-detail container mt-4">
-                <div class="row">
-                    <!-- Hình ảnh sản phẩm -->
-                    <div class="col-md-6">
-                        <h2>Trống Tama Drum 5 Pcs <small>(Mã SP: K-300-M/PEP)</small></h2>
-                        <div class="badge bg-danger mb-2">Giảm 7%</div>
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <a href="#" class="image-gallery_full">
+    <div class="mobile-side-menu" id="sideMenu">
+        <div class="menu-header">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-person-circle fs-1 me-3"></i>
+                <div>
+                    <h6 class="mb-1">Xin chào!</h6>
+                    <a href="../account/login.html" class="text-primary">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+        <div class="menu-items">
+            <a href="../../index.html" class="menu-item">
+                <i class="bi bi-house"></i>
+                Trang chủ
+            </a>
+            <a href="../products/products.html" class="menu-item">
+                <i class="bi bi-grid"></i>
+                Danh mục sản phẩm
+            </a>
+            <a href="../account/orders.html" class="menu-item">
+                <i class="bi bi-bag"></i>
+                Đơn hàng của tôi
+            </a>
+            <a href="../account/wishlist.html" class="menu-item">
+                <i class="bi bi-heart"></i>
+                Sản phẩm yêu thích
+            </a>
 
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#slideshowModal"
-                                        class="btn btn-prrimary">
+            <a href="../account/my-account.html" class="menu-item">
+                <i class="bi bi-person"></i>
+                Tài khoản của tôi
+            </a>
+        </div>
+    </div>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <nav class="mobile-bottom-nav d-lg-none">
+        <div class="mobile-nav-items">
+            <a href="../../index.html" class="mobile-nav-item active">
+                <i class="bi bi-house"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a href="../products/products.html" class="mobile-nav-item">
+                <i class="bi bi-grid"></i>
+                <span>Danh mục</span>
+            </a>
+            <a href="../cart/cart.html" class="mobile-nav-item">
+                <i class="bi bi-cart"></i>
+                <span>Giỏ hàng</span>
+            </a>
+            <a href="../account/my-account.html" class="mobile-nav-item">
+                <i class="bi bi-person"></i>
+                <span>Tài khoản</span>
+            </a>
+        </div>
+    </nav>
+</header>
+<main style="margin-top: 50px;">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="../../index.html">Trang chủ</a></li>
+            <li><a href="products.html">Trống</a></li>
+            <li>Trống Tama Drum 5 Pcs</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="product-detail container mt-4">
+            <div class="row">
+                <!-- Hình ảnh sản phẩm -->
+                <div class="col-md-6">
+                    <h2>Trống Tama Drum 5 Pcs <small>(Mã SP: K-300-M/PEP)</small></h2>
+                    <div class="badge bg-danger mb-2">Giảm 7%</div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <a href="#" class="image-gallery_full">
+
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#slideshowModal"
+                                   class="btn btn-prrimary">
                                         <span class="fs-th5">
                                             <!-- Khung chứa ảnh lớn -->
                                             <div class="mb-4">
                                                 <img id="mainImage"
-                                                    src="../../assets/images/products/product_detail.jpg" alt="Ảnh lớn"
-                                                    class="main-img">
+                                                     src="../../assets/images/products/product_detail.jpg" alt="Ảnh lớn"
+                                                     class="main-img">
                                             </div>
 
                                             <!-- Khung chứa ảnh nhỏ -->
                                             <div class="thumbnail-container">
 
                                                 <img src="../../assets/images/products/color1.jpg" alt="Ảnh nhỏ 1"
-                                                    class="thumb-img"
-                                                    data-large="../../assets/images/products/color1.jpg">
+                                                     class="thumb-img"
+                                                     data-large="../../assets/images/products/color1.jpg">
                                                 <img src="../../assets/images/products/color2.jpg" alt="Ảnh nhỏ 2"
-                                                    class="thumb-img"
-                                                    data-large="../../assets/images/products/color2.jpg">
+                                                     class="thumb-img"
+                                                     data-large="../../assets/images/products/color2.jpg">
                                                 <img src="../../assets/images/products/product_detail.jpg"
-                                                    alt="Ảnh nhỏ 3" class="thumb-img"
-                                                    data-large="../../assets/images/products/product_detail.jpg">
+                                                     alt="Ảnh nhỏ 3" class="thumb-img"
+                                                     data-large="../../assets/images/products/product_detail.jpg">
                                                 <img src="../../assets/images/products/color3.jpg" alt="Ảnh nhỏ 4"
-                                                    class="thumb-img"
-                                                    data-large="../../assets/images/products/color3.jpg">
+                                                     class="thumb-img"
+                                                     data-large="../../assets/images/products/color3.jpg">
                                         </span>
-                                    </a>
-                                    <!-- Modal chứa Slideshow -->
-                                    <div class="modal fade" id="slideshowModal" tabindex="-1"
-                                        aria-labelledby="slideshowModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="slideshowModalLabel">Trống Tama Drum 5
-                                                        Pcs
-                                                    </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                </a>
+                                <!-- Modal chứa Slideshow -->
+                                <div class="modal fade" id="slideshowModal" tabindex="-1"
+                                     aria-labelledby="slideshowModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="slideshowModalLabel">Trống Tama Drum 5
+                                                    Pcs
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Slideshow (Carousel) -->
-                                                    <div id="carouselExampleControls" class="carousel slide"
-                                                        data-bs-ride="carousel" data-bs-interval="2000">
-                                                        <div class="carousel-inner">
-                                                            <div class="carousel-item active">
-                                                                <img src="../../assets/images/products/color1.jpg"
-                                                                    class="d-block w-100" alt="Image 1">
-                                                            </div>
-                                                            <div class="carousel-item">
-                                                                <img src="../../assets/images/products/color2.jpg"
-                                                                    class="d-block w-100" alt="Image 2">
-                                                            </div>
-                                                            <div class="carousel-item">
-                                                                <img src="../../assets/images/products/product_detail.jpg"
-                                                                    class="d-block w-100" alt="Image 3">
-                                                            </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Slideshow (Carousel) -->
+                                                <div id="carouselExampleControls" class="carousel slide"
+                                                     data-bs-ride="carousel" data-bs-interval="2000">
+                                                    <div class="carousel-inner">
+                                                        <div class="carousel-item active">
+                                                            <img src="../../assets/images/products/color1.jpg"
+                                                                 class="d-block w-100" alt="Image 1">
                                                         </div>
-                                                        <!-- Điều khiển (Previous và Next) -->
-                                                        <button class="carousel-control-prev" type="button"
+                                                        <div class="carousel-item">
+                                                            <img src="../../assets/images/products/color2.jpg"
+                                                                 class="d-block w-100" alt="Image 2">
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <img src="../../assets/images/products/product_detail.jpg"
+                                                                 class="d-block w-100" alt="Image 3">
+                                                        </div>
+                                                    </div>
+                                                    <!-- Điều khiển (Previous và Next) -->
+                                                    <button class="carousel-control-prev" type="button"
                                                             data-bs-target="#carouselExampleControls"
                                                             data-bs-slide="prev">
                                                             <span class="carousel-control-prev-icon"
-                                                                aria-hidden="true"></span>
-                                                            <span class="visually-hidden">Previous</span>
-                                                        </button>
-                                                        <button class="carousel-control-next" type="button"
+                                                                  aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button"
                                                             data-bs-target="#carouselExampleControls"
                                                             data-bs-slide="next">
                                                             <span class="carousel-control-next-icon"
-                                                                aria-hidden="true"></span>
-                                                            <span class="visually-hidden">Next</span>
-                                                        </button>
-                                                    </div>
+                                                                  aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Đóng</button>
-                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Đóng
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                </a>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Thông tin sản phẩm -->
-                <div class="col-md-6">
-                    <div class="buy" style=" flex-direction: column; display: flex; ">
-                        <h1>Trống Tama Drum 5 Pcs </h1>
-                        <div <p class="text-danger fw-bold">
-                            Giá: 93,000,000đ
-                            <span class="text-decoration-line-through text-muted">99,900,000đ</span>
-                            <span class="badge bg-danger">(-7%)</span>
-                            </p>
-                        </div>
+            <!-- Thông tin sản phẩm -->
+            <div class="col-md-6">
+                <div class="buy" style=" flex-direction: column; display: flex; ">
+                    <h1>Trống Tama Drum 5 Pcs </h1>
+                    <div
+                    <p class="text-danger fw-bold">
+                        Giá: 93,000,000đ
+                        <span class="text-decoration-line-through text-muted">99,900,000đ</span>
+                        <span class="badge bg-danger">(-7%)</span>
+                    </p>
+                </div>
 
-                        <div class="rating-summary">
-                            <div class="d-flex align-items-center ">
-                                <h1 class="text-warning mb-0 ">4.8</h1>
-                                <div class="ms-2">
-                                    <span class="rating">★★★★★</span>
-                                    <span>(250 đánh giá)</span>
-                                </div>
-                            </div>
+                <div class="rating-summary">
+                    <div class="d-flex align-items-center ">
+                        <h1 class="text-warning mb-0 ">4.8</h1>
+                        <div class="ms-2">
+                            <span class="rating">★★★★★</span>
+                            <span>(250 đánh giá)</span>
                         </div>
-                        <!-- Màu sắc và Số lượng -->
-                        <div style="display: flex;gap: 100px;">
-                            <!-- Màu sắc -->
-                            <div>
-                                <label for="colorSelect" class="form-label">Màu sắc:</label>
-                                <div>
+                    </div>
+                </div>
+                <!-- Màu sắc và Số lượng -->
+                <div style="display: flex;gap: 100px;">
+                    <!-- Màu sắc -->
+                    <div>
+                        <label for="colorSelect" class="form-label">Màu sắc:</label>
+                        <div>
                                     <span class="color-swatch bg-black me-2"
-                                        data-image="../../assets/images/products/color1.jpg"></span>
-                                    <span class="color-swatch bg-white me-2"
-                                        data-image="../../assets/images/products/color2.jpg"></span>
-                                    <span class="color-swatch bg-danger me-2"
-                                        data-image="../../assets/images/products/product_detail.jpg"></data-image>
+                                          data-image="../../assets/images/products/color1.jpg"></span>
+                            <span class="color-swatch bg-white me-2"
+                                  data-image="../../assets/images/products/color2.jpg"></span>
+                            <span class="color-swatch bg-danger me-2"
+                                  data-image="../../assets/images/products/product_detail.jpg"></data-image>
                                     </span>
-                                </div>
-                            </div>
-                            <!-- Số lượng -->
-                            <div>
-                                <label for="quantityInput" class="form-label">Số lượng:</label>
-                                <div class="input-group" style="max-width: 150px;">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-decrease"
-                                        onclick="decreaseQuantity()">-</button>
-                                    <input type="text" class="form-control text-center text-danger fw-bold"
-                                        id="quantityInput" value="1" readonly>
-                                    <button class="btn btn-outline-secondary" type="button" id="button-increase"
-                                        onclick="increaseQuantity()">+</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Nút Thêm vào giỏ và Mua ngay -->
-                        <div class="button-group">
-                            <button class="btn add-to-cart">Thêm vào giỏ</button>
-                            <button class="btn buy-now">Mua ngay</button>
                         </div>
                     </div>
-                    <!-- Ưu điểm nổi bật -->
-                    <div class="box_uu_diem">Ưu điểm Nổi bật</div>
-                    <div class="box_khuyen_mai">
-                        <ul>
-                            <p><strong>Tặng Voucher học nhạc trị giá 500.000 vnđ khi đăng kí lớp nhạc tại trường âm nhạc
-                                    Việt Thương Music.</strong></p>
-                            <p>- Bộ máy Cơ Kháng ẩm – Kháng nhiệt, làm từ sợi Carbon siêu bền, không bị biến dạng.</p>
-                            <p>- Truyền lực cực chính xác, không bị thất thoát lực tự nhiên như thông thường.</p>
-                            <p>- Thiết kế phím đàn dài hơn, giúp người chơi kiểm soát lực đàn rất hiệu quả.</p>
-                            <p>- Soundboard Gỗ Nguyên Khối, hong khô tự nhiên lên đến 5 năm.</p>
-                            <p>- Búa đàn 2 lớp nỉ cao cấp, sử dụng Gỗ Đặc Mahogany làm lõi búa.</p>
-                            <p>- Thép Vuông Bệ Đàn và Pát Bệ Đàn cho cấu trúc mạnh mẽ kinh ngạc.</p>
+                    <!-- Số lượng -->
+                    <div>
+                        <label for="quantityInput" class="form-label">Số lượng:</label>
+                        <div class="input-group" style="max-width: 150px;">
+                            <button class="btn btn-outline-secondary" type="button" id="button-decrease"
+                                    onclick="decreaseQuantity()">-
+                            </button>
+                            <input type="text" class="form-control text-center text-danger fw-bold"
+                                   id="quantityInput" value="1" readonly>
+                            <button class="btn btn-outline-secondary" type="button" id="button-increase"
+                                    onclick="increaseQuantity()">+
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Nút Thêm vào giỏ và Mua ngay -->
+                <div class="button-group">
+                    <button class="btn add-to-cart">Thêm vào giỏ</button>
+                    <button class="btn buy-now">Mua ngay</button>
+                </div>
+            </div>
+            <!-- Ưu điểm nổi bật -->
+            <div class="box_uu_diem">Ưu điểm Nổi bật</div>
+            <div class="box_khuyen_mai">
+                <ul>
+                    <p><strong>Tặng Voucher học nhạc trị giá 500.000 vnđ khi đăng kí lớp nhạc tại trường âm nhạc
+                        Việt Thương Music.</strong></p>
+                    <p>- Bộ máy Cơ Kháng ẩm – Kháng nhiệt, làm từ sợi Carbon siêu bền, không bị biến dạng.</p>
+                    <p>- Truyền lực cực chính xác, không bị thất thoát lực tự nhiên như thông thường.</p>
+                    <p>- Thiết kế phím đàn dài hơn, giúp người chơi kiểm soát lực đàn rất hiệu quả.</p>
+                    <p>- Soundboard Gỗ Nguyên Khối, hong khô tự nhiên lên đến 5 năm.</p>
+                    <p>- Búa đàn 2 lớp nỉ cao cấp, sử dụng Gỗ Đặc Mahogany làm lõi búa.</p>
+                    <p>- Thép Vuông Bệ Đàn và Pát Bệ Đàn cho cấu trúc mạnh mẽ kinh ngạc.</p>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <div class="tab-container">
+        <ul class="tab-menu">
+            <li class="tab-item active" data-tab="tab1">Mô tả sản phẩm</li>
+            <li class="tab-item" data-tab="tab2">Thông số kỹ thuật</li>
+            <li class="tab-item" data-tab="tab3">Phụ kiện</li>
+            <li class="tab-item" data-tab="tab4">Video</li>
+        </ul>
+        <div class="tab-content " id="tab1">
+            <h3 href="#"><strong>Trống Tama Drum 5 Pcs</strong></h3>
+            <p class="text-start"> Trống Tama Drum 5 Pcs là bộ trống chuyên nghiệp gồm 5 thành phần: Bass Drum,
+                Snare Drum, 2 Tom-toms và
+                Floor Tom, được làm từ gỗ cao cấp cho âm thanh mạnh mẽ, sắc nét. Thiết kế hiện đại với nhiều màu
+                sắc,
+                kèm phụ kiện như Cymbal, pedal bass và ghế ngồi điều chỉnh, phù hợp cho mọi phong cách nhạc từ jazz
+                đến
+                rock. Bộ trống bền bỉ, dễ lắp đặt, lý tưởng cho gia đình, phòng tập hoặc sân khấu biểu diễn.</p>
+            </p>
+            <img src="/assets/images/products/product_detail.jpg" alt="">
+        </div>
+
+        <div class="tab-content" id="tab2" style="display: none;">
+            <div class="card p-4 mb-4" style="border-radius: 8px;">
+                <h3 class="card-title text-start">Thông số kỹ thuật</h3>
+                <ul class="list-unstyled text-start">
+                    <li>
+                        <strong>Thành phần bộ trống:</strong>
+                        <ul class="ms-4">
+                            <li>Bass Drum: 22" x 16".</li>
+                            <li>Snare Drum: 14" x 5.5".</li>
+                            <li>Tom-tom 1: 10" x 7".</li>
+                            <li>Tom-tom 2: 12" x 8".</li>
+                            <li>Floor Tom: 16" x 14".</li>
                         </ul>
-                    </div>
-                </div>
-
+                    </li>
+                    <li><strong>Chất liệu:</strong> Gỗ Maple hoặc Birch, màng Mylar cao cấp.</li>
+                    <li><strong>Phụ kiện:</strong> Hi-hat (14"), Crash (16"), Ride (20").</li>
+                    <li><strong>Thiết kế:</strong> Sơn bóng hoặc mờ, chân đế chống trượt.</li>
+                    <li><strong>Trọng lượng:</strong> ~25-30kg.</li>
+                </ul>
             </div>
         </div>
 
-        <div class="tab-container">
-            <ul class="tab-menu">
-                <li class="tab-item active" data-tab="tab1">Mô tả sản phẩm</li>
-                <li class="tab-item" data-tab="tab2">Thông số kỹ thuật</li>
-                <li class="tab-item" data-tab="tab3">Phụ kiện</li>
-                <li class="tab-item" data-tab="tab4">Video</li>
-            </ul>
-            <div class="tab-content " id="tab1">
-                <h3 href="#"><strong>Trống Tama Drum 5 Pcs</strong></h3>
-                <p class="text-start"> Trống Tama Drum 5 Pcs là bộ trống chuyên nghiệp gồm 5 thành phần: Bass Drum,
-                    Snare Drum, 2 Tom-toms và
-                    Floor Tom, được làm từ gỗ cao cấp cho âm thanh mạnh mẽ, sắc nét. Thiết kế hiện đại với nhiều màu
-                    sắc,
-                    kèm phụ kiện như Cymbal, pedal bass và ghế ngồi điều chỉnh, phù hợp cho mọi phong cách nhạc từ jazz
-                    đến
-                    rock. Bộ trống bền bỉ, dễ lắp đặt, lý tưởng cho gia đình, phòng tập hoặc sân khấu biểu diễn.</p>
-                </p>
-                <img src="/assets/images/products/product_detail.jpg" alt="">
-            </div>
-
-            <div class="tab-content" id="tab2" style="display: none;">
-                <div class="card p-4 mb-4" style="border-radius: 8px;">
-                    <h3 class="card-title text-start">Thông số kỹ thuật</h3>
-                    <ul class="list-unstyled text-start">
-                        <li>
-                            <strong>Thành phần bộ trống:</strong>
-                            <ul class="ms-4">
-                                <li>Bass Drum: 22" x 16".</li>
-                                <li>Snare Drum: 14" x 5.5".</li>
-                                <li>Tom-tom 1: 10" x 7".</li>
-                                <li>Tom-tom 2: 12" x 8".</li>
-                                <li>Floor Tom: 16" x 14".</li>
-                            </ul>
-                        </li>
-                        <li><strong>Chất liệu:</strong> Gỗ Maple hoặc Birch, màng Mylar cao cấp.</li>
-                        <li><strong>Phụ kiện:</strong> Hi-hat (14"), Crash (16"), Ride (20").</li>
-                        <li><strong>Thiết kế:</strong> Sơn bóng hoặc mờ, chân đế chống trượt.</li>
-                        <li><strong>Trọng lượng:</strong> ~25-30kg.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="tab-content" id="tab3" style="display: none;">
-                <div class="card p-4 mb-4" style="border-radius: 8px;">
-                    <h3 class="card-title text-start">Phụ kiện đi kèm</h3>
-                    <ul class="list-unstyled text-start">
-                        <li><strong>Cymbal:</strong> Hi-hat (14"), Crash (16"), Ride (20").</li>
-                        <li><strong>Pedal Bass:</strong> Pedal đơn hoặc kép, chống trượt.</li>
-                        <li><strong>Ghế trống:</strong> Điều chỉnh độ cao, đệm êm.</li>
-                        <li><strong>Chân Cymbal và Snare:</strong> Giá đỡ thép không gỉ, điều chỉnh linh hoạt.</li>
-                        <li><strong>Bộ chìa khóa chỉnh trống:</strong> Căng chỉnh màng trống.</li>
-                        <li><strong>Dùi trống:</strong> 1 cặp dùi gỗ tiêu chuẩn.</li>
-                        <li><strong>Hướng dẫn sử dụng:</strong> Sơ đồ lắp ráp chi tiết.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="tab-content" id="tab4" style="display: none;">
-                <p>Đây là nội dung của tab Video.</p>
+        <div class="tab-content" id="tab3" style="display: none;">
+            <div class="card p-4 mb-4" style="border-radius: 8px;">
+                <h3 class="card-title text-start">Phụ kiện đi kèm</h3>
+                <ul class="list-unstyled text-start">
+                    <li><strong>Cymbal:</strong> Hi-hat (14"), Crash (16"), Ride (20").</li>
+                    <li><strong>Pedal Bass:</strong> Pedal đơn hoặc kép, chống trượt.</li>
+                    <li><strong>Ghế trống:</strong> Điều chỉnh độ cao, đệm êm.</li>
+                    <li><strong>Chân Cymbal và Snare:</strong> Giá đỡ thép không gỉ, điều chỉnh linh hoạt.</li>
+                    <li><strong>Bộ chìa khóa chỉnh trống:</strong> Căng chỉnh màng trống.</li>
+                    <li><strong>Dùi trống:</strong> 1 cặp dùi gỗ tiêu chuẩn.</li>
+                    <li><strong>Hướng dẫn sử dụng:</strong> Sơ đồ lắp ráp chi tiết.</li>
+                </ul>
             </div>
         </div>
-        <!-- Đánh giá và bình luận -->
-        <div class="container mt-5">
-            <h3>Đánh giá và Bình luận</h3>
-            <div class="rating-summary">
-                <div class="d-flex align-items-center">
-                    <h1 class="text-warning mb-0">4.8</h1>
-                    <div class="ms-2">
-                        <span class="rating">★★★★★</span>
-                        <span>(250 đánh giá)</span>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <form class="d-flex flex-column align-items-start">
-                <textarea class="form-control mb-2" style="width: 100%; height: 100px;"
-                    placeholder="Chia sẻ cảm nhận chi tiết..."></textarea>
-                <div class="d-flex align-items-center">
-                    <span class="me-2">Số sao:</span>
-                    <select class="form-select form-select-sm me-2" style="width: auto;">
-                        <option value="5">5★</option>
-                        <option value="4">4★</option>
-                        <option value="3">3★</option>
-                        <option value="2">2★</option>
-                        <option value="1">1★</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary btn-sm">Gửi</button>
-                </div>
-            </form>
-            <hr>
-            <h4>Bình luận</h4>
-            <div class="comment-list">
-                <div class="comment-item mb-3">
-                    <strong>Nguyễn Phi Long</strong> <span class="text-muted">(2 ngày trước)</span>
-                    <p class="mb-1">Rất tốt!</p>
-                    <span class="rating" style="display: inline-block; margin-top: -5px;">★★★★★</span>
-                </div>
-                <div class="comment-item mb-3">
-                    <strong>Phong Hoàng Thiện</strong> <span class="text-muted">(5 ngày trước)</span>
-                    <p class="mb-1">Hài lòng.</p>
-                    <span class="rating" style="display: inline-block; margin-top: -5px;">★★★★★</span>
-                </div>
-                <div class="comment-item mb-3">
-                    <strong>Nguyễn Hữu Nam</strong> <span class="text-muted">(6 ngày trước)</span>
-                    <p class="mb-1">Khá ổn.</p>
-                    <span class="rating" style="display: inline-block; margin-top: -5px;">★★★★</span>
+
+        <div class="tab-content" id="tab4" style="display: none;">
+            <p>Đây là nội dung của tab Video.</p>
+        </div>
+    </div>
+    <!-- Đánh giá và bình luận -->
+    <div class="container mt-5">
+        <h3>Đánh giá và Bình luận</h3>
+        <div class="rating-summary">
+            <div class="d-flex align-items-center">
+                <h1 class="text-warning mb-0">4.8</h1>
+                <div class="ms-2">
+                    <span class="rating">★★★★★</span>
+                    <span>(250 đánh giá)</span>
                 </div>
             </div>
         </div>
         <hr>
-        <div class="container my-5">
-            <h3 class="mb-4">Sản phẩm tương tự</h3>
+        <form class="d-flex flex-column align-items-start">
+                <textarea class="form-control mb-2" style="width: 100%; height: 100px;"
+                          placeholder="Chia sẻ cảm nhận chi tiết..."></textarea>
+            <div class="d-flex align-items-center">
+                <span class="me-2">Số sao:</span>
+                <select class="form-select form-select-sm me-2" style="width: auto;">
+                    <option value="5">5★</option>
+                    <option value="4">4★</option>
+                    <option value="3">3★</option>
+                    <option value="2">2★</option>
+                    <option value="1">1★</option>
+                </select>
+                <button type="submit" class="btn btn-primary btn-sm">Gửi</button>
+            </div>
+        </form>
+        <hr>
+        <h4>Bình luận</h4>
+        <div class="comment-list">
+            <div class="comment-item mb-3">
+                <strong>Nguyễn Phi Long</strong> <span class="text-muted">(2 ngày trước)</span>
+                <p class="mb-1">Rất tốt!</p>
+                <span class="rating" style="display: inline-block; margin-top: -5px;">★★★★★</span>
+            </div>
+            <div class="comment-item mb-3">
+                <strong>Phong Hoàng Thiện</strong> <span class="text-muted">(5 ngày trước)</span>
+                <p class="mb-1">Hài lòng.</p>
+                <span class="rating" style="display: inline-block; margin-top: -5px;">★★★★★</span>
+            </div>
+            <div class="comment-item mb-3">
+                <strong>Nguyễn Hữu Nam</strong> <span class="text-muted">(6 ngày trước)</span>
+                <p class="mb-1">Khá ổn.</p>
+                <span class="rating" style="display: inline-block; margin-top: -5px;">★★★★</span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container my-5">
+        <h3 class="mb-4">Sản phẩm tương tự</h3>
+        <div class="row">
+            <!-- Sản phẩm 1 -->
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem; height: 25rem;">
+                    <img src="../../assets/images/products/product_detail_4.jpg" class="card-img-top"
+                         alt="Sản phẩm 1" style="height: 220px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">Bộ trống Yamaha GIGMAKER GM2F52</h5>
+                        <p class="card-text">Giá: 70,000,000đ</p>
+                        <a href="product-detail.html" class="btn btn-primary">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Sản phẩm 2 -->
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem; height: 25rem;">
+                    <img src="../../assets/images/products/product_detail_3.jpg" class="card-img-top"
+                         alt="Sản phẩm 2" style="height: 220px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">Trống Pearl Export 725</h5>
+                        <p class="card-text">Giá: 25,000,000đ</p>
+                        <a href="product-detail.html" class="btn btn-primary">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem; height: 25rem;">
+                    <img src="../../assets/images/products/product_detail_2.jpg" class="card-img-top"
+                         alt="Sản phẩm 2" style="height: 220px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title"> Trống Jinbao</h5>
+                        <p class="card-text">Giá: 50,000,000đ</p>
+                        <a href="product-detail.html" class="btn btn-primary">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem; height: 25rem;">
+                    <img src="../../assets/images/products/product_detail_1.jpg" class="card-img-top"
+                         alt="Sản phẩm 4" style="height: 220px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">Trống điện tử Roland VAD507</h5>
+                        <p class="card-text">Giá: 45,000,000đ</p>
+                        <a href="product-detail.html" class="btn btn-primary">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thêm các sản phẩm khác tương tự -->
+        </div>
+    </div>
+
+
+    </div>
+</main>
+<footer>
+    <div class="bg-dark text-white pt-4 pb-4">
+        <div class="container">
             <div class="row">
-                <!-- Sản phẩm 1 -->
-                <div class="col-md-3 mb-4">
-                    <div class="card" style="width: 18rem; height: 25rem;">
-                        <img src="../../assets/images/products/product_detail_4.jpg" class="card-img-top"
-                            alt="Sản phẩm 1" style="height: 220px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">Bộ trống Yamaha GIGMAKER GM2F52</h5>
-                            <p class="card-text">Giá: 70,000,000đ</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
+
+                <div class="col-12 col-md-3 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Thông tin Drum Store</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="../about.html" class="text-white">Giới thiệu công ty</a></li>
+
+                    </ul>
                 </div>
-                <!-- Sản phẩm 2 -->
-                <div class="col-md-3 mb-4">
-                    <div class="card" style="width: 18rem; height: 25rem;">
-                        <img src="../../assets/images/products/product_detail_3.jpg" class="card-img-top"
-                            alt="Sản phẩm 2" style="height: 220px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">Trống Pearl Export 725</h5>
-                            <p class="card-text">Giá: 25,000,000đ</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card" style="width: 18rem; height: 25rem;">
-                        <img src="../../assets/images/products/product_detail_2.jpg" class="card-img-top"
-                            alt="Sản phẩm 2" style="height: 220px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title"> Trống Jinbao</h5>
-                            <p class="card-text">Giá: 50,000,000đ</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card" style="width: 18rem; height: 25rem;">
-                        <img src="../../assets/images/products/product_detail_1.jpg" class="card-img-top"
-                            alt="Sản phẩm 4" style="height: 220px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">Trống điện tử Roland VAD507</h5>
-                            <p class="card-text">Giá: 45,000,000đ</p>
-                            <a href="#" class="btn btn-primary">Xem chi tiết</a>
-                        </div>
-                    </div>
+                <div class="col-12 col-md-3 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <strong>Gọi mua hàng: </strong>
+                            <a href="tel:123-456-7890" class="text-white">123-456-7890 (Miễn phí)</a>
+                        </li>
+                        <li>
+                            <strong>Khiếu nại, Bảo hành: </strong>
+                            <a href="tel:123-456-7890" class="text-white">123-456-7890</a>
+                        </li>
+                        <li><strong>Thời gian phục vụ: </strong>8h-22h</li>
+                        <li>
+                            <strong>Email: </strong>
+                            <a href="mailto:drumstore@gmail.com" class="text-white">drumstore@gmail.com</a>
+                        </li>
+                    </ul>
                 </div>
 
-                <!-- Thêm các sản phẩm khác tương tự -->
+                <div class="col-12 col-md-3">
+                    <h5>MẠNG XÃ HỘI</h5>
+                    <ul class="list-unstyled d-flex gap-3">
+                        <li><a href="https://www.facebook.com/" class="text-white" aria-label="Facebook"><i
+                                class="bi bi-facebook"></i></a>
+                        </li>
+                        <li><a href="https://www.tiktok.com/" class="text-white" aria-label="TikTok"><i
+                                class="bi bi-tiktok"></i></a></li>
+                        <li><a href="https://www.instagram.com/" class="text-white" aria-label="Instagram"><i
+                                class="bi bi-instagram"></i></a>
+                        </li>
+                        <li><a href="https://www.youtube.com/" class="text-white" aria-label="YouTube"><i
+                                class="bi bi-youtube"></i></a>
+                        </li>
+                    </ul>
+
+                    <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
+                    <ul class="list-unstyled">
+                        <li><img src="../../assets/images/payments/visa.png" alt="Phương thức thanh toán"
+                                 class="img-fluid"/>
+                        </li>
+                    </ul>
+
+                    <h5 class="text-uppercase mt-4">Chứng nhận</h5>
+                    <ul class="list-unstyled">
+                        <li><img src="../../assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid"/></li>
+                        <li><img src="../../assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid"/></li>
+                    </ul>
+                </div>
             </div>
-        </div>
 
-
-        </div>
-    </main>
-    <footer>
-        <div class="py-5">
-            <div class="container text-black">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col-12 col-md-6 mb-4 mb-md-0">
-                        <h4>LIÊN HỆ</h4>
-                        <p>Chúng tôi sẽ giúp bạn tìm đúng giải pháp cho đam mê của bạn.</p>
-                        <button class="btn btn-primary text-black">HOTLINE</button>
-                    </div>
-
-                    <div class="col-12 col-md-6">
-                        <form>
-                            <div class="row">
-                                <div class="col-12 col-md-8 mb-3">
-                                    <label for="contact-email" class="form-label">Địa chỉ email</label>
-                                    <input type="email" class="form-control" id="contact-email"
-                                        placeholder="Nhập email của bạn" required>
-                                    <button type="submit" class="btn btn-primary w-100 w-md-25 mt-2 text-black">Gửi
-                                        Email
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <p>&copy; 2024 Công ty Cổ Phần TM-DV-SX Drum Store. Tất cả quyền lợi được bảo lưu.</p>
                 </div>
             </div>
         </div>
-
-        <div class="bg-dark text-white pt-4 pb-4">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-12 col-md-3 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Thông tin Drum Store</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-white">Giới thiệu công ty</a></li>
-                            <li><a href="#" class="text-white">Hệ thống showroom, đại lý</a></li>
-                            <li><a href="#" class="text-white">Liên Hệ / Góp Ý</a></li>
-                            <li><a href="#" class="text-white">Mua trả góp</a></li>
-                            <li><a href="#" class="text-white">Chương trình Khách hàng thân thiết</a></li>
-                            <li><a href="#" class="text-white">Điều khoản sử dụng website</a></li>
-                            <li><a href="#" class="text-white">Tuyển dụng</a></li>
-                        </ul>
-                    </div>
+    </div>
+</footer>
 
 
-                    <div class="col-12 col-md-3 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Hướng dẫn chung</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-white">Giao hàng - Đổi trả</a></li>
-                            <li><a href="#" class="text-white">Hướng dẫn mua hàng</a></li>
-                            <li><a href="#" class="text-white">Thanh toán và bảo mật</a></li>
-                            <li><a href="#" class="text-white">Chính sách bảo hành</a></li>
-                            <li><a href="#" class="text-white">Bảo trì đàn piano</a></li>
-                            <li><a href="#" class="text-white">Kích hoạt bảo hành</a></li>
-                        </ul>
-                    </div>
+<script src="../../assets/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.tab-item').forEach(tab => {
+            tab.addEventListener('click', function () {
+                // Loại bỏ lớp active khỏi tất cả các tab
+                document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
+                // Ẩn tất cả nội dung tab
+                document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
 
-                    <div class="col-12 col-md-3 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Hỗ trợ khách hàng</h5>
-                        <ul class="list-unstyled">
-                            <li>
-                                <strong>Gọi mua hàng: </strong>
-                                <a href="tel:123-456-7890" class="text-white">123-456-7890 (Miễn phí)</a>
-                            </li>
-                            <li>
-                                <strong>Khiếu nại, Bảo hành: </strong>
-                                <a href="tel:123-456-7890" class="text-white">123-456-7890</a>
-                            </li>
-                            <li><strong>Thời gian phục vụ: </strong>8h-22h</li>
-                            <li>
-                                <strong>Email: </strong>
-                                <a href="mailto:drumstore@gmail.com" class="text-white">drumstore@gmail.com</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="col-12 col-md-3">
-                        <h5>MẠNG XÃ HỘI</h5>
-                        <ul class="list-unstyled d-flex gap-3">
-                            <li><a href="#" class="text-white" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                            </li>
-                            <li><a href="#" class="text-white" aria-label="TikTok"><i class="bi bi-tiktok"></i></a></li>
-                            <li><a href="#" class="text-white" aria-label="Instagram"><i
-                                        class="bi bi-instagram"></i></a>
-                            </li>
-                            <li><a href="#" class="text-white" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-                            </li>
-                        </ul>
-
-                        <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
-                        <ul class="list-unstyled">
-                            <li><img src="/assets/images/payments/visa.png" alt="Phương thức thanh toán"
-                                    class="img-fluid" />
-                            </li>
-                        </ul>
-
-                        <h5 class="text-uppercase mt-4">Chứng nhận</h5>
-                        <ul class="list-unstyled">
-                            <li><img src="/assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid" /></li>
-                            <li><img src="/assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid" /></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-12 text-center">
-                        <p>&copy; 2024 Công ty Cổ Phần TM-DV-SX Drum Store. Tất cả quyền lợi được bảo lưu.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-
-    <!-- Link đến Bootstrap JS và Popper.js từ thư mục local -->
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.tab-item').forEach(tab => {
-                tab.addEventListener('click', function () {
-                    // Loại bỏ lớp active khỏi tất cả các tab
-                    document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
-                    // Ẩn tất cả nội dung tab
-                    document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-
-                    // Thêm lớp active cho tab hiện tại
-                    this.classList.add('active');
-                    // Hiển thị nội dung tab được chọn
-                    const tabId = this.getAttribute('data-tab');
-                    document.getElementById(tabId).style.display = 'block';
-                });
+                // Thêm lớp active cho tab hiện tại
+                this.classList.add('active');
+                // Hiển thị nội dung tab được chọn
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).style.display = 'block';
             });
         });
-        const thumbnails = document.querySelectorAll('.thumb-img');
+    });
+    const thumbnails = document.querySelectorAll('.thumb-img');
+    const mainImage = document.getElementById('mainImage');
+
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('mouseenter', function () {
+            const largeImageSrc = this.getAttribute('data-large');
+            mainImage.src = largeImageSrc;
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const colorSwatches = document.querySelectorAll('.color-swatch');
         const mainImage = document.getElementById('mainImage');
 
-        thumbnails.forEach(thumb => {
-            thumb.addEventListener('mouseenter', function () {
-                const largeImageSrc = this.getAttribute('data-large');
-                mainImage.src = largeImageSrc;
+        colorSwatches.forEach(swatch => {
+            swatch.addEventListener('click', function () {
+                // Lấy đường dẫn ảnh từ thuộc tính data-image của màu sắc được chọn
+                const newImageSrc = this.getAttribute('data-image');
+                // Cập nhật ảnh chính với đường dẫn mới
+                mainImage.src = newImageSrc;
             });
         });
+    });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const colorSwatches = document.querySelectorAll('.color-swatch');
-            const mainImage = document.getElementById('mainImage');
+    function increaseQuantity() {
+        let input = document.getElementById('quantityInput');
+        let currentValue = parseInt(input.value);
+        input.value = currentValue + 1;
+    }
 
-            colorSwatches.forEach(swatch => {
-                swatch.addEventListener('click', function () {
-                    // Lấy đường dẫn ảnh từ thuộc tính data-image của màu sắc được chọn
-                    const newImageSrc = this.getAttribute('data-image');
-                    // Cập nhật ảnh chính với đường dẫn mới
-                    mainImage.src = newImageSrc;
-                });
-            });
-        });
-        function increaseQuantity() {
-            let input = document.getElementById('quantityInput');
-            let currentValue = parseInt(input.value);
-            input.value = currentValue + 1;
+    function decreaseQuantity() {
+        let input = document.getElementById('quantityInput');
+        let currentValue = parseInt(input.value);
+        if (currentValue > 1) {
+            input.value = currentValue - 1;
         }
+    }
 
-        function decreaseQuantity() {
-            let input = document.getElementById('quantityInput');
-            let currentValue = parseInt(input.value);
-            if (currentValue > 1) {
-                input.value = currentValue - 1;
+</script>
+<script>
+    document.querySelectorAll('.dropdown-submenu > a').forEach(function (element) {
+        element.addEventListener('click', function (e) {
+            let nextDropdown = this.nextElementSibling;
+            if (nextDropdown && nextDropdown.classList.contains('dropdown-menu')) {
+                e.preventDefault();  // Ngăn chặn hành động mặc định (click)
+                nextDropdown.classList.toggle('show');  // Tạo hiệu ứng mở/đóng menu
             }
-        }
-
-    </script>
-    <script>
-        document.querySelectorAll('.dropdown-submenu > a').forEach(function (element) {
-            element.addEventListener('click', function (e) {
-                let nextDropdown = this.nextElementSibling;
-                if (nextDropdown && nextDropdown.classList.contains('dropdown-menu')) {
-                    e.preventDefault();  // Ngăn chặn hành động mặc định (click)
-                    nextDropdown.classList.toggle('show');  // Tạo hiệu ứng mở/đóng menu
-                }
-            });
         });
-    </script>
+    });
+</script>
 </body>
 
 </html>
