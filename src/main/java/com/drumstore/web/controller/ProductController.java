@@ -2,6 +2,7 @@ package com.drumstore.web.controller;
 
 
 import com.drumstore.web.model.Product;
+import com.drumstore.web.repository.ProductRepository;
 import com.drumstore.web.service.ProductService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,7 +18,8 @@ public class ProductController extends HttpServlet {
     private  ProductService productService;
 
     public ProductController() {
-        this.productService = new ProductService();
+        ProductRepository productRepository = new ProductRepository(); 
+        this.productService = new ProductService(productRepository);  
     }
 
     @Override
