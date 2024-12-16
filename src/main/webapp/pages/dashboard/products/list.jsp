@@ -6,7 +6,7 @@
     <script>
         function confirmDelete(productId) {
             if (!confirm("Are you sure you want to delete this product?")) {
-                event.preventDefault(); 
+                event.preventDefault();
             }
         }
     </script>
@@ -20,6 +20,11 @@
         <th>Name</th>
         <th>Description</th>
         <th>Price</th>
+        <th>Stock</th>
+        <th>Category</th>
+        <th>Brand</th>
+        <th>Color</th>
+        <th>Image</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -30,6 +35,11 @@
             <td>${product.name}</td>
             <td>${product.description}</td>
             <td>${product.price}</td>
+            <td>${product.stock}</td>
+            <td>${product.category.name}</td> 
+            <td>${product.brand.name}</td> 
+            <td>${product.color}</td>
+            <td><img src="${product.image}" alt="Product Image" width="50" /></td>
             <td>
                 <a href="${pageContext.request.contextPath}/products?action=edit&id=${product.id}">Edit</a>
                 <form onsubmit="confirmDelete(${product.id})" action="${pageContext.request.contextPath}/products" method="post" style="display:inline;">
@@ -44,4 +54,3 @@
 </table>
 </body>
 </html>
-

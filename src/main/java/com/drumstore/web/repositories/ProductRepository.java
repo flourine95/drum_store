@@ -1,6 +1,6 @@
-package com.drumstore.web.repository;
+package com.drumstore.web.repositories;
 
-import com.drumstore.web.model.Product;
+import com.drumstore.web.models.Product;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
 
@@ -13,7 +13,7 @@ public class ProductRepository {
         this.jdbi = DBConnection.getJdbi();
     }
 
-    public List<Product> getAllProducts() {
+    public List<Product> getProducts() {
         return jdbi.withHandle(handle ->
                 handle.createQuery("SELECT * FROM products")
                         .mapToBean(Product.class)

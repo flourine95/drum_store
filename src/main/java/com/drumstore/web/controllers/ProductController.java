@@ -1,9 +1,11 @@
-package com.drumstore.web.controller;
+package com.drumstore.web.controllers;
 
 
-import com.drumstore.web.model.Product;
-import com.drumstore.web.repository.ProductRepository;
-import com.drumstore.web.service.ProductService;
+import com.drumstore.web.models.Product;
+import com.drumstore.web.repositories.ProductColorRepository;
+import com.drumstore.web.repositories.ProductImageRepository;
+import com.drumstore.web.repositories.ProductRepository;
+import com.drumstore.web.services.ProductService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,11 +17,13 @@ import java.util.List;
 
 @WebServlet("/products")
 public class ProductController extends HttpServlet {
-    private  ProductService productService;
+    private ProductService productService;
 
     public ProductController() {
-        ProductRepository productRepository = new ProductRepository(); 
-        this.productService = new ProductService(productRepository);  
+        ProductRepository productRepository = new ProductRepository();
+        ProductColorRepository productColorRepository = new ProductColorRepository();
+        ProductImageRepository productImageRepository = new ProductImageRepository();
+        this.productService = new ProductService(productRepository, productImageRepository, productColorRepository);
     }
 
     @Override
@@ -29,7 +33,7 @@ public class ProductController extends HttpServlet {
 
         switch (action) {
             case "list":
-                List<Product> products = productService.getAllProducts();
+                List<Product> products = productService.getProducts();
                 req.setAttribute("products", products);
                 req.getRequestDispatcher("/pages/dashboard/products/list.jsp").forward(req, resp);
                 break;
