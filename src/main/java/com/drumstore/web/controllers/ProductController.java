@@ -61,7 +61,7 @@ public class ProductController extends HttpServlet {
                 String description = req.getParameter("description");
                 double price = Double.parseDouble(req.getParameter("price"));
 
-                Product product = new Product(name, description, price);
+                Product product = new Product();
                 productService.saveProduct(product);
                 break;
 
@@ -76,7 +76,7 @@ public class ProductController extends HttpServlet {
                 String updateDescription = req.getParameter("description");
                 double updatePrice = Double.parseDouble(req.getParameter("price"));
 
-                Product updateProduct = new Product(updateId, updateName, updateDescription, updatePrice);
+                Product updateProduct = new Product();
                 productService.updateProduct(updateProduct);
                 break;
         }

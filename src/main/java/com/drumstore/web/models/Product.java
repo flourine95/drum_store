@@ -1,6 +1,7 @@
 package com.drumstore.web.models;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Product {
@@ -54,10 +55,20 @@ public class Product {
         this.categoryId = categoryId;
         this.brandId = brandId;
     }
+    
 
     public Product() {
+        this.images = new ArrayList<>();
+        this.colors = new ArrayList<>();
     }
 
+    public void addImage(ProductImage image) {
+        this.images.add(image);
+    }
+
+    public void addColor(ProductColor color) {
+        this.colors.add(color);
+    }
 
     @Override
     public String toString() {
@@ -77,6 +88,10 @@ public class Product {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", deletedAt=" + deletedAt +
+                ", images=" + images +
+                ", colors=" + colors +
+                ", category=" + category +
+                ", brand=" + brand +
                 '}';
     }
 
@@ -215,4 +230,5 @@ public class Product {
     public void setBrand(Brand brand) {
         this.brand = brand;
     }
+
 }
