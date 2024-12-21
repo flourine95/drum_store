@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
@@ -36,10 +36,10 @@
             <td>${product.description}</td>
             <td>${product.price}</td>
             <td>${product.stock}</td>
-            <td>${product.category.name}</td> 
-            <td>${product.brand.name}</td> 
-            <td>${product.color}</td>
-            <td><img src="${product.image}" alt="Product Image" width="50" /></td>
+<%--            <td>${product.category.name}</td> --%>
+<%--            <td>${product.brand.name}</td> --%>
+<%--            <td>${product.color}</td>--%>
+<%--            <td><img src="${product.image}" alt="Product Image" width="50" /></td>--%>
             <td>
                 <a href="${pageContext.request.contextPath}/products?action=edit&id=${product.id}">Edit</a>
                 <form onsubmit="confirmDelete(${product.id})" action="${pageContext.request.contextPath}/products" method="post" style="display:inline;">
