@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/dashboard/users")
+    @WebServlet("/dashboard/users")
 public class UserManagerController extends HttpServlet {
     private final UserService userService = new UserService();
 

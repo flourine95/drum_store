@@ -20,10 +20,9 @@ public class ProductController extends HttpServlet {
     private ProductService productService;
 
     public ProductController() {
-        ProductRepository productRepository = new ProductRepository();
         ProductColorRepository productColorRepository = new ProductColorRepository();
         ProductImageRepository productImageRepository = new ProductImageRepository();
-        this.productService = new ProductService(productRepository, productImageRepository, productColorRepository);
+        this.productService = new ProductService(productImageRepository, productColorRepository);
     }
 
     @Override
@@ -33,14 +32,14 @@ public class ProductController extends HttpServlet {
 
         switch (action) {
             case "list":
-                List<Product> products = productService.getProducts();
+                List<Product> products = productService.all();
                 req.setAttribute("products", products);
                 req.getRequestDispatcher("/pages/dashboard/products/list.jsp").forward(req, resp);
                 break;
 
             case "edit":
                 int id = Integer.parseInt(req.getParameter("id"));
-                Product product = productService.getProductById(id);
+                Product product = productService.find(id);
                 req.setAttribute("product", product);
                 req.getRequestDispatcher("/pages/dashboard/products/edit.jsp").forward(req, resp);
                 break;
@@ -62,7 +61,7 @@ public class ProductController extends HttpServlet {
                 double price = Double.parseDouble(req.getParameter("price"));
 
                 Product product = new Product();
-                productService.saveProduct(product);
+                productService.createProduct(product);
                 break;
 
             case "delete":

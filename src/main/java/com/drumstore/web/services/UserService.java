@@ -30,6 +30,10 @@ public class UserService {
         return userRepository.find(id);
     }
 
+    public User findWithDetails(int id) {
+        return userRepository.findWithDetails(id);
+    }
+
     public User show(int id) {
         return userRepository.show(id);
     }

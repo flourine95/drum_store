@@ -180,7 +180,7 @@ VALUES
      1, 1, 4.58, 'dw-drums-performance-5000-pedal', 13, 8, '2022-01-15', '2023-05-12'),
     ('Mapex Black Panther Snare Drum',
      'Bộ trống với thiết kế dễ dàng sử dụng và âm thanh chuyên nghiệp, lý tưởng cho người mới bắt đầu.', 42900000, 83,
-     1074, 1, 1, 4.96, 'mapex-black-panther-snare-drum', 7, 10, '2020-04-12', '2021-07-27'),
+     1074, 1, 1, 4.96, 'mapex-black-panther-snare-drum-black', 7, 10, '2020-04-12', '2021-07-27'),
     ('Gretsch Renown Drum Kit',
      'Cymbal cân bằng, phù hợp cho nhiều thể loại nhạc khác nhau, mang lại âm thanh hoàn hảo.', 46300000, 74, 6253, 1,
      1, 3.68, 'gretsch-renown-drum-kit', 6, 11, '2020-01-13', '2024-02-05'),
