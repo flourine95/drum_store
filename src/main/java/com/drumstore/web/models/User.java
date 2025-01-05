@@ -1,6 +1,7 @@
 package com.drumstore.web.models;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -8,7 +9,6 @@ public class User {
     private String email;
     private String password;
     private String fullname;
-    private String phone;
     private int role;
     private int status;
     private String avatar;
@@ -22,6 +22,15 @@ public class User {
     private List<UserAddress> userAddresses;
 
     public User() {
+        userAddresses = new ArrayList<>();
+    }
+
+    public void addAddress(UserAddress address) {
+        userAddresses.add(address);
+    }
+
+    public UserAddress getAddress(int index) {
+        return userAddresses.get(index);
     }
 
     public List<UserAddress> getUserAddresses() {
@@ -62,14 +71,6 @@ public class User {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public int getRole() {
@@ -152,7 +153,6 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", fullname='" + fullname + '\'' +
-                ", phone='" + phone + '\'' +
                 ", role=" + role +
                 ", status=" + status +
                 ", avatar='" + avatar + '\'' +

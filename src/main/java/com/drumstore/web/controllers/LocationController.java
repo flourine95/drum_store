@@ -9,7 +9,6 @@ import com.drumstore.web.repositories.WardRepository;
 import com.drumstore.web.services.LocationService;
 import com.drumstore.web.utils.DBConnection;
 import com.google.gson.Gson;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
