@@ -2,7 +2,6 @@ package com.drumstore.web.services;
 
 import com.drumstore.web.models.UserAddress;
 import com.drumstore.web.repositories.UserAddressRepository;
-import org.jdbi.v3.core.Jdbi;
 
 import java.util.List;
 

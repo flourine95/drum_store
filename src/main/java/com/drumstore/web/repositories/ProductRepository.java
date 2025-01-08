@@ -1,8 +1,6 @@
 package com.drumstore.web.repositories;
 
 import com.drumstore.web.models.Product;
-import com.drumstore.web.models.User;
-import com.drumstore.web.models.UserAddress;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
 

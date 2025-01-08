@@ -2,8 +2,8 @@ package com.drumstore.web.listeners;
 
 import com.drumstore.web.utils.DBConnection;
 import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
-import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

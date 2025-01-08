@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/dashboard/users/*")
-public class UserController extends ResourceController {
+public class UserManagerController extends ResourceController {
     private UserService userService;
     private UserAddressService userAddressService;
 
@@ -173,8 +173,10 @@ public class UserController extends ResourceController {
     }
 
     @Override
-    public void create(HttpServletRequest request, HttpServletResponse response) {
-
+    public void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("pageTitle", "Thêm người dùng");
+        request.setAttribute("content", "users/create.jsp");  // hoặc file jsp tương ứng
+        request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
     }
 
     @Override
