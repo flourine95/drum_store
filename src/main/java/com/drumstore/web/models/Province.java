@@ -1,7 +1,5 @@
 package com.drumstore.web.models;
 
-import java.util.List;
-
 public class Province {
     private int id;
     private String name;

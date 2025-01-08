@@ -1,0 +1,27 @@
+package com.drumstore.web.controllers.dashboard;
+
+public enum NestedResourceType {
+    POSTS("posts"),
+    ADDRESSES("addresses"),
+    ORDERS("orders"),
+    WISHLISTS("wishlists");
+
+    private final String path;
+
+    NestedResourceType(String path) {
+        this.path = path;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public static NestedResourceType fromPath(String path) {
+        for (NestedResourceType type : values()) {
+            if (type.getPath().equals(path)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Invalid nested resource path: " + path);
+    }
+}

@@ -8,55 +8,51 @@ import com.drumstore.web.repositories.ProductRepository;
 import java.util.List;
 
 public class ProductService {
-    private ProductRepository productRepository;
+    private ProductRepository productRepository = new ProductRepository();
     private ProductImageRepository productImageRepository;
     private ProductColorRepository productColorRepository;
 
-
-    public ProductService(ProductRepository productRepository,
-                          ProductImageRepository productImageRepository,
+    public ProductService(ProductImageRepository productImageRepository,
                           ProductColorRepository productColorRepository) {
-        this.productRepository = productRepository;
+        this.productRepository = new ProductRepository();
         this.productImageRepository = productImageRepository;
         this.productColorRepository = productColorRepository;
     }
 
-    public List<Product> getProducts() {
-        return productRepository.getProducts();
+    public ProductService() {
     }
 
-    public Product getProductById(int id) {
-        return productRepository.getProductById(id);
+    public List<Product> all() {
+        return productRepository.all();
     }
 
-    public void saveProduct(Product product) {
-        productRepository.saveProduct(product);
+    public void createProduct(Product product) {
+        productRepository.save(product);
     }
 
     public void updateProduct(Product product) {
-        productRepository.updateProduct(product);
+        productRepository.update(product);
     }
 
     public void deleteProduct(int id) {
-        productRepository.deleteProduct(id);
+        productRepository.delete(id);
+    }
+
+    public Product find(int id) {
+        return productRepository.findById(id);
+    }
+
+    public Product show(int id) {
+        return productRepository.show(id);
     }
 
     public Product getProductDetails(int productId) {
-        Product product = productRepository.getProductById(productId);
+        Product product = productRepository.findById(productId);
         if (product != null) {
             product.setImages(productImageRepository.getImagesForProduct(productId));
             product.setColors(productColorRepository.getColorsForProduct(productId));
         }
         return product;
-    }
-    public List<Product> getProductsFull() {
-        List<Product> products = productRepository.getProducts();
-        for (Product product : products) {
-            product.setImages(productImageRepository.getImagesForProduct(product.getId()));
-            product.setColors(productColorRepository.getColorsForProduct(product.getId()));
-        }
-        return products;
-        
     }
 
 }

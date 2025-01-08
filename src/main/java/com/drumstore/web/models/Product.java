@@ -55,7 +55,7 @@ public class Product {
         this.categoryId = categoryId;
         this.brandId = brandId;
     }
-    
+
 
     public Product() {
         this.images = new ArrayList<>();
