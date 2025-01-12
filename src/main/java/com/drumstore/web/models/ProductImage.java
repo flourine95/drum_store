@@ -42,11 +42,11 @@ public class ProductImage {
         this.image = image;
     }
 
-    public boolean isMain() {
+    public boolean isIsMain() {
         return isMain;
     }
 
-    public void setMain(boolean main) {
+    public void setIsMain(boolean main) {
         isMain = main;
     }
 

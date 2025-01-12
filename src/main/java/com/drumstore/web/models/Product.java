@@ -15,8 +15,6 @@ public class Product {
     private int status;
     private double averageRating;
     private String slug;
-    private int categoryId;
-    private int brandId;
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private Timestamp deletedAt;
@@ -26,7 +24,7 @@ public class Product {
     private Category category;
     private Brand brand;
 
-    public Product(int id, String name, String description, double price, int stock, int totalViews, boolean isFeatured, int status, double averageRating, String slug, int categoryId, int brandId, Timestamp createdAt, Timestamp updatedAt, Timestamp deletedAt) {
+    public Product(int id, String name, String description, double price, int stock, int totalViews, boolean isFeatured, int status, double averageRating, String slug, Timestamp createdAt, Timestamp updatedAt, Timestamp deletedAt) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -37,23 +35,19 @@ public class Product {
         this.status = status;
         this.averageRating = averageRating;
         this.slug = slug;
-        this.categoryId = categoryId;
-        this.brandId = brandId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
     }
 
     // create product
-    public Product(String name, String description, double price, int stock, boolean isFeatured, String slug, int categoryId, int brandId) {
+    public Product(String name, String description, double price, int stock, boolean isFeatured, String slug) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
         this.isFeatured = isFeatured;
         this.slug = slug;
-        this.categoryId = categoryId;
-        this.brandId = brandId;
     }
     
 
@@ -83,8 +77,6 @@ public class Product {
                 ", status=" + status +
                 ", averageRating=" + averageRating +
                 ", slug='" + slug + '\'' +
-                ", categoryId=" + categoryId +
-                ", brandId=" + brandId +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", deletedAt=" + deletedAt +
@@ -93,6 +85,13 @@ public class Product {
                 ", category=" + category +
                 ", brand=" + brand +
                 '}';
+    }
+
+    public String getImageIsMain(){
+        for (ProductImage image : images){
+            if (image.isIsMain()) return image.getImage();
+        }
+        return "";
     }
 
     public int getId() {
@@ -139,15 +138,31 @@ public class Product {
         return totalViews;
     }
 
+    public List<ProductImage> getImages() {
+        return images;
+    }
+
+    public List<ProductColor> getColors() {
+        return colors;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
     public void setTotalViews(int totalViews) {
         this.totalViews = totalViews;
     }
 
-    public boolean isFeatured() {
+    public boolean isIsFeatured() {
         return isFeatured;
     }
 
-    public void setFeatured(boolean featured) {
+    public void setIsFeatured(boolean featured) {
         isFeatured = featured;
     }
 
@@ -173,22 +188,6 @@ public class Product {
 
     public void setSlug(String slug) {
         this.slug = slug;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public int getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(int brandId) {
-        this.brandId = brandId;
     }
 
     public Timestamp getCreatedAt() {

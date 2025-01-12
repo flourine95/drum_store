@@ -17,7 +17,7 @@ public class ProductImageRepository {
         jdbi.useHandle(handle ->
                 handle.createUpdate("INSERT INTO product_images (image, isMain, productId) VALUES (?, ?, ?)")
                         .bind(0, productImage.getImage())
-                        .bind(1, productImage.isMain())
+                        .bind(1, productImage.isIsMain())
                         .bind(2, productImage.getProductId())
                         .execute());
     }

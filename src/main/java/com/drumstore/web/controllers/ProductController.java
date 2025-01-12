@@ -34,7 +34,7 @@ public class ProductController extends HttpServlet {
             case "list":
                 List<Product> products = productService.all();
                 req.setAttribute("products", products);
-                req.getRequestDispatcher("/pages/dashboard/products/list.jsp").forward(req, resp);
+                req.getRequestDispatcher("/pages/dashboard/products/index.jsp").forward(req, resp);
                 break;
 
             case "edit":

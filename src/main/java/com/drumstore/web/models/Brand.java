@@ -3,7 +3,6 @@ package com.drumstore.web.models;
 import java.sql.Timestamp;
 
 public class Brand {
-
     private int id;
     private String name;
     private String image;

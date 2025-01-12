@@ -1,13 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Product</title>
-</head>
-<body>
-<h1>Edit Product</h1>
-<form method="post" action="${pageContext.request.contextPath}/products?action=update">
+
+<form method="post" action="${pageContext.request.contextPath}/dasboard/products/${product.id}/edit" method="POST">
     <input type="hidden" name="id" value="${product.id}" />
 
     <label for="name">Name:</label>

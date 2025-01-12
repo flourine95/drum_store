@@ -27,7 +27,7 @@ public class ProductService {
     }
 
     public void createProduct(Product product) {
-        productRepository.save(product);
+        productRepository.store(product);
     }
 
     public void updateProduct(Product product) {
@@ -49,6 +49,10 @@ public class ProductService {
             product.setColors(productColorRepository.getColorsForProduct(productId));
         }
         return product;
+    }
+
+    public Product detail(String id) {
+        return productRepository.detail(Integer.parseInt(id));
     }
 
 }
