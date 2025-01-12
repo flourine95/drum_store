@@ -6,11 +6,8 @@ import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserRepository {
     private final Jdbi jdbi = DBConnection.getJdbi();

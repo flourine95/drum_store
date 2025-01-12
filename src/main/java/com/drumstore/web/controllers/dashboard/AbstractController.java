@@ -11,13 +11,13 @@ public interface AbstractController {
 
     void show(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException;
 
-    void create(HttpServletRequest request, HttpServletResponse response);
+    void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
-    void store(HttpServletRequest request, HttpServletResponse response);
+    void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
     void edit(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException;
 
-    void update(HttpServletRequest request, HttpServletResponse response, String id);
+    void update(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException;
 
-    void delete(HttpServletRequest request, HttpServletResponse response, String id);
+    void delete(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException;
 }

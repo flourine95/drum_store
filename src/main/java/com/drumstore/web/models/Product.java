@@ -49,7 +49,7 @@ public class Product {
         this.isFeatured = isFeatured;
         this.slug = slug;
     }
-    
+
 
     public Product() {
         this.images = new ArrayList<>();

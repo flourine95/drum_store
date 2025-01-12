@@ -39,7 +39,7 @@
     <section class="row mb-4">
         <div class="col-12">
             <h5>Danh sách địa chỉ</h5>
-            <table class="table table-bordered">
+            <table id="addressTable" class="table table-bordered">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -50,19 +50,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="address" items="${user.userAddresses}" varStatus="status">
+                <c:forEach var="address" items="${user.userAddresses}">
                     <tr>
-                        <td>${status.index + 1}</td>
+                        <td>${address.id}</td>
                         <td>${address.address}</td>
                         <td>${address.phone}</td>
                         <td>
                             <div class="form-check form-switch">
                                 <input class="form-check-input isDefaultToggle"
                                        type="checkbox"
-                                       id="defaultToggle${status.index}"
-                                       name="addresses[${status.index}].isDefault"
+                                       id="defaultToggle${address.id}"
+                                       name="addresses[${address.id}].isDefault"
                                        value="1" ${address.isDefault ? 'checked' : ''} disabled>
-                                <label class="form-check-label" for="defaultToggle${status.index}">
+                                <label class="form-check-label" for="defaultToggle${address.id}">
                                         ${address.isDefault ? 'Có' : 'Không'}
                                 </label>
                             </div>
@@ -71,19 +71,17 @@
                             <div class="btn-group">
                                 <form action="${pageContext.request.contextPath}/dashboard/users/${user.id}/addresses/${address.id}"
                                       method="GET">
-                                    <button type="submit" class="btn btn-info" >Xem</button> <!-- Disable button -->
+                                    <button type="submit" class="btn btn-info">Xem</button>
                                 </form>
-
                                 <form action="${pageContext.request.contextPath}/dashboard/users/${user.id}/addresses/${address.id}/edit"
                                       method="GET">
-                                    <button type="submit" class="btn btn-warning" >Chỉnh sửa</button> <!-- Disable button -->
+                                    <button type="submit" class="btn btn-warning">Chỉnh sửa</button>
                                 </form>
-
                                 <form action="${pageContext.request.contextPath}/dashboard/users/${user.id}/addresses/${address.id}"
                                       method="POST"
                                       onsubmit="return confirm('Bạn có chắc muốn xóa địa chỉ này không?');">
                                     <input type="hidden" name="addressId" value="${address.id}">
-                                    <button type="submit" class="btn btn-danger" >Xóa</button> <!-- Disable button -->
+                                    <button type="submit" class="btn btn-danger">Xóa</button>
                                 </form>
                             </div>
                         </td>
@@ -118,6 +116,15 @@
 </style>
 <script>
     $(document).ready(function () {
-
+        $('#addressTable').DataTable({
+            responsive: true, // Bảng responsive
+            paging: true,      // Bật phân trang
+            searching: true,   // Bật tìm kiếm
+            ordering: true,    // Cho phép sắp xếp
+            lengthMenu: [5, 10, 20, 100], // Tùy chọn số hàng hiển thị
+            columnDefs: [
+                {orderable: false, targets: [4]} // Vô hiệu hóa sắp xếp cho cột Thao tác
+            ]
+        });
     });
 </script>

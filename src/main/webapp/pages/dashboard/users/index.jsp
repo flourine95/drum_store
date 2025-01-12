@@ -14,7 +14,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="user" items="${users}" >
+    <c:forEach var="user" items="${users}">
         <tr>
             <td>${user.id}</td>
             <td>${user.fullname}</td>
@@ -24,11 +24,17 @@
             <td>${user.createdAt}</td>
             <td>${user.updatedAt}</td>
             <td>
-                <form action="${pageContext.request.contextPath}/dashboard/users/${user.id}/edit" method="GET" style="display:inline;">
+                <form action="${pageContext.request.contextPath}/dashboard/users/${user.id}" method="GET"
+                      style="display:inline;">
+                    <button type="submit" class="btn btn-info btn-sm">Xem</button>
+                </form>
+                <form action="${pageContext.request.contextPath}/dashboard/users/${user.id}/edit" method="GET"
+                      style="display:inline;">
                     <button type="submit" class="btn btn-primary btn-sm">Sửa</button>
                 </form>
 
-                <form action="/users/delete" method="POST" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa người dùng này không?');">
+                <form action="/users/delete" method="POST" style="display:inline;"
+                      onsubmit="return confirm('Bạn có chắc muốn xóa người dùng này không?');">
                     <input type="hidden" name="id" value="${user.id}">
                     <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
                 </form>
@@ -62,7 +68,7 @@
                             text: '<i class="bi bi-person-add me-2"></i>Thêm người dùng',
                             className: 'btn btn-secondary me-2',
                             action: function () {
-                                window.location.href = '/dashboard/users?action=create';
+                                window.location.href = '/dashboard/users/create'; // Thay đổi URL đến trang tạo mới
                             }
                         },
                         {

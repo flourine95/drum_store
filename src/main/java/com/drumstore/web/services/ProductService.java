@@ -19,8 +19,8 @@ public class ProductService {
         this.productColorRepository = productColorRepository;
     }
 
-    public ProductService(){};
-
+    public ProductService() {
+    }
 
     public List<Product> all() {
         return productRepository.all();
@@ -38,9 +38,13 @@ public class ProductService {
         productRepository.delete(id);
     }
 
-    public Product find(int id) { return productRepository.findById(id); }
+    public Product find(int id) {
+        return productRepository.findById(id);
+    }
 
-    public Product show(int id) {return productRepository.show(id); }
+    public Product show(int id) {
+        return productRepository.show(id);
+    }
 
     public Product getProductDetails(int productId) {
         Product product = productRepository.findById(productId);

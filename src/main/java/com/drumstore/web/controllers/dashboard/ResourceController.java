@@ -93,44 +93,4 @@ public abstract class ResourceController extends HttpServlet implements Abstract
         }
     }
 
-
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) {
-        String pathInfo = request.getPathInfo();
-        String[] parts = getPathParts(pathInfo);
-
-        try {
-            if (parts.length == 1 && isNumeric(parts[0])) {
-                System.out.println("update");
-                // PUT /users/5
-                update(request, response, parts[0]);
-            } else if (parts.length == 3 && isNumeric(parts[0]) && isNumeric(parts[2])) {
-                System.out.println("update nested");
-                // PUT /users/5/posts/1 or /users/5/addresses/1 etc.
-                NestedResourceType resourceType = NestedResourceType.fromPath(parts[1]);
-                updateNested(request, response, parts[0], parts[2], resourceType);
-            }
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
-        String pathInfo = request.getPathInfo();
-        String[] parts = getPathParts(pathInfo);
-
-        try {
-            if (parts.length == 1 && isNumeric(parts[0])) {
-                // DELETE /users/5
-                delete(request, response, parts[0]);
-            } else if (parts.length == 3 && isNumeric(parts[0]) && isNumeric(parts[2])) {
-                // DELETE /users/5/posts/1 or /users/5/addresses/1 etc.
-                NestedResourceType resourceType = NestedResourceType.fromPath(parts[1]);
-                deleteNested(request, response, parts[0], parts[2], resourceType);
-            }
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
 }
