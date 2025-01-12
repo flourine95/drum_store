@@ -69,6 +69,20 @@ public class OrderRepository {
                 .findFirst()
                 .orElse(null)
         );
+    }public boolean deleteOrder(int orderId) {
+        try {
+            // Sử dụng jdbi để thực thi câu lệnh xóa đơn hàng
+            jdbi.useHandle(handle ->
+                    handle.createUpdate("DELETE FROM orders WHERE id = :orderId")
+                            .bind("orderId", orderId)
+                            .execute()
+            );
+            return true; // Trả về true nếu xóa thành công
+        } catch (Exception e) {
+            // Xử lý lỗi nếu có
+            e.printStackTrace();
+            return false; // Trả về false nếu có lỗi xảy ra
+        }
     }
 
 }
