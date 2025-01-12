@@ -55,8 +55,8 @@ public class ProductService {
         return product;
     }
 
-    public Product detail(String id) {
-        return productRepository.findWithDetails(Integer.parseInt(id));
+    public Product findWithDetails(int id) {
+        return productRepository.findWithDetails(id);
     }
 
 }

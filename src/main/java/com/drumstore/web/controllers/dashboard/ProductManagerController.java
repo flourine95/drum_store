@@ -2,9 +2,6 @@ package com.drumstore.web.controllers.dashboard;
 
 import com.drumstore.web.models.Product;
 import com.drumstore.web.services.ProductService;
-import com.drumstore.web.services.UserAddressService;
-import com.drumstore.web.services.UserService;
-import com.google.gson.Gson;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -24,16 +21,21 @@ public class ProductManagerController extends ResourceController  {
     @Override
     public void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Product> products = productService.all();
-        products.forEach(System.out::println);
+//        products.forEach(System.out::println);
         request.setAttribute("products", products);
         request.setAttribute("pageTitle", "Quản lí sản phẩm");
-        request.setAttribute("content", "products/index.jsp");  // hoặc file jsp tương ứng
+        request.setAttribute("content", "products/index.jsp");
         request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
     }
 
     @Override
     public void show(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
-
+        System.out.println("bruh");
+        Product product = productService.findWithDetails(Integer.parseInt(id));
+        request.setAttribute("product", product);
+        request.setAttribute("pageTitle", "Xem chi tiết sản phẩm");
+        request.setAttribute("content", "products/show.jsp");
+        request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
     }
 
     @Override
@@ -48,11 +50,12 @@ public class ProductManagerController extends ResourceController  {
 
     @Override
     public void edit(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
-        Product product = productService.detail(id);
+        System.out.println("bruh");
+        Product product = productService.findWithDetails(Integer.parseInt(id));
         System.out.println(product);
         request.setAttribute("product", product);
         request.setAttribute("pageTitle", "Chỉnh sửa sản phẩm");
-        request.setAttribute("content", "products/edit.jsp");  // hoặc file jsp tương ứng
+        request.setAttribute("content", "products/edit.jsp");
         request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
     }
 

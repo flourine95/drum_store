@@ -116,36 +116,54 @@ public class ProductRepository {
 
     public Product findWithDetails(int id) {
         String sql = """
-                SELECT
-                    u.id AS u_id, u.email AS u_email, u.fullname AS u_fullname,
-                    u.role AS u_role, u.status AS u_status, u.avatar AS u_avatar,
-                    u.oauthProvider AS u_oauthProvider, u.oauthId AS u_oauthId,
-                    u.emailVerified AS u_emailVerified, u.createdAt AS u_createdAt,
-                    u.updatedAt AS u_updatedAt, u.deletedAt AS u_deletedAt,
-                    a.id AS a_id, a.userId AS a_userId, a.address AS a_address,
-                    a.phone AS a_phone, a.provinceId AS a_provinceId,
-                    a.districtId AS a_districtId, a.wardId AS a_wardId, a.isDefault AS a_isDefault
-                FROM users u
-                         LEFT JOIN user_addresses a ON u.id = a.userId
-                WHERE u.id = :id
-                """;
-//        return jdbi.withHandle(handle -> handle.createQuery(sql)
-//                .bind("id", id)
-//                .registerRowMapper(BeanMapper.factory(User.class, "u"))
-//                .registerRowMapper(BeanMapper.factory(UserAddress.class, "a"))
-//                .reduceRows(new LinkedHashMap<Integer, User>(), (map, row) -> {
-//                    User user = map.computeIfAbsent(row.getColumn("u_id", Integer.class), _ -> row.getRow(User.class));
-//                    if (row.getColumn("a_id", Integer.class) != null) {
-//                        user.addAddress(row.getRow(UserAddress.class));
-//                    }
-//                    return map;
-//                })
-//                .values()
-//                .stream()
-//                .findFirst()
-//                .orElse(null)
-//        );
-        return null;
+            SELECT
+                p.id AS p_id, p.name AS p_name, p.description AS p_description,
+                p.price AS p_price, p.stock AS p_stock, p.totalViews AS p_totalViews,
+                p.isFeatured AS p_isFeatured, p.status AS p_status,
+                p.averageRating AS p_averageRating, p.slug AS p_slug,
+                p.createdAt AS p_createdAt, p.updatedAt AS p_updatedAt,
+                p.deletedAt AS p_deletedAt,
+                pi.id AS pi_id, pi.image AS pi_image, pi.isMain AS pi_isMain,
+                pc.id AS pc_id, pc.colorCode AS pc_colorCode, pc.colorName AS pc_colorName,
+                c.id AS c_id, c.name AS c_name, c.image AS c_image, c.description AS c_description,
+                c.createdAt AS c_createdAt, c.updatedAt AS c_updatedAt, c.deletedAt AS c_deletedAt,
+                b.id AS b_id, b.name AS b_name, b.image AS b_image, b.description AS b_description,
+                b.createdAt AS b_createdAt, b.updatedAt AS b_updatedAt, b.deletedAt AS b_deletedAt
+            FROM products p
+                     LEFT JOIN product_images pi ON p.id = pi.productId
+                     LEFT JOIN product_colors pc ON p.id = pc.productId
+                     LEFT JOIN categories c ON p.categoryId = c.id
+                     LEFT JOIN brands b ON p.brandId = b.id
+            WHERE p.id = :id
+            """;
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind("id", id)
+                .registerRowMapper(BeanMapper.factory(Product.class, "p"))
+                .registerRowMapper(BeanMapper.factory(ProductImage.class, "pi"))
+                .registerRowMapper(BeanMapper.factory(ProductColor.class, "pc"))
+                .registerRowMapper(BeanMapper.factory(Category.class, "c"))
+                .registerRowMapper(BeanMapper.factory(Brand.class, "b"))
+                .reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
+                    Product product = map.computeIfAbsent(row.getColumn("p_id", Integer.class), _ -> row.getRow(Product.class));
+                    if (row.getColumn("pi_id", Integer.class) != null) {
+                        product.getImages().add(row.getRow(ProductImage.class));
+                    }
+                    if (row.getColumn("pc_id", Integer.class) != null) {
+                        product.getColors().add(row.getRow(ProductColor.class));
+                    }
+                    if (row.getColumn("c_id", Integer.class) != null && product.getCategory() == null) {
+                        product.setCategory(row.getRow(Category.class));
+                    }
+                    if (row.getColumn("b_id", Integer.class) != null && product.getBrand() == null) {
+                        product.setBrand(row.getRow(Brand.class));
+                    }
+                    return map;
+                })
+                .values()
+                .stream()
+                .findFirst()
+                .orElse(null)
+        );
     }
 
 }

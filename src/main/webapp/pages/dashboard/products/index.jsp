@@ -30,6 +30,11 @@
             <td>${product.createdAt}</td>
             <td>${product.updatedAt}</td>
             <td>
+                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}" method="GET"
+                      style="display:inline;">
+                    <button type="submit" class="btn btn-info btn-sm">Xem</button>
+                </form>
+
                 <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/edit" method="GET"
                       style="display:inline;">
                     <button type="submit" class="btn btn-primary btn-sm">Sửa</button>
@@ -64,16 +69,16 @@
         src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.8/b-3.2.0/b-colvis-3.2.0/b-html5-3.2.0/b-print-3.2.0/fh-4.0.1/cr-2.0.4/fc-5.0.4/kt-2.12.1/r-3.0.3/sb-1.8.1/sp-2.3.3/sl-2.1.0/sr-1.4.1/datatables.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#users').DataTable({
+        $('#products').DataTable({
             pageLength: 25,
             layout: {
                 topStart: {
                     buttons: [
                         {
-                            text: '<i class="bi bi-person-add me-2"></i>Thêm người dùng',
+                            text: '<i class="bi bi-person-add me-2"></i>Thêm sản phẩm',
                             className: 'btn btn-secondary me-2',
                             action: function () {
-                                window.location.href = '/dashboard/users?action=create';
+                                window.location.href = '/dashboard/products/create';
                             }
                         },
                         {
