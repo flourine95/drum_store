@@ -25,4 +25,13 @@ public class OrderRepository {
                         .orElse(null)
         );
     }
+    public List<Order> all() {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM orders")
+                        .mapToBean(Order.class)
+                        .list()
+        );
+    }
+
+
 }
