@@ -27,7 +27,7 @@ public class ProductService {
     }
 
     public void createProduct(Product product) {
-        productRepository.store(product);
+        productRepository.save(product);
     }
 
     public void updateProduct(Product product) {
@@ -56,7 +56,7 @@ public class ProductService {
     }
 
     public Product detail(String id) {
-        return productRepository.detail(Integer.parseInt(id));
+        return productRepository.findWithDetails(Integer.parseInt(id));
     }
 
 }

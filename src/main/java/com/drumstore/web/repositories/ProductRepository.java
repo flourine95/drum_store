@@ -1,9 +1,11 @@
 package com.drumstore.web.repositories;
 
-import com.drumstore.web.models.Product;
+import com.drumstore.web.models.*;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ProductRepository {
@@ -14,10 +16,40 @@ public class ProductRepository {
     }
 
     public List<Product> all() {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM products")
-                        .mapToBean(Product.class)
-                        .list()
+        String sql = """
+                SELECT
+                    p.id AS p_id, p.name AS p_name, p.price AS p_price, p.description as p_description,
+                    p.stock as p_stock, p.createdAt as p_createdAt, p.updatedAt as p_updatedAt,
+                    c.id AS c_id, c.name AS c_name,
+                    b.id AS b_id, b.name AS b_name,
+                    i.id AS i_id, i.image AS i_image, i.isMain AS i_isMain
+                FROM products p
+                         LEFT JOIN categories c ON p.categoryId = c.id
+                         LEFT JOIN brands b ON p.brandId = b.id
+                         LEFT JOIN product_images i ON p.id = i.productId AND i.isMain = 1
+            """;
+
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .registerRowMapper(BeanMapper.factory(Product.class, "p"))
+                .registerRowMapper(BeanMapper.factory(Category.class, "c"))
+                .registerRowMapper(BeanMapper.factory(ProductImage.class, "i"))
+                .registerRowMapper(BeanMapper.factory(Brand.class, "b"))
+                .reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
+                    Product product = map.computeIfAbsent(row.getColumn("p_id", Integer.class), _ -> row.getRow(Product.class));
+                    if (row.getColumn("c_id", Integer.class) != null) {
+                        product.setCategory(row.getRow(Category.class));
+                    }
+                    if (row.getColumn("i_id", Integer.class) != null) {
+                        product.setImages(List.of(row.getRow(ProductImage.class)));
+                    }
+                    if (row.getColumn("b_id", Integer.class) != null) {
+                        product.setBrand(row.getRow(Brand.class));
+                    }
+                    return map;
+                })
+                .values()
+                .stream()
+                .toList()
         );
     }
 
@@ -80,6 +112,40 @@ public class ProductRepository {
         }
 
         return product;
+    }
+
+    public Product findWithDetails(int id) {
+        String sql = """
+                SELECT
+                    u.id AS u_id, u.email AS u_email, u.fullname AS u_fullname,
+                    u.role AS u_role, u.status AS u_status, u.avatar AS u_avatar,
+                    u.oauthProvider AS u_oauthProvider, u.oauthId AS u_oauthId,
+                    u.emailVerified AS u_emailVerified, u.createdAt AS u_createdAt,
+                    u.updatedAt AS u_updatedAt, u.deletedAt AS u_deletedAt,
+                    a.id AS a_id, a.userId AS a_userId, a.address AS a_address,
+                    a.phone AS a_phone, a.provinceId AS a_provinceId,
+                    a.districtId AS a_districtId, a.wardId AS a_wardId, a.isDefault AS a_isDefault
+                FROM users u
+                         LEFT JOIN user_addresses a ON u.id = a.userId
+                WHERE u.id = :id
+                """;
+//        return jdbi.withHandle(handle -> handle.createQuery(sql)
+//                .bind("id", id)
+//                .registerRowMapper(BeanMapper.factory(User.class, "u"))
+//                .registerRowMapper(BeanMapper.factory(UserAddress.class, "a"))
+//                .reduceRows(new LinkedHashMap<Integer, User>(), (map, row) -> {
+//                    User user = map.computeIfAbsent(row.getColumn("u_id", Integer.class), _ -> row.getRow(User.class));
+//                    if (row.getColumn("a_id", Integer.class) != null) {
+//                        user.addAddress(row.getRow(UserAddress.class));
+//                    }
+//                    return map;
+//                })
+//                .values()
+//                .stream()
+//                .findFirst()
+//                .orElse(null)
+//        );
+        return null;
     }
 
 }
