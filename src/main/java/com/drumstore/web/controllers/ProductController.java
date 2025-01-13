@@ -4,7 +4,6 @@ package com.drumstore.web.controllers;
 import com.drumstore.web.models.Product;
 import com.drumstore.web.repositories.ProductColorRepository;
 import com.drumstore.web.repositories.ProductImageRepository;
-import com.drumstore.web.repositories.ProductRepository;
 import com.drumstore.web.services.ProductService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -61,12 +60,12 @@ public class ProductController extends HttpServlet {
                 double price = Double.parseDouble(req.getParameter("price"));
 
                 Product product = new Product();
-                productService.createProduct(product);
+                productService.create(product);
                 break;
 
             case "delete":
                 int id = Integer.parseInt(req.getParameter("id"));
-                productService.deleteProduct(id);
+                productService.delete(id);
                 break;
 
             case "update":
@@ -76,7 +75,7 @@ public class ProductController extends HttpServlet {
                 double updatePrice = Double.parseDouble(req.getParameter("price"));
 
                 Product updateProduct = new Product();
-                productService.updateProduct(updateProduct);
+                productService.update(updateProduct);
                 break;
         }
         resp.sendRedirect(req.getContextPath() + "/products?action=list");

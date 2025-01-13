@@ -73,7 +73,7 @@ public class ProductRepository extends BaseRepository<Product> {
 
     public void update(Product product) {
         jdbi.useHandle(handle ->
-                handle.createUpdate("UPDATE products SET name = :name, description = :description, price = :price, stock = :stock, is_feature = :is_feature, status = :status WHERE id = :id")
+                handle.createUpdate("UPDATE products SET name = :name, description = :description, price = :price, stock = :stock, isFeatured = :isFeatured, status = :status, slug = :slug WHERE id = :id")
                         .bindBean(product)
                         .execute()
         );

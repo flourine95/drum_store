@@ -58,7 +58,7 @@
     <section class="row mb-4">
         <div class="col-12">
             <h5>Danh sách hình ảnh</h5>
-            <table id="productImageTable" class="table">
+            <table id="imageTable" class="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -90,7 +90,7 @@
     <section class="row mb-4">
         <div class="col-12">
             <h5>Danh sách màu</h5>
-            <table id="productColorTable" class="table table-bordered striped">
+            <table id="colorTable" class="table table-bordered striped">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -103,7 +103,8 @@
                 <c:forEach var="productColor" items="${product.colors}">
                     <tr>
                         <td>${productColor.id}</td>
-                        <td><p class="color-code" style="color: ${productColor.colorCode};">
+                        <td>
+                            <p class="color-code" style="color: ${productColor.colorCode};">
                                 ${productColor.colorCode}
                             </p>
                         </td>
@@ -141,12 +142,12 @@
 
     .color-code {
         font-weight: bold;
-        mix-blend-mode: difference;
+        /*mix-blend-mode: difference;*/
     }
 </style>
 <script>
     $(document).ready(function () {
-        $('#productImageTable').DataTable({
+        $('#imageTable').DataTable({
             responsive: true, // Bảng responsive
             paging: true,      // Bật phân trang
             searching: true,   // Bật tìm kiếm
@@ -157,7 +158,7 @@
             ]
         });
 
-        $('#productColorTable').DataTable({
+        $('#colorTable').DataTable({
             responsive: true, // Bảng responsive
             paging: true,      // Bật phân trang
             searching: true,   // Bật tìm kiếm

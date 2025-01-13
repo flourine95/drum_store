@@ -26,15 +26,15 @@ public class ProductService {
         return productRepository.all();
     }
 
-    public void createProduct(Product product) {
+    public void create(Product product) {
         productRepository.save(product);
     }
 
-    public void updateProduct(Product product) {
+    public void update(Product product) {
         productRepository.update(product);
     }
 
-    public void deleteProduct(int id) {
+    public void delete(int id) {
         productRepository.delete(id);
     }
 
@@ -44,15 +44,6 @@ public class ProductService {
 
     public Product show(int id) {
         return productRepository.show(id);
-    }
-
-    public Product getProductDetails(int productId) {
-        Product product = productRepository.findById(productId);
-        if (product != null) {
-            product.setImages(productImageRepository.getImagesForProduct(productId));
-            product.setColors(productColorRepository.getColorsForProduct(productId));
-        }
-        return product;
     }
 
     public Product findWithDetails(int id) {

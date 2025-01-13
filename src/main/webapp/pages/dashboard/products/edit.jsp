@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<form id="productForm" action="${pageContext.request.contextPath}/dashboard/products?action=update" method="POST">
+<form id="productForm" action="${pageContext.request.contextPath}/dashboard/products/${product.id}" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="csrf_token" value="${csrfToken}">
     <input type="hidden" name="id" value="${product.id}">
     <section class="row mb-3">
         <div class="col-md-8">
@@ -109,7 +111,50 @@
                                 <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productImage/${productImage.id}"
                                       method="POST"
                                       onsubmit="return confirm('Bạn có chắc muốn xóa ảnh này không?');">
-                                    <input type="hidden" name="imageId" value="${productImage.id}">
+                                    <input type="hidden" name="productImageId" value="${productImage.id}">
+                                    <button type="submit" class="btn btn-danger">Xóa</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="row mb-4">
+        <div class="col-12">
+            <h5>Danh sách màu</h5>
+            <table id="colorTable" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Mã màu</th>
+                    <th>Tên màu</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="productColor" items="${product.colors}">
+                    <tr>
+                        <td>${productColor.id}</td>
+                        <td><p class="color-code">${productColor.colorCode}</p></td>
+                        <td>${productColor.colorName}</td>
+                        <td>
+                            <div class="btn-group">
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productColor/${productColor.id}"
+                                      method="GET">
+                                    <button type="submit" class="btn btn-info">Xem</button>
+                                </form>
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productColor/${productColor.id}/edit"
+                                      method="GET">
+                                    <button type="submit" class="btn btn-warning">Chỉnh sửa</button>
+                                </form>
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productColor/${productColor.id}"
+                                      method="POST"
+                                      onsubmit="return confirm('Bạn có chắc muốn xóa màu này không?');">
+                                    <input type="hidden" name="productColorId" value="${productColor.id}">
                                     <button type="submit" class="btn btn-danger">Xóa</button>
                                 </form>
                             </div>
@@ -133,6 +178,11 @@
         height: 400px;
         object-fit: cover;
         justify-content: center;
+    }
+
+    .color-code {
+        font-weight: bold;
+        /*mix-blend-mode: difference;*/
     }
 
     .form-actions {
