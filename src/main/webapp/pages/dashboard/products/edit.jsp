@@ -4,37 +4,42 @@
 <form id="productForm" action="${pageContext.request.contextPath}/dashboard/products?action=update" method="POST">
     <input type="hidden" name="id" value="${product.id}">
     <section class="row mb-3">
-        <div class="col-md-4">
-            <img src="${product.image}"
-                 alt="Avatar"
-                 class="img-fluid rounded-circle user-avatar">
-        </div>
-
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-6 mb-2">
                     <label class="form-label fw-bold">Tên sản phẩm:</label>
-                    <input type="text" name="name" value="${product.name}" class="form-control">
+                    <input type="text" id="name" name="name" value="${product.name}" class="form-control">
                 </div>
 
                 <div class="col-md-6 mb-2">
                     <label class="form-label fw-bold">Chi tiết sản phẩm:</label>
-                    <input type="text" name="description" value="${product.description}" class="form-control">
+                    <textarea class="form-control" rows="5" id="description" name="description">${product.description}</textarea>
                 </div>
 
                 <div class="col-md-6 mb-2">
                     <label class="form-label fw-bold">Giá:</label>
-                    <input type="number" id="price" name="price" ${product.price} class="form-control">
+                    <input type="text" id="price" name="price" value="${product.price}" class="form-control">
                 </div>
 
                 <div class="col-md-6 mb-2">
                     <label class="form-label fw-bold">Còn trong kho:</label>
-                    <input type="number" id="stock" name="stock" ${product.stock} class="form-control">
+                    <input type="text" id="stock" name="stock" value="${product.stock}" class="form-control">
                 </div>
 
                 <div class="col-md-6 mb-2">
                     <label class="form-label fw-bold">Số lượt xem:</label>
-                    <input type="number" id="total-view" name="total-view" ${product.totalView} class="form-control">
+                    <input type="text" id="total-view" name="totalViews" value="${product.totalViews}" class="form-control">
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <label class="form-label fw-bold">Sản phẩm nổi bật:</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="isFeaturedToggle"
+                               name="status" value="1" ${product.isFeatured == true ? 'checked' : ''}>
+                        <label class="form-check-label" for="statusToggle">
+                            ${product.isFeatured == true ? 'Có' : 'Không'}
+                        </label>
+                    </div>
                 </div>
 
                 <div class="col-md-6 mb-2">
@@ -47,6 +52,17 @@
                         </label>
                     </div>
                 </div>
+
+                <div class="col-md-6 mb-2">
+                    <label class="form-label fw-bold">Trung bình đánh giá:</label>
+                    <input type="text" id="averageRating" name="averageRating" value="${product.averageRating}" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <label class="form-label fw-bold">Slug:</label>
+                    <input type="text" value="${product.slug}" class="form-control" name="slug" id="slug">
+                </div>
+
             </div>
         </div>
     </section>
@@ -58,42 +74,42 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Đường dẫn</th>
+                    <th>Ảnh</th>
                     <th>Mặc định</th>
                     <th>Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="image" items="${product.productImages}">
+                <c:forEach var="productImage" items="${product.images}">
                     <tr>
-                        <td>${image.id}</td>
-                        <td>${image.image}</td>
+                        <td>${productImage.id}</td>
+                        <td><img class="product-image" src="${productImage.image}" alt="${productImage.image}"></td>
                         <td>
                             <div class="form-check form-switch">
                                 <input class="form-check-input isDefaultToggle"
                                        type="checkbox"
-                                       id="defaultToggle${address.id}"
-                                       name="addresses[${address.id}].isDefault"
-                                       value="1" ${address.isDefault ? 'checked' : ''} disabled>
-                                <label class="form-check-label" for="defaultToggle${address.id}">
-                                        ${image.isMain ? 'Có' : 'Không'}
+                                       id="defaultToggle${productImage.id}"
+                                       name="productImages[${productImage.id}].isDefault"
+                                       value="true" ${productImage.isMain ? 'checked' : ''}>
+                                <label class="form-check-label" for="defaultToggle${productImage.id}">
+                                        ${productImage.isMain ? 'Có' : 'Không'}
                                 </label>
                             </div>
                         </td>
                         <td>
                             <div class="btn-group">
-                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/addresses/${address.id}"
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productImage/${productImage.id}"
                                       method="GET">
                                     <button type="submit" class="btn btn-info">Xem</button>
                                 </form>
-                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/addresses/${address.id}/edit"
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productImage/${productImage.id}/edit"
                                       method="GET">
                                     <button type="submit" class="btn btn-warning">Chỉnh sửa</button>
                                 </form>
-                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/addresses/${address.id}"
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productImage/${productImage.id}"
                                       method="POST"
                                       onsubmit="return confirm('Bạn có chắc muốn xóa ảnh này không?');">
-                                    <input type="hidden" name="imageId" value="${image.id}">
+                                    <input type="hidden" name="imageId" value="${productImage.id}">
                                     <button type="submit" class="btn btn-danger">Xóa</button>
                                 </form>
                             </div>
@@ -112,11 +128,11 @@
 </form>
 
 <style>
-    .user-avatar {
-        width: 150px;
-        height: 150px;
+    .product-image {
+        width: 400px;
+        height: 400px;
         object-fit: cover;
-        border-radius: 50%;
+        justify-content: center;
     }
 
     .form-actions {
@@ -136,7 +152,7 @@
             ordering: true,    // Cho phép sắp xếp
             lengthMenu: [5, 10, 20, 100], // Tùy chọn số hàng hiển thị
             columnDefs: [
-                {orderable: false, targets: [4]} // Vô hiệu hóa sắp xếp cho cột Thao tác
+                {orderable: false, targets: [3]} // Vô hiệu hóa sắp xếp cho cột Thao tác
             ]
         });
     });

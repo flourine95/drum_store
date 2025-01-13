@@ -230,4 +230,8 @@ public class Product {
         this.brand = brand;
     }
 
+    public ProductImage getMainImage() {
+        return images.stream().filter(ProductImage::isIsMain).findFirst().orElse(null);
+    }
+
 }
