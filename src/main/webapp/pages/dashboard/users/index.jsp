@@ -33,9 +33,10 @@
                     <button type="submit" class="btn btn-primary btn-sm">Sửa</button>
                 </form>
 
-                <form action="/users/delete" method="POST" style="display:inline;"
+                <form action="${pageContext.request.contextPath}/dashboard/users/${user.id}" method="POST" style="display:inline;"
                       onsubmit="return confirm('Bạn có chắc muốn xóa người dùng này không?');">
-                    <input type="hidden" name="id" value="${user.id}">
+                    <input type="hidden" name="csrf_token" value="${csrfToken}">
+                    <input type="hidden" name="_method" value="DELETE">
                     <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
                 </form>
             </td>
