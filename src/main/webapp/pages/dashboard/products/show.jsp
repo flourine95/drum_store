@@ -5,7 +5,7 @@
     <input type="hidden" name="id" value="${product.id}">
     <section class="row mb-3">
         <div class="col-md-4">
-            <img src="${empty product.image ? '/images/default-avatar.jpg' : product.image}"
+            <img src="${product.name}"
                  alt="Avatar"
                  class="img-fluid rounded-circle product-avatar">
         </div>
@@ -38,22 +38,56 @@
     <section class="row mb-4">
         <div class="col-12">
             <h5>Danh sách hình ảnh</h5>
-            <table id="addressTable" class="table table-bordered">
+            <table id="productImageTable" class="table table-bordered">
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Đường dẫn</th>
+                    <th>Ảnh</th>
                     <th>Mặc định</th>
+                    <th>Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="address" items="${product.productImages}">
+                <c:forEach var="productImage" items="${product.images}">
                     <tr>
-                        <td>${productImages.image}</td>
-                        <td>${productImages.isMain ? 'Có' : 'Không'}</td>
+                        <td>${productImage.id}</td>
+                        <td><img class="product-image" src="${productImage.image}" alt=""></td>
+                        <td>${productImage.isMain ? 'Có' : 'Không'}</td>
                         <td>
                             <div class="btn-group">
-                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/addresses/${productImages.id}" method="GET">
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productImage/${productImage.id}" method="GET">
+                                    <button type="submit" class="btn btn-info">Xem</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="row mb-4">
+        <div class="col-12">
+            <h5>Danh sách màu</h5>
+            <table id="productColorTable" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Mã màu</th>
+                    <th>Tên màu</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="productColor" items="${product.colors}">
+                    <tr>
+                        <td>${productColor.id}</td>
+                        <td><p style="font-weight: bold;color: ${productColor.colorCode}">${productColor.colorCode}</p></td>
+                        <td>${productColor.colorName}</td>
+                        <td>
+                            <div class="btn-group">
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productColor/${productColor.id}" method="GET">
                                     <button type="submit" class="btn btn-info">Xem</button>
                                 </form>
                             </div>
@@ -81,10 +115,16 @@
     .form-actions {
         margin-top: 20px;
     }
+
+    .product-image {
+        width: 400px;
+        height: 400px;
+        object-fit: cover;
+    }
 </style>
 <script>
     $(document).ready(function () {
-        $('#imageTable').DataTable({
+        $('#productImageTable').DataTable({
             responsive: true, // Bảng responsive
             paging: true,      // Bật phân trang
             searching: true,   // Bật tìm kiếm
@@ -92,7 +132,7 @@
             lengthMenu: [5, 10, 20, 100] // Tùy chọn số hàng hiển thị
         });
 
-        $('#colorTable').DataTable({
+        $('#productColorTable').DataTable({
             responsive: true, // Bảng responsive
             paging: true,      // Bật phân trang
             searching: true,   // Bật tìm kiếm

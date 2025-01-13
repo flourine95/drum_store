@@ -9,7 +9,7 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/dashboard/products")
+@WebServlet("/dashboard/products/*")
 public class ProductManagerController extends ResourceController  {
     private ProductService productService;
 
@@ -31,6 +31,7 @@ public class ProductManagerController extends ResourceController  {
     @Override
     public void show(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
         Product product = productService.findWithDetails(Integer.parseInt(id));
+        System.out.println(product);
         request.setAttribute("product", product);
         request.setAttribute("pageTitle", "Xem chi tiết sản phẩm");
         request.setAttribute("content", "products/show.jsp");

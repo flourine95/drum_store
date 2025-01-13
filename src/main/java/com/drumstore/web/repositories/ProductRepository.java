@@ -8,7 +8,7 @@ import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class ProductRepository {
+public class ProductRepository extends BaseRepository<Product> {
     private final Jdbi jdbi;
 
     public ProductRepository() {
@@ -146,10 +146,10 @@ public class ProductRepository {
                 .reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
                     Product product = map.computeIfAbsent(row.getColumn("p_id", Integer.class), _ -> row.getRow(Product.class));
                     if (row.getColumn("pi_id", Integer.class) != null) {
-                        product.setImages(List.of(row.getRow(ProductImage.class)));
+                        product.addImage(row.getRow(ProductImage.class));
                     }
                     if (row.getColumn("pc_id", Integer.class) != null) {
-                        product.setColors(List.of(row.getRow(ProductColor.class)));
+                        product.addColor(row.getRow(ProductColor.class));
                     }
                     if (row.getColumn("c_id", Integer.class) != null && product.getCategory() == null) {
                         product.setCategory(row.getRow(Category.class));
