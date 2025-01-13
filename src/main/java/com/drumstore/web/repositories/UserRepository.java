@@ -9,72 +9,27 @@ import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class UserRepository {
+public class UserRepository extends BaseRepository<User> {
     private final Jdbi jdbi = DBConnection.getJdbi();
 
-    public List<User> all() {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM users")
-                        .mapToBean(User.class)
-                        .list()
-        );
+    public int save(User user) {
+        String query = """
+                INSERT INTO users (email, password, fullname, phone, role, status, avatar, email_verified, created_at)
+                VALUES (:email, :password, :fullname, :phone, :role, :status, :avatar, :emailVerified, CURRENT_TIMESTAMP)
+                """;
+        return super.save(query, user);
     }
 
-    public User findById(int id) {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM users WHERE id = :id AND deleted_at IS NULL")
-                        .bind("id", id)
-                        .mapToBean(User.class)
-                        .findFirst()
-                        .orElse(null)
-        );
+    public int update(User user) {
+        String query = """
+                UPDATE users SET email = :email, fullname = :fullname, updatedAt = CURRENT_TIMESTAMP WHERE id = :id
+                """;
+        return super.update(query, user);
     }
 
-    public void save(User user) {
-        jdbi.useHandle(handle ->
-                handle.createUpdate("INSERT INTO users (email, password, fullname, phone, role, status, avatar, email_verified, created_at) " +
-                                "VALUES (:email, :password, :fullname, :phone, :role, :status, :avatar, :emailVerified, CURRENT_TIMESTAMP)")
-                        .bindBean(user)
-                        .execute()
-        );
-    }
-
-    public void update(User user) {
-        jdbi.useHandle(handle ->
-                handle.createUpdate("UPDATE users SET email = :email, fullname = :fullname, phone = :phone, role = :role, " +
-                                "status = :status, updated_at = CURRENT_TIMESTAMP WHERE id = :id")
-                        .bindBean(user)
-                        .execute()
-        );
-    }
-
-    public void delete(int id) {
-        jdbi.useHandle(handle ->
-                handle.createUpdate("UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = :id")
-                        .bind("id", id)
-                        .execute()
-        );
-    }
-
-    public User find(int id) {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM users WHERE id = :id")
-                        .bind("id", id)
-                        .mapToBean(User.class)
-                        .findFirst()
-                        .orElse(null)
-        );
-    }
 
     public User show(int id) {
-        User user = jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM users WHERE id = :id")
-                        .bind("id", id)
-                        .mapToBean(User.class)
-                        .findFirst()
-                        .orElse(null)
-        );
-
+        User user = find(id);
         if (user != null) {
             List<UserAddress> addresses = jdbi.withHandle(handle ->
                     handle.createQuery("SELECT * FROM user_addresses WHERE userId = :userId")
@@ -88,7 +43,7 @@ public class UserRepository {
         return user;
     }
 
-    public User findWithDetails(int id) {
+    public User detail(int id) {
         String sql = """
                 SELECT
                     u.id AS u_id, u.email AS u_email, u.fullname AS u_fullname,
