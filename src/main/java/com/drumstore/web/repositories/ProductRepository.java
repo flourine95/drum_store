@@ -146,10 +146,10 @@ public class ProductRepository {
                 .reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
                     Product product = map.computeIfAbsent(row.getColumn("p_id", Integer.class), _ -> row.getRow(Product.class));
                     if (row.getColumn("pi_id", Integer.class) != null) {
-                        product.getImages().add(row.getRow(ProductImage.class));
+                        product.setImages(List.of(row.getRow(ProductImage.class)));
                     }
                     if (row.getColumn("pc_id", Integer.class) != null) {
-                        product.getColors().add(row.getRow(ProductColor.class));
+                        product.setColors(List.of(row.getRow(ProductColor.class)));
                     }
                     if (row.getColumn("c_id", Integer.class) != null && product.getCategory() == null) {
                         product.setCategory(row.getRow(Category.class));

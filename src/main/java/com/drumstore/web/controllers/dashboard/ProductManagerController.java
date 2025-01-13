@@ -30,7 +30,6 @@ public class ProductManagerController extends ResourceController  {
 
     @Override
     public void show(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
-        System.out.println("bruh");
         Product product = productService.findWithDetails(Integer.parseInt(id));
         request.setAttribute("product", product);
         request.setAttribute("pageTitle", "Xem chi tiết sản phẩm");
@@ -50,7 +49,6 @@ public class ProductManagerController extends ResourceController  {
 
     @Override
     public void edit(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
-        System.out.println("bruh");
         Product product = productService.findWithDetails(Integer.parseInt(id));
         System.out.println(product);
         request.setAttribute("product", product);

@@ -6,7 +6,6 @@
     <tr>
         <th>#</th>
         <th>Sản phẩm</th>
-        <th>Mô tả</th>
         <th>giá</th>
         <th>Hàng trong kho</th>
         <th>Danh mục</th>
@@ -22,7 +21,6 @@
             <td>${product.id}</td>
             <td><img src="${product.imageIsMain}" alt="${product.name}" class="img-thumbnail rounded-circle" style="width: 50px; height: 50px;">
                     ${product.name}</td>
-            <td>${product.description}</td>
             <td>${product.price}</td>
             <td>${product.stock}</td>
             <td>${product.category.name}</td>
@@ -53,7 +51,6 @@
     <tr>
         <th>#</th>
         <th>Sản phẩm</th>
-        <th>Mô tả</th>
         <th>giá</th>
         <th>Hàng trong kho</th>
         <th>Danh mục</th>
