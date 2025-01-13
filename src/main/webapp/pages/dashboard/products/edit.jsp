@@ -37,8 +37,9 @@
                     <label class="form-label fw-bold">Sản phẩm nổi bật:</label>
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="isFeaturedToggle"
-                               name="status" value="1" ${product.isFeatured == true ? 'checked' : ''}>
-                        <label class="form-check-label" for="statusToggle">
+                               name="isFeatured" value="${product.isFeatured}" ${product.isFeatured == true ? 'checked' : ''}
+                               onchange="updateIsFeaturedToggle(this)">
+                        <label class="form-check-label" for="isFeaturedToggle">
                             ${product.isFeatured == true ? 'Có' : 'Không'}
                         </label>
                     </div>
@@ -47,10 +48,13 @@
                 <div class="col-md-6 mb-2">
                     <label class="form-label fw-bold">Trạng thái:</label>
                     <div class="form-check form-switch">
+                        <!-- Input hidden chứa giá trị ban đầu của status -->
+                        <input type="hidden" name="status" value="0">
                         <input class="form-check-input" type="checkbox" id="statusToggle"
-                               name="status" value="1" ${product.status == 1 ? 'checked' : ''}>
+                               name="status" value="1" ${product.status == 1 ? 'checked' : ''}
+                               onchange="updateStatusToggle(this)">
                         <label class="form-check-label" for="statusToggle">
-                            ${product.status == 1 ? 'Hoạt động' : 'Bị cấm'}
+                            ${product.status == 1 ? 'Hoạt động' : 'Không hoạt động'}
                         </label>
                     </div>
                 </div>
@@ -206,4 +210,31 @@
             ]
         });
     });
+
+    function updateIsFeaturedToggle(toggle) {
+        const label = toggle.nextElementSibling;
+
+        // Cập nhật giá trị của thuộc tính value (!!toggle.checked)
+        toggle.value = toggle.checked ? true : false;
+
+        // Cập nhật nội dung label theo trạng thái của toggle
+        if (label) {
+            label.textContent = toggle.checked ? 'Có' : 'Không';
+        }
+    }
+
+    function updateStatusToggle(toggle) {
+        const label = toggle.nextElementSibling;
+
+        // Lấy giá trị của hidden input name="status"
+        const hiddenInput = toggle.closest('div').querySelector('input[type="hidden"]');
+
+        // Cập nhật giá trị của hidden input tùy theo trạng thái của checkbox
+        hiddenInput.value = toggle.checked ? '1' : '0';
+
+        // Cập nhật nội dung label theo trạng thái của toggle
+        if (label) {
+            label.textContent = toggle.checked ? 'Hoạt động' : 'Không hoạt động';
+        }
+    }
 </script>

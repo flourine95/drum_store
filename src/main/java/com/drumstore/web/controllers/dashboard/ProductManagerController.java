@@ -82,6 +82,7 @@ public class ProductManagerController extends ResourceController  {
             product.setStatus(status);
             product.setSlug(slug);
 
+            System.out.println(status);
             productService.update(product);
 
             // Redirect về trang danh sách người dùng
