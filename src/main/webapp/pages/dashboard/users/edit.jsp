@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<form id="userForm" action="${pageContext.request.contextPath}/dashboard/users?action=update" method="POST">
-    <input type="hidden" name="id" value="${user.id}">
+<form id="userForm" action="${pageContext.request.contextPath}/dashboard/users/${user.id}" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="csrf_token" value="${csrfToken}">
     <section class="row mb-3">
         <div class="col-md-4">
             <img src="${empty user.avatar ? '/images/default-avatar.jpg' : user.avatar}"
@@ -80,7 +81,8 @@
                                 <form action="${pageContext.request.contextPath}/dashboard/users/${user.id}/addresses/${address.id}"
                                       method="POST"
                                       onsubmit="return confirm('Bạn có chắc muốn xóa địa chỉ này không?');">
-                                    <input type="hidden" name="addressId" value="${address.id}">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="csrf_token" value="${csrfToken}">
                                     <button type="submit" class="btn btn-danger">Xóa</button>
                                 </form>
                             </div>
