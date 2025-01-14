@@ -50,15 +50,6 @@ public class ProductService {
         return productRepository.findWithDetails(id);
     }
 
-    public Product getProductDetails(int productId) {
-        Product product = productRepository.findById(productId);
-        if (product != null) {
-            product.setImages(productImageRepository.getImagesForProduct(productId));
-            product.setColors(productColorRepository.getColorsForProduct(productId));
-        }
-        return product;
-    }
-
     public List<Product> getFeaturedProducts(int limit) {
         return productRepository.getFeaturedProducts(limit);
     }
