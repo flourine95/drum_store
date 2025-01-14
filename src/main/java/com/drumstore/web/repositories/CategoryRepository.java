@@ -12,10 +12,19 @@ public class CategoryRepository {
     public CategoryRepository() {
         jdbi = DBConnection.getJdbi();
     }
+
     public List<Category> getCategories(int limit) {
         return jdbi.withHandle(handle ->
                 handle.createQuery("SELECT * FROM categories LIMIT :limit")
                         .bind("limit", limit)
+                        .mapToBean(Category.class)
+                        .list()
+        );
+    }
+
+    public List<Category> all() {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM categories")
                         .mapToBean(Category.class)
                         .list()
         );
