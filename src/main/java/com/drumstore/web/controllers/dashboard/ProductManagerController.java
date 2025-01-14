@@ -213,8 +213,6 @@ public class ProductManagerController extends ResourceController  {
                     editNested(request, response, parentId, id, resourceType);
                 }
                 break;
-            case PRODUCT_SALES:
-                break;
         }
     }
 
