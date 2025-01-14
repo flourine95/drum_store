@@ -11,7 +11,14 @@ public class CategoryService {
     public CategoryService() {
         this.categoryRepository = new CategoryRepository();
     }
+
     public List<Category> getCategories(int limit) {
         return categoryRepository.getCategories(limit);
     }
+
+    public List<Category> all() {
+        return categoryRepository.all();
+    }
+
+
 }

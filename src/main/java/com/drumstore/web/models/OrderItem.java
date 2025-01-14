@@ -9,20 +9,6 @@ public class OrderItem {
     private int quantity;
     private double price;
     private Timestamp createdAt;
-    private Timestamp updatedAt;
-
-    @Override
-    public String toString() {
-        return "OrderItem{" +
-                "id=" + id +
-                ", orderId=" + orderId +
-                ", productId=" + productId +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
 
     public int getId() {
         return id;
@@ -72,11 +58,15 @@ public class OrderItem {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id=" + id +
+                ", orderId=" + orderId +
+                ", productId=" + productId +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

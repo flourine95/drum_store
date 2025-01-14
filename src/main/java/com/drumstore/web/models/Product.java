@@ -23,6 +23,8 @@ public class Product {
     private List<ProductColor> colors;
     private Category category;
     private Brand brand;
+    private ProductSale productSale;
+
 
     public Product(int id, String name, String description, double price, int stock, int totalViews, boolean isFeatured, int status, double averageRating, String slug, Timestamp createdAt, Timestamp updatedAt, Timestamp deletedAt) {
         this.id = id;
@@ -239,6 +241,32 @@ public class Product {
 
     public ProductImage getMainImage() {
         return images.stream().filter(ProductImage::isIsMain).findFirst().orElse(null);
+    }
+
+    public String getImage() {
+        if (images != null && !images.isEmpty()) {
+            return images.stream()
+                    .filter(ProductImage::isIsMain)
+                    .findFirst()
+                    .map(ProductImage::getImage)
+                    .orElse(images.getFirst().getImage());
+        }
+        return "default.jpg"; // ảnh mặc định nếu không có ảnh
+    }
+
+    public ProductSale getProductSale() {
+        return productSale;
+    }
+
+    public void setProductSale(ProductSale productSale) {
+        this.productSale = productSale;
+    }
+
+    public double getSalePrice() {
+        if (productSale != null && productSale.getSale() != null) {
+            return price * (1 - productSale.getSale().getDiscountPercentage() / 100);
+        }
+        return price;
     }
 
 }

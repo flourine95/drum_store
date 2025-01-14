@@ -6,32 +6,24 @@ import java.sql.Timestamp;
 public class Post implements Serializable {
     private int id;
     private String title;
-    private String slug;
     private String content;
     private int userId;
-    private boolean isPublished;
-    private Timestamp publishedAt;
     private int viewsCount;
-    private String tags;
+    private String image;
+    private int status;
     private Timestamp createdAt;
-    private Timestamp updatedAt;
-    private Timestamp deletedAt;
 
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", slug='" + slug + '\'' +
                 ", content='" + content + '\'' +
                 ", userId=" + userId +
-                ", isPublished=" + isPublished +
-                ", publishedAt=" + publishedAt +
                 ", viewsCount=" + viewsCount +
-                ", tags='" + tags + '\'' +
+                ", image='" + image + '\'' +
+                ", status=" + status +
                 ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", deletedAt=" + deletedAt +
                 '}';
     }
 
@@ -51,14 +43,6 @@ public class Post implements Serializable {
         this.title = title;
     }
 
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
     public String getContent() {
         return content;
     }
@@ -75,22 +59,6 @@ public class Post implements Serializable {
         this.userId = userId;
     }
 
-    public boolean isPublished() {
-        return isPublished;
-    }
-
-    public void setPublished(boolean published) {
-        isPublished = published;
-    }
-
-    public Timestamp getPublishedAt() {
-        return publishedAt;
-    }
-
-    public void setPublishedAt(Timestamp publishedAt) {
-        this.publishedAt = publishedAt;
-    }
-
     public int getViewsCount() {
         return viewsCount;
     }
@@ -99,12 +67,20 @@ public class Post implements Serializable {
         this.viewsCount = viewsCount;
     }
 
-    public String getTags() {
-        return tags;
+    public String getImage() {
+        return image;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public Timestamp getCreatedAt() {
@@ -113,21 +89,5 @@ public class Post implements Serializable {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Timestamp getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Timestamp deletedAt) {
-        this.deletedAt = deletedAt;
     }
 }

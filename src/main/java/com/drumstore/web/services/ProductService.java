@@ -12,8 +12,7 @@ public class ProductService {
     private ProductImageRepository productImageRepository;
     private ProductColorRepository productColorRepository;
 
-    public ProductService(ProductImageRepository productImageRepository,
-                          ProductColorRepository productColorRepository) {
+    public ProductService(ProductImageRepository productImageRepository, ProductColorRepository productColorRepository) {
         this.productRepository = new ProductRepository();
         this.productImageRepository = productImageRepository;
         this.productColorRepository = productColorRepository;
@@ -50,15 +49,6 @@ public class ProductService {
         return productRepository.findWithDetails(id);
     }
 
-    public Product getProductDetails(int productId) {
-        Product product = productRepository.findById(productId);
-        if (product != null) {
-            product.setImages(productImageRepository.getImagesForProduct(productId));
-            product.setColors(productColorRepository.getColorsForProduct(productId));
-        }
-        return product;
-    }
-
     public List<Product> getFeaturedProducts(int limit) {
         return productRepository.getFeaturedProducts(limit);
     }
@@ -71,4 +61,12 @@ public class ProductService {
         return productRepository.allWithDetails();
     }
 
+    public List<Product> getProducts(int page, int limit, String search, String category, String brand, String priceRange, String sortBy) {
+        int offset = (page - 1) * limit;
+        return productRepository.getFilteredProducts(offset, limit, search, category, brand, priceRange, sortBy);
+    }
+
+    public int countProducts(String search, String category, String brand, String priceRange) {
+        return productRepository.countFilteredProducts(search, category, brand, priceRange);
+    }
 }

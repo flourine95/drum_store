@@ -81,7 +81,7 @@
                 <tr>
                     <th>#</th>
                     <th>Ảnh</th>
-                    <th>Mặc định</th>
+                    <th>Ảnh chính</th>
                     <th>Thao tác</th>
                 </tr>
                 </thead>
@@ -96,7 +96,7 @@
                                        type="checkbox"
                                        id="defaultToggle${productImage.id}"
                                        name="productImages[${productImage.id}].isDefault"
-                                       value="true" ${productImage.isMain ? 'checked' : ''}>
+                                       value="${productImage.isMain}" ${productImage.isMain ? 'checked' : ''} disabled>
                                 <label class="form-check-label" for="defaultToggle${productImage.id}">
                                         ${productImage.isMain ? 'Có' : 'Không'}
                                 </label>
@@ -104,15 +104,15 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productImage/${productImage.id}"
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productImages/${productImage.id}"
                                       method="GET">
                                     <button type="submit" class="btn btn-info">Xem</button>
                                 </form>
-                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productImage/${productImage.id}/edit"
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productImages/${productImage.id}/edit"
                                       method="GET">
                                     <button type="submit" class="btn btn-warning">Chỉnh sửa</button>
                                 </form>
-                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productImage/${productImage.id}"
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productImages/${productImage.id}"
                                       method="POST"
                                       onsubmit="return confirm('Bạn có chắc muốn xóa ảnh này không?');">
                                     <input type="hidden" name="productImageId" value="${productImage.id}">
@@ -147,15 +147,11 @@
                         <td>${productColor.colorName}</td>
                         <td>
                             <div class="btn-group">
-                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productColor/${productColor.id}"
-                                      method="GET">
-                                    <button type="submit" class="btn btn-info">Xem</button>
-                                </form>
-                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productColor/${productColor.id}/edit"
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productColors/${productColor.id}/edit"
                                       method="GET">
                                     <button type="submit" class="btn btn-warning">Chỉnh sửa</button>
                                 </form>
-                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productColor/${productColor.id}"
+                                <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}/productColors/${productColor.id}"
                                       method="POST"
                                       onsubmit="return confirm('Bạn có chắc muốn xóa màu này không?');">
                                     <input type="hidden" name="productColorId" value="${productColor.id}">

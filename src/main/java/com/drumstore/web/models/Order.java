@@ -12,8 +12,6 @@ public class Order {
     private Timestamp orderDate;
     private int status;
     private Timestamp createdAt;
-    private Timestamp updatedAt;
-    private Timestamp deletedAt;
 
     private List<OrderItem> items;
 
@@ -77,22 +75,6 @@ public class Order {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Timestamp getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Timestamp deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
     public List<OrderItem> getItems() {
         return items;
     }
@@ -111,8 +93,6 @@ public class Order {
                 ", orderDate=" + orderDate +
                 ", status=" + status +
                 ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", deletedAt=" + deletedAt +
                 ", items=" + items +
                 '}';
     }

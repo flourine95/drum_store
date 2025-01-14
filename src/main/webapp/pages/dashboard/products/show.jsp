@@ -63,7 +63,7 @@
                 <tr>
                     <th>#</th>
                     <th>Ảnh</th>
-                    <th>Mặc định</th>
+                    <th>Ảnh chính</th>
                     <th>Thao tác</th>
                 </tr>
                 </thead>

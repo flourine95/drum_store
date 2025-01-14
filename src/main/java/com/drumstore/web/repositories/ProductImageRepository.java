@@ -1,32 +1,57 @@
 package com.drumstore.web.repositories;
 
 import com.drumstore.web.models.ProductImage;
+import com.drumstore.web.models.UserAddress;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
 
 import java.util.List;
 
-public class ProductImageRepository {
-    private final Jdbi jdbi;
+public class ProductImageRepository extends BaseRepository<ProductImage> {
+    private final Jdbi jdbi = DBConnection.getJdbi();
 
-    public ProductImageRepository() {
-        this.jdbi = DBConnection.getJdbi();
-    }
+    public boolean create(ProductImage productImage) {
+        if (productImage.isIsMain() && hasMain()) {
+            System.out.println("Product image already has main image");
+            productImage.setIsMain(false);
+        }
 
-    public void insertImage(ProductImage productImage) {
-        jdbi.useHandle(handle ->
-                handle.createUpdate("INSERT INTO product_images (image, isMain, productId) VALUES (?, ?, ?)")
-                        .bind(0, productImage.getImage())
-                        .bind(1, productImage.isIsMain())
-                        .bind(2, productImage.getProductId())
-                        .execute());
-    }
-
-    public List<ProductImage> getImagesForProduct(int productId) {
         return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM product_images WHERE productId = ?")
-                        .bind(0, productId)
-                        .mapToBean(ProductImage.class)
-                        .list());
+                handle.createUpdate("INSERT INTO product_images (id, image, isMain, productId) " +
+                                "VALUES (:id, :image, :isMain, :productId")
+                        .bindBean(productImage)
+                        .execute()
+        ) > 0;
+    }
+
+    public int update(ProductImage productImage) {
+        if (productImage.isIsMain() && hasMain()) {
+            System.out.println("Product image already has main image");
+            jdbi.withHandle(handle ->
+                    handle.createUpdate("UPDATE product_images SET isMain = false")
+                            .execute()
+            );
+        }
+        String updateQuery = "UPDATE product_images SET image = :image, isMain = :isMain " +
+                "WHERE id = :id";
+        return super.update(updateQuery, productImage);
+    }
+
+    public int save(ProductImage productImage) {
+        if (productImage.isIsMain() && hasMain()) {
+            System.out.println("Product image already has main image");
+            productImage.setIsMain(false);
+        }
+        String insertQuery = "INSERT INTO product_images (id, image, isMain, productId) " +
+                "VALUES (:id, :image, :isMain, :productId";
+        return super.save(insertQuery, productImage);
+    }
+
+    public boolean hasMain() {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT COUNT(*) FROM product_images WHERE isMain = true")
+                        .mapTo(Integer.class)
+                        .one() > 0
+        );
     }
 }
