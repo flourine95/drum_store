@@ -4,7 +4,6 @@
 <form id="productForm" action="${pageContext.request.contextPath}/dashboard/products/${product.id}" method="POST">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="csrf_token" value="${csrfToken}">
-    <input type="hidden" name="id" value="${product.id}">
     <section class="row mb-3">
         <div class="col-md-8">
             <div class="row">
@@ -64,11 +63,6 @@
                     <input type="text" id="averageRating" name="averageRating" value="${product.averageRating}" class="form-control" readonly>
                 </div>
 
-                <div class="col-md-6 mb-2">
-                    <label class="form-label fw-bold">Slug:</label>
-                    <input type="text" value="${product.slug}" class="form-control" name="slug" id="slug">
-                </div>
-
             </div>
         </div>
     </section>
@@ -89,7 +83,8 @@
                 <c:forEach var="productImage" items="${product.images}">
                     <tr>
                         <td>${productImage.id}</td>
-                        <td><img class="product-image" src="${productImage.image}" alt="${productImage.image}"></td>
+                        <td><img class="product-image" src="/assets/images/data/${productImage.image}"
+                                 alt="/assets/images/data/${productImage.image}"></td>
                         <td>
                             <div class="form-check form-switch">
                                 <input class="form-check-input isDefaultToggle"
@@ -205,6 +200,17 @@
                 {orderable: false, targets: [3]} // Vô hiệu hóa sắp xếp cho cột Thao tác
             ]
         });
+        $('#colorTable').DataTable({
+            responsive: true, // Bảng responsive
+            paging: true,      // Bật phân trang
+            searching: true,   // Bật tìm kiếm
+            ordering: true,    // Cho phép sắp xếp
+            lengthMenu: [5, 10, 20, 100], // Tùy chọn số hàng hiển thị
+            columnDefs: [
+                {orderable: false, targets: [3]} // Vô hiệu hóa sắp xếp cho cột Thao tác
+            ]
+        });
+
     });
 
     function updateIsFeaturedToggle(toggle) {

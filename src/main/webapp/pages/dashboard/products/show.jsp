@@ -47,10 +47,6 @@
                     <input type="number" value="${product.averageRating}" class="form-control" readonly>
                 </div>
 
-                <div class="col-md-6 mb-2">
-                    <label class="form-label fw-bold">Slug:</label>
-                    <input type="text" value="${product.slug}" class="form-control" readonly>
-                </div>
             </div>
         </div>
     </section>

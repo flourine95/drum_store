@@ -10,7 +10,7 @@
 
   <div class="row">
     <div class="my-2 col-4">
-      <img class="product-image" src="${productImage.image}" alt="${productImage.image}">
+      <img class="product-image" src="/assets/images/data/${productImage.image}" alt="/assets/images/data/${productImage.image}">
     </div>
 
     <div class="my-2 col-8">
@@ -29,7 +29,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="d-flex justify-content-end">
