@@ -6,27 +6,16 @@ import org.jdbi.v3.core.Jdbi;
 
 import java.util.List;
 
-public class CategoryRepository {
-    private Jdbi jdbi;
+public class CategoryRepository extends BaseRepository<Category> {
+    private Jdbi jdbi = DBConnection.getJdbi();
 
-    public CategoryRepository() {
-        jdbi = DBConnection.getJdbi();
-    }
-
-    public List<Category> getCategories(int limit) {
+    public Category findById(int id) {
         return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM categories LIMIT :limit")
-                        .bind("limit", limit)
+                handle.createQuery("SELECT * FROM categories WHERE id = :id")
+                        .bind("id", id)
                         .mapToBean(Category.class)
-                        .list()
-        );
-    }
-
-    public List<Category> all() {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM categories")
-                        .mapToBean(Category.class)
-                        .list()
+                        .findFirst()
+                        .orElse(null)
         );
     }
 }

@@ -9,17 +9,8 @@ import java.util.List;
 
 public class ProductService {
     private ProductRepository productRepository = new ProductRepository();
-    private ProductImageRepository productImageRepository;
-    private ProductColorRepository productColorRepository;
 
-    public ProductService(ProductImageRepository productImageRepository, ProductColorRepository productColorRepository) {
-        this.productRepository = new ProductRepository();
-        this.productImageRepository = productImageRepository;
-        this.productColorRepository = productColorRepository;
-    }
-
-    public ProductService() {
-    }
+    public ProductService() {}
 
     public List<Product> all() {
         return productRepository.all();

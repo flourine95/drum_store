@@ -8,7 +8,6 @@ import com.drumstore.web.utils.Utils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import org.apache.logging.log4j.util.SystemPropertiesPropertySource;
 
 import java.io.IOException;
 import java.util.List;
@@ -78,7 +77,6 @@ public class ProductManagerController extends ResourceController  {
 
             productService.create(newProduct);
 
-            // Redirect về trang danh sách người dùng
             response.sendRedirect(request.getContextPath() + "/dashboard/products");
         } catch (NumberFormatException | NullPointerException e) {
             request.setAttribute("error", "Dữ liệu đầu vào không hợp lệ.");
@@ -121,7 +119,6 @@ public class ProductManagerController extends ResourceController  {
 
             productService.update(product);
 
-            // Redirect về trang danh sách người dùng
             response.sendRedirect(request.getContextPath() + "/dashboard/products");
         } catch (NumberFormatException | NullPointerException e) {
             request.setAttribute("error", "Dữ liệu đầu vào không hợp lệ.");
@@ -136,7 +133,6 @@ public class ProductManagerController extends ResourceController  {
     @Override
     public void delete(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
         if (!Utils.validateCsrfToken(request, response)) return;
-        System.out.println("bruh");
         try {
             productService.delete(Integer.parseInt(id));
 
