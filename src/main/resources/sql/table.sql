@@ -66,6 +66,7 @@ CREATE TABLE users
     password      VARCHAR(255),
     fullname      VARCHAR(100),
     role          TINYINT,
+    phone       VARCHAR(20),
     status        TINYINT,
     avatar        VARCHAR(255),
     oauthProvider VARCHAR(50),
