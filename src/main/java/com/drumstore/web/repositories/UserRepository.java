@@ -5,6 +5,7 @@ import com.drumstore.web.models.UserAddress;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,8 +15,8 @@ public class UserRepository extends BaseRepository<User> {
 
     public int save(User user) {
         String query = """
-                INSERT INTO users (email, password, fullname, phone, role, status, avatar, email_verified, created_at)
-                VALUES (:email, :password, :fullname, :phone, :role, :status, :avatar, :emailVerified, CURRENT_TIMESTAMP)
+                INSERT INTO users (email, password, fullname, phone, role, status, avatar, createdAt, updatedAt)
+                VALUES (:email, :password, :fullname, :phone, :role, :status, :avatar, CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
                 """;
         return super.save(query, user);
     }
@@ -76,4 +77,40 @@ public class UserRepository extends BaseRepository<User> {
         );
     }
 
+    public boolean register(User user) {
+        String query = """
+                INSERT INTO users (email, password, fullname, phone, role, status, createdAt, updatedAt)
+                VALUES (:email, :password, :fullname, :phone, :role, 1, CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+                """;
+        return super.save(query, user) > 0;
+    }
+
+    public boolean isPhoneExists(String phone) {
+        String query = "SELECT COUNT(*) FROM users WHERE phone = ?";
+        return jdbi.withHandle(handle -> handle.createQuery(query).bind(0, phone).mapTo(Integer.class).one()) > 0;
+    }
+
+    public boolean isEmailExists(String email) {
+        String query = "SELECT COUNT(*) FROM users WHERE email = ?";
+        return jdbi.withHandle(handle -> handle.createQuery(query).bind(0, email).mapTo(Integer.class).one()) > 0;
+    }
+
+    public User login(String username, String password) {
+        String query = """
+                SELECT * FROM users WHERE (phone = :username OR email = :username) AND status = 1
+                """;
+        User user = jdbi.withHandle(handle ->
+                handle.createQuery(query)
+                        .bind("username", username)
+                        .mapToBean(User.class)
+                        .findOne()
+                        .orElse(null)
+        );
+
+        // Kiểm tra mật khẩu
+        if (user != null && BCrypt.checkpw(password, user.getPassword())) {
+            return user; // Đăng nhập thành công
+        }
+        return null; // Đăng nhập thất bại
+    }
 }

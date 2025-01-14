@@ -11,6 +11,7 @@ public class User {
     private String fullname;
     private int role;
     private int status;
+    private String phone;
     private String avatar;
     private String oauthProvider;
     private String oauthId;
@@ -23,6 +24,22 @@ public class User {
 
     public User() {
         userAddresses = new ArrayList<>();
+    }
+
+    public User(String fullname, String phone, String hashedPassword, String email) {
+        this.fullname = fullname;
+        this.password = hashedPassword;
+        this.email = email;
+        this.userAddresses = new ArrayList<>();
+        this.phone = phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public void addAddress(UserAddress address) {
@@ -164,5 +181,9 @@ public class User {
                 ", deletedAt=" + deletedAt +
                 ", userAddresses=" + userAddresses +
                 '}';
+    }
+
+    public boolean isAdmin() {
+        return role == 1;
     }
 }
