@@ -28,9 +28,9 @@ public class OrderController extends ResourceController {
     // danh sach cac don hang
 
     public void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lay ra dnah sach tat ca don hang
+        // Lay ra danh sach tat ca don hang
         List<Order> orders = orderService.all();
-        request.setAttribute("orders", orders );
+        request.setAttribute("orders", orders);
         request.setAttribute("pageTitle", "Quản lý đơn hàng");
         request.setAttribute("content", "orders/index.jsp");
         request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
@@ -40,9 +40,9 @@ public class OrderController extends ResourceController {
     // chi tiet don hang
     public void show(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
 //        System.out.println(1);
-        System.out.println(new OrderRepository().findWithDetails(Integer.parseInt(id)));
-        Order order = orderService.find(Integer.parseInt(id));
-        request.setAttribute("order",order);
+//        System.out.println(new OrderRepository().findWithDetails(Integer.parseInt(id)));
+        Order order = orderService.findWithDetails(Integer.parseInt(id));
+        request.setAttribute("order", order);
         request.setAttribute("pageTitle", "Chi tiết đơn hàng");
         request.setAttribute("content", "orders/show.jsp");  // hoặc file jsp tương ứng
         request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
@@ -63,6 +63,8 @@ public class OrderController extends ResourceController {
 
     @Override
     public void edit(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
+        Order order = orderService.findWithDetails(Integer.parseInt(id));
+        request.setAttribute("order", order);
         request.setAttribute("pageTitle", "Chỉnh sửa đơn hàng");
         request.setAttribute("content", "orders/edit.jsp");
         request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
@@ -75,7 +77,30 @@ public class OrderController extends ResourceController {
 
     @Override
     public void delete(HttpServletRequest request, HttpServletResponse response, String id) {
+        try {
+            // Kiểm tra ID có hợp lệ hay không
+            if (id == null || !id.matches("\\d+")) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID đơn hàng không hợp lệ");
+                return;
+            }
 
+            // Chuyển ID từ String sang Integer
+            int orderId = Integer.parseInt(id);
+
+            // Gọi service để xóa đơn hàng
+            boolean isDeleted = orderService.deleteOrder(orderId);
+
+            if (isDeleted) {
+                // Nếu xóa thành công, chuyển hướng về danh sách đơn hàng
+                response.sendRedirect(request.getContextPath() + "/dashboard/orders");
+            } else {
+                // Nếu không tìm thấy đơn hàng hoặc không thể xóa
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy đơn hàng để xóa");
+            }
+        } catch (Exception e) {
+            // Xử lý lỗi tổng quát
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override

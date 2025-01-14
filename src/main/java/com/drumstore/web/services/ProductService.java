@@ -26,15 +26,15 @@ public class ProductService {
         return productRepository.all();
     }
 
-    public void createProduct(Product product) {
+    public void create(Product product) {
         productRepository.save(product);
     }
 
-    public void updateProduct(Product product) {
+    public void update(Product product) {
         productRepository.update(product);
     }
 
-    public void deleteProduct(int id) {
+    public void delete(int id) {
         productRepository.delete(id);
     }
 
@@ -46,6 +46,10 @@ public class ProductService {
         return productRepository.show(id);
     }
 
+    public Product findWithDetails(int id) {
+        return productRepository.findWithDetails(id);
+    }
+
     public Product getProductDetails(int productId) {
         Product product = productRepository.findById(productId);
         if (product != null) {
@@ -53,6 +57,18 @@ public class ProductService {
             product.setColors(productColorRepository.getColorsForProduct(productId));
         }
         return product;
+    }
+
+    public List<Product> getFeaturedProducts(int limit) {
+        return productRepository.getFeaturedProducts(limit);
+    }
+
+    public List<Product> getLatestProducts(int limit) {
+        return productRepository.getLatestProducts(limit);
+    }
+
+    public List<Product> getProducts() {
+        return productRepository.allWithDetails();
     }
 
 }

@@ -188,7 +188,7 @@
             min-width: 200px;
         }
     </style>
-    <link rel="stylesheet" href="../../assets/css/dashboard.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dashboard.css">
 
 </head>
 
