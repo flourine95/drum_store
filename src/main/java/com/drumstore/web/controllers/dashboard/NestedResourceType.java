@@ -4,7 +4,9 @@ public enum NestedResourceType {
     POSTS("posts"),
     ADDRESSES("addresses"),
     ORDERS("orders"),
-    WISHLISTS("wishlists");
+    WISHLISTS("wishlists"),
+    PRODUCT_IMAGE("productImages"),
+    PRODUCT_COLORS("productColors");
 
     private final String path;
 

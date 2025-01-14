@@ -1,7 +1,8 @@
 package com.drumstore.web.controllers.dashboard;
 
-import com.drumstore.web.models.Product;
-import com.drumstore.web.models.User;
+import com.drumstore.web.models.*;
+import com.drumstore.web.services.ProductColorService;
+import com.drumstore.web.services.ProductImageService;
 import com.drumstore.web.services.ProductService;
 import com.drumstore.web.utils.Utils;
 import jakarta.servlet.*;
@@ -15,10 +16,14 @@ import java.util.List;
 @WebServlet("/dashboard/products/*")
 public class ProductManagerController extends ResourceController  {
     private ProductService productService;
+    private ProductImageService productImageService;
+    private ProductColorService productColorService;
 
     @Override
     public void init() {
         this.productService = new ProductService();
+        this.productImageService = new ProductImageService();
+        this.productColorService = new ProductColorService();
     }
 
     @Override
@@ -82,7 +87,6 @@ public class ProductManagerController extends ResourceController  {
             product.setStatus(status);
             product.setSlug(slug);
 
-            System.out.println(status);
             productService.update(product);
 
             // Redirect về trang danh sách người dùng
@@ -104,12 +108,25 @@ public class ProductManagerController extends ResourceController  {
 
     @Override
     public void indexNested(HttpServletRequest request, HttpServletResponse response, String parentId, NestedResourceType resourceType) {
-
+        switch (resourceType) {
+            case PRODUCT_IMAGE:
+                break;
+            case PRODUCT_COLORS:
+                System.out.println("day la Colors");
+                break;
+        }
     }
 
     @Override
     public void showNested(HttpServletRequest request, HttpServletResponse response, String parentId, String id, NestedResourceType resourceType) {
-
+        switch (resourceType) {
+            case PRODUCT_IMAGE:
+                // Hiển thị chi tiết một bài post
+                break;
+            case PRODUCT_COLORS:
+                System.out.println("day la addresses voi id la: " + id);
+                break;
+        }
     }
 
     @Override
@@ -124,16 +141,105 @@ public class ProductManagerController extends ResourceController  {
 
     @Override
     public void editNested(HttpServletRequest request, HttpServletResponse response, String parentId, String id, NestedResourceType resourceType) throws ServletException, IOException {
-
+        switch (resourceType) {
+            case PRODUCT_IMAGE:
+                ProductImage productImage = productImageService.find(Integer.parseInt(id));
+                request.setAttribute("productImage", productImage);
+                request.setAttribute("pageTitle", "Chỉnh sửa ảnh của sản phẩm");
+                request.setAttribute("content", "products/images/edit.jsp");
+                request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
+                break;
+            case PRODUCT_COLORS:
+                ProductColor productColor = productColorService.find(Integer.parseInt(id));
+                request.setAttribute("productColor", productColor);
+                request.setAttribute("pageTitle", "Chỉnh sửa màu của sản phẩm");
+                request.setAttribute("content", "products/colors/edit.jsp");
+                request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
+                break;
+        }
     }
 
     @Override
     public void updateNested(HttpServletRequest request, HttpServletResponse response, String parentId, String id, NestedResourceType resourceType) throws ServletException, IOException {
+        if (!Utils.validateCsrfToken(request, response)) return;
+        switch (resourceType) {
+            case PRODUCT_IMAGE:
+                try {
+                    String image = request.getParameter("productImage");
+                    boolean isMain = Boolean.parseBoolean(request.getParameter("isMain"));
 
+                    ProductImage productImage = new ProductImage();
+                    productImage.setId(Integer.parseInt(id));
+                    productImage.setImage(image);
+                    productImage.setIsMain(isMain);
+                    productImage.setProductId(Integer.parseInt(parentId));
+
+                    System.out.println(productImage);
+
+                    productImageService.update(productImage);
+
+                    // Redirect
+                    response.sendRedirect(request.getContextPath() + "/dashboard/products/" + parentId + "/edit");
+                } catch (NumberFormatException | NullPointerException e) {
+                    request.setAttribute("error", "Dữ liệu đầu vào không hợp lệ.");
+                    editNested(request, response, parentId, id, resourceType);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("error", "Cập nhật thất bại: " + e.getMessage());
+                    editNested(request, response, parentId, id, resourceType);
+                }
+                break;
+            case PRODUCT_COLORS:
+                try {
+                    String colorCode = request.getParameter("colorCode");
+                    String colorName = request.getParameter("colorName");
+
+                    ProductColor productColor = new ProductColor();
+                    productColor.setId(Integer.parseInt(id));
+                    productColor.setColorCode(colorCode);
+                    productColor.setColorName(colorName);
+                    productColor.setProductId(Integer.parseInt(parentId));
+
+                    productColorService.update(productColor);
+
+                    // Redirect
+                    response.sendRedirect(request.getContextPath() + "/dashboard/products/" + parentId + "/edit");
+                } catch (NumberFormatException | NullPointerException e) {
+                    request.setAttribute("error", "Dữ liệu đầu vào không hợp lệ.");
+                    editNested(request, response, parentId, id, resourceType);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("error", "Cập nhật thất bại: " + e.getMessage());
+                    editNested(request, response, parentId, id, resourceType);
+                }
+                break;
+            case PRODUCT_SALES:
+                break;
+        }
     }
 
     @Override
     public void deleteNested(HttpServletRequest request, HttpServletResponse response, String parentId, String id, NestedResourceType resourceType) {
-
+//        if (!Utils.validateCsrfToken(request, response)) return;
+        switch (resourceType) {
+            case PRODUCT_IMAGE:
+                break;
+            case PRODUCT_COLORS:
+//                try {
+//                    userAddressService.delete(Integer.parseInt(id));
+//                    response.sendRedirect(request.getContextPath() + "/dashboard/users/" + parentId + "/edit");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    request.setAttribute("error", "Xóa địa chỉ thất bại: " + e.getMessage());
+//                    editNested(request, response, parentId, id, resourceType);
+//                }
+                break;
+            case ORDERS:
+                // Hiển thị chi tiết một đơn hàng
+                break;
+            case WISHLISTS:
+                // Hiển thị chi tiết một wishlist
+                break;
+        }
     }
 }
