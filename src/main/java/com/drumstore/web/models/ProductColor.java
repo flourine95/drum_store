@@ -6,16 +6,6 @@ public class ProductColor {
     private String colorName;
     private int productId;
 
-    public ProductColor() {
-    }
-
-    public ProductColor(int id, String colorCode, String colorName, int productId) {
-        this.id = id;
-        this.colorCode = colorCode;
-        this.colorName = colorName;
-        this.productId = productId;
-    }
-
     @Override
     public String toString() {
         return "ProductColor{" +

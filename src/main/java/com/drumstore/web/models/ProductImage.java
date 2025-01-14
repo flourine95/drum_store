@@ -6,16 +6,6 @@ public class ProductImage {
     private boolean isMain;
     private int productId;
 
-    public ProductImage(int id, String image, boolean isMain, int productId) {
-        this.id = id;
-        this.image = image;
-        this.isMain = isMain;
-        this.productId = productId;
-    }
-
-    public ProductImage() {
-    }
-
     @Override
     public String toString() {
         return "ProductImage{" +
@@ -57,4 +47,6 @@ public class ProductImage {
     public void setProductId(int productId) {
         this.productId = productId;
     }
+
+
 }
