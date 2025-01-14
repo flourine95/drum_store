@@ -30,7 +30,7 @@ CREATE TABLE password_resets
     email     VARCHAR(100),
     token     VARCHAR(100),
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expiresAt TIMESTAMP
+    expiresAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE products
@@ -99,7 +99,7 @@ CREATE TABLE user_vouchers
     voucherId INT,
     used      TINYINT,
     usedAt    TIMESTAMP NULL,
-    createdAt TIMESTAMP
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE orders
 (
@@ -107,9 +107,9 @@ CREATE TABLE orders
     userId        INT,
     userAddressId INT,
     totalAmount   DECIMAL(10, 2) NOT NULL,
-    orderDate     TIMESTAMP,
+    orderDate     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status        TINYINT,
-    createdAt     TIMESTAMP
+    createdAt     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE order_items
 (
@@ -118,7 +118,7 @@ CREATE TABLE order_items
     productId INT,
     quantity  INT NOT NULL,
     price     DECIMAL(10, 2),
-    createdAt TIMESTAMP
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE product_reviews
 (
@@ -127,7 +127,7 @@ CREATE TABLE product_reviews
     userId     INT,
     rating     TINYINT,
     reviewText TEXT,
-    createdAt  TIMESTAMP
+    createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE posts
 (
@@ -138,7 +138,7 @@ CREATE TABLE posts
     image      VARCHAR(255),
     viewsCount INT,
     status     TINYINT DEFAULT 1,
-    createdAt  TIMESTAMP
+    createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -152,12 +152,12 @@ CREATE TABLE vouchers
     discountValue    DECIMAL(10, 2),
     minOrderValue    DECIMAL(10, 2),
     maxDiscountValue DECIMAL(10, 2),
-    startDate        TIMESTAMP,
-    endDate          TIMESTAMP,
+    startDate        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    endDate          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     usageLimit       INT,
     perUserLimit     INT,
     status           TINYINT,
-    createdAt        TIMESTAMP
+    createdAt        TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -188,13 +188,12 @@ CREATE TABLE wards
 );
 
 
-drop table product_sales;
 CREATE TABLE product_sales
 (
     id        INT AUTO_INCREMENT PRIMARY KEY,
     productId INT,
     saleId    INT,
-    createdAt TIMESTAMP
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE payments
@@ -205,8 +204,7 @@ CREATE TABLE payments
     status        TINYINT,
     transactionId VARCHAR(100),
     amount        DECIMAL(10, 2) NOT NULL,
-    paymentDate   TIMESTAMP,
-    createdAt     TIMESTAMP,
-    updatedAt     TIMESTAMP
+    paymentDate   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createdAt     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
