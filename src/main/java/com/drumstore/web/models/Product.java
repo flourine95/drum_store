@@ -55,7 +55,14 @@ public class Product {
         this.images = new ArrayList<>();
         this.colors = new ArrayList<>();
     }
-
+    public String getIsMainImage() {
+        for (ProductImage image : images) {
+            if (image.isIsMain()) {
+                return image.getImage();
+            }
+        }
+        return "";
+    }
     public void addImage(ProductImage image) {
         this.images.add(image);
     }
