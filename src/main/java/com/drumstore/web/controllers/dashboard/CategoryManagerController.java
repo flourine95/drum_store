@@ -41,7 +41,7 @@ public class CategoryManagerController extends ResourceController {
     @Override
     public void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("pageTitle", "Thêm danh mục");
-        request.setAttribute("content", "category/create.jsp");
+        request.setAttribute("content", "categories/create.jsp");
         request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
     }
 
@@ -50,7 +50,14 @@ public class CategoryManagerController extends ResourceController {
         if (!Utils.validateCsrfToken(request, response)) return;
 
         try {
+            String name = request.getParameter("name");
+            String image = request.getParameter("image");
+            String description = request.getParameter("description");
+
             Category newCategory = new Category();
+            newCategory.setName(name);
+            newCategory.setImage(image);
+            newCategory.setDescription(description);
 
             categoryService.create(newCategory);
 
@@ -79,7 +86,14 @@ public class CategoryManagerController extends ResourceController {
         if (!Utils.validateCsrfToken(request, response)) return;
 
         try {
-            Category category = categoryService.findbyId(Integer.parseInt(id));
+            String name = request.getParameter("name");
+            String image = request.getParameter("image");
+            String description = request.getParameter("description");
+
+            Category category = categoryService.findById(Integer.parseInt(id));
+            category.setName(name);
+            category.setImage(image);
+            category.setDescription(description);
 
             categoryService.update(category);
 

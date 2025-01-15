@@ -4,7 +4,6 @@
 <form id="createProductForm" action="${pageContext.request.contextPath}/dashboard/products" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="csrf_token" value="${csrfToken}">
-    <input type="hidden" name="id" value="${product.id}">
     <section class="row mb-3">
         <div class="col-md-8">
             <div class="row">
