@@ -1,8 +1,6 @@
 package com.drumstore.web.services;
 
 import com.drumstore.web.models.Product;
-import com.drumstore.web.repositories.ProductColorRepository;
-import com.drumstore.web.repositories.ProductImageRepository;
 import com.drumstore.web.repositories.ProductRepository;
 
 import java.util.List;
@@ -10,7 +8,8 @@ import java.util.List;
 public class ProductService {
     private ProductRepository productRepository = new ProductRepository();
 
-    public ProductService() {}
+    public ProductService() {
+    }
 
     public List<Product> all() {
         return productRepository.all();

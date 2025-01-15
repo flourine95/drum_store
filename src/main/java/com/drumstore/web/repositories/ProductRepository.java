@@ -4,6 +4,7 @@ import com.drumstore.web.models.*;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
+import org.jdbi.v3.core.mapper.reflect.ConstructorMapper;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -147,8 +148,52 @@ public class ProductRepository extends BaseRepository<Product> {
     }
 
     public List<Product> getFeaturedProducts(int limit) {
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM products WHERE isFeatured = 1 LIMIT :limit").bind("limit", limit).mapToBean(Product.class).list());
+        return jdbi.withHandle(handle -> handle.createQuery("""
+            SELECT 
+                p.id,
+                p.name,
+                p.description,
+                p.price,
+                MAX(pi.image) AS mainImage,
+                MAX(s.discountPercentage) AS discountPercentage
+            FROM 
+                products p
+            LEFT JOIN 
+                product_images pi ON p.id = pi.productId AND pi.isMain = 1
+            LEFT JOIN 
+                product_sales ps ON p.id = ps.productId
+            LEFT JOIN 
+                sales s ON ps.saleId = s.id
+            WHERE 
+                p.isFeatured = 1 AND p.status = 1
+            GROUP BY 
+                p.id, p.name, p.description, p.price
+            LIMIT :limit
+            """)
+                .bind("limit", limit)
+                .registerRowMapper(ConstructorMapper.factory(Product.class))
+                .map((rs, ctx) -> {
+                    Product product = new Product();
+                    product.setId(rs.getInt("id"));
+                    product.setName(rs.getString("name"));
+                    product.setDescription(rs.getString("description"));
+                    product.setPrice(rs.getDouble("price"));
+                    product.setImageMain(rs.getString("mainImage"));
+
+                    double discount = rs.getDouble("discountPercentage");
+                    if (!rs.wasNull()) {
+                        ProductSale productSale = new ProductSale();
+                        Sale sale = new Sale();
+                        sale.setDiscountPercentage(discount);
+                        productSale.setSale(sale);
+                        product.setProductSale(productSale);
+                    }
+                    return product;
+                })
+                .list());
     }
+
+
 
     public List<Product> getLatestProducts(int limit) {
         return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM products ORDER BY createdAt DESC LIMIT :limit").bind("limit", limit).mapToBean(Product.class).list());
@@ -400,9 +445,9 @@ public class ProductRepository extends BaseRepository<Product> {
 
     public List<Product> getRelatedProducts(int productId, int categoryId, int limit) {
         String sql = """
-            SELECT 
+            SELECT
                 p.*,
-                pi.id AS pi_id, 
+                pi.id AS pi_id,
                 pi.image AS pi_image, 
                 pi.isMain AS pi_isMain,
                 c.id AS c_id, 
@@ -425,47 +470,45 @@ public class ProductRepository extends BaseRepository<Product> {
             LIMIT ?
         """;
 
-        return jdbi.withHandle(handle -> {
-            return handle.createQuery(sql)
-                .bind(0, categoryId)
-                .bind(1, productId)
-                .bind(2, limit)
-                .registerRowMapper(BeanMapper.factory(Product.class))
-                .registerRowMapper(BeanMapper.factory(ProductImage.class, "pi"))
-                .registerRowMapper(BeanMapper.factory(Category.class, "c"))
-                .registerRowMapper(BeanMapper.factory(Brand.class, "b"))
-                .registerRowMapper(BeanMapper.factory(Sale.class, "s"))
-                .reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
-                    Product product = map.computeIfAbsent(
-                        row.getColumn("id", Integer.class),
-                        id -> row.getRow(Product.class)
-                    );
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+            .bind(0, categoryId)
+            .bind(1, productId)
+            .bind(2, limit)
+            .registerRowMapper(BeanMapper.factory(Product.class))
+            .registerRowMapper(BeanMapper.factory(ProductImage.class, "pi"))
+            .registerRowMapper(BeanMapper.factory(Category.class, "c"))
+            .registerRowMapper(BeanMapper.factory(Brand.class, "b"))
+            .registerRowMapper(BeanMapper.factory(Sale.class, "s"))
+            .reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
+                Product product = map.computeIfAbsent(
+                    row.getColumn("id", Integer.class),
+                    id -> row.getRow(Product.class)
+                );
 
-                    if (row.getColumn("pi_id", Integer.class) != null) {
-                        product.addImage(row.getRow(ProductImage.class));
-                    }
+                if (row.getColumn("pi_id", Integer.class) != null) {
+                    product.addImage(row.getRow(ProductImage.class));
+                }
 
-                    if (row.getColumn("c_id", Integer.class) != null) {
-                        product.setCategory(row.getRow(Category.class));
-                    }
+                if (row.getColumn("c_id", Integer.class) != null) {
+                    product.setCategory(row.getRow(Category.class));
+                }
 
-                    if (row.getColumn("b_id", Integer.class) != null) {
-                        product.setBrand(row.getRow(Brand.class));
-                    }
+                if (row.getColumn("b_id", Integer.class) != null) {
+                    product.setBrand(row.getRow(Brand.class));
+                }
 
-                    if (row.getColumn("s_id", Integer.class) != null) {
-                        Sale sale = row.getRow(Sale.class);
-                        ProductSale productSale = new ProductSale();
-                        productSale.setSale(sale);
-                        product.setProductSale(productSale);
-                    }
+                if (row.getColumn("s_id", Integer.class) != null) {
+                    Sale sale = row.getRow(Sale.class);
+                    ProductSale productSale = new ProductSale();
+                    productSale.setSale(sale);
+                    product.setProductSale(productSale);
+                }
 
-                    return map;
-                })
-                .values()
-                .stream()
-                .toList();
-        });
+                return map;
+            })
+            .values()
+            .stream()
+            .toList());
     }
 
 }

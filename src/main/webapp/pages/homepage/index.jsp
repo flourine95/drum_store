@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <div id="carouselExampleIndicators" class="carousel slide">
     <div class="carousel-indicators" id="carouselIndicators"></div>
     <div class="carousel-inner" id="carouselItems"></div>
@@ -73,12 +74,22 @@
         <c:forEach var="product" items="${featuredProducts}">
             <div class="col">
                 <div class="card h-100">
-                    <img src="${product.isMainImage}" class="card-img-top" alt="${product.name}">
+                    <img src="/assets/images/data/${product.imageMain}" class="card-img-top" alt="${product.name}">
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title"><a href="#" class="text-decoration-none">${product.name}</a></h5>
+                        <h5 class="card-title"><a href="/product/${product.id}"
+                                                  class="text-decoration-none">${product.name}</a></h5>
                         <p class="card-text">${product.description}</p>
-                        <p class="card-text"><span style="text-decoration: line-through;">${product.price}</span> <strong class="text-danger">${product.price}</strong></p>
-                        <a href="#" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                        <fmt:setLocale value="vi_VN"/>
+                        <p class="card-text">
+                            <span style="text-decoration: line-through;">
+                                <fmt:formatNumber value="${product.price}" type="currency"/>
+                            </span>
+                            <strong class="text-danger">
+                                <fmt:formatNumber value="${product.salePrice}" type="currency"/>
+                            </strong>
+                        </p>
+
+                        <a href="/product/${product.id}" class="btn btn-primary text-black mt-auto">Xem thêm</a>
                     </div>
                 </div>
             </div>
@@ -91,11 +102,11 @@
         <c:forEach var="category" items="${categories}">
             <div class="col">
                 <div class="card h-100">
-                    <img src="${category.image}" class="card-img-top" alt="${category.name}">
+                    <img src="/assets/images/data/${category.image}" class="card-img-top" alt="${category.name}">
                     <div class="card-body">
                         <h5 class="card-title">${category.name}</h5>
                         <p class="card-text">${category.description}</p>
-                        <a href="/categories/${category.id}" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                        <a href="${pageContext.request.contextPath}/products" class="btn btn-primary text-black mt-auto">Xem thêm</a>
                     </div>
                 </div>
             </div>
@@ -109,11 +120,12 @@
         <c:forEach var="post" items="${latestPosts}">
             <div class="col">
                 <div class="card h-100">
-                    <img src="post.image" class="card-img-top" alt="${post.title}">
+                    <img src="/assets/images/data/${post.image}" class="card-img-top" alt="${post.title}">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">${post.title}</h5>
                         <p class="card-text">${post.content}</p>
-                        <a href="/categories/${post.id}" class="btn btn-primary mt-auto w-100 text-black">Xem chi tiết</a>
+                        <a href="${pageContext.request.contextPath}/posts" class="btn btn-primary mt-auto w-100 text-black">Xem chi
+                            tiết</a>
                     </div>
                 </div>
             </div>
