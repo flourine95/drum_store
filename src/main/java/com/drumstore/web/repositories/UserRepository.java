@@ -111,4 +111,40 @@ public class UserRepository extends BaseRepository<User> {
         }
         return null; // Đăng nhập thất bại
     }
+
+    public int createWithAddresses(User user, List<UserAddress> addresses) {
+        return jdbi.withHandle(handle -> {
+            // Bắt đầu transaction
+            return handle.inTransaction(h -> {
+                // Thêm user
+                String userSql = """
+                    INSERT INTO users (email, password, fullname, role, status, avatar, createdAt)
+                    VALUES (:email, :password, :fullname, :role, :status, :avatar, CURRENT_TIMESTAMP)
+                    """;
+                
+                int userId = h.createUpdate(userSql)
+                        .bindBean(user)
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one();
+
+                // Thêm địa chỉ
+                if (addresses != null && !addresses.isEmpty()) {
+                    String addressSql = """
+                        INSERT INTO user_addresses (userId, address, phone, provinceId, districtId, wardId, isDefault)
+                        VALUES (:userId, :address, :phone, :provinceId, :districtId, :wardId, :isDefault)
+                        """;
+                    
+                    for (UserAddress address : addresses) {
+                        address.setUserId(userId);
+                        h.createUpdate(addressSql)
+                                .bindBean(address)
+                                .execute();
+                    }
+                }
+
+                return userId;
+            });
+        });
+    }
 }

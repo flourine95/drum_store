@@ -1,4 +1,4 @@
-package com.drumstore.web.controllers;
+package com.drumstore.web.controllers.auth;
 
 import com.drumstore.web.models.User;
 import com.drumstore.web.services.UserService;

@@ -63,7 +63,7 @@ public class CartController extends HttpServlet {
                 String color = request.getParameter("color");
                 System.out.println("color: " + color);
 
-                Product product = productService.findWithDetails(productId);
+                Product product = productService.findWithDetailsAndSale(productId);
                 if (product != null) {
                     cart.addItem(new CartItem(product, quantity, color));
                     result.put("success", true);

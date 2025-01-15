@@ -31,7 +31,8 @@
                     <div class="action-buttons d-lg-none">
                         <div class="account-button-container">
                             <div class="d-flex align-items-center">
-                                <a href="${pageContext.request.contextPath}/cart" class="btn btn-light position-relative me-2">
+                                <a href="${pageContext.request.contextPath}/cart"
+                                   class="btn btn-light position-relative me-2">
                                     <i class="bi bi-cart3"></i>
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cartCount"
                                           style="display: ${sessionScope.cart.itemCount > 0 ? 'block' : 'none'}">
@@ -47,20 +48,25 @@
                                 <i class="bi bi-person-circle"></i>
                             </button>
                             <ul class="dropdown-menu mobile-dropdown-menu">
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">Đăng
-                                    nhập</a></li>
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/register">Đăng
-                                    ký</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item"
-                                       href="${pageContext.request.contextPath}/account/my-account">Tài khoản của
-                                    tôi</a></li>
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/account/orders">Đơn
-                                    hàng</a></li>
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/home">Đăng
-                                    xuất</a></li>
+                                <c:choose>
+                                    <c:when test="${empty sessionScope.user}">
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">Đăng nhập</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/register">Đăng ký</a></li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/account/my-account">Tài khoản của tôi</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/account/orders">Đơn hàng</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <form id="logoutFormUser" action="${pageContext.request.contextPath}/logout" method="POST" class="dropdown-item p-0">
+                                                <button type="button" onclick="return logout()" 
+                                                        class="btn btn-link text-danger text-decoration-none w-100 text-start px-3">
+                                                    <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
                             </ul>
                         </div>
                     </div>
@@ -86,21 +92,25 @@
                                 <i class="bi bi-person-circle"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="desktopAccountDropdown">
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">Đăng
-                                    nhập</a></li>
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/register">Đăng
-                                    ký</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item"
-                                       href="${pageContext.request.contextPath}/account/my-account">Tài khoản của
-                                    tôi</a>
-                                </li>
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/account/orders">Đơn
-                                    hàng</a></li>
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/home">Đăng
-                                    xuất</a></li>
+                                <c:choose>
+                                    <c:when test="${empty sessionScope.user}">
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">Đăng nhập</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/register">Đăng ký</a></li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/account/my-account">Tài khoản của tôi</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/account/orders">Đơn hàng</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <form id="logoutForm" action="${pageContext.request.contextPath}/logout" method="POST" class="dropdown-item p-0">
+                                                <button type="button" onclick="return logout()" 
+                                                        class="btn btn-link text-danger text-decoration-none w-100 text-start px-3">
+                                                    <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
                             </ul>
                         </div>
                     </div>

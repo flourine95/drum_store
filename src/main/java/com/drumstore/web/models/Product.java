@@ -20,6 +20,17 @@ public class Product {
     private Category category;
     private Brand brand;
     private ProductSale productSale;
+    private String imageMain;
+
+
+
+    public String getImageMain() {
+        return imageMain;
+    }
+
+    public void setImageMain(String imageMain) {
+        this.imageMain = imageMain;
+    }
 
     public Product() {
         this.images = new ArrayList<>();
@@ -213,4 +224,6 @@ public class Product {
                 ", productSale=" + productSale +
                 '}';
     }
+
+
 }

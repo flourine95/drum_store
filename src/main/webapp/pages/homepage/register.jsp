@@ -118,7 +118,7 @@
         margin-top: 20px;
     }
 </style>
-<div class="container my-5">
+<div class="container my-5" style="min-height: 70vh">
     <div class="row">
         <div class="login-container col-12 col-md-8">
             <h3>Đăng ký với</h3>

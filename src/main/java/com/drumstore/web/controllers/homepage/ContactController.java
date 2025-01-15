@@ -13,8 +13,8 @@ public class ContactController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("title", "Giới thiệu");
-        request.setAttribute("content", "about.jsp");
+        request.setAttribute("title", "Liên hệ");
+        request.setAttribute("content", "contact.jsp");
         request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
     }
 }

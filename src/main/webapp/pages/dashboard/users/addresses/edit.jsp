@@ -55,7 +55,7 @@
 
   <div class="d-flex justify-content-end">
     <button type="submit" class="btn btn-primary">Lưu</button>
-    <a href="${pageContext.request.contextPath}/users" class="btn btn-secondary ms-2">Hủy</a>
+    <a href="${pageContext.request.contextPath}/dashboard/users" class="btn btn-secondary ms-2">Hủy</a>
   </div>
 </form>
 

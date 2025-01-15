@@ -349,6 +349,20 @@
         margin-right: 10px;
     }
 
+    .price del {
+        color: #6c757d;
+        font-size: 0.9em;
+    }
+
+    .price .badge {
+        font-size: 0.8em;
+        padding: 0.4em 0.6em;
+    }
+
+    .text-danger {
+        color: #dc3545 !important;
+    }
+
 </style>
 
 <main style="margin-top: 50px;">
@@ -391,12 +405,18 @@
                 <div class="price mb-3">
                     <c:choose>
                         <c:when test="${product.productSale != null}">
-                            <h3 class="text-danger">
-                                <fmt:formatNumber value="${product.salePrice}" type="currency" currencySymbol="₫"/>
-                                <del class="text-muted ms-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <h3 class="text-danger mb-0">
+                                    <fmt:formatNumber value="${product.salePrice}" type="currency" currencySymbol="₫"/>
+                                </h3>
+                                <del class="text-muted fs-5">
                                     <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₫"/>
                                 </del>
-                            </h3>
+                                <span class="badge bg-danger">
+                                    -<fmt:formatNumber value="${product.productSale.sale.discountPercentage}" 
+                                                    maxFractionDigits="0"/>%
+                                </span>
+                            </div>
                         </c:when>
                         <c:otherwise>
                             <h3 class="text-danger">
