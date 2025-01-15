@@ -9,7 +9,6 @@
         <th>Vai trò</th>
         <th>Trạng thái</th>
         <th>Ngày tạo</th>
-        <th>Ngày cập nhật</th>
         <th>Thao tác</th>
     </tr>
     </thead>
@@ -22,7 +21,6 @@
             <td>${user.role}</td>
             <td>${user.status}</td>
             <td>${user.createdAt}</td>
-            <td>${user.updatedAt}</td>
             <td>
                 <form action="${pageContext.request.contextPath}/dashboard/users/${user.id}" method="GET"
                       style="display:inline;">
@@ -51,7 +49,6 @@
         <th>Số điện thoại</th>
         <th>Vai trò</th>
         <th>Trạng thái</th>
-        <th>Ngày tạo</th>
         <th>Thao tác</th>
     </tr>
     </tfoot>
