@@ -8,7 +8,6 @@ import com.drumstore.web.utils.Utils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import org.apache.logging.log4j.util.SystemPropertiesPropertySource;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,8 +51,41 @@ public class ProductManagerController extends ResourceController  {
     }
 
     @Override
-    public void store(HttpServletRequest request, HttpServletResponse response) {
+    public void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!Utils.validateCsrfToken(request, response)) return;
 
+        try {
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            double price = Double.parseDouble(request.getParameter("price"));
+            int stock = Integer.parseInt(request.getParameter("stock"));
+            boolean isFeatured = Boolean.parseBoolean(request.getParameter("isFeatured"));
+            int status = Integer.parseInt(request.getParameter("status"));
+            String imagesJson = request.getParameter("imagesJson");
+            String colorsJson = request.getParameter("colorsJson");
+            System.out.println(imagesJson);
+            System.out.println(colorsJson);
+            //todo: transfer json data to List<>
+
+            Product newProduct = new Product();
+            newProduct.setName(name);
+            newProduct.setDescription(description);
+            newProduct.setPrice(price);
+            newProduct.setStock(stock);
+            newProduct.setIsFeatured(isFeatured);
+            newProduct.setStatus(status);
+
+            productService.create(newProduct);
+
+            response.sendRedirect(request.getContextPath() + "/dashboard/products");
+        } catch (NumberFormatException | NullPointerException e) {
+            request.setAttribute("error", "Dữ liệu đầu vào không hợp lệ.");
+            create(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Cập nhật thất bại: " + e.getMessage());
+            create(request, response);
+        }
     }
 
     @Override
@@ -76,7 +108,6 @@ public class ProductManagerController extends ResourceController  {
             int stock = Integer.parseInt(request.getParameter("stock"));
             boolean isFeatured = Boolean.parseBoolean(request.getParameter("isFeatured"));
             int status = Integer.parseInt(request.getParameter("status"));
-            String slug = request.getParameter("slug");
 
             Product product = productService.findWithDetails(Integer.parseInt(id));
             product.setName(name);
@@ -85,11 +116,9 @@ public class ProductManagerController extends ResourceController  {
             product.setStock(stock);
             product.setIsFeatured(isFeatured);
             product.setStatus(status);
-            product.setSlug(slug);
 
             productService.update(product);
 
-            // Redirect về trang danh sách người dùng
             response.sendRedirect(request.getContextPath() + "/dashboard/products");
         } catch (NumberFormatException | NullPointerException e) {
             request.setAttribute("error", "Dữ liệu đầu vào không hợp lệ.");
@@ -102,8 +131,17 @@ public class ProductManagerController extends ResourceController  {
     }
 
     @Override
-    public void delete(HttpServletRequest request, HttpServletResponse response, String id) {
+    public void delete(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
+        if (!Utils.validateCsrfToken(request, response)) return;
+        try {
+            productService.delete(Integer.parseInt(id));
 
+            response.sendRedirect(request.getContextPath() + "/dashboard/products");
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Xóa sản phẩm thất bại: " + e.getMessage());
+            index(request, response);
+        }
     }
 
     @Override
@@ -217,20 +255,28 @@ public class ProductManagerController extends ResourceController  {
     }
 
     @Override
-    public void deleteNested(HttpServletRequest request, HttpServletResponse response, String parentId, String id, NestedResourceType resourceType) {
+    public void deleteNested(HttpServletRequest request, HttpServletResponse response, String parentId, String id, NestedResourceType resourceType) throws ServletException, IOException {
 //        if (!Utils.validateCsrfToken(request, response)) return;
         switch (resourceType) {
             case PRODUCT_IMAGE:
+                try {
+                    productImageService.delete(Integer.parseInt(id));
+                    response.sendRedirect(request.getContextPath() + "/dashboard/products/" + parentId + "/edit");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("error", "Xóa ảnh thất bại: " + e.getMessage());
+                    editNested(request, response, parentId, id, resourceType);
+                };
                 break;
             case PRODUCT_COLORS:
-//                try {
-//                    userAddressService.delete(Integer.parseInt(id));
-//                    response.sendRedirect(request.getContextPath() + "/dashboard/users/" + parentId + "/edit");
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    request.setAttribute("error", "Xóa địa chỉ thất bại: " + e.getMessage());
-//                    editNested(request, response, parentId, id, resourceType);
-//                }
+                try {
+                    productColorService.delete(Integer.parseInt(id));
+                    response.sendRedirect(request.getContextPath() + "/dashboard/products/" + parentId + "/edit");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("error", "Xóa màu thất bại: " + e.getMessage());
+                    editNested(request, response, parentId, id, resourceType);
+                };
                 break;
             case ORDERS:
                 // Hiển thị chi tiết một đơn hàng

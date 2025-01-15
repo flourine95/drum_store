@@ -11,7 +11,6 @@
         <th>Danh mục</th>
         <th>Thương hiệu</th>
         <th>Ngày tạo</th>
-        <th>Ngày cập nhật</th>
         <th>Thao tác</th>
     </tr>
     </thead>
@@ -26,7 +25,6 @@
             <td>${product.category.name}</td>
             <td>${product.brand.name}</td>
             <td>${product.createdAt}</td>
-            <td>${product.updatedAt}</td>
             <td>
                 <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}" method="GET"
                       style="display:inline;">
@@ -40,7 +38,8 @@
 
                 <form action="${pageContext.request.contextPath}/dashboard/products/${product.id}" method="POST" style="display:inline;"
                       onsubmit="return confirm('Bạn có chắc muốn xóa người dùng này không?');">
-                    <input type="hidden" name="id" value="${product.id}">
+                    <input type="hidden" name="csrf_token" value="${csrfToken}">
+                    <input type="hidden" name="_method" value="DELETE">
                     <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
                 </form>
             </td>
@@ -56,7 +55,6 @@
         <th>Danh mục</th>
         <th>Thương hiệu</th>
         <th>Ngày tạo</th>
-        <th>Ngày cập nhật</th>
         <th>Thao tác</th>
     </tr>
     </tfoot>

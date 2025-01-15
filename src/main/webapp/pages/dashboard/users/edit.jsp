@@ -6,7 +6,7 @@
     <input type="hidden" name="csrf_token" value="${csrfToken}">
     <section class="row mb-3">
         <div class="col-md-4">
-            <img src="${empty user.avatar ? '/images/default-avatar.jpg' : user.avatar}"
+            <img src="/assets/images/data/${empty user.avatar ? '/images/data/default-avatar.jpg' : user.avatar}"
                  alt="Avatar"
                  class="img-fluid rounded-circle user-avatar">
         </div>

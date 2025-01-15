@@ -14,49 +14,18 @@ public class Product {
     private boolean isFeatured;
     private int status;
     private double averageRating;
-    private String slug;
     private Timestamp createdAt;
-    private Timestamp updatedAt;
-    private Timestamp deletedAt;
-
     private List<ProductImage> images;
     private List<ProductColor> colors;
     private Category category;
     private Brand brand;
     private ProductSale productSale;
 
-
-    public Product(int id, String name, String description, double price, int stock, int totalViews, boolean isFeatured, int status, double averageRating, String slug, Timestamp createdAt, Timestamp updatedAt, Timestamp deletedAt) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.stock = stock;
-        this.totalViews = totalViews;
-        this.isFeatured = isFeatured;
-        this.status = status;
-        this.averageRating = averageRating;
-        this.slug = slug;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
-    }
-
-    // create product
-    public Product(String name, String description, double price, int stock, boolean isFeatured, String slug) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.stock = stock;
-        this.isFeatured = isFeatured;
-        this.slug = slug;
-    }
-
-
     public Product() {
         this.images = new ArrayList<>();
         this.colors = new ArrayList<>();
     }
+
     public String getIsMainImage() {
         for (ProductImage image : images) {
             if (image.isIsMain()) {
@@ -65,6 +34,7 @@ public class Product {
         }
         return "";
     }
+
     public void addImage(ProductImage image) {
         this.images.add(image);
     }
@@ -73,31 +43,8 @@ public class Product {
         this.colors.add(color);
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", stock=" + stock +
-                ", totalViews=" + totalViews +
-                ", isFeatured=" + isFeatured +
-                ", status=" + status +
-                ", averageRating=" + averageRating +
-                ", slug='" + slug + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", deletedAt=" + deletedAt +
-                ", images=" + images +
-                ", colors=" + colors +
-                ", category=" + category +
-                ", brand=" + brand +
-                '}';
-    }
-
-    public String getImageIsMain(){
-        for (ProductImage image : images){
+    public String getImageIsMain() {
+        for (ProductImage image : images) {
             if (image.isIsMain()) return image.getImage();
         }
         return "";
@@ -191,14 +138,6 @@ public class Product {
         this.averageRating = averageRating;
     }
 
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -207,21 +146,6 @@ public class Product {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Timestamp getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Timestamp deletedAt) {
-        this.deletedAt = deletedAt;
-    }
 
     public void setImages(List<ProductImage> images) {
         this.images = images;
@@ -251,7 +175,7 @@ public class Product {
                     .map(ProductImage::getImage)
                     .orElse(images.getFirst().getImage());
         }
-        return "default.jpg"; // ảnh mặc định nếu không có ảnh
+        return "product-default.jpg"; // ảnh mặc định nếu không có ảnh
     }
 
     public ProductSale getProductSale() {
@@ -269,4 +193,24 @@ public class Product {
         return price;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", stock=" + stock +
+                ", totalViews=" + totalViews +
+                ", isFeatured=" + isFeatured +
+                ", status=" + status +
+                ", averageRating=" + averageRating +
+                ", createdAt=" + createdAt +
+                ", images=" + images +
+                ", colors=" + colors +
+                ", category=" + category +
+                ", brand=" + brand +
+                ", productSale=" + productSale +
+                '}';
+    }
 }

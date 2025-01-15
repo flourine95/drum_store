@@ -2,6 +2,39 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <style>
+    .card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.btn-group .btn {
+    padding: 0.5rem 0.75rem;
+    margin: 0 2px;
+}
+
+.btn-group .btn i {
+    font-size: 1.1rem;
+}
+
+/* Hiệu ứng hover cho các nút */
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-outline-info:hover {
+    background-color: #0dcaf0;
+    color: white;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
     .card-body {
         display: flex;
         flex-direction: column;
@@ -65,6 +98,34 @@
     .form-label {
         margin-bottom: 0.5rem;
         font-weight: 500;
+    }
+    .pagination {
+        margin-bottom: 2rem;
+    }
+    
+    .page-link {
+        color: #333;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .page-item.active .page-link {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        color: white;
+    }
+    
+    .page-link:hover {
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+        color: #0d6efd;
+    }
+    
+    .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #fff;
+        border-color: #dee2e6;
     }
 </style>
 
@@ -191,17 +252,22 @@
                                     <p class="small text-muted">Số lượt xem: ${product.totalViews}</p>
                                     <p class="card-text mb-3">${product.description}</p>
                                     <div class="d-flex justify-content-between align-items-center mt-auto">
-                                        <button onclick="addToCart(${product.id})" class="btn btn-primary">
-                                            <i class="bi bi-cart-plus"></i>
-                                        </button>
-                                        <a href="${pageContext.request.contextPath}/product/${product.id}"
-                                           class="btn btn-info text-white">
-                                            <i class="bi bi-eye"></i> Xem chi tiết
-                                        </a>
-                                        <button onclick="toggleWishlist(${product.id})"
-                                                class="btn btn-outline-secondary">
-                                            <i class="bi bi-bookmark-heart"></i>
-                                        </button>
+                                        <div class="btn-group">
+                                            <button onclick="quickAddToCart(${product.id})" class="btn btn-outline-primary btn-sm" 
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Thêm vào giỏ hàng">
+                                                <i class="bi bi-cart-plus"></i>
+                                            </button>
+                                            <a href="${pageContext.request.contextPath}/product/${product.id}" 
+                                               class="btn btn-outline-info btn-sm"
+                                               data-bs-toggle="tooltip" data-bs-placement="top" title="Xem chi tiết">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <button onclick="toggleWishlist(${product.id})" 
+                                                    class="btn btn-outline-danger btn-sm"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Thêm vào yêu thích">
+                                                <i class="bi bi-heart"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -212,35 +278,93 @@
                 <!-- Phân trang -->
                 <nav aria-label="Page navigation" class="mt-4">
                     <ul class="pagination justify-content-center">
+                        <!-- Nút Previous -->
                         <c:if test="${currentPage > 1}">
                             <li class="page-item">
-                                <a class="page-link" href="#" onclick="goToPage(${currentPage - 1})">
-                                    <i class="fas fa-chevron-left"></i>
+                                <a class="page-link" href="#" onclick="goToPage(${currentPage - 1})" aria-label="Previous">
+                                    <i class="bi bi-chevron-left"></i>
                                 </a>
                             </li>
                         </c:if>
-                        
-                        <c:forEach begin="1" end="${totalPages}" var="i">
-                            <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                <a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>
-                            </li>
-                        </c:forEach>
-                        
+                
+                        <!-- Hiển thị các số trang -->
+                        <c:choose>
+                            <c:when test="${totalPages <= 5}">
+                                <!-- Nếu tổng số trang <= 5, hiển thị tất cả -->
+                                <c:forEach begin="1" end="${totalPages}" var="i">
+                                    <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                        <a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>
+                                    </li>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- Nếu tổng số trang > 5, hiển thị thông minh -->
+                                <c:choose>
+                                    <c:when test="${currentPage <= 3}">
+                                        <!-- Hiển thị 1 2 3 4 5 ... last -->
+                                        <c:forEach begin="1" end="5" var="i">
+                                            <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                                <a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>
+                                            </li>
+                                        </c:forEach>
+                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" onclick="goToPage(${totalPages})">${totalPages}</a>
+                                        </li>
+                                    </c:when>
+                                    <c:when test="${currentPage >= totalPages - 2}">
+                                        <!-- Hiển thị 1 ... last-4 last-3 last-2 last-1 last -->
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" onclick="goToPage(1)">1</a>
+                                        </li>
+                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                        <c:forEach begin="${totalPages - 4}" end="${totalPages}" var="i">
+                                            <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                                <a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>
+                                            </li>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <!-- Hiển thị 1 ... current-1 current current+1 ... last -->
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" onclick="goToPage(1)">1</a>
+                                        </li>
+                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                        <c:forEach begin="${currentPage - 1}" end="${currentPage + 1}" var="i">
+                                            <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                                <a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>
+                                            </li>
+                                        </c:forEach>
+                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" onclick="goToPage(${totalPages})">${totalPages}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:otherwise>
+                        </c:choose>
+                
+                        <!-- Nút Next -->
                         <c:if test="${currentPage < totalPages}">
                             <li class="page-item">
-                                <a class="page-link" href="#" onclick="goToPage(${currentPage + 1})">
-                                    <i class="fas fa-chevron-right"></i>
+                                <a class="page-link" href="#" onclick="goToPage(${currentPage + 1})" aria-label="Next">
+                                    <i class="bi bi-chevron-right"></i>
                                 </a>
                             </li>
                         </c:if>
                     </ul>
                 </nav>
+                
             </div>
         </div>
     </div>
 </main>
 
 <script>
+function quickAddToCart(productId) {
+    AjaxUtils.addToCart(productId, 1, null, true);
+}
+
 function handleSearch(event) {
     event.preventDefault();
     const searchValue = document.getElementById('searchInput').value;
@@ -269,7 +393,6 @@ function resetFilter() {
 function updateQueryParams(newParams) {
     const params = new URLSearchParams(window.location.search);
     
-    // Cập nhật/thêm các tham số mới
     Object.entries(newParams).forEach(([key, value]) => {
         if (value) {
             params.set(key, value);
@@ -278,12 +401,7 @@ function updateQueryParams(newParams) {
         }
     });
     
-    // Chuyển hướng đến URL mới
     window.location.search = params.toString();
-}
-
-function addToCart(productId) {
-    // Implement add to cart logic
 }
 
 function toggleWishlist(productId) {
@@ -293,6 +411,12 @@ function toggleWishlist(productId) {
 function submitForm() {
     document.getElementById('filterForm').submit();
 }
+document.addEventListener('DOMContentLoaded', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+});
 </script>
 
 

@@ -1,49 +1,56 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<form id="createUserForm" action="${pageContext.request.contextPath}/dashboard/users" method="POST" enctype="multipart/form-data">
+<form id="createProductForm" action="${pageContext.request.contextPath}/dashboard/products" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="csrf_token" value="${csrfToken}">
     <section class="row mb-3">
-        <div class="col-md-4">
-            <div class="text-center">
-                <img id="avatarPreview" src="/images/default-avatar.jpg"
-                     alt="Avatar Preview"
-                     class="img-fluid rounded-circle user-avatar mb-2">
-                <div class="mb-3">
-                    <label for="avatarInput" class="form-label fw-bold">Ảnh đại diện:</label>
-                    <input type="file" class="form-control" id="avatarInput" name="avatar"
-                           accept="image/*" onchange="previewImage(this)">
-                </div>
-            </div>
-        </div>
-
         <div class="col-md-8">
             <div class="row">
+                <div id="image-element"></div>
                 <div class="col-md-6 mb-2">
-                    <label class="form-label fw-bold">Họ tên:</label>
-                    <input type="text" name="fullname" class="form-control" required>
+                    <label class="form-label fw-bold">Tên sản phẩm:</label>
+                    <input type="text" id="name" name="name" value="" class="form-control" placeholder="Tên sản phẩm" required>
                 </div>
 
                 <div class="col-md-6 mb-2">
-                    <label class="form-label fw-bold">Email:</label>
-                    <input type="email" name="email" class="form-control" required>
+                    <label class="form-label fw-bold">Chi tiết sản phẩm:</label>
+                    <textarea class="form-control" rows="5" id="description" name="description" placeholder="Chi tiết sản phẩm" required></textarea>
                 </div>
 
                 <div class="col-md-6 mb-2">
-                    <label class="form-label fw-bold">Mật khẩu:</label>
-                    <input type="password" name="password" class="form-control" required>
+                    <label class="form-label fw-bold">Giá:</label>
+                    <input type="text" id="price" name="price" value="" class="form-control" placeholder="Giá" required>
                 </div>
 
                 <div class="col-md-6 mb-2">
-                    <label class="form-label fw-bold">Xác nhận mật khẩu:</label>
-                    <input type="password" name="confirmPassword" class="form-control" required>
+                    <label class="form-label fw-bold">Còn trong kho:</label>
+                    <input type="text" id="stock" name="stock" value="" class="form-control" placeholder="Còn trong kho" required>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <label class="form-label fw-bold">Sản phẩm nổi bật:</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="isFeaturedToggle"
+                               name="isFeatured" value="${product.isFeatured}" ${product.isFeatured == true ? 'checked' : ''}
+                               onchange="updateIsFeaturedToggle(this)" required>
+                        <label class="form-check-label" for="isFeaturedToggle">
+                            ${product.isFeatured == true ? 'Có' : 'Không'}
+                        </label>
+                    </div>
                 </div>
 
                 <div class="col-md-6 mb-2">
                     <label class="form-label fw-bold">Trạng thái:</label>
                     <div class="form-check form-switch">
+                        <!-- Input hidden chứa giá trị ban đầu của status -->
+                        <input type="hidden" name="status" value="0">
                         <input class="form-check-input" type="checkbox" id="statusToggle"
-                               name="status" value="1" checked>
-                        <label class="form-check-label" for="statusToggle">Hoạt động</label>
+                               name="status" value="1" ${product.status == 1 ? 'checked' : ''}
+                               onchange="updateStatusToggle(this)" required>
+                        <label class="form-check-label" for="statusToggle">
+                            ${product.status == 1 ? 'Hoạt động' : 'Không hoạt động'}
+                        </label>
                     </div>
                 </div>
             </div>
@@ -52,65 +59,86 @@
 
     <section class="row mb-4">
         <div class="col-12">
-            <h5>Quản lý địa chỉ</h5>
+            <h5>Danh sách ảnh</h5>
 
-            <!-- Form nhập địa chỉ mới -->
-            <div class="address-input-form border p-3 mb-3">
+            <div class="create-input-form border p-3 mb-3">
                 <div class="row">
                     <div class="col-md-5 mb-2">
-                        <label class="form-label">Địa chỉ:</label>
-                        <input type="text" id="newAddress" class="form-control">
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label">Số điện thoại:</label>
-                        <input type="tel" id="newPhone" class="form-control">
+                        <label class="form-label">Đường dẫn ảnh:</label>
+                        <input type="text" id="newImage" class="form-control">
                     </div>
                     <div class="col-md-2 mb-2">
-                        <label class="form-label">Mặc định:</label>
+                        <label class="form-label">Là ảnh chính:</label>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="newIsDefault">
+                            <input class="form-check-input" type="checkbox" id="newIsMain">
                         </div>
                     </div>
                     <div class="col-md-1 mb-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-primary" onclick="addNewAddress()">
+                        <button type="button" class="btn btn-primary" onclick="addNewImage()">
                             Thêm
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Danh sách địa chỉ đã thêm -->
-            <div class="addresses-list mb-3">
-                <h6>Danh sách địa chỉ đã thêm:</h6>
-                <div id="addressesContainer" class="list-group">
-                    <!-- Địa chỉ sẽ được thêm vào đây động -->
+            <div class="create-list mb-3">
+                <h6>Danh sách Ảnh đã thêm:</h6>
+                <div id="imagesContainer" class="list-group">
+                    <!-- Ảnh sẽ được thêm vào đây -->
                 </div>
             </div>
 
-            <!-- Hidden input để lưu danh sách địa chỉ dạng JSON -->
-            <input type="hidden" name="addressesJson" id="addressesJson">
+            <!-- Hidden input để lưu danh sách dạng JSON -->
+            <input type="hidden" name="imagesJson" id="ImagesJson">
+        </div>
+    </section>
+
+    <section class="row mb-4">
+        <div class="col-12">
+            <h5>Danh sách màu</h5>
+
+            <div class="create-input-form border p-3 mb-3">
+                <div class="row">
+                    <div class="col-md-5 mb-2">
+                        <label class="form-label">Mã màu:</label>
+                        <input type="text" id="newColorCode" class="form-control">
+                    </div>
+                    <div class="col-md-2 mb-2">
+                        <label class="form-label">Tên màu:</label>
+                        <input type="text" id="newColorName" class="form-control">
+                    </div>
+                    <div class="col-md-1 mb-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-primary" onclick="addNewColor()">
+                            Thêm
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="create-list mb-3">
+                <h6>Danh sách màu đã thêm:</h6>
+                <div id="colorsContainer" class="list-group">
+                    <!-- maù sẽ được thêm vào đây -->
+                </div>
+            </div>
+
+            <!-- Hidden input để lưu danh sách dạng JSON -->
+            <input type="hidden" name="colorsJson" id="ColorsJson">
         </div>
     </section>
 
     <div class="form-actions">
         <button type="submit" class="btn btn-primary">Tạo mới</button>
-        <a href="${pageContext.request.contextPath}/dashboard/users" class="btn btn-secondary">Hủy</a>
+        <a href="${pageContext.request.contextPath}/dashboard/products" class="btn btn-secondary">Hủy</a>
     </div>
 </form>
 
 <style>
-    .user-avatar {
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 50%;
-    }
-
     .form-actions {
         margin-top: 20px;
     }
 
-    .address-item {
+    .create-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -118,11 +146,11 @@
         margin-bottom: 5px;
     }
 
-    .address-info {
+    .create-info {
         flex-grow: 1;
     }
 
-    .address-actions {
+    .create-actions {
         display: flex;
         gap: 5px;
     }
@@ -138,108 +166,171 @@
 </style>
 
 <script>
-    // Mảng lưu trữ danh sách địa chỉ
-    let addresses = [];
+    let images = [];
+    let colors = [];
 
-    function previewImage(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('avatarPreview').src = e.target.result;
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    function addNewAddress() {
-        const addressInput = document.getElementById('newAddress');
-        const phoneInput = document.getElementById('newPhone');
-        const isDefaultInput = document.getElementById('newIsDefault');
+    function addNewImage() {
+        const imageInput = document.getElementById('newImage');
+        const isMainInput = document.getElementById('newIsMain');
 
         // Validation
-        if (!addressInput.value.trim() || !phoneInput.value.trim()) {
-            alert('Vui lòng nhập đầy đủ địa chỉ và số điện thoại');
+        if (!imageInput.value.trim()) {
+            alert('Vui lòng nhập ảnh');
             return;
         }
 
-        // Nếu đánh dấu là địa chỉ mặc định, bỏ đánh dấu các địa chỉ khác
-        if (isDefaultInput.checked) {
-            addresses.forEach(addr => addr.isDefault = false);
+        if (isMainInput.checked) {
+            images.forEach(img => img.isMain = false);
         }
 
-        // Thêm địa chỉ mới vào mảng
-        const newAddress = {
-            address: addressInput.value.trim(),
-            phone: phoneInput.value.trim(),
-            isDefault: isDefaultInput.checked
+        const newImage = {
+            image: imageInput.value.trim(),
+            isMain: isMainInput.checked
         };
-        addresses.push(newAddress);
+        images.push(newImage);
 
         // Cập nhật giao diện
-        renderAddresses();
+        renderTable();
 
         // Reset form
-        addressInput.value = '';
-        phoneInput.value = '';
-        isDefaultInput.checked = false;
+        imageInput.value = '';
+        isMainInput.checked = false;
     }
 
-    function renderAddresses() {
-        const container = document.getElementById('addressesContainer');
-        container.innerHTML = '';
+    function addNewColor() {
+        const colorCodeInput = document.getElementById('newColorCode');
+        const colorNameInput = document.getElementById('newColorName');
 
-        addresses.forEach((addr, index) => {
-            const addressElement = document.createElement('div');
-            addressElement.className = 'list-group-item address-item';
-            addressElement.innerHTML = `
-                <div class="address-info">
-                    <strong>${addr.address}</strong> - ${addr.phone}
-                    ${addr.isDefault ? '<span class="default-badge">Mặc định</span>' : ''}
+        // Validation
+        if (!colorCodeInput.value.trim() || !colorNameInput.value.trim()) {
+            alert('Vui lòng nhập mã màu và tên màu');
+            return;
+        }
+
+        const newColor = {
+            colorCode: colorCodeInput.value.trim(),
+            colorName: colorNameInput.value.trim(),
+        };
+        colors.push(newColor);
+
+        // Cập nhật giao diện
+        renderTable();
+
+        // Reset form
+        colorCodeInput.value = '';
+        colorNameInput.value = '';
+    }
+
+    function renderTable() {
+        const imagesContainer = document.getElementById('imagesContainer');
+        const colorsContainer = document.getElementById('colorsContainer');
+        imagesContainer.innerHTML = '';
+        colorsContainer.innerHTML = '';
+
+        images.forEach((img, index) => {
+            console.log(img.image, img.isMain, index);
+            const imageElement = document.createElement('div');
+            imageElement.className = 'list-group-item create-item';
+            imageElement.innerHTML = `
+            <div class="create-info">
+                <strong>\${img.image}</strong>
+                \${img.isMain ? '<span class="default-badge">Mặc định</span>' : ''}
+            </div>
+            <div class="create-actions">
+                \${!img.isMain ? `<button type="button" class="btn btn-sm btn-success" onclick="setMainImage(\${index})">Đặt làm ảnh chính</button>`: ''}
+                <button type="button" class="btn btn-sm btn-danger"
+                    onclick="removeImage(${index})">
+                    Xóa
+                </button>
+            </div>
+            `;
+            imagesContainer.appendChild(imageElement);
+        });
+
+        colors.forEach((cl, index) => {
+            const colorElement = document.createElement('div');
+            colorElement.className = 'list-group-item create-item';
+            colorElement.innerHTML = `
+                <div class="create-info">
+                    <strong>\${cl.colorCode}</strong>
                 </div>
-                <div class="address-actions">
-                    ${!addr.isDefault ? `
-                        <button type="button" class="btn btn-sm btn-success"
-                                onclick="setDefaultAddress(${index})">
-                            Đặt mặc định
-                        </button>
-                    ` : ''}
+                <div class="create-info">
+                    \${cl.colorName}
+                </div>
+                <div class="create-actions">
                     <button type="button" class="btn btn-sm btn-danger"
-                            onclick="removeAddress(${index})">
+                            onclick="removeColor(${index})">
                         Xóa
                     </button>
                 </div>
             `;
-            container.appendChild(addressElement);
+            colorsContainer.appendChild(colorElement);
         });
 
         // Cập nhật hidden input với dữ liệu JSON
-        document.getElementById('addressesJson').value = JSON.stringify(addresses);
+        document.getElementById('ImagesJson').value = JSON.stringify(images);
+        document.getElementById('ColorsJson').value = JSON.stringify(colors);
     }
 
-    function setDefaultAddress(index) {
-        addresses.forEach(addr => addr.isDefault = false);
-        addresses[index].isDefault = true;
-        renderAddresses();
+    function setMainImage(index) {
+        images.forEach(img => img.isMain = false);
+        images[index].isMain = true;
+        renderTable();
     }
 
-    function removeAddress(index) {
-        addresses.splice(index, 1);
-        renderAddresses();
+    function removeImage(index) {
+        images.splice(index, 1);
+        renderTable();
+    }
+
+    function removeColor(index) {
+        colors.splice(index, 1);
+        renderTable();
     }
 
     // Xử lý submit form
-    document.getElementById('createUserForm').addEventListener('submit', function(e) {
-        if (addresses.length === 0) {
+    document.getElementById('createProductForm').addEventListener('submit', function(e) {
+        if (images.length === 0 || colors.length === 0) {
             e.preventDefault();
-            alert('Vui lòng thêm ít nhất một địa chỉ');
+            alert('Vui lòng thêm ít nhất một ảnh và một màu');
             return;
         }
 
         // Kiểm tra có ít nhất một địa chỉ mặc định
-        if (!addresses.some(addr => addr.isDefault)) {
+        if (!images.some(img => img.isMain)) {
             e.preventDefault();
-            alert('Vui lòng chọn một địa chỉ mặc định');
+            alert('Vui lòng chọn một ảnh làm ảnh chính');
             return;
         }
+
+        document.getElementById('ImagesJson').value = JSON.stringify(images);
+        document.getElementById('ColorsJson').value = JSON.stringify(colors);
     });
+
+    function updateIsFeaturedToggle(toggle) {
+        const label = toggle.nextElementSibling;
+
+        // Cập nhật giá trị của thuộc tính value (!!toggle.checked)
+        toggle.value = toggle.checked ? true : false;
+
+        // Cập nhật nội dung label theo trạng thái của toggle
+        if (label) {
+            label.textContent = toggle.checked ? 'Có' : 'Không';
+        }
+    }
+
+    function updateStatusToggle(toggle) {
+        const label = toggle.nextElementSibling;
+
+        // Lấy giá trị của hidden input name="status"
+        const hiddenInput = toggle.closest('div').querySelector('input[type="hidden"]');
+
+        // Cập nhật giá trị của hidden input tùy theo trạng thái của checkbox
+        hiddenInput.value = toggle.checked ? '1' : '0';
+
+        // Cập nhật nội dung label theo trạng thái của toggle
+        if (label) {
+            label.textContent = toggle.checked ? 'Hoạt động' : 'Không hoạt động';
+        }
+    }
 </script>

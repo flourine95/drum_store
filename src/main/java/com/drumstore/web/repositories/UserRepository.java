@@ -15,15 +15,15 @@ public class UserRepository extends BaseRepository<User> {
 
     public int save(User user) {
         String query = """
-                INSERT INTO users (email, password, fullname, phone, role, status, avatar, createdAt, updatedAt)
-                VALUES (:email, :password, :fullname, :phone, :role, :status, :avatar, CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+                INSERT INTO users (email, password, fullname, phone, role, status, avatar, createdAt)
+                VALUES (:email, :password, :fullname, :phone, :role, :status, :avatar, CURRENT_TIMESTAMP)
                 """;
         return super.save(query, user);
     }
 
     public int update(User user) {
         String query = """
-                UPDATE users SET email = :email, fullname = :fullname, updatedAt = CURRENT_TIMESTAMP WHERE id = :id
+                UPDATE users SET email = :email, fullname = :fullname WHERE id = :id
                 """;
         return super.update(query, user);
     }
@@ -49,9 +49,7 @@ public class UserRepository extends BaseRepository<User> {
                 SELECT
                     u.id AS u_id, u.email AS u_email, u.fullname AS u_fullname,
                     u.role AS u_role, u.status AS u_status, u.avatar AS u_avatar,
-                    u.oauthProvider AS u_oauthProvider, u.oauthId AS u_oauthId,
-                    u.emailVerified AS u_emailVerified, u.createdAt AS u_createdAt,
-                    u.updatedAt AS u_updatedAt, u.deletedAt AS u_deletedAt,
+                    u.createdAt AS u_createdAt,
                     a.id AS a_id, a.userId AS a_userId, a.address AS a_address,
                     a.phone AS a_phone, a.provinceId AS a_provinceId,
                     a.districtId AS a_districtId, a.wardId AS a_wardId, a.isDefault AS a_isDefault
@@ -79,8 +77,8 @@ public class UserRepository extends BaseRepository<User> {
 
     public boolean register(User user) {
         String query = """
-                INSERT INTO users (email, password, fullname, phone, role, status, createdAt, updatedAt)
-                VALUES (:email, :password, :fullname, :phone, :role, 1, CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+                INSERT INTO users (email, password, fullname, phone, role, status, createdAt)
+                VALUES (:email, :password, :fullname, :phone, :role, 1, CURRENT_TIMESTAMP)
                 """;
         return super.save(query, user) > 0;
     }

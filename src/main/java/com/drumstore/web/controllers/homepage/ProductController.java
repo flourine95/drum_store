@@ -4,6 +4,7 @@ import com.drumstore.web.models.Product;
 import com.drumstore.web.services.BrandService;
 import com.drumstore.web.services.CategoryService;
 import com.drumstore.web.services.ProductService;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/products")
+@WebServlet({"/products", "/product/*"})
 public class ProductController extends HttpServlet {
     private ProductService productService;
     private CategoryService categoryService;
@@ -29,6 +30,52 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
+            String pathInfo = request.getPathInfo();
+            String servletPath = request.getServletPath();
+
+            if ("/product".equals(servletPath) && pathInfo != null) {
+                // Xử lý chi tiết sản phẩm
+                handleProductDetail(request, response);
+            } else {
+                // Xử lý danh sách sản phẩm
+                handleProductList(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private void handleProductDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            // Lấy ID sản phẩm từ URL
+            String pathInfo = request.getPathInfo();
+            String productId = pathInfo.substring(1); // Bỏ dấu "/" ở đầu
+
+            // Lấy thông tin sản phẩm
+            Product product = productService.findWithDetails(Integer.parseInt(productId));
+            if (product == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+
+            // Lấy các sản phẩm liên quan (cùng danh mục)
+            List<Product> relatedProducts = productService.getRelatedProducts(product.getId(), product.getCategory().getId(), 4);
+
+            // Set attributes
+            request.setAttribute("product", product);
+            request.setAttribute("relatedProducts", relatedProducts);
+            request.setAttribute("title", product.getName());
+            request.setAttribute("content", "product-detail.jsp");
+            request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
+
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
+    }
+
+    private void handleProductList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
             // Lấy các tham số từ request
             int page = getPage(request);
             String searchKeyword = request.getParameter("search");
@@ -42,16 +89,7 @@ public class ProductController extends HttpServlet {
             int totalPages = (int) Math.ceil((double) totalProducts / PRODUCTS_PER_PAGE);
 
             // Lấy danh sách sản phẩm theo điều kiện lọc
-            List<Product> products = productService.getProducts(
-                    page,
-                    PRODUCTS_PER_PAGE,
-                    searchKeyword,
-                    category,
-                    brand,
-                    priceRange,
-                    sortBy
-            );
-            products.forEach(System.out::println);
+            List<Product> products = productService.getProducts(page, PRODUCTS_PER_PAGE, searchKeyword, category, brand, priceRange, sortBy);
 
             // Set attributes cho view
             request.setAttribute("products", products);
