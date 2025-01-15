@@ -17,7 +17,7 @@
         </li>
         <li class="sidebar-item">
             <a href="${pageContext.request.contextPath}/dashboard/products" class="sidebar-link">
-                <i class="bi bi-bag"></i>
+                <i class="bi bi-box"></i>
                 <span>Quản lý sản phẩm</span>
             </a>
         </li>
@@ -28,15 +28,21 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="${pageContext.request.contextPath}/dashboard/vouchers" class="sidebar-link">
+            <a href="${pageContext.request.contextPath}/dashboard/sales" class="sidebar-link">
                 <i class="bi bi-tags"></i>
-                <span>Quản lý phiếu giảm giá</span>
+                <span>Quản lý giảm giá</span>
             </a>
         </li>
         <li class="sidebar-item">
             <a href="${pageContext.request.contextPath}/dashboard/categories" class="sidebar-link">
                 <i class="bi bi-collection"></i>
                 <span>Quản lý danh mục</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/brands" class="sidebar-link">
+                <i class="bi bi-bag"></i>
+                <span>Quản lý thương hiệu</span>
             </a>
         </li>
         <li class="sidebar-item">

@@ -11,27 +11,21 @@ public class CategoryService {
 
     public CategoryService(){}
 
-    public int create(Category category) { return categoryRepository.save(category); }
-
     public List<Category> all() { return categoryRepository.all(); }
 
-    public Category findById(int i) { return categoryRepository.findById(i); }
+    public int create(Category category) { return categoryRepository.save(category); }
 
-    public void update(Category category) {
-        categoryRepository.update(category);
-    }
+    public void update(Category category) { categoryRepository.update(category); }
 
-    public void delete(int id) {
-        categoryRepository.delete(id);
-    }
+    public void delete(int id) { categoryRepository.delete(id); }
+
+    public Category show(int id) {return categoryRepository.show(id);}
 
     public Category find(int id) {
         return categoryRepository.findById(id);
     }
 
-    public Category show(int id) {
-        return categoryRepository.show(id);
-    }
+    public Category findById(int i) { return categoryRepository.findById(i); }
 
     public List<Category> getCategories(int limit) { return categoryRepository.getCategories(limit); }
 
