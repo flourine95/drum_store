@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <header>
     <div class="fixed-top d-none d-lg-block">
         <img src="${pageContext.request.contextPath}/assets/images/banners/banner_header.png"
@@ -29,13 +30,15 @@
                     </div>
                     <div class="action-buttons d-lg-none">
                         <div class="account-button-container">
-                            <a href="${pageContext.request.contextPath}/cart" class="btn btn-light position-relative">
-                                <i class="bi bi-cart-fill"></i>
-                                <span
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        3
+                            <div class="d-flex align-items-center">
+                                <a href="${pageContext.request.contextPath}/cart" class="btn btn-light position-relative me-2">
+                                    <i class="bi bi-cart3"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cartCount"
+                                          style="display: ${sessionScope.cart.itemCount > 0 ? 'block' : 'none'}">
+                                        ${sessionScope.cart.itemCount}
                                     </span>
-                            </a>
+                                </a>
+                            </div>
                         </div>
 
                         <div class="account-button-container dropdown">
@@ -70,10 +73,11 @@
                     <div class="d-none d-lg-flex align-items-center">
                         <a href="${pageContext.request.contextPath}/cart" class="btn btn-light me-3 position-relative">
                             <i class="bi bi-cart-fill"></i>
-                            <span
-                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    3
-                            </span>
+                            <c:if test="${sessionScope.cart.itemCount > 0}">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cartCount">
+                                        ${sessionScope.cart.itemCount}
+                                </span>
+                            </c:if>
                         </a>
                         <!-- Account dropdown for desktop -->
                         <div class="dropdown">
@@ -118,7 +122,11 @@
                 </a>
                 <a href="${pageContext.request.contextPath}/cart" class="position-relative">
                     <i class="bi bi-cart fs-4"></i>
-                    <span class="cart-badge">3</span>
+                    <c:if test="${sessionScope.cart.itemCount > 0}">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cartCount">
+                                ${sessionScope.cart.itemCount}
+                        </span>
+                    </c:if>
                 </a>
             </div>
             <div class="mobile-search">

@@ -60,4 +60,8 @@ public class ProductService {
     public int countProducts(String search, String category, String brand, String priceRange) {
         return productRepository.countFilteredProducts(search, category, brand, priceRange);
     }
+
+    public List<Product> getRelatedProducts(int productId, int categoryId, int limit) {
+        return productRepository.getRelatedProducts(productId, categoryId, limit);
+    }
 }

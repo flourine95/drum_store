@@ -19,6 +19,8 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/custom.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/ajax-utils.js"></script>
     <style>
         .dropdown-menu a {
             cursor: pointer;
@@ -358,5 +360,6 @@
         adjustLayoutPadding();
     });
 </script>
+
 </body>
 </html>

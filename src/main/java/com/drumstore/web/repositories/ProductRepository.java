@@ -398,4 +398,74 @@ public class ProductRepository extends BaseRepository<Product> {
         });
     }
 
+    public List<Product> getRelatedProducts(int productId, int categoryId, int limit) {
+        String sql = """
+            SELECT 
+                p.*,
+                pi.id AS pi_id, 
+                pi.image AS pi_image, 
+                pi.isMain AS pi_isMain,
+                c.id AS c_id, 
+                c.name AS c_name,
+                b.id AS b_id, 
+                b.name AS b_name,
+                s.id AS s_id,
+                s.name AS s_name,
+                s.discountPercentage AS s_discountPercentage,
+                s.startDate AS s_startDate,
+                s.endDate AS s_endDate
+            FROM products p
+            LEFT JOIN product_images pi ON p.id = pi.productId
+            LEFT JOIN categories c ON p.categoryId = c.id
+            LEFT JOIN brands b ON p.brandId = b.id
+            LEFT JOIN product_sales ps ON p.id = ps.productId
+            LEFT JOIN sales s ON ps.saleId = s.id AND NOW() BETWEEN s.startDate AND s.endDate
+            WHERE p.categoryId = ? AND p.id != ?
+            ORDER BY RAND()
+            LIMIT ?
+        """;
+
+        return jdbi.withHandle(handle -> {
+            return handle.createQuery(sql)
+                .bind(0, categoryId)
+                .bind(1, productId)
+                .bind(2, limit)
+                .registerRowMapper(BeanMapper.factory(Product.class))
+                .registerRowMapper(BeanMapper.factory(ProductImage.class, "pi"))
+                .registerRowMapper(BeanMapper.factory(Category.class, "c"))
+                .registerRowMapper(BeanMapper.factory(Brand.class, "b"))
+                .registerRowMapper(BeanMapper.factory(Sale.class, "s"))
+                .reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
+                    Product product = map.computeIfAbsent(
+                        row.getColumn("id", Integer.class),
+                        id -> row.getRow(Product.class)
+                    );
+
+                    if (row.getColumn("pi_id", Integer.class) != null) {
+                        product.addImage(row.getRow(ProductImage.class));
+                    }
+
+                    if (row.getColumn("c_id", Integer.class) != null) {
+                        product.setCategory(row.getRow(Category.class));
+                    }
+
+                    if (row.getColumn("b_id", Integer.class) != null) {
+                        product.setBrand(row.getRow(Brand.class));
+                    }
+
+                    if (row.getColumn("s_id", Integer.class) != null) {
+                        Sale sale = row.getRow(Sale.class);
+                        ProductSale productSale = new ProductSale();
+                        productSale.setSale(sale);
+                        product.setProductSale(productSale);
+                    }
+
+                    return map;
+                })
+                .values()
+                .stream()
+                .toList();
+        });
+    }
+
 }
