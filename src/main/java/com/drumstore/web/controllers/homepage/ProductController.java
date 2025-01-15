@@ -53,14 +53,14 @@ public class ProductController extends HttpServlet {
             String productId = pathInfo.substring(1); // Bỏ dấu "/" ở đầu
 
             // Lấy thông tin sản phẩm
-            Product product = productService.findWithDetails(Integer.parseInt(productId));
+            Product product = productService.findWithDetailsAndSale(Integer.parseInt(productId));
             if (product == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
 
             // Lấy các sản phẩm liên quan (cùng danh mục)
-            List<Product> relatedProducts = productService.getRelatedProducts(product.getId(), product.getCategory().getId(), 4);
+            List<Product> relatedProducts = productService.getRelatedProductsWithSale(product.getId(), product.getCategory().getId(), 4);
 
             // Set attributes
             request.setAttribute("product", product);

@@ -511,4 +511,139 @@ public class ProductRepository extends BaseRepository<Product> {
             .toList());
     }
 
+    public ProductSale getCurrentSale(int productId) {
+        String sql = """
+            SELECT 
+                ps.id AS ps_id,
+                ps.productId AS ps_productId,
+                ps.saleId AS ps_saleId,
+                s.id AS s_id,
+                s.name AS s_name,
+                s.discountPercentage AS s_discountPercentage,
+                s.startDate AS s_startDate,
+                s.endDate AS s_endDate
+            FROM product_sales ps
+            JOIN sales s ON ps.saleId = s.id
+            WHERE ps.productId = ? 
+            AND NOW() BETWEEN s.startDate AND s.endDate
+            AND s.discountPercentage = (
+                SELECT MAX(s2.discountPercentage)
+                FROM product_sales ps2
+                JOIN sales s2 ON ps2.saleId = s2.id
+                WHERE ps2.productId = ps.productId
+                AND NOW() BETWEEN s2.startDate AND s2.endDate
+            )
+        """;
+
+        return jdbi.withHandle(handle ->
+            handle.createQuery(sql)
+                .bind(0, productId)
+                .registerRowMapper(BeanMapper.factory(ProductSale.class, "ps"))
+                .registerRowMapper(BeanMapper.factory(Sale.class, "s"))
+                .reduceRows(new LinkedHashMap<Integer, ProductSale>(), (map, row) -> {
+                    ProductSale productSale = map.computeIfAbsent(
+                        row.getColumn("ps_id", Integer.class),
+                        id -> row.getRow(ProductSale.class)
+                    );
+
+                    if (row.getColumn("s_id", Integer.class) != null) {
+                        Sale sale = row.getRow(Sale.class);
+                        productSale.setSale(sale);
+                    }
+
+                    return map;
+                })
+                .values()
+                .stream()
+                .findFirst()
+                .orElse(null)
+        );
+    }
+
+    public Product findProductWithSale(int productId) {
+        String sql = """
+            SELECT 
+                p.id, p.name, p.description, p.price, p.stock, 
+                p.totalViews, p.isFeatured, p.status, p.averageRating, 
+                p.createdAt, p.categoryId, p.brandId,
+                pi.id AS pi_id, pi.image AS pi_image, pi.isMain AS pi_isMain,
+                c.id AS c_id, c.name AS c_name, c.image AS c_image, 
+                c.description AS c_description, c.createdAt AS c_createdAt,
+                b.id AS b_id, b.name AS b_name, b.image AS b_image, 
+                b.description AS b_description, b.createdAt AS b_createdAt,
+                pc.id AS pc_id, pc.colorCode AS pc_colorCode, pc.colorName AS pc_colorName,
+                s.id AS s_id, s.name AS s_name, s.discountPercentage AS s_discountPercentage,
+                s.startDate AS s_startDate, s.endDate AS s_endDate,
+                ps.id AS ps_id
+            FROM products p
+            LEFT JOIN product_images pi ON p.id = pi.productId
+            LEFT JOIN categories c ON p.categoryId = c.id
+            LEFT JOIN brands b ON p.brandId = b.id
+            LEFT JOIN product_colors pc ON p.id = pc.productId
+            LEFT JOIN product_sales ps ON p.id = ps.productId
+            LEFT JOIN sales s ON ps.saleId = s.id 
+                AND NOW() BETWEEN s.startDate AND s.endDate
+                AND s.discountPercentage = (
+                    SELECT MAX(s2.discountPercentage)
+                    FROM product_sales ps2
+                    JOIN sales s2 ON ps2.saleId = s2.id
+                    WHERE ps2.productId = p.id
+                    AND NOW() BETWEEN s2.startDate AND s2.endDate
+                )
+            WHERE p.id = ?
+        """;
+
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+            .bind(0, productId)
+            .registerRowMapper(BeanMapper.factory(Product.class))
+            .registerRowMapper(BeanMapper.factory(ProductImage.class, "pi"))
+            .registerRowMapper(BeanMapper.factory(Category.class, "c"))
+            .registerRowMapper(BeanMapper.factory(Brand.class, "b"))
+            .registerRowMapper(BeanMapper.factory(ProductColor.class, "pc"))
+            .registerRowMapper(BeanMapper.factory(Sale.class, "s"))
+            .registerRowMapper(BeanMapper.factory(ProductSale.class, "ps"))
+            .reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
+                Product product = map.computeIfAbsent(
+                    row.getColumn("id", Integer.class),
+                    id -> row.getRow(Product.class)
+                );
+
+                if (row.getColumn("pi_id", Integer.class) != null) {
+                    ProductImage image = row.getRow(ProductImage.class);
+                    if (product.getImages().stream().noneMatch(img -> img.getId() == image.getId())) {
+                        product.addImage(image);
+                    }
+                }
+
+                if (row.getColumn("pc_id", Integer.class) != null) {
+                    ProductColor color = row.getRow(ProductColor.class);
+                    if (product.getColors().stream().noneMatch(cl -> cl.getId() == color.getId())) {
+                        product.addColor(color);
+                    }
+                }
+
+                if (row.getColumn("c_id", Integer.class) != null && product.getCategory() == null) {
+                    product.setCategory(row.getRow(Category.class));
+                }
+
+                if (row.getColumn("b_id", Integer.class) != null && product.getBrand() == null) {
+                    product.setBrand(row.getRow(Brand.class));
+                }
+
+                if (row.getColumn("s_id", Integer.class) != null) {
+                    Sale sale = row.getRow(Sale.class);
+                    ProductSale productSale = row.getRow(ProductSale.class);
+                    productSale.setSale(sale);
+                    product.setProductSale(productSale);
+                }
+
+                return map;
+            })
+            .values()
+            .stream()
+            .findFirst()
+            .orElse(null)
+        );
+    }
+
 }

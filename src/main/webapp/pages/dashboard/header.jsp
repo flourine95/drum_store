@@ -47,10 +47,12 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="${pageContext.request.contextPath}/logout" class="sidebar-link">
+            <a href="javascript:void(0)" onclick="logout()" class="sidebar-link">
                 <i class="bi bi-box-arrow-left"></i>
                 <span>Đăng xuất</span>
             </a>
+            <form id="logoutForm" action="${pageContext.request.contextPath}/logout" method="POST" style="display: none">
+            </form>
         </li>
     </ul>
 </aside>

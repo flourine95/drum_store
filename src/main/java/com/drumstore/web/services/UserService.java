@@ -2,6 +2,7 @@ package com.drumstore.web.services;
 
 
 import com.drumstore.web.models.User;
+import com.drumstore.web.models.UserAddress;
 import com.drumstore.web.repositories.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -57,5 +58,9 @@ public class UserService {
 
     public User login(String username, String password) {
        return userRepository.login(username, password);
+    }
+
+    public int createWithAddresses(User user, List<UserAddress> addresses) {
+        return userRepository.createWithAddresses(user, addresses);
     }
 }

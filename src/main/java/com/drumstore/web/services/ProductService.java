@@ -1,6 +1,7 @@
 package com.drumstore.web.services;
 
 import com.drumstore.web.models.Product;
+import com.drumstore.web.models.ProductSale;
 import com.drumstore.web.repositories.ProductRepository;
 
 import java.util.List;
@@ -62,5 +63,25 @@ public class ProductService {
 
     public List<Product> getRelatedProducts(int productId, int categoryId, int limit) {
         return productRepository.getRelatedProducts(productId, categoryId, limit);
+    }
+
+    public Product findWithDetailsAndSale(int id) {
+        Product product = productRepository.findWithDetails(id);
+        if (product != null) {
+            // Lấy thông tin sale nếu có
+            ProductSale sale = productRepository.getCurrentSale(id);
+            product.setProductSale(sale);
+
+        }
+        return product;
+    }
+
+    public List<Product> getRelatedProductsWithSale(int productId, int categoryId, int limit) {
+        List<Product> products = productRepository.getRelatedProducts(productId, categoryId, limit);
+        for (Product product : products) {
+            ProductSale sale = productRepository.getCurrentSale(product.getId());
+            product.setProductSale(sale);
+        }
+        return products;
     }
 }

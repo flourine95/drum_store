@@ -149,7 +149,23 @@
                                                     </c:if>
                                                 </div>
                                                 <p class="item-price" data-price="${item.product.salePrice}">
-                                                    <fmt:formatNumber value="${item.product.salePrice}" type="currency" currencySymbol="₫"/>
+                                                    <c:choose>
+                                                        <c:when test="${item.product.productSale != null}">
+                                                            <span class="text-danger">
+                                                                <fmt:formatNumber value="${item.product.salePrice}" type="currency" currencySymbol="₫"/>
+                                                            </span>
+                                                            <del class="text-muted ms-2">
+                                                                <fmt:formatNumber value="${item.product.price}" type="currency" currencySymbol="₫"/>
+                                                            </del>
+                                                            <span class="badge bg-danger ms-2">
+                                                                -<fmt:formatNumber value="${item.product.productSale.sale.discountPercentage}" 
+                                                                                maxFractionDigits="0"/>%
+                                                            </span>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <fmt:formatNumber value="${item.product.price}" type="currency" currencySymbol="₫"/>
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </p>
                                             </div>
                                             <div class="col-2">

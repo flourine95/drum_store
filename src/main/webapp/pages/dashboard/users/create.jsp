@@ -2,16 +2,19 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <form id="createUserForm" action="${pageContext.request.contextPath}/dashboard/users" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="${sessionScope.csrfToken}">
     <section class="row mb-3">
         <div class="col-md-4">
             <div class="text-center">
-                <img id="avatarPreview" src="/images/default-avatar.jpg"
+                <img id="avatarPreview" 
+                     src="${pageContext.request.contextPath}/assets/images/data/${user.avatar != null ? user.avatar : 'default-avatar.jpg'}"
                      alt="Avatar Preview"
                      class="img-fluid rounded-circle user-avatar mb-2">
                 <div class="mb-3">
                     <label for="avatarInput" class="form-label fw-bold">Ảnh đại diện:</label>
                     <input type="file" class="form-control" id="avatarInput" name="avatar"
                            accept="image/*" onchange="previewImage(this)">
+                    <small class="text-muted">Tối đa 10MB. Chỉ chấp nhận file ảnh.</small>
                 </div>
             </div>
         </div>
@@ -39,12 +42,19 @@
                 </div>
 
                 <div class="col-md-6 mb-2">
+                    <label class="form-label fw-bold">Quyền:</label>
+                    <select name="role" id="role" class="form-select" required>
+                        <option value="0">User</option>
+                        <option value="1">Admin</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-2">
                     <label class="form-label fw-bold">Trạng thái:</label>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="statusToggle"
-                               name="status" value="1" checked>
-                        <label class="form-check-label" for="statusToggle">Hoạt động</label>
-                    </div>
+                    <select name="status" id="status" class="form-select" required>
+                        <option value="1">Hoạt động</option>
+                        <option value="0">Khóa</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -64,6 +74,24 @@
                     <div class="col-md-4 mb-2">
                         <label class="form-label">Số điện thoại:</label>
                         <input type="tel" id="newPhone" class="form-control">
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="form-label">Tỉnh/Thành phố:</label>
+                        <select class="form-select" id="newProvinceId">
+                            <option value="">Chọn tỉnh/thành phố</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="form-label">Quận/Huyện:</label>
+                        <select class="form-select" id="newDistrictId">
+                            <option value="">Chọn quận/huyện</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="form-label">Phường/Xã:</label>
+                        <select class="form-select" id="newWardId">
+                            <option value="">Chọn phường/xã</option>
+                        </select>
                     </div>
                     <div class="col-md-2 mb-2">
                         <label class="form-label">Mặc định:</label>
@@ -137,109 +165,4 @@
     }
 </style>
 
-<script>
-    // Mảng lưu trữ danh sách địa chỉ
-    let addresses = [];
-
-    function previewImage(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('avatarPreview').src = e.target.result;
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    function addNewAddress() {
-        const addressInput = document.getElementById('newAddress');
-        const phoneInput = document.getElementById('newPhone');
-        const isDefaultInput = document.getElementById('newIsDefault');
-
-        // Validation
-        if (!addressInput.value.trim() || !phoneInput.value.trim()) {
-            alert('Vui lòng nhập đầy đủ địa chỉ và số điện thoại');
-            return;
-        }
-
-        // Nếu đánh dấu là địa chỉ mặc định, bỏ đánh dấu các địa chỉ khác
-        if (isDefaultInput.checked) {
-            addresses.forEach(addr => addr.isDefault = false);
-        }
-
-        // Thêm địa chỉ mới vào mảng
-        const newAddress = {
-            address: addressInput.value.trim(),
-            phone: phoneInput.value.trim(),
-            isDefault: isDefaultInput.checked
-        };
-        addresses.push(newAddress);
-
-        // Cập nhật giao diện
-        renderAddresses();
-
-        // Reset form
-        addressInput.value = '';
-        phoneInput.value = '';
-        isDefaultInput.checked = false;
-    }
-
-    function renderAddresses() {
-        const container = document.getElementById('addressesContainer');
-        container.innerHTML = '';
-
-        addresses.forEach((addr, index) => {
-            const addressElement = document.createElement('div');
-            addressElement.className = 'list-group-item address-item';
-            addressElement.innerHTML = `
-                <div class="address-info">
-                    <strong>${addr.address}</strong> - ${addr.phone}
-                    ${addr.isDefault ? '<span class="default-badge">Mặc định</span>' : ''}
-                </div>
-                <div class="address-actions">
-                    ${!addr.isDefault ? `
-                        <button type="button" class="btn btn-sm btn-success"
-                                onclick="setDefaultAddress(${index})">
-                            Đặt mặc định
-                        </button>
-                    ` : ''}
-                    <button type="button" class="btn btn-sm btn-danger"
-                            onclick="removeAddress(${index})">
-                        Xóa
-                    </button>
-                </div>
-            `;
-            container.appendChild(addressElement);
-        });
-
-        // Cập nhật hidden input với dữ liệu JSON
-        document.getElementById('addressesJson').value = JSON.stringify(addresses);
-    }
-
-    function setDefaultAddress(index) {
-        addresses.forEach(addr => addr.isDefault = false);
-        addresses[index].isDefault = true;
-        renderAddresses();
-    }
-
-    function removeAddress(index) {
-        addresses.splice(index, 1);
-        renderAddresses();
-    }
-
-    // Xử lý submit form
-    document.getElementById('createUserForm').addEventListener('submit', function(e) {
-        if (addresses.length === 0) {
-            e.preventDefault();
-            alert('Vui lòng thêm ít nhất một địa chỉ');
-            return;
-        }
-
-        // Kiểm tra có ít nhất một địa chỉ mặc định
-        if (!addresses.some(addr => addr.isDefault)) {
-            e.preventDefault();
-            alert('Vui lòng chọn một địa chỉ mặc định');
-            return;
-        }
-    });
-</script>
+<script src="${pageContext.request.contextPath}/assets/js/user-manager.js"></script>
