@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/account/*")
-//test
 public class AccountController extends HttpServlet {
     @Override
     public void init() throws ServletException {

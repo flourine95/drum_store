@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @WebFilter("/dashboard/*")
 public class DashboardFilter implements Filter {
-//test
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // Khởi tạo filter nếu cần
