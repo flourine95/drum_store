@@ -63,4 +63,7 @@ public class UserService {
     public int createWithAddresses(User user, List<UserAddress> addresses) {
         return userRepository.createWithAddresses(user, addresses);
     }
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

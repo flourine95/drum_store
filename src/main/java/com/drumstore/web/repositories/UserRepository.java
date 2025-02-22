@@ -15,8 +15,8 @@ public class UserRepository extends BaseRepository<User> {
 
     public int save(User user) {
         String query = """
-                INSERT INTO users (email, password, fullname, phone, role, status, avatar, createdAt)
-                VALUES (:email, :password, :fullname, :phone, :role, :status, :avatar, CURRENT_TIMESTAMP)
+                INSERT INTO users (email, password, fullname, role, status, avatar, createdAt)
+                VALUES (:email, :password, :fullname, :role, :status, :avatar, CURRENT_TIMESTAMP)
                 """;
         return super.save(query, user);
     }
@@ -146,5 +146,16 @@ public class UserRepository extends BaseRepository<User> {
                 return userId;
             });
         });
+    }
+
+    public User findByEmail(String email) {
+        String query = "SELECT * FROM users WHERE email = ? AND status = 1";
+        return jdbi.withHandle(handle ->
+                handle.createQuery(query)
+                        .bind(0, email)
+                        .mapToBean(User.class)
+                        .findFirst()
+                        .orElse(null)
+        );
     }
 }

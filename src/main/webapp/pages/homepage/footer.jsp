@@ -7,7 +7,7 @@
         <div class="col-12 col-md-3 mb-4 mb-md-0">
           <h5 class="text-uppercase">Thông tin Drum Store</h5>
           <ul class="list-unstyled">
-            <li><a href="pages/about.html" class="text-white">Giới thiệu công ty</a></li>
+            <li><a href="${pageContext.request.contextPath}/about" class="text-white">Giới thiệu công ty</a></li>
 
           </ul>
         </div>
@@ -48,15 +48,15 @@
 
           <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
           <ul class="list-unstyled">
-            <li><img src="../../assets/images/helpers/visa.png" alt="Phương thức thanh toán"
+            <li><img src="${pageContext.request.contextPath}/assets/images/helpers/visa.png" alt="Phương thức thanh toán"
                      class="img-fluid"/>
             </li>
           </ul>
 
           <h5 class="text-uppercase mt-4">Chứng nhận</h5>
           <ul class="list-unstyled">
-            <li><img src="../../assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid"/></li>
-            <li><img src="../../assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid"/></li>
+            <li><img src="${pageContext.request.contextPath}/assets/images/dcma/chungnhan.png" alt="Chứng nhận" class="img-fluid"/></li>
+            <li><img src="${pageContext.request.contextPath}/assets/images/dcma/dmca.png" alt="Chứng nhận" class="img-fluid"/></li>
           </ul>
         </div>
       </div>

@@ -6,4 +6,8 @@
     <listener>
         <listener-class>com.drumstore.web.listeners.MySQLCleanupListener</listener-class>
     </listener>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/assets/*</url-pattern>
+    </servlet-mapping>
 </web-app>
