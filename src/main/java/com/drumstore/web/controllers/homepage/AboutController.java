@@ -10,7 +10,6 @@ import java.io.IOException;
 
 @WebServlet("/about")
 public class AboutController extends HttpServlet {
-//  test commit
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
