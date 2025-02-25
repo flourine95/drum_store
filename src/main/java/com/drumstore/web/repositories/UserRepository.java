@@ -77,8 +77,8 @@ public class UserRepository extends BaseRepository<User> {
 
     public boolean register(User user) {
         String query = """
-                INSERT INTO users (email, password, fullname, phone, role, status, createdAt)
-                VALUES (:email, :password, :fullname, :phone, :role, 1, CURRENT_TIMESTAMP)
+                INSERT INTO users (email, password, fullname, role, status, createdAt)
+                VALUES (:email, :password, :fullname, :role, 1, CURRENT_TIMESTAMP)
                 """;
         return super.save(query, user) > 0;
     }
@@ -95,7 +95,7 @@ public class UserRepository extends BaseRepository<User> {
 
     public User login(String username, String password) {
         String query = """
-                SELECT * FROM users WHERE (phone = :username OR email = :username) AND status = 1
+                SELECT * FROM users WHERE (email = :username) AND status = 1
                 """;
         User user = jdbi.withHandle(handle ->
                 handle.createQuery(query)
