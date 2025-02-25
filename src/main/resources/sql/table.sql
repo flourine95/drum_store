@@ -78,6 +78,7 @@ CREATE TABLE user_addresses
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
     userId     INT,
+    fullname   VARCHAR(100),
     address    TEXT,
     phone      VARCHAR(25),
     provinceId INT,

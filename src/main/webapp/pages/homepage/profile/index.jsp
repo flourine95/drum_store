@@ -59,7 +59,7 @@
                         <strong>Họ và tên</strong>
                     </div>
                     <div class="col-md-8">
-                        Nguyễn Hữu Nam
+                        ${user.fullname}
                     </div>
                 </div>
             </div>
@@ -69,29 +69,7 @@
                         <strong>Email</strong>
                     </div>
                     <div class="col-md-8">
-                        kiyosiakira@gmail.com
-                    </div>
-                </div>
-            </div>
-            <div class="info-item">
-                <div class="row align-items-center">
-                    <div class="col-md-4">
-                        <strong>Điện thoại</strong>
-                    </div>
-                    <div class="col-md-8">
-                        0375174172
-                    </div>
-                </div>
-            </div>
-            <div class="info-item">
-                <div class="row align-items-center">
-                    <div class="col-md-4">
-                        <strong>Địa chỉ</strong>
-                    </div>
-                    <div class="col-md-8">
-                        <address class="mb-0">
-                            123 Đường ABC, Phường XYZ, Quận 1, TP.HCM
-                        </address>
+                        ${user.email}
                     </div>
                 </div>
             </div>
