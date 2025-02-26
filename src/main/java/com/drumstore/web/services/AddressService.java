@@ -11,4 +11,20 @@ public class AddressService {
     public List<AddressDTO> getAddressesByUserId(int userId) {
         return addressRepository.getAddressesByUserId(userId);
     }
+
+    public boolean addAddress(AddressDTO addressDTO) {
+        return addressRepository.addAddress(addressDTO);
+    }
+
+    public boolean updateAddress(AddressDTO addressDTO) {
+        return addressRepository.updateAddress(addressDTO);
+    }
+
+    public boolean deleteAddress(int addressId, int id) {
+        return addressRepository.deleteAddress(addressId, id);
+    }
+
+    public AddressDTO getAddressById(int addressId) {
+        return addressRepository.getAddressById(addressId);
+    }
 }
