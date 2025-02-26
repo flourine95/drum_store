@@ -16,7 +16,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.jdbi.v3.core.Jdbi;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/location")
 public class LocationController extends HttpServlet {
@@ -49,7 +51,40 @@ public class LocationController extends HttpServlet {
             case "provinces" -> handleGetProvinces(response);
             case "districts" -> handleGetDistricts(request, response);
             case "wards" -> handleGetWards(request, response);
+            case "full_location" -> handleGetFullLocation(request, response); // Thêm action mới
             default -> response.sendError(HttpServletResponse.SC_NOT_FOUND, "Action not found");
+        }
+    }
+
+    private void handleGetFullLocation(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            String provinceIdParam = request.getParameter("provinceId");
+            String districtIdParam = request.getParameter("districtId");
+
+            if (provinceIdParam == null || districtIdParam == null) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "provinceId and districtId are required");
+                return;
+            }
+
+            int provinceId = Integer.parseInt(provinceIdParam);
+            int districtId = Integer.parseInt(districtIdParam);
+
+            // Lấy tất cả dữ liệu cần thiết
+            List<Province> provinces = locationService.getAllProvinces();
+            List<District> districts = locationService.getDistrictsByProvinceId(provinceId);
+            List<Ward> wards = locationService.getWardsByDistrictId(districtId);
+
+            // Tạo object chứa tất cả dữ liệu
+            Map<String, Object> fullLocation = new HashMap<>();
+            fullLocation.put("provinces", provinces);
+            fullLocation.put("districts", districts);
+            fullLocation.put("wards", wards);
+
+            writeResponse(response, fullLocation);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID format");
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error loading location data");
         }
     }
 
