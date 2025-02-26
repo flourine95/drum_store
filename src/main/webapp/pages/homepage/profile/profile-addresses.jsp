@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <style>
     .select2-container {
@@ -43,47 +43,47 @@
     }
 
     .form-check-input {
-    width: 1.2em;
-    height: 1.2em;
-    margin-top: 0.25em;
-    border: 2px solid rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+        width: 1.2em;
+        height: 1.2em;
+        margin-top: 0.25em;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
 
-.form-check-input:checked {
-    background-color: var(--bs-primary) !important;
-    border-color: var(--bs-primary) !important;
-}
+    .form-check-input:checked {
+        background-color: var(--bs-primary) !important;
+        border-color: var(--bs-primary) !important;
+    }
 
-.form-check-input:focus {
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 0.2rem rgba(253, 0, 0, 0.25);
-}
+    .form-check-input:focus {
+        border-color: var(--bs-primary);
+        box-shadow: 0 0 0 0.2rem rgba(253, 0, 0, 0.25);
+    }
 
-.form-check-input:hover {
-    border-color: var(--bs-primary);
-}
+    .form-check-input:hover {
+        border-color: var(--bs-primary);
+    }
 
-.form-check-label {
-    cursor: pointer;
-    user-select: none;
-    padding-left: 0.5rem;
-    color: var(--text-color);
-}
+    .form-check-label {
+        cursor: pointer;
+        user-select: none;
+        padding-left: 0.5rem;
+        color: var(--text-color);
+    }
 
-/* Custom checkbox container */
-.form-check {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
+    /* Custom checkbox container */
+    .form-check {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
 
-.form-check:hover {
-    background-color: rgba(253, 0, 0, 0.05);
-}
+    .form-check:hover {
+        background-color: rgba(253, 0, 0, 0.05);
+    }
 
     .address-card {
         background: var(--text-white);
@@ -190,56 +190,54 @@
         </div>
 
         <div class="card-body p-4">
+
             <!-- Form thêm địa chỉ mới -->
             <div id="add-address-form" class="address-form" style="display: none;">
                 <form id="addressForm">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Họ và tên</label>
-                            <input type="text" class="form-control" name="fullname" placeholder="Nhập họ và tên" required>
+                            <input type="text" class="form-control" name="add_fullname" placeholder="Nhập họ và tên"
+                                   required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Số điện thoại</label>
-                            <input type="tel" class="form-control" name="phone" placeholder="Nhập số điện thoại" required>
+                            <input type="tel" class="form-control" name="add_phone" placeholder="Nhập số điện thoại"
+                                   required>
                         </div>
 
-                        <!-- Thêm select tỉnh/thành -->
                         <div class="col-md-4">
                             <label class="form-label">Tỉnh/Thành phố</label>
-                            <select class="form-select" id="provinceSelect" name="provinceId" required>
+                            <select class="form-select" id="add_provinceSelect" name="add_provinceId" required>
                                 <option value="">Chọn Tỉnh/Thành phố</option>
                             </select>
                         </div>
 
-                        <!-- Thêm select quận/huyện -->
                         <div class="col-md-4">
                             <label class="form-label">Quận/Huyện</label>
-                            <select class="form-select" id="districtSelect" name="districtId" required disabled>
+                            <select class="form-select" id="add_districtSelect" name="add_districtId" required disabled>
                                 <option value="">Chọn Quận/Huyện</option>
                             </select>
                         </div>
 
-                        <!-- Thêm select phường/xã -->
                         <div class="col-md-4">
                             <label class="form-label">Phường/Xã</label>
-                            <select class="form-select" id="wardSelect" name="wardId" required disabled>
+                            <select class="form-select" id="add_wardSelect" name="add_wardId" required disabled>
                                 <option value="">Chọn Phường/Xã</option>
                             </select>
                         </div>
 
                         <div class="col-12">
                             <label class="form-label">Địa chỉ chi tiết</label>
-                            <input type="text" class="form-control" name="addressDetail"
+                            <input type="text" class="form-control" name="add_addressDetail"
                                    placeholder="Số nhà, tên đường, khu vực" required>
                         </div>
 
                         <div class="col-12">
                             <div class="form-check">
-                                <input type="checkbox"
-                                       class="form-check-input"
-                                       id="defaultAddress"
-                                       name="isDefault">
-                                <label class="form-check-label" for="defaultAddress">
+                                <input type="checkbox" class="form-check-input" id="add_defaultAddress"
+                                       name="add_isDefault">
+                                <label class="form-check-label" for="add_defaultAddress">
                                     Đặt làm địa chỉ mặc định
                                 </label>
                             </div>
@@ -254,12 +252,74 @@
                 </form>
             </div>
 
+            <!-- Form chỉnh sửa địa chỉ -->
+            <div id="edit-address-form" class="address-form" style="display: none;">
+                <form id="editAddressForm">
+                    <input type="hidden" name="edit_addressId" id="editAddressId">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Họ và tên</label>
+                            <input type="text" class="form-control" name="edit_fullname" id="editFullname" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Số điện thoại</label>
+                            <input type="tel" class="form-control" name="edit_phone" id="editPhone" required>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Tỉnh/Thành phố</label>
+                            <select class="form-select" id="edit_provinceSelect" name="edit_provinceId" required>
+                                <option value="">Chọn Tỉnh/Thành phố</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Quận/Huyện</label>
+                            <select class="form-select" id="edit_districtSelect" name="edit_districtId" required>
+                                <option value="">Chọn Quận/Huyện</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Phường/Xã</label>
+                            <select class="form-select" id="edit_wardSelect" name="edit_wardId" required>
+                                <option value="">Chọn Phường/Xã</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Địa chỉ chi tiết</label>
+                            <input type="text" class="form-control" name="edit_addressDetail" id="editAddressDetail"
+                                   required>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="edit_defaultAddress"
+                                       name="edit_isDefault">
+                                <label class="form-check-label" for="edit_defaultAddress">
+                                    Đặt làm địa chỉ mặc định
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-address btn-add">
+                                <i class="bi bi-check-circle me-2"></i>Cập nhật địa chỉ
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="closeEditForm()">
+                                <i class="bi bi-x-circle me-2"></i>Hủy
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
             <!-- Danh sách địa chỉ -->
             <div class="row g-4">
                 <c:forEach var="address" items="${addresses}">
                     <div class="col-md-6">
-                        <div class="address-item">
+                        <div class="address-item" data-address-id="${address.id}">
                             <div class="address-header d-flex justify-content-between align-items-center">
                                 <div>
                                     <span class="fw-bold">${address.fullname}</span>
@@ -268,10 +328,10 @@
                                     </c:if>
                                 </div>
                                 <div>
-                                    <button class="btn btn-address btn-edit me-2">
+                                    <button class="btn btn-address btn-edit me-2" data-address-id="${address.id}">
                                         <i class="bi bi-pencil"></i>
                                     </button>
-                                    <button class="btn btn-address btn-delete">
+                                    <button class="btn btn-address btn-delete" data-address-id="${address.id}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -279,11 +339,11 @@
                             <div class="address-content">
                                 <p class="mb-2">
                                     <i class="bi bi-geo-alt me-2"></i>
-                                    ${address.address}
+                                        ${address.address}
                                 </p>
                                 <p class="mb-0">
                                     <i class="bi bi-telephone me-2"></i>
-                                    ${address.phone}
+                                        ${address.phone}
                                 </p>
                             </div>
                         </div>
@@ -318,96 +378,214 @@
     });
 </script>
 <script>
-    $(document).ready(function() {
-        // Khởi tạo select2
-        $('#provinceSelect, #districtSelect, #wardSelect').select2({
+    $(document).ready(function () {
+        $('#add_provinceSelect, #add_districtSelect, #add_wardSelect, #edit_provinceSelect, #edit_districtSelect, #edit_wardSelect').select2({
             placeholder: 'Chọn...',
             allowClear: true,
             width: '100%'
         });
 
-        // Load tỉnh/thành phố
-        function loadProvinces() {
-            $.get('${pageContext.request.contextPath}/location?action=provinces', function(data) {
-                $('#provinceSelect').empty().append('<option value="">Chọn Tỉnh/Thành phố</option>');
-                data.forEach(function(province) {
-                    $('#provinceSelect').append(new Option(province.name, province.id));
+        // Load provinces cho cả 2 form
+        function loadProvinces(selector) {
+            $.get('${pageContext.request.contextPath}/location?action=provinces', function (data) {
+                $(selector).empty().append('<option value="">Chọn Tỉnh/Thành phố</option>');
+                data.forEach(function (province) {
+                    $(selector).append(new Option(province.name, province.id));
                 });
             });
         }
 
-        // Load quận/huyện theo tỉnh
-        function loadDistricts(provinceId) {
+        // Load districts
+        function loadDistricts(provinceId, selector) {
             if (!provinceId) {
-                $('#districtSelect').empty().append('<option value="">Chọn Quận/Huyện</option>').prop('disabled', true);
-                $('#wardSelect').empty().append('<option value="">Chọn Phường/Xã</option>').prop('disabled', true);
+                $(selector).empty()
+                    .append('<option value="">Chọn Quận/Huyện</option>')
+                    .prop('disabled', true)
+                    .trigger('change.select2');
                 return;
             }
 
             $.get('${pageContext.request.contextPath}/location', {
                 action: 'districts',
                 provinceId: provinceId
-            }, function(data) {
-                $('#districtSelect').empty().append('<option value="">Chọn Quận/Huyện</option>').prop('disabled', false);
-                data.forEach(function(district) {
-                    $('#districtSelect').append(new Option(district.name, district.id));
+            })
+                .done(function(districts) {
+                    const $select = $(selector);
+                    $select.empty().append('<option value="">Chọn Quận/Huyện</option>');
+                    districts.forEach(function(district) {
+                        $select.append(new Option(district.name, district.id));
+                    });
+                    $select.prop('disabled', false).trigger('change.select2');
                 });
-            });
         }
 
-        // Load phường/xã theo quận/huyện
-        function loadWards(districtId) {
+// Hàm load wards
+        function loadWards(districtId, selector) {
             if (!districtId) {
-                $('#wardSelect').empty().append('<option value="">Chọn Phường/Xã</option>').prop('disabled', true);
+                $(selector).empty()
+                    .append('<option value="">Chọn Phường/Xã</option>')
+                    .prop('disabled', true)
+                    .trigger('change.select2');
                 return;
             }
 
             $.get('${pageContext.request.contextPath}/location', {
                 action: 'wards',
                 districtId: districtId
-            }, function(data) {
-                $('#wardSelect').empty().append('<option value="">Chọn Phường/Xã</option>').prop('disabled', false);
-                data.forEach(function(ward) {
-                    $('#wardSelect').append(new Option(ward.name, ward.id));
+            })
+                .done(function(wards) {
+                    const $select = $(selector);
+                    $select.empty().append('<option value="">Chọn Phường/Xã</option>');
+                    wards.forEach(function(ward) {
+                        $select.append(new Option(ward.name, ward.id));
+                    });
+                    $select.prop('disabled', false).trigger('change.select2');
                 });
-            });
         }
 
-        // Event handlers
-        $('#provinceSelect').on('change', function() {
-            loadDistricts($(this).val());
-            $('#wardSelect').empty().append('<option value="">Chọn Phường/Xã</option>').prop('disabled', true);
+        // Load initial provinces
+        loadProvinces('#add_provinceSelect');
+        loadProvinces('#edit_provinceSelect');
+
+        // Event handlers for add form
+        $('#add_provinceSelect').on('change', function () {
+            loadDistricts($(this).val(), '#add_districtSelect');
+            $('#add_wardSelect').empty().append('<option value="">Chọn Phường/Xã</option>').prop('disabled', true);
         });
 
-        $('#districtSelect').on('change', function() {
-            loadWards($(this).val());
+        $('#add_districtSelect').on('change', function () {
+            loadWards($(this).val(), '#add_wardSelect');
         });
 
-        // Form submit handler
-        $('#addressForm').on('submit', function(e) {
+        // Event handlers for edit form
+        $('#edit_provinceSelect').on('change', function() {
+            const provinceId = $(this).val();
+            loadDistricts(provinceId, '#edit_districtSelect');
+            $('#edit_wardSelect').empty()
+                .append('<option value="">Chọn Phường/Xã</option>')
+                .prop('disabled', true)
+                .trigger('change.select2');
+        });
+
+        $('#edit_districtSelect').on('change', function() {
+            const districtId = $(this).val();
+            loadWards(districtId, '#edit_wardSelect');
+        });
+
+        // Sửa lại phần xử lý click edit button
+        $('.btn-edit').click(function() {
+            const addressId = $(this).closest('.address-item').data('address-id');
+
+            // Hiển thị loading
+            $('#edit-address-form').slideDown(300);
+            $('#add-address-form').slideUp(300);
+
+            // Load thông tin địa chỉ
+            $.ajax({
+                url: '${pageContext.request.contextPath}/profile',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    action: 'get_address',
+                    data: { addressId: addressId }
+                }),
+                success: function(data) {
+                    // Fill thông tin cơ bản ngay lập tức
+                    $('#editAddressId').val(data.id);
+                    $('input[name="edit_fullname"]').val(data.fullname);
+                    $('input[name="edit_phone"]').val(data.address);
+                    $('input[name="edit_addressDetail"]').val(data.address);
+                    $('#edit_defaultAddress').prop('checked', data.isDefault);
+
+                    // Tạm thời off các event handlers
+                    $('#edit_provinceSelect').off('change');
+                    $('#edit_districtSelect').off('change');
+                    $('#edit_wardSelect').off('change');
+
+                    // Load tất cả dữ liệu địa chỉ trong một request
+                    $.get('${pageContext.request.contextPath}/location', {
+                        action: 'full_location',
+                        provinceId: data.provinceId,
+                        districtId: data.districtId
+                    })
+                        .done(function(locationData) {
+                            // Fill provinces
+                            $('#edit_provinceSelect').empty()
+                                .append('<option value="">Chọn Tỉnh/Thành phố</option>');
+                            locationData.provinces.forEach(province => {
+                                $('#edit_provinceSelect').append(new Option(province.name, province.id));
+                            });
+
+                            // Fill districts
+                            $('#edit_districtSelect').empty()
+                                .append('<option value="">Chọn Quận/Huyện</option>')
+                                .prop('disabled', false);
+                            locationData.districts.forEach(district => {
+                                $('#edit_districtSelect').append(new Option(district.name, district.id));
+                            });
+
+                            // Fill wards
+                            $('#edit_wardSelect').empty()
+                                .append('<option value="">Chọn Phường/Xã</option>')
+                                .prop('disabled', false);
+                            locationData.wards.forEach(ward => {
+                                $('#edit_wardSelect').append(new Option(ward.name, ward.id));
+                            });
+
+                            // Set selected values
+                            $('#edit_provinceSelect').val(data.provinceId).trigger('change.select2');
+
+                            // Đợi districts load xong
+                            setTimeout(() => {
+                                $('#edit_districtSelect').val(data.districtId).trigger('change.select2');
+
+                                // Đợi wards load xong
+                                setTimeout(() => {
+                                    $('#edit_wardSelect').val(data.wardId).trigger('change.select2');
+                                }, 300);
+                            }, 300);
+
+                            // Gắn lại event handlers
+                            $('#edit_provinceSelect').off('change').on('change', function() {
+                                const provinceId = $(this).val();
+                                loadDistricts(provinceId, '#edit_districtSelect');
+                                $('#edit_wardSelect').empty()
+                                    .append('<option value="">Chọn Phường/Xã</option>')
+                                    .prop('disabled', true)
+                                    .trigger('change.select2');
+                            });
+
+                            $('#edit_districtSelect').off('change').on('change', function() {
+                                const districtId = $(this).val();
+                                loadWards(districtId, '#edit_wardSelect');
+                            });
+                        })
+                        .fail(function(xhr, status, error) {
+                            console.error('Error loading location data:', error);
+                            alert('Có lỗi xảy ra khi tải dữ liệu địa chỉ');
+                        });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Không thể tải thông tin địa chỉ');
+                }
+            });
+        });
+
+        // Xử lý thêm địa chỉ mới
+        $('#addressForm').submit(function (e) {
             e.preventDefault();
 
-            // Tạo địa chỉ đầy đủ
-            const province = $('#provinceSelect option:selected').text();
-            const district = $('#districtSelect option:selected').text();
-            const ward = $('#wardSelect option:selected').text();
-            const addressDetail = $('input[name="addressDetail"]').val();
-
-            const fullAddress = `${addressDetail}, ${ward}, ${district}, ${province}`;
-
-            // Tạo object data để gửi lên server
             const formData = {
-                fullname: $('input[name="fullname"]').val(),
-                phone: $('input[name="phone"]').val(),
-                provinceId: $('#provinceSelect').val(),
-                districtId: $('#districtSelect').val(),
-                wardId: $('#wardSelect').val(),
-                addressDetail: addressDetail,
-                fullAddress: fullAddress,
-                isDefault: $('#defaultAddress').is(':checked')
+                fullname: $('input[name="add_fullname"]').val(),
+                phone: $('input[name="add_phone"]').val(),
+                provinceId: $('#add_provinceSelect').val(),
+                districtId: $('#add_districtSelect').val(),
+                wardId: $('#add_wardSelect').val(),
+                addressDetail: $('input[name="add_addressDetail"]').val(),
+                isDefault: $('#add_defaultAddress').is(':checked')
             };
 
-            // Gửi request tạo địa chỉ mới
             $.ajax({
                 url: '${pageContext.request.contextPath}/profile',
                 type: 'POST',
@@ -416,21 +594,93 @@
                     action: 'add_address',
                     data: formData
                 }),
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
-                        // Reload trang hoặc thêm địa chỉ mới vào danh sách
                         location.reload();
                     } else {
                         alert(response.message);
                     }
                 },
-                error: function() {
-                    alert('Có lỗi xảy ra. Vui lòng thử lại.');
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi thêm địa chỉ');
                 }
             });
         });
 
-        // Load provinces khi trang được load
-        loadProvinces();
+        // Xử lý chỉnh sửa địa chỉ
+        $('#editAddressForm').submit(function (e) {
+            e.preventDefault();
+
+            const formData = {
+                id: $('#editAddressId').val(),
+                fullname: $('input[name="edit_fullname"]').val(),
+                phone: $('input[name="edit_phone"]').val(),
+                provinceId: $('#edit_provinceSelect').val(),
+                districtId: $('#edit_districtSelect').val(),
+                wardId: $('#edit_wardSelect').val(),
+                addressDetail: $('input[name="edit_addressDetail"]').val(),
+                isDefault: $('#edit_defaultAddress').is(':checked')
+            };
+
+            $.ajax({
+                url: '${pageContext.request.contextPath}/profile',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    action: 'update_address',
+                    data: formData
+                }),
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi cập nhật địa chỉ');
+                }
+            });
+        });
+
+        // Xử lý xóa địa chỉ
+        $('.btn-delete').click(function () {
+            if (!confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
+                return;
+            }
+
+            const addressItem = $(this).closest('.address-item');
+            const addressId = addressItem.data('address-id');
+            console.log('Deleting address:', addressId);
+
+            $.ajax({
+                url: '${pageContext.request.contextPath}/profile',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    action: 'delete_address',
+                    addressId: addressId
+                }),
+                success: function (response) {
+                    if (response.success) {
+                        addressItem.closest('.col-md-6').fadeOut(300, function () {
+                            $(this).remove();
+                        });
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi xóa địa chỉ');
+                }
+            });
+        });
     });
+
+    function closeEditForm() {
+        $('#edit-address-form').slideUp(300);
+    }
 </script>
