@@ -3,12 +3,21 @@ package com.drumstore.web.dto;
 public class AddressDTO {
     private int id;
     private int userId;
+    private String fullname;
     private String address;
     private String phone;
     private int provinceId;
     private int districtId;
     private int wardId;
     private boolean isDefault;
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 
     public int getId() {
         return id;
@@ -79,6 +88,7 @@ public class AddressDTO {
         return "AddressDTO{" +
                 "id=" + id +
                 ", userId=" + userId +
+                ", fullname='" + fullname + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", provinceId=" + provinceId +
