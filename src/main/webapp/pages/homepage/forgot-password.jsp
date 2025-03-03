@@ -1,98 +1,53 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<style>
-    .container-fluid {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 50.5vh;
-        margin: 0;
-        background: #f0f2f5;
-    }
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!DOCTYPE html>
 
-    .container.forgot-password {
-        background: white;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 400px;
+<div class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h3 class="card-title text-center mb-4">Forgot Password</h3>
+                        
+                        <c:if test="${not empty message}">
+                            <div class="alert alert-success" role="alert">
+                                ${message}
+                            </div>
+                        </c:if>
+                        
+                        <c:if test="${not empty error}">
+                            <div class="alert alert-danger" role="alert">
+                                ${error}
+                            </div>
+                        </c:if>
 
-        transition: all 0.3s ease;
-    }
-    h2 {
-        color: #333;
-        margin: 0 0 1.5rem;
-        text-align: center;
-    }
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-    label {
-        display: block;
-        color: #555;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-    }
-    input {
-        width: 100%;
-        padding: 0.8rem;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-sizing: border-box;
-        font-size: 1rem;
-    }
-    input:focus {
-        outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-    }
-    .button {
-        width: 100%;
-        padding: 0.8rem;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-    .button:hover {
-        background: #0056b3;
-    }
-    .message {
-        text-align: center;
-        color: #28a745;
-        margin: 1rem 0;
-    }
-    .hidden {
-        display: none;
-    }
-</style>
-<div class="container-fluid">
-    <div class="container forgot-password" id="step1">
-        <h2>Đặt lại mật khẩu</h2>
-        <form id="emailForm" onsubmit="nextStep(); return false;">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Nhập email của bạn" required>
+                        <form action="${pageContext.request.contextPath}/forgot-password2" method="post">
+                            <input type="hidden" name="action" value="request">
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email address</label>
+                                <input type="email" 
+                                       class="form-control" 
+                                       id="email" 
+                                       name="email" 
+                                       required
+                                       placeholder="Enter your email">
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    Reset Password
+                                </button>
+                                <a href="${pageContext.request.contextPath}/login" 
+                                   class="btn btn-link text-decoration-none">
+                                    Back to Login
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="button">Gửi mã OTP</button>
-        </form>
-    </div>
-
-    <div class="container hidden" id="step2">
-        <h2>Xác nhận OTP</h2>
-        <div class="message">
-            Mã OTP đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư!
         </div>
-        <form id="otpForm" onsubmit="verifyOtp(); return false;">
-            <div class="form-group">
-                <label for="otp">Mã OTP</label>
-                <input type="text" id="otp" name="otp" placeholder="Nhập mã OTP" required>
-            </div>
-            <button type="submit" class="button">Xác nhận</button>
-        </form>
-        <div id="passwordResult" class="message hidden"></div>
     </div>
 </div>
