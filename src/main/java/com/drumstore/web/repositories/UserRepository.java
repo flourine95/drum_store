@@ -7,6 +7,7 @@ import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -156,6 +157,79 @@ public class UserRepository extends BaseRepository<User> {
                         .mapToBean(User.class)
                         .findFirst()
                         .orElse(null)
+        );
+    }
+
+    public void saveResetToken(int userId, String token, LocalDateTime expiryTime) {
+        String sql = """
+                INSERT INTO password_resets 
+                (userId, token, expiryTime, createdAt) 
+                VALUES (:userId, :token, :expiryTime, CURRENT_TIMESTAMP)
+                """;
+        jdbi.useHandle(handle -> 
+            handle.createUpdate(sql)
+                .bind("userId", userId)
+                .bind("token", token)
+                .bind("expiryTime", expiryTime)
+                .execute()
+        );
+    }
+
+    public User findByResetToken(String token) {
+        String sql = """
+                SELECT u.* FROM users u 
+                JOIN password_resets pr ON u.id = pr.userId 
+                WHERE pr.token = :token 
+                AND pr.used = 0
+                """;
+        return jdbi.withHandle(handle ->
+            handle.createQuery(sql)
+                .bind("token", token)
+                .mapToBean(User.class)
+                .findFirst()
+                .orElse(null)
+        );
+    }
+
+    public boolean isResetTokenValid(String token) {
+        String sql = """
+                SELECT COUNT(*) FROM password_resets 
+                WHERE token = :token 
+                AND expiryTime > CURRENT_TIMESTAMP
+                AND used = 0
+                """;
+        return jdbi.withHandle(handle ->
+            handle.createQuery(sql)
+                .bind("token", token)
+                .mapTo(Integer.class)
+                .one() > 0
+        );
+    }
+
+    public void updatePassword(int userId, String newPassword) {
+        String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        String sql = "UPDATE users SET password = :password WHERE id = :userId";
+        jdbi.useHandle(handle ->
+            handle.createUpdate(sql)
+                .bind("userId", userId)
+                .bind("password", hashedPassword)
+                .execute()
+        );
+    }
+
+    public void markResetTokenAsUsed(int userId, String token) {
+        String sql = """
+                UPDATE password_resets 
+                SET used = 1, 
+                    usedAt = CURRENT_TIMESTAMP 
+                WHERE userId = :userId 
+                AND token = :token
+                """;
+        jdbi.useHandle(handle ->
+            handle.createUpdate(sql)
+                .bind("userId", userId)
+                .bind("token", token)
+                .execute()
         );
     }
 }
