@@ -1,5 +1,14 @@
 drop database drum_store;
 create database drum_store;
+CREATE TABLE password_resets (
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   userId INT NOT NULL,
+   token VARCHAR(255) NOT NULL,
+   expiryTime DATETIME NOT NULL,
+   used TINYINT(1) DEFAULT 0,
+   createdAt DATETIME NOT NULL,
+   usedAt DATETIME
+);
 CREATE TABLE categories
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -24,15 +33,6 @@ CREATE TABLE sales
     startDate          DATE          NOT NULL,
     endDate            DATE          NOT NULL
 );
-CREATE TABLE password_resets
-(
-    id        INT AUTO_INCREMENT PRIMARY KEY,
-    email     VARCHAR(100),
-    token     VARCHAR(100),
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expiresAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 CREATE TABLE products
 (
     id            INT AUTO_INCREMENT PRIMARY KEY,
