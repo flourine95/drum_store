@@ -61,7 +61,7 @@
                     NN
                 </div>
             </div>
-            <h5 class="fw-bold mb-0" style="color: var(--text-color)">Nguyễn Hữu Nam</h5>
+            <h5 class="fw-bold mb-0" style="color: var(--text-color)"> ${user.fullname}</h5>
             <p class="text-muted small">Thành viên</p>
         </div>
         <div class="px-3 pb-4">
