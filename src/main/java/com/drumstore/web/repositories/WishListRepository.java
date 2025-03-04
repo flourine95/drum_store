@@ -41,9 +41,22 @@ public class WishListRepository extends BaseRepository<WishList> {
 
     public void delete(int productId, int userId) {
         jdbi.useHandle(handle -> {
-           handle.createUpdate("DELETE FROM wishlist WHERE productId = :productId AND userId = : userId")
-                   .bind("id", productId)
+           handle.createUpdate("DELETE FROM wishlist WHERE productId = :productId AND userId = :userId")
+                   .bind("productId", productId)
                    .bind("userId", userId).execute();
         });
+    }
+
+    public boolean isExists(int productId, int userId) {
+        String sql = """
+            SELECT COUNT(*) FROM wishlist WHERE userId = :userId AND productId = :productId
+            """;
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("userId", userId)
+                        .bind("productId", productId)
+                        .mapTo(Integer.class)
+                        .one() > 0
+        );
     }
 }

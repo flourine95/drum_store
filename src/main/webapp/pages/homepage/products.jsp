@@ -262,11 +262,13 @@
                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Xem chi tiết">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <button onclick="toggleWishlist(${product.id})" 
-                                                    class="btn btn-outline-danger btn-sm"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Thêm vào yêu thích">
-                                                <i class="bi bi-heart"></i>
-                                            </button>
+                                            <c:if test="${sessionScope.user != null}">
+                                                <button onclick="toggleWishlist(${product.id})"
+                                                        class="btn btn-outline-danger btn-sm"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Thêm vào yêu thích">
+                                                    <i class="bi bi-heart"></i>
+                                                </button>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>

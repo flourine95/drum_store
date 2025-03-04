@@ -131,9 +131,16 @@ public class ProfileController extends HttpServlet {
         Map<String, Object> resp = new HashMap<>();
         try {
             int productId = jsonNode.get("data").asInt();
-            wishlistService.save(productId, user.getId());
+
+            String message = null;
+            boolean isExist = wishlistService.isExitsInWishlist(productId, user.getId());
+            if (isExist) {
+                resp.put("message", "Sản phẩm đã tồn tại");
+            }else {
+                wishlistService.save(productId, user.getId());
+                resp.put("message", "Sản phẩm đã được thêm vào danh sách yêu thích");
+            }
             resp.put("success", true);
-            resp.put("message", "Sản phẩm đã được thêm vào danh sách yêu thích");
         } catch (Exception e) {
             resp.put("success", false);
             resp.put("message", "Lỗi server: " + e.getMessage());
@@ -147,7 +154,7 @@ public class ProfileController extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> resp = new HashMap<>();
         try {
-            int productId = jsonNode.get("data").get("productId").asInt();
+            int productId = jsonNode.get("data").asInt();
             wishlistService.delete(productId, user.getId());
             resp.put("success", true);
             resp.put("message", "Sản phẩm đã được xóa khỏi danh sách yêu thích");

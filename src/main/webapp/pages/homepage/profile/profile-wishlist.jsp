@@ -104,7 +104,7 @@
         <div class="card-body p-0">
             <!-- Wishlist Item -->
             <c:forEach items = "${products}"  var = "product">
-            <div class="wishlist-item">
+            <div class="wishlist-item" data-product-id="${product.id}">
                 <div class="row align-items-center">
                     <div class="col-md-2">
                         <img src="${pageContext.request.contextPath}/assets/images/products/${product.image}" alt="Product" class="product-img w-100">
@@ -117,10 +117,10 @@
                         <span class="stock-badge in-stock">Còn hàng</span>
                     </div>
                     <div class="col-md-4 text-end">
-                        <button class="btn btn-wishlist btn-cart mb-2 mb-md-0">
+                        <button class="btn btn-wishlist btn-cart mb-2 mb-md-0" onclick="quickAddToCart(${product.id})">
                             <i class="bi bi-cart-plus me-2"></i>Thêm vào giỏ
                         </button>
-                        <button class="btn btn-wishlist btn-remove">
+                        <button class="btn btn-wishlist btn-remove" onclick="removeFromWishList(${product.id})">
                             <i class="bi bi-trash me-2"></i>Xóa
                         </button>
                     </div>
@@ -148,4 +148,21 @@
             }
         );
     });
+
+    function quickAddToCart(productId) {
+        AjaxUtils.addToCart(productId, 1, null, true);
+    }
+
+    function removeFromWishList(productId){
+        AjaxUtils.removeProductToWhiteList(productId).then(function(data) {
+            const $wishlistItem = $('.wishlist-item[data-product-id='+ productId +']');
+            $wishlistItem.addClass('animate__animated animate__fadeOutRight');
+            setTimeout(() => {
+                $wishlistItem.remove();
+            }, 500);
+        })
+            .catch(function(error) {
+                console.error("Lỗi trong removeFromWishList:", error);
+            });
+    }
 </script>
