@@ -24,7 +24,7 @@ public class UserRepository extends BaseRepository<User> {
 
     public int update(User user) {
         String query = """
-                UPDATE users SET email = :email, fullname = :fullname WHERE id = :id
+                UPDATE users SET phone = :phone, fullname = :fullname WHERE id = :id
                 """;
         return super.update(query, user);
     }

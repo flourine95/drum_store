@@ -75,7 +75,7 @@
             </div>
         </div>
         <div class="card-footer bg-light p-4 text-center">
-            <a href="edit-account.html" class="btn btn-update">
+            <<a href="${pageContext.request.contextPath}/profile?action=edit-account" class="btn btn-update">
                 <i class="bi bi-pencil-square me-2"></i>
                 Cập nhật thông tin
             </a>

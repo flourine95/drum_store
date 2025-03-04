@@ -64,6 +64,13 @@ public class ProfileController extends HttpServlet {
                 request.setAttribute("profileContent", "profile-wishlist.jsp");
                 request.setAttribute("activePage", "wishlist");
             }
+            case "edit-account" -> {
+                user = userService.find(userId);
+                request.setAttribute("user", user);
+                request.setAttribute("title", "Chỉnh sửa tài khoản");
+                request.setAttribute("profileContent", "edit-account.jsp");
+                request.setAttribute("activePage", "profile");
+            }
             default -> {
                 user = userService.find(userId);
                 request.setAttribute("user", user);
@@ -91,6 +98,7 @@ public class ProfileController extends HttpServlet {
             String action = jsonNode.get("action").asText();
 
             switch (action) {
+                case "update-account" -> updateAccount(request, response, user, jsonNode);
                 case "get_address" -> getAddress(request, response, user, jsonNode);
                 case "add_address" -> addAddress(request, response, user, jsonNode);
                 case "delete_address" -> deleteAddress(request, response, user, jsonNode);
@@ -100,6 +108,32 @@ public class ProfileController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(), Map.of(
+                    "success", false,
+                    "message", "Có lỗi xảy ra: " + e.getMessage()
+            ));
+        }
+    }
+
+    private void updateAccount(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode)throws IOException{
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+           String fullName = jsonNode.get("data").get("fullName").asText();
+           String phone = jsonNode.get("data").get("phone").asText();
+
+            user.setFullname(fullName);
+            user.setPhone(phone);
+            // cap nhat thong tin
+           boolean success = userService.update(user) != 0;
+
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("success", success);
+            responseMap.put("message", success ? "Cập nhật tài khoản thành công" : "Cập nhật tài khoản thất bại");
+            mapper.writeValue(response.getWriter(), responseMap);
+        }catch (Exception e) {
+            e.printStackTrace();
             mapper.writeValue(response.getWriter(), Map.of(
                     "success", false,
                     "message", "Có lỗi xảy ra: " + e.getMessage()
