@@ -405,7 +405,7 @@ function updateQueryParams(newParams) {
 }
 
 function toggleWishlist(productId) {
-    // Implement wishlist logic
+    AjaxUtils.addProductToWhiteList(productId);
 }
 
 function submitForm() {

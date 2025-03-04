@@ -1,6 +1,7 @@
 package com.drumstore.web.controllers.homepage;
 
 import com.drumstore.web.dto.AddressDTO;
+import com.drumstore.web.models.Product;
 import com.drumstore.web.models.User;
 import com.drumstore.web.services.AddressService;
 import com.drumstore.web.services.OrderService;
@@ -60,6 +61,8 @@ public class ProfileController extends HttpServlet {
                 request.setAttribute("activePage", "orders");
             }
             case "wishlist" -> {
+                List<Product> products = wishlistService.getAll(user);
+                request.setAttribute("products", products);
                 request.setAttribute("title", "Danh sách yêu thích");
                 request.setAttribute("profileContent", "profile-wishlist.jsp");
                 request.setAttribute("activePage", "wishlist");
@@ -98,11 +101,17 @@ public class ProfileController extends HttpServlet {
             String action = jsonNode.get("action").asText();
 
             switch (action) {
+                // Cập nhật thông tin tài khoản
                 case "update-account" -> updateAccount(request, response, user, jsonNode);
+                // quán lí address
                 case "get_address" -> getAddress(request, response, user, jsonNode);
                 case "add_address" -> addAddress(request, response, user, jsonNode);
                 case "delete_address" -> deleteAddress(request, response, user, jsonNode);
                 case "update_address" -> updateAddress(request, response, user, jsonNode);
+                // quản lí wishList
+                case "add-product-in-wishList" -> addProductInWishList(request, response, user, jsonNode);
+                case "delete-product-in-wishList" -> deleteProductInWishList(request, response, user, jsonNode);
+
                 default -> response.sendRedirect(request.getContextPath() + "/profile");
             }
         } catch (Exception e) {
@@ -115,24 +124,58 @@ public class ProfileController extends HttpServlet {
         }
     }
 
-    private void updateAccount(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode)throws IOException{
+    private void addProductInWishList(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> resp = new HashMap<>();
+        try {
+            int productId = jsonNode.get("data").asInt();
+            wishlistService.save(productId, user.getId());
+            resp.put("success", true);
+            resp.put("message", "Sản phẩm đã được thêm vào danh sách yêu thích");
+        } catch (Exception e) {
+            resp.put("success", false);
+            resp.put("message", "Lỗi server: " + e.getMessage());
+        }
+        mapper.writeValue(response.getWriter(), resp);
+    }
+
+    private void deleteProductInWishList(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> resp = new HashMap<>();
+        try {
+            int productId = jsonNode.get("data").get("productId").asInt();
+            wishlistService.delete(productId, user.getId());
+            resp.put("success", true);
+            resp.put("message", "Sản phẩm đã được xóa khỏi danh sách yêu thích");
+        } catch (Exception e) {
+            resp.put("success", false);
+            resp.put("message", "Lỗi server: " + e.getMessage());
+        }
+        mapper.writeValue(response.getWriter(), resp);
+    }
+
+    private void updateAccount(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         ObjectMapper mapper = new ObjectMapper();
         try {
-           String fullName = jsonNode.get("data").get("fullName").asText();
-           String phone = jsonNode.get("data").get("phone").asText();
+            String fullName = jsonNode.get("data").get("fullName").asText();
+            String phone = jsonNode.get("data").get("phone").asText();
 
             user.setFullname(fullName);
             user.setPhone(phone);
             // cap nhat thong tin
-           boolean success = userService.update(user) != 0;
+            boolean success = userService.update(user) != 0;
 
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("success", success);
             responseMap.put("message", success ? "Cập nhật tài khoản thành công" : "Cập nhật tài khoản thất bại");
             mapper.writeValue(response.getWriter(), responseMap);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             mapper.writeValue(response.getWriter(), Map.of(
                     "success", false,

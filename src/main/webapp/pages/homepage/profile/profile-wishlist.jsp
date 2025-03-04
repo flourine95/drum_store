@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <style>
     .wishlist-card {
         background: var(--text-white);
@@ -101,14 +103,15 @@
 
         <div class="card-body p-0">
             <!-- Wishlist Item -->
+            <c:forEach items = "${products}"  var = "product">
             <div class="wishlist-item">
                 <div class="row align-items-center">
                     <div class="col-md-2">
-                        <img src="path_to_image" alt="Product" class="product-img w-100">
+                        <img src="${pageContext.request.contextPath}/assets/images/products/${product.image}" alt="Product" class="product-img w-100">
                     </div>
                     <div class="col-md-4">
-                        <a href="#" class="product-name">Trống Tama Drum 5 Pcs</a>
-                        <p class="text-muted mb-0 mt-2">32.000.000đ</p>
+                        <a href="${pageContext.request.contextPath}/product/${product.id}" class="product-name">${product.name}</a>
+                        <p class="text-muted mb-0 mt-2"> <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/></p>
                     </div>
                     <div class="col-md-2 text-center">
                         <span class="stock-badge in-stock">Còn hàng</span>
@@ -123,8 +126,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Thêm các wishlist item khác tương tự -->
+            </c:forEach>
         </div>
     </div>
 </div>
