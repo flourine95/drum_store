@@ -18,6 +18,8 @@ public class WishlistService {
                 .toList();
     }
 
+    public boolean isExitsInWishlist(int productId , int userId){return wishListRepository.isExists(productId, userId);}
+
     public void save(int productId, int userId) {
         WishList wishList = new WishList();
         wishList.setProductId(productId);
