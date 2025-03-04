@@ -29,6 +29,7 @@
         background-color: var(--bs-primary);
         color: var(--hover-color);
         border: none;
+        cursor: pointer;
     }
 
     .btn-update:hover {
@@ -42,14 +43,18 @@
         background-color: var(--bs-primary) !important;
         color: var(--hover-color) !important;
     }
+
+    .form-control {
+        border-radius: 10px;
+    }
 </style>
 
 <div class="col-md-9">
     <div class="info-card animate__animated animate__fadeInRight">
-        <div class="card-header p-4" >
+        <div class="card-header p-4">
             <h5 class="mb-0">
                 <i class="bi bi-person-badge me-2"></i>
-                THÔNG TIN TÀI KHOẢN
+                CHỈNH SỬA THÔNG TIN TÀI KHOẢN
             </h5>
         </div>
         <div class="card-body p-4">
@@ -58,8 +63,9 @@
                     <div class="col-md-4">
                         <strong>Họ và tên</strong>
                     </div>
+
                     <div class="col-md-8">
-                        ${user.fullname}
+                        <input type="text" name="fullname" value="${user.fullname}" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -69,20 +75,31 @@
                         <strong>Email</strong>
                     </div>
                     <div class="col-md-8">
-                        ${user.email}
+                        <input type="email" name="email" value="${user.email}" class="form-control" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <strong>Số điện thoại</strong>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="phone" value="${user.phone}" class="form-control" required>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card-footer bg-light p-4 text-center">
-            <<a href="${pageContext.request.contextPath}/profile?action=edit-account" class="btn btn-update">
+            <button type="button" class="btn btn-update" id="updateButton">
                 <i class="bi bi-pencil-square me-2"></i>
-                Cập nhật thông tin
-            </a>
+                Lưu thay đổi
+            </button>
         </div>
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
         $('.info-card').hover(
@@ -93,5 +110,40 @@
                 $(this).removeClass('shadow-lg');
             }
         );
+
+        // Sự kiện click cho nút cập nhật
+        $('#updateButton').click(function (e) {
+            e.preventDefault();
+
+            // Lấy giá trị từ các trường input
+            var fullName = $('input[name="fullname"]').val();
+            var phone = $('input[name="phone"]').val();
+
+            var data = {
+                fullName: fullName,
+                phone: phone
+            };
+
+            $.ajax({
+                url: '${pageContext.request.contextPath}/profile',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    action: 'update-account',
+                    data: data
+                }),
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi cập nhật tài khoản');
+                }
+            });
+        });
     });
 </script>
