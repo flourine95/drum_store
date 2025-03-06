@@ -1,5 +1,6 @@
 package com.drumstore.web.services;
 
+import com.drumstore.web.dto.ProductCardDTO;
 import com.drumstore.web.models.Category;
 import com.drumstore.web.models.Post;
 import com.drumstore.web.models.Product;
@@ -21,7 +22,7 @@ public class HomeService {
         return postService.getLatestPosts(limit);
     }
 
-    public List<Product> getFeaturedProducts(int limit) {
+    public List<ProductCardDTO> getFeaturedProducts(int limit) {
         return productService.getFeaturedProducts(limit);
     }
 

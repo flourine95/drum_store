@@ -1,6 +1,7 @@
 package com.drumstore.web.controllers.homepage;
 
-import com.drumstore.web.models.Product;
+import com.drumstore.web.dto.ProductCardDTO;
+import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.services.BrandService;
 import com.drumstore.web.services.CategoryService;
 import com.drumstore.web.services.ProductService;
@@ -19,6 +20,7 @@ public class ProductController extends HttpServlet {
     private CategoryService categoryService;
     private BrandService brandService;
     private static final int PRODUCTS_PER_PAGE = 9;
+    private static final int RELATED_PRODUCTS_LIMIT = 4;
 
     @Override
     public void init() {
@@ -46,34 +48,6 @@ public class ProductController extends HttpServlet {
         }
     }
 
-    private void handleProductDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            // Lấy ID sản phẩm từ URL
-            String pathInfo = request.getPathInfo();
-            String productId = pathInfo.substring(1); // Bỏ dấu "/" ở đầu
-
-            // Lấy thông tin sản phẩm
-            Product product = productService.findWithDetailsAndSale(Integer.parseInt(productId));
-            if (product == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
-
-            // Lấy các sản phẩm liên quan (cùng danh mục)
-            List<Product> relatedProducts = productService.getRelatedProductsWithSale(product.getId(), product.getCategory().getId(), 4);
-
-            // Set attributes
-            request.setAttribute("product", product);
-            request.setAttribute("relatedProducts", relatedProducts);
-            request.setAttribute("title", product.getName());
-            request.setAttribute("content", "product-detail.jsp");
-            request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
-
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        }
-    }
-
     private void handleProductList(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             // Lấy các tham số từ request
@@ -89,8 +63,7 @@ public class ProductController extends HttpServlet {
             int totalPages = (int) Math.ceil((double) totalProducts / PRODUCTS_PER_PAGE);
 
             // Lấy danh sách sản phẩm theo điều kiện lọc
-            List<Product> products = productService.getProducts(page, PRODUCTS_PER_PAGE, searchKeyword, category, brand, priceRange, sortBy);
-
+            List<ProductCardDTO> products = productService.getProductCards(page, PRODUCTS_PER_PAGE, searchKeyword, category, brand, priceRange, sortBy);
             // Set attributes cho view
             request.setAttribute("products", products);
             request.setAttribute("currentPage", page);
@@ -112,6 +85,34 @@ public class ProductController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    private void handleProductDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            // Lấy ID sản phẩm từ URL
+            String pathInfo = request.getPathInfo();
+            String productId = pathInfo.substring(1); // Bỏ dấu "/" ở đầu
+
+            ProductDetailDTO product = productService.getProductDetail(Integer.parseInt(productId));
+            if (product == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            System.out.println(product);
+            // Lấy các sản phẩm liên quan (cùng danh mục)
+            List<ProductCardDTO> relatedProducts = productService.getRelatedProductCards(product.getId(), product.getCategory().getId(), RELATED_PRODUCTS_LIMIT);
+            System.out.println(relatedProducts.size());
+            // Set attributes
+            request.setAttribute("product", product);
+            request.setAttribute("relatedProducts", relatedProducts);
+            request.setAttribute("title", product.getName());
+            request.setAttribute("content", "product-detail.jsp");
+            request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
+
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 

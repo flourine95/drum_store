@@ -1,5 +1,6 @@
 package com.drumstore.web.controllers.homepage;
 
+import com.drumstore.web.dto.ProductCardDTO;
 import com.drumstore.web.models.Category;
 import com.drumstore.web.models.Post;
 import com.drumstore.web.models.Product;
@@ -16,7 +17,7 @@ import java.util.List;
 @WebServlet("/")
 public class HomeController extends HttpServlet {
     private HomeService homeService;
-    private static final int LIMIT = 6;
+    private static final int LIMIT = 8;
 
     @Override
     public void init() {
@@ -25,7 +26,7 @@ public class HomeController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Product> featuredProducts = homeService.getFeaturedProducts(LIMIT);
+        List<ProductCardDTO> featuredProducts = homeService.getFeaturedProducts(LIMIT);
         List<Category> categories = homeService.getCategories(LIMIT);
         List<Post> latestPosts = homeService.getLatestPosts(LIMIT);
         request.setAttribute("featuredProducts", featuredProducts);

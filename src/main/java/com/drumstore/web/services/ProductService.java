@@ -1,5 +1,7 @@
 package com.drumstore.web.services;
 
+import com.drumstore.web.dto.ProductCardDTO;
+import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.models.Product;
 import com.drumstore.web.models.ProductSale;
 import com.drumstore.web.repositories.ProductRepository;
@@ -8,9 +10,6 @@ import java.util.List;
 
 public class ProductService {
     private ProductRepository productRepository = new ProductRepository();
-
-    public ProductService() {
-    }
 
     public List<Product> all() {
         return productRepository.all();
@@ -40,7 +39,7 @@ public class ProductService {
         return productRepository.findWithDetails(id);
     }
 
-    public List<Product> getFeaturedProducts(int limit) {
+    public List<ProductCardDTO> getFeaturedProducts(int limit) {
         return productRepository.getFeaturedProducts(limit);
     }
 
@@ -52,18 +51,18 @@ public class ProductService {
         return productRepository.allWithDetails();
     }
 
-    public List<Product> getProducts(int page, int limit, String search, String category, String brand, String priceRange, String sortBy) {
-        int offset = (page - 1) * limit;
-        return productRepository.getFilteredProducts(offset, limit, search, category, brand, priceRange, sortBy);
-    }
+//    public List<Product> getProducts(int page, int limit, String search, String category, String brand, String priceRange, String sortBy) {
+//        int offset = (page - 1) * limit;
+//        return productRepository.getFilteredProducts(offset, limit, search, category, brand, priceRange, sortBy);
+//    }
 
     public int countProducts(String search, String category, String brand, String priceRange) {
         return productRepository.countFilteredProducts(search, category, brand, priceRange);
     }
 
-    public List<Product> getRelatedProducts(int productId, int categoryId, int limit) {
-        return productRepository.getRelatedProducts(productId, categoryId, limit);
-    }
+//    public List<Product> getRelatedProducts(int productId, int categoryId, int limit) {
+//        return productRepository.getRelatedProducts(productId, categoryId, limit);
+//    }
 
     public Product findWithDetailsAndSale(int id) {
         Product product = productRepository.findWithDetails(id);
@@ -76,12 +75,30 @@ public class ProductService {
         return product;
     }
 
-    public List<Product> getRelatedProductsWithSale(int productId, int categoryId, int limit) {
-        List<Product> products = productRepository.getRelatedProducts(productId, categoryId, limit);
-        for (Product product : products) {
-            ProductSale sale = productRepository.getCurrentSale(product.getId());
-            product.setProductSale(sale);
+//    public List<Product> getRelatedProductsWithSale(int productId, int categoryId, int limit) {
+//        List<Product> products = productRepository.getRelatedProducts(productId, categoryId, limit);
+//        for (Product product : products) {
+//            ProductSale sale = productRepository.getCurrentSale(product.getId());
+//            product.setProductSale(sale);
+//        }
+//        return products;
+//    }
+
+    public List<ProductCardDTO> getProductCards(int page, int limit, String search, String category, String brand, String priceRange, String sortBy) {
+        int offset = (page - 1) * limit;
+        return productRepository.getFilteredProductCards(offset, limit, search, category, brand, priceRange, sortBy);
+    }
+
+    public ProductDetailDTO getProductDetail(int id) {
+        ProductDetailDTO product = productRepository.findProductDetail(id);
+        if (product != null) {
+            // Có thể thêm logic cập nhật view count ở đây
+            productRepository.incrementViewCount(id);
         }
-        return products;
+        return product;
+    }
+
+    public List<ProductCardDTO> getRelatedProductCards(int productId, int categoryId, int limit) {
+        return productRepository.getRelatedProductCards(productId, categoryId, limit);
     }
 }

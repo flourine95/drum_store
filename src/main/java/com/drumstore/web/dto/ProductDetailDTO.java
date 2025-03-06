@@ -1,11 +1,6 @@
 package com.drumstore.web.dto;
 
-import com.drumstore.web.models.Brand;
-import com.drumstore.web.models.Category;
-import com.drumstore.web.models.ProductColor;
-import com.drumstore.web.models.ProductSale;
-
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +14,15 @@ public class ProductDetailDTO {
     private boolean isFeatured;
     private int status;
     private double averageRating;
-    private Brand brand;
-    private Category category;
-    private List<String> images = new ArrayList<>();
-    private List<ProductColor> colors = new ArrayList<>();
-    private List<ProductSale> sales = new ArrayList<>();
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private String mainImage;
+    private double discountPercent;
+    private double salePrice;
+    private List<ProductImageDTO> images = new ArrayList<>();
+    private List<ProductSaleDTO> sales = new ArrayList<>();
+    private List<ProductColorDTO> colors = new ArrayList<>();
+    private BrandDTO brand;
+    private CategoryDTO category;
+    private LocalDateTime createdAt;
 
     public int getId() {
         return id;
@@ -99,60 +96,76 @@ public class ProductDetailDTO {
         this.averageRating = averageRating;
     }
 
-    public Brand getBrand() {
-        return brand;
+    public String getMainImage() {
+        return mainImage;
     }
 
-    public void setBrand(Brand brand) {
-        this.brand = brand;
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
     }
 
-    public Category getCategory() {
-        return category;
+    public double getDiscountPercent() {
+        return discountPercent;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setDiscountPercent(double discountPercent) {
+        this.discountPercent = discountPercent;
     }
 
-    public List<String> getImages() {
+    public double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(double salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public List<ProductImageDTO> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(List<ProductImageDTO> images) {
         this.images = images;
     }
 
-    public List<ProductColor> getColors() {
-        return colors;
-    }
-
-    public void setColors(List<ProductColor> colors) {
-        this.colors = colors;
-    }
-
-    public List<ProductSale> getSales() {
+    public List<ProductSaleDTO> getSales() {
         return sales;
     }
 
-    public void setSales(List<ProductSale> sales) {
+    public void setSales(List<ProductSaleDTO> sales) {
         this.sales = sales;
     }
 
-    public Timestamp getCreatedAt() {
+    public List<ProductColorDTO> getColors() {
+        return colors;
+    }
+
+    public void setColors(List<ProductColorDTO> colors) {
+        this.colors = colors;
+    }
+
+    public BrandDTO getBrand() {
+        return brand;
+    }
+
+    public void setBrand(BrandDTO brand) {
+        this.brand = brand;
+    }
+
+    public CategoryDTO getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
+    }
+
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -167,13 +180,15 @@ public class ProductDetailDTO {
                 ", isFeatured=" + isFeatured +
                 ", status=" + status +
                 ", averageRating=" + averageRating +
+                ", imageMain='" + mainImage + '\'' +
+                ", discountPercent=" + discountPercent +
+                ", salePrice=" + salePrice +
+                ", images=" + images +
+                ", sales=" + sales +
+                ", colors=" + colors +
                 ", brand=" + brand +
                 ", category=" + category +
-                ", images=" + images +
-                ", colors=" + colors +
-                ", sales=" + sales +
                 ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 }
