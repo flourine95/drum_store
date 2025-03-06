@@ -18,7 +18,7 @@ import java.util.List;
 @WebServlet("/")
 public class HomeController extends HttpServlet {
     private HomeService homeService;
-    private static final int LIMIT = 8;
+    private static final int LIMIT = 6;
 
     @Override
     public void init() {

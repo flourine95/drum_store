@@ -39,4 +39,13 @@ public class ProductColorDTO implements Serializable {
                 ", additionalPrice=" + additionalPrice +
                 '}';
     }
+
+    @Override
+    public String toString() {
+        return "ProductColorDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                '}';
+    }
 }

@@ -506,12 +506,12 @@ public class ProductRepository extends BaseRepository<Product> {
                 dto.setCategoryName(rs.getString("categoryName"));
                 dto.setBrandId(rs.getInt("brandId"));
                 dto.setBrandName(rs.getString("brandName"));
-                
+
                 Double discountPercent = rs.getObject("discountPercent", Double.class);
                 if (discountPercent != null) {
                     dto.setDiscountPercent(discountPercent);
                 }
-                
+
                 return dto;
             }).list();
         });
