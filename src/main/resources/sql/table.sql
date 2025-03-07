@@ -35,18 +35,69 @@ CREATE TABLE sales
 );
 CREATE TABLE products
 (
-    id            INT AUTO_INCREMENT PRIMARY KEY,
-    name          VARCHAR(100),
-    description   TEXT,
-    price         DECIMAL(10, 2),
-    stock         INT,
-    totalViews    INT            DEFAULT 0,
-    isFeatured    TINYINT        DEFAULT 0,
-    status        TINYINT        DEFAULT 1,
-    averageRating DECIMAL(10, 2) DEFAULT NULL,
-    categoryId    INT,
-    brandId       INT,
-    createdAt     TIMESTAMP      DEFAULT CURRENT_TIMESTAMP
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    name            VARCHAR(100),
+    description     TEXT,
+    basePrice       DECIMAL(10, 2),
+    stock           INT,
+    hasColorOptions BOOLEAN        DEFAULT FALSE,
+    hasAddonOptions BOOLEAN        DEFAULT FALSE,
+    totalViews      INT            DEFAULT 0,
+    isFeatured      TINYINT        DEFAULT 0,
+    status          TINYINT        DEFAULT 1,
+    averageRating   DECIMAL(10, 2) DEFAULT NULL,
+    categoryId      INT,
+    brandId         INT,
+    createdAt       TIMESTAMP      DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE product_images
+(
+    id        INT PRIMARY KEY AUTO_INCREMENT,
+    productId INT          NOT NULL,
+    image     VARCHAR(255) NOT NULL,
+    isMain    BOOLEAN   DEFAULT FALSE,
+    sortOrder INT       DEFAULT 0,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE product_colors
+(
+    id              INT PRIMARY KEY AUTO_INCREMENT,
+    productId       INT         NOT NULL,
+    name            VARCHAR(50) NOT NULL,
+    code            VARCHAR(20),
+    image           VARCHAR(255),
+    additionalPrice DECIMAL(10, 2) DEFAULT 0,
+    stock           INT            DEFAULT 0,
+    status          TINYINT        DEFAULT 1,
+    sort_order      INT            DEFAULT 0
+);
+CREATE TABLE product_color_images
+(
+    imageId   INT PRIMARY KEY AUTO_INCREMENT,
+    colorId   INT          NOT NULL,
+    image     VARCHAR(255) NOT NULL,
+    isMain    BOOLEAN DEFAULT FALSE,
+    sortOrder INT     DEFAULT 0
+);
+CREATE TABLE product_addons
+(
+    id              INT PRIMARY KEY AUTO_INCREMENT,
+    productId       INT          NOT NULL,
+    name            VARCHAR(100) NOT NULL,
+    description     TEXT,
+    additionalPrice DECIMAL(10, 2) DEFAULT 0,
+    stock           INT            DEFAULT 0,
+    status          TINYINT        DEFAULT 1,
+    isDefault       BOOLEAN        DEFAULT FALSE,
+    sortOrder       INT            DEFAULT 0
+);
+CREATE TABLE product_addon_images
+(
+    imageId   INT PRIMARY KEY AUTO_INCREMENT,
+    addonId   INT          NOT NULL,
+    image  VARCHAR(255) NOT NULL,
+    isMain BOOLEAN DEFAULT FALSE,
+    sortOrder INT     DEFAULT 0
 );
 CREATE TABLE users
 (
@@ -138,7 +189,7 @@ CREATE TABLE posts
     userId     INT,
     image      VARCHAR(255),
     viewsCount INT,
-    status     TINYINT DEFAULT 1,
+    status     TINYINT   DEFAULT 1,
     createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
