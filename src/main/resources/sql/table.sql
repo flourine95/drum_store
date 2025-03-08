@@ -1,5 +1,6 @@
-drop database drum_store;
+drop database drum_store2;
 create database drum_store;
+create database drum_store2;
 CREATE TABLE categories
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -45,7 +46,6 @@ CREATE TABLE products
     totalViews      INT            DEFAULT 0,
     isFeatured      TINYINT        DEFAULT 0,
     status          TINYINT        DEFAULT 1,
-    averageRating   DECIMAL(10, 2) DEFAULT NULL,
     categoryId      INT,
     brandId         INT,
     createdAt       TIMESTAMP      DEFAULT CURRENT_TIMESTAMP
@@ -95,9 +95,29 @@ CREATE TABLE product_addon_images
 (
     imageId   INT PRIMARY KEY AUTO_INCREMENT,
     addonId   INT          NOT NULL,
-    image  VARCHAR(255) NOT NULL,
-    isMain BOOLEAN DEFAULT FALSE,
+    image     VARCHAR(255) NOT NULL,
+    isMain    BOOLEAN DEFAULT FALSE,
     sortOrder INT     DEFAULT 0
+);
+CREATE TABLE product_reviews
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    productId INT           NOT NULL,
+    userId    INT           NOT NULL,
+    orderId   INT           NOT NULL,
+    rating    DECIMAL(2, 1) NOT NULL, -- Thang điểm từ 1.0 đến 5.0
+    content   TEXT,
+    status    TINYINT   DEFAULT 1,    -- 0: Chờ duyệt, 1: Đã duyệt, 2: Từ chối
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+CREATE TABLE review_images
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    reviewId  INT          NOT NULL,
+    image     VARCHAR(255) NOT NULL,
+    sortOrder INT       DEFAULT 0,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE users
 (
@@ -111,20 +131,7 @@ CREATE TABLE users
     avatar    VARCHAR(255),
     createdAt TIMESTAMP
 );
-CREATE TABLE product_images
-(
-    id        INT AUTO_INCREMENT PRIMARY KEY,
-    image     VARCHAR(255) DEFAULT NULL,
-    isMain    TINYINT(1)   DEFAULT 0,
-    productId INT
-);
-CREATE TABLE product_colors
-(
-    id        INT AUTO_INCREMENT PRIMARY KEY,
-    colorCode VARCHAR(7)   DEFAULT NULL,
-    colorName VARCHAR(100) DEFAULT NULL,
-    productId INT
-);
+
 CREATE TABLE user_addresses
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
@@ -171,15 +178,6 @@ CREATE TABLE order_items
     quantity  INT NOT NULL,
     price     DECIMAL(10, 2),
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-CREATE TABLE product_reviews
-(
-    id         INT AUTO_INCREMENT PRIMARY KEY,
-    productId  INT,
-    userId     INT,
-    rating     TINYINT,
-    reviewText TEXT,
-    createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE posts
 (

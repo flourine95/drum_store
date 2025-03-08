@@ -564,6 +564,26 @@
     .btn-buy-now:hover {
         background-color: #ff5252;
     }
+
+    .addon-options {
+        margin-top: 1rem;
+    }
+
+    .addon-options .form-check {
+        margin-bottom: 0.5rem;
+    }
+
+    .addon-options .form-check-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .addon-price {
+        color: var(--bs-primary);
+        font-weight: 500;
+    }
 </style>
 <div class="container product-detail">
     <div class="row">
@@ -609,33 +629,29 @@
                         </c:choose>
                     </c:forEach>
                 </div>
-                <span class="rating-count">(${product.averageRating}/5} đánh giá)</span>
-
-                <c:if test="${product.averageRating > 4.5}">
-                        <span class="featured-tag">
-                            <i class="fas fa-fire"></i> Sản phẩm nổi bật
-                        </span>
+                <span class="rating-count">(${product.totalReviews} đánh giá)</span>
+                <c:if test="${product.isFeatured}">
+                    <span class="featured-tag">
+                        <i class="fas fa-fire"></i> Sản phẩm nổi bật
+                    </span>
                 </c:if>
             </div>
 
             <div class="product-price-container">
                 <c:choose>
                     <c:when test="${product.discountPercent > 0}">
-                            <span class="product-price">
-                                <fmt:formatNumber value="${product.salePrice}" type="currency" currencySymbol="₫"
-                                                  maxFractionDigits="0"/>
-                            </span>
+                        <span class="product-price">
+                            <fmt:formatNumber value="${product.salePrice}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                        </span>
                         <span class="product-original-price">
-                                <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₫"
-                                                  maxFractionDigits="0"/>
-                            </span>
+                            <fmt:formatNumber value="${product.basePrice}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                        </span>
                         <span class="discount-badge">-${product.discountPercent}%</span>
                     </c:when>
                     <c:otherwise>
-                            <span class="product-price">
-                                <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₫"
-                                                  maxFractionDigits="0"/>
-                            </span>
+                        <span class="product-price">
+                            <fmt:formatNumber value="${product.basePrice}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                        </span>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -643,11 +659,11 @@
             <div class="product-meta">
                 <div class="product-meta-item">
                     <i class="fas fa-tag"></i>
-                    <span>Thương hiệu: <strong>${product.brand.name}</strong></span>
+                    <span>Thương hiệu: <strong>${product.brandName}</strong></span>
                 </div>
                 <div class="product-meta-item">
                     <i class="fas fa-folder"></i>
-                    <span>Danh mục: <strong>${product.category.name}</strong></span>
+                    <span>Danh mục: <strong>${product.categoryName}</strong></span>
                 </div>
                 <div class="product-meta-item">
                     <i class="fas fa-eye"></i>
@@ -673,7 +689,7 @@
                 <p>${product.description}</p>
             </div>
 
-            <c:if test="${not empty product.colors}">
+            <c:if test="${product.hasColorOptions && not empty product.colors}">
                 <div class="product-colors">
                     <h5>Màu sắc:</h5>
                     <div class="color-options">
@@ -681,7 +697,29 @@
                             <div class="color-option ${status.index == 0 ? 'active' : ''}"
                                  style="background-color: ${color.code}"
                                  data-color-id="${color.id}"
+                                 data-additional-price="${color.additionalPrice}"
                                  title="${color.name}">
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </c:if>
+
+            <c:if test="${product.hasAddonOptions && not empty product.addons}">
+                <div class="product-addons mt-3">
+                    <h5>Tùy chọn thêm:</h5>
+                    <div class="addon-options">
+                        <c:forEach items="${product.addons}" var="addon">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" 
+                                       value="${addon.id}" id="addon${addon.id}"
+                                       data-additional-price="${addon.additionalPrice}"
+                                       ${addon.isDefault ? 'checked' : ''}>
+                                <label class="form-check-label" for="addon${addon.id}">
+                                    ${addon.name} (+<fmt:formatNumber value="${addon.additionalPrice}" 
+                                                            type="currency" currencySymbol="₫" 
+                                                            maxFractionDigits="0"/>)
+                                </label>
                             </div>
                         </c:forEach>
                     </div>
@@ -723,7 +761,7 @@
                         </div>
                         <div class="promotion-content">
                             <div class="promotion-title">Giảm giá ${product.discountPercent}%</div>
-                            <div class="promotion-description">Giá gốc: ${product.price}đ - Giá khuyến
+                            <div class="promotion-description">Giá gốc: ${product.basePrice}đ - Giá khuyến
                                 mãi: ${product.salePrice}đ
                             </div>
                         </div>
@@ -763,11 +801,11 @@
                                 <tbody>
                                 <tr>
                                     <td>Thương hiệu</td>
-                                    <td>${product.brand.name}</td>
+                                    <td>${product.brandName}</td>
                                 </tr>
                                 <tr>
                                     <td>Danh mục</td>
-                                    <td>${product.category.name}</td>
+                                    <td>${product.categoryName}</td>
                                 </tr>
                                 <tr>
                                     <td>Ngày ra mắt</td>
@@ -1050,31 +1088,26 @@
 
 <!-- Scripts -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    $(document).ready(function() {
         // Lazy loading images
-        const lazyImages = document.querySelectorAll('.lazy-image');
-
         const lazyLoadObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.classList.add('loaded');
-                    observer.unobserve(img);
+                    $(entry.target).addClass('loaded');
+                    observer.unobserve(entry.target);
                 }
             });
         });
 
-        lazyImages.forEach(image => {
-            lazyLoadObserver.observe(image);
+        $('.lazy-image').each(function() {
+            lazyLoadObserver.observe(this);
         });
 
         // Fade in elements on scroll
-        const fadeElements = document.querySelectorAll('.fade-in');
-
         const fadeInObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    $(entry.target).addClass('visible');
                     observer.unobserve(entry.target);
                 }
             });
@@ -1082,178 +1115,171 @@
             threshold: 0.1
         });
 
-        fadeElements.forEach(element => {
-            fadeInObserver.observe(element);
+        $('.fade-in').each(function() {
+            fadeInObserver.observe(this);
         });
 
-        // Color selection
-        const colorOptions = document.querySelectorAll('.color-option');
-        colorOptions.forEach(option => {
-            option.addEventListener('click', function () {
-                colorOptions.forEach(opt => opt.classList.remove('active'));
-                this.classList.add('active');
-            });
+        // Khai báo các biến chung
+        const basePrice = ${product.basePrice};
+        const discountPercent = ${product.discountPercent};
+        let currentPrice = ${product.salePrice};
+        
+        // Xử lý color selection
+        $('.color-option').on('click', function() {
+            $('.color-option').removeClass('active');
+            $(this).addClass('active');
+            updateTotalPrice();
         });
-        const quantityInput = document.getElementById('quantity');
-        const decreaseBtn = document.getElementById('decreaseQuantity');
-        const increaseBtn = document.getElementById('increaseQuantity');
+
+        // Xử lý số lượng
         const maxStock = ${product.stock};
-
-        decreaseBtn.addEventListener('click', function() {
-            let currentValue = parseInt(quantityInput.value);
+        
+        $('#decreaseQuantity').on('click', function() {
+            let currentValue = parseInt($('#quantity').val());
             if (currentValue > 1) {
-                quantityInput.value = currentValue - 1;
+                $('#quantity').val(currentValue - 1);
             }
         });
 
-        increaseBtn.addEventListener('click', function() {
-            let currentValue = parseInt(quantityInput.value);
+        $('#increaseQuantity').on('click', function() {
+            let currentValue = parseInt($('#quantity').val());
             if (currentValue < maxStock) {
-                quantityInput.value = currentValue + 1;
+                $('#quantity').val(currentValue + 1);
             }
         });
 
-        // Xử lý nút thêm vào wishlist
-        document.getElementById('addToWishlistBtn').addEventListener('click', function() {
-            const productId = this.getAttribute('data-product-id');
-            // Thêm code xử lý thêm vào wishlist ở đây
+        // Xử lý wishlist
+        $('#addToWishlistBtn').on('click', function() {
+            const productId = $(this).data('product-id');
             alert('Đã thêm sản phẩm vào danh sách yêu thích!');
         });
 
-        // Xử lý nút thêm vào giỏ hàng
-        document.getElementById('addToCartBtn').addEventListener('click', function() {
-            const productId = this.getAttribute('data-product-id');
-            const quantity = document.getElementById('quantity').value;
-            // Thêm code xử lý thêm vào giỏ hàng ở đây
+        // Xử lý thêm vào giỏ hàng
+        $('#addToCartBtn').on('click', function() {
+            const productId = $(this).data('product-id');
+            const quantity = $('#quantity').val();
             alert('Đã thêm ' + quantity + ' sản phẩm vào giỏ hàng!');
         });
 
-        // Xử lý nút mua ngay
-        document.getElementById('buyNowBtn').addEventListener('click', function() {
-            const productId = this.getAttribute('data-product-id');
-            const quantity = document.getElementById('quantity').value;
-            // Thêm code xử lý mua ngay ở đây
-            alert('Đang chuyển đến trang thanh toán...');
-            // Get selected color
-            const selectedColor = document.querySelector('.color-option.active');
-            const color = selectedColor ? selectedColor.getAttribute('title') : '';
-            // Add to cart via AJAX
-            fetch('/cart?action=add', {  // Thay đổi URL từ /cart/add thành /cart?action=add
+        // Xử lý mua ngay
+        $('#buyNowBtn').on('click', function() {
+            const productId = $(this).data('product-id');
+            const quantity = $('#quantity').val();
+            const selectedColor = $('.color-option.active').attr('title') || '';
+
+            $.ajax({
+                url: '/cart?action=add',
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                data: {
+                    productId: productId,
+                    quantity: quantity,
+                    color: selectedColor
                 },
-                body: `productId=${productId}&quantity=${quantity}&color=${color}`
-            })
-                .then(response => response.json())
-                .then(data => {
+                success: function(data) {
                     console.log(data);
-                })
-                .catch(error => {
+                    alert('Đang chuyển đến trang thanh toán...');
+                },
+                error: function(error) {
                     console.error('Error:', error);
                     alert('Có lỗi xảy ra khi thêm vào giỏ hàng');
-                });
-        });
-
-        // Change main image when clicking thumbnails
-        function changeMainImage(src, thumbnail) {
-            const mainImage = document.getElementById('mainImage');
-            mainImage.src = src;
-
-            // Update active state
-            document.querySelectorAll('.product-thumbnail').forEach(thumb => {
-                thumb.classList.remove('active');
-            });
-            thumbnail.classList.add('active');
-        }
-
-        window.changeMainImage = changeMainImage;
-
-        // Lightbox functionality
-        const mainImage = document.getElementById('mainImage');
-        const lightbox = document.getElementById('productLightbox');
-        const lightboxImage = document.getElementById('lightboxImage');
-        const closeLightbox = document.querySelector('.lightbox-close');
-
-        if (mainImage && lightbox && lightboxImage) {
-            mainImage.addEventListener('click', function () {
-                lightboxImage.src = this.src;
-                lightbox.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            });
-
-            closeLightbox.addEventListener('click', function () {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = '';
-            });
-
-            // Close lightbox when clicking outside the image
-            lightbox.addEventListener('click', function (e) {
-                if (e.target === this) {
-                    lightbox.style.display = 'none';
-                    document.body.style.overflow = '';
                 }
             });
+        });
 
-            // Lightbox navigation
-            const thumbnails = document.querySelectorAll('.product-thumbnail');
-            const prevBtn = document.querySelector('.lightbox-prev');
-            const nextBtn = document.querySelector('.lightbox-next');
+        // Xử lý đổi ảnh chính
+        window.changeMainImage = function(src, thumbnail) {
+            $('#mainImage').attr('src', src);
+            $('.product-thumbnail').removeClass('active');
+            $(thumbnail).addClass('active');
+        };
 
-            if (thumbnails.length > 0 && prevBtn && nextBtn) {
-                let currentIndex = 0;
+        // Lightbox functionality
+        $('#mainImage').on('click', function() {
+            $('#lightboxImage').attr('src', $(this).attr('src'));
+            $('#productLightbox').css('display', 'flex');
+            $('body').css('overflow', 'hidden');
+        });
 
-                prevBtn.addEventListener('click', function () {
-                    currentIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
-                    lightboxImage.src = thumbnails[currentIndex].src;
-                });
+        $('.lightbox-close').on('click', function() {
+            $('#productLightbox').hide();
+            $('body').css('overflow', '');
+        });
 
-                nextBtn.addEventListener('click', function () {
-                    currentIndex = (currentIndex + 1) % thumbnails.length;
-                    lightboxImage.src = thumbnails[currentIndex].src;
-                });
+        $('#productLightbox').on('click', function(e) {
+            if (e.target === this) {
+                $(this).hide();
+                $('body').css('overflow', '');
             }
+        });
+
+        // Lightbox navigation
+        if ($('.product-thumbnail').length > 0) {
+            let currentIndex = 0;
+            const thumbnails = $('.product-thumbnail');
+
+            $('.lightbox-prev').on('click', function() {
+                currentIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+                $('#lightboxImage').attr('src', $(thumbnails[currentIndex]).attr('src'));
+            });
+
+            $('.lightbox-next').on('click', function() {
+                currentIndex = (currentIndex + 1) % thumbnails.length;
+                $('#lightboxImage').attr('src', $(thumbnails[currentIndex]).attr('src'));
+            });
         }
 
         // Rating functionality
-        const ratingInputs = document.querySelectorAll('.rating-input i');
-        if (ratingInputs.length > 0) {
-            ratingInputs.forEach(star => {
-                star.addEventListener('mouseover', function () {
-                    const rating = this.dataset.rating;
-
-                    ratingInputs.forEach(s => {
-                        const sRating = s.dataset.rating;
-                        if (sRating <= rating) {
-                            s.classList.remove('far');
-                            s.classList.add('fas');
-                        } else {
-                            s.classList.remove('fas');
-                            s.classList.add('far');
-                        }
-                    });
+        $('.rating-input i').hover(
+            function() {
+                const rating = $(this).data('rating');
+                $('.rating-input i').each(function() {
+                    if ($(this).data('rating') <= rating) {
+                        $(this).removeClass('far').addClass('fas');
+                    } else {
+                        $(this).removeClass('fas').addClass('far');
+                    }
                 });
-
-                star.addEventListener('mouseout', function () {
-                    const selectedRating = document.querySelector('.rating-input').dataset.selectedRating || 0;
-
-                    ratingInputs.forEach(s => {
-                        const sRating = s.dataset.rating;
-                        if (sRating <= selectedRating) {
-                            s.classList.remove('far');
-                            s.classList.add('fas');
-                        } else {
-                            s.classList.remove('fas');
-                            s.classList.add('far');
-                        }
-                    });
+            },
+            function() {
+                const selectedRating = $('.rating-input').data('selectedRating') || 0;
+                $('.rating-input i').each(function() {
+                    if ($(this).data('rating') <= selectedRating) {
+                        $(this).removeClass('far').addClass('fas');
+                    } else {
+                        $(this).removeClass('fas').addClass('far');
+                    }
                 });
+            }
+        ).click(function() {
+            const rating = $(this).data('rating');
+            $('.rating-input').data('selectedRating', rating);
+        });
 
-                star.addEventListener('click', function () {
-                    const rating = this.dataset.rating;
-                    document.querySelector('.rating-input').dataset.selectedRating = rating;
-                });
+        // Cập nhật giá
+        function updateTotalPrice() {
+            let totalPrice = basePrice;
+            
+            // Thêm giá của màu sắc được chọn
+            const additionalColorPrice = parseFloat($('.color-option.active').data('additional-price')) || 0;
+            totalPrice += additionalColorPrice;
+            
+            // Thêm giá của các addon được chọn
+            $('.addon-options input[type="checkbox"]:checked').each(function() {
+                totalPrice += parseFloat($(this).data('additional-price')) || 0;
             });
+            
+            // Áp dụng giảm giá
+            if (discountPercent > 0) {
+                totalPrice = totalPrice * (1 - discountPercent/100);
+            }
+            
+            // Cập nhật hiển thị giá
+            $('.product-price').text(
+                new Intl.NumberFormat('vi-VN', { 
+                    style: 'currency', 
+                    currency: 'VND' 
+                }).format(totalPrice)
+            );
         }
     });
 </script>

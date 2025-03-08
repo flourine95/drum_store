@@ -2,6 +2,7 @@ package com.drumstore.web.services;
 
 import com.drumstore.web.dto.ProductCardDTO;
 import com.drumstore.web.dto.ProductDetailDTO;
+import com.drumstore.web.dto.ProductDetailDTO2;
 import com.drumstore.web.models.Product;
 import com.drumstore.web.models.ProductSale;
 import com.drumstore.web.repositories.ProductRepository;
@@ -89,10 +90,9 @@ public class ProductService {
         return productRepository.getFilteredProductCards(offset, limit, search, category, brand, priceRange, sortBy);
     }
 
-    public ProductDetailDTO getProductDetail(int id) {
-        ProductDetailDTO product = productRepository.findProductDetail(id);
+    public ProductDetailDTO2 getProductDetail(int id) {
+        ProductDetailDTO2 product = productRepository.findProductDetail(id);
         if (product != null) {
-            // Có thể thêm logic cập nhật view count ở đây
             productRepository.incrementViewCount(id);
         }
         return product;
