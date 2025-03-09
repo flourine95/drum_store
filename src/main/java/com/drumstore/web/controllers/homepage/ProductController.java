@@ -79,6 +79,7 @@ public class ProductController extends HttpServlet {
         String productId = pathInfo.substring(1);
 
         ProductDetailDTO2 product = productService.getProductDetail(Integer.parseInt(productId));
+        System.out.println(product);
         if (product == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;

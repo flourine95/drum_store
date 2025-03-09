@@ -742,12 +742,10 @@ public class ProductRepository extends BaseRepository<Product> {
                 p.name AS p_name,
                 p.description AS p_description,
                 p.basePrice AS p_basePrice,
-                p.stock AS p_stock,
-                p.hasColorOptions AS p_hasColorOptions,
-                p.hasAddonOptions AS p_hasAddonOptions,
                 p.totalViews AS p_totalViews,
                 p.isFeatured AS p_isFeatured,
                 p.status AS p_status,
+                p.stockManagementType AS p_stockManagementType,
                 (SELECT AVG(rating) FROM product_reviews WHERE productId = p.id AND status = 1) AS p_averageRating,
                 (SELECT COUNT(*) FROM product_reviews WHERE productId = p.id AND status = 1) AS p_totalReviews,
                 p.createdAt AS p_createdAt,
@@ -760,17 +758,20 @@ public class ProductRepository extends BaseRepository<Product> {
                 pc.code AS pc_code,
                 pc.image AS pc_image,
                 pc.additionalPrice AS pc_additionalPrice,
-                pc.stock AS pc_stock,
                 pc.status AS pc_status,
                 pc.sort_order AS pc_sortOrder,
                 pa.id AS pa_id,
                 pa.name AS pa_name,
                 pa.description AS pa_description,
                 pa.additionalPrice AS pa_additionalPrice,
-                pa.stock AS pa_stock,
                 pa.status AS pa_status,
                 pa.isDefault AS pa_isDefault,
                 pa.sortOrder AS pa_sortOrder,
+                pv.id AS pv_id,
+                pv.stock AS pv_stock,
+                pv.status AS pv_status,
+                pv.colorId AS pv_colorId,
+                pv.addonId AS pv_addonId,
                 pr.id AS pr_id,
                 pr.userId AS pr_userId,
                 pr.orderId AS pr_orderId,
@@ -797,112 +798,138 @@ public class ProductRepository extends BaseRepository<Product> {
                 COALESCE(s.discountPercentage, 0) AS p_discountPercent
             FROM products p
             LEFT JOIN product_images pi ON p.id = pi.productId
-            LEFT JOIN product_colors pc ON p.id = pc.productId
-            LEFT JOIN product_addons pa ON p.id = pa.productId
-            LEFT JOIN product_reviews pr ON p.id = pr.productId
+            LEFT JOIN product_colors pc ON p.id = pc.productId AND pc.status = 1
+            LEFT JOIN product_addons pa ON p.id = pa.productId AND pa.status = 1
+            LEFT JOIN product_variants pv ON p.id = pv.productId AND pv.status = 1
+            LEFT JOIN product_reviews pr ON p.id = pr.productId AND pr.status = 1
             LEFT JOIN users u ON pr.userId = u.id
             LEFT JOIN categories c ON p.categoryId = c.id
             LEFT JOIN brands b ON p.brandId = b.id
             LEFT JOIN product_sales ps ON p.id = ps.productId
             LEFT JOIN sales s ON ps.saleId = s.id
                 AND NOW() BETWEEN s.startDate AND s.endDate
-            WHERE p.id = :id
+            WHERE p.id = :id AND p.status = 1
             """;
 
-        return jdbi.withHandle(handle -> {
-            return handle.createQuery(sql)
-                    .bind("id", id)
-                    .registerRowMapper(BeanMapper.factory(ProductDetailDTO2.class, "p"))
-                    .registerRowMapper(BeanMapper.factory(ProductImageDTO2.class, "pi"))
-                    .registerRowMapper(BeanMapper.factory(ProductColorDTO2.class, "pc"))
-                    .registerRowMapper(BeanMapper.factory(ProductAddonDTO.class, "pa"))
-                    .registerRowMapper(BeanMapper.factory(ProductReviewDTO.class, "pr"))
-                    .registerRowMapper(BeanMapper.factory(ProductSaleDTO2.class, "s"))
-                    .reduceRows(new LinkedHashMap<Integer, ProductDetailDTO2>(), (map, row) -> {
-                        ProductDetailDTO2 dto = map.computeIfAbsent(
-                                row.getColumn("p_id", Integer.class),
-                                _ -> {
-                                    ProductDetailDTO2 newDto = row.getRow(ProductDetailDTO2.class);
-                                    newDto.setImages(new ArrayList<>());
-                                    newDto.setColors(new ArrayList<>());
-                                    newDto.setAddons(new ArrayList<>());
-                                    newDto.setReviews(new ArrayList<>());
-                                    newDto.setSales(new ArrayList<>());
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind("id", id)
+                .registerRowMapper(BeanMapper.factory(ProductDetailDTO2.class, "p"))
+                .registerRowMapper(BeanMapper.factory(ProductImageDTO2.class, "pi"))
+                .registerRowMapper(BeanMapper.factory(ProductColorDTO2.class, "pc"))
+                .registerRowMapper(BeanMapper.factory(ProductAddonDTO.class, "pa"))
+                .registerRowMapper(BeanMapper.factory(ProductVariantDTO.class, "pv"))
+                .registerRowMapper(BeanMapper.factory(ProductReviewDTO.class, "pr"))
+                .registerRowMapper(BeanMapper.factory(ProductSaleDTO2.class, "s"))
+                .reduceRows(new LinkedHashMap<Integer, ProductDetailDTO2>(), (map, row) -> {
+                    ProductDetailDTO2 dto = map.computeIfAbsent(
+                            row.getColumn("p_id", Integer.class),
+                            _ -> {
+                                ProductDetailDTO2 newDto = row.getRow(ProductDetailDTO2.class);
+                                newDto.setImages(new ArrayList<>());
+                                newDto.setColors(new ArrayList<>());
+                                newDto.setAddons(new ArrayList<>());
+                                newDto.setVariants(new ArrayList<>());
+                                newDto.setReviews(new ArrayList<>());
+                                newDto.setSales(new ArrayList<>());
 
-                                    newDto.setCategoryId(row.getColumn("c_id", Integer.class));
-                                    newDto.setCategoryName(row.getColumn("c_name", String.class));
-                                    newDto.setBrandId(row.getColumn("b_id", Integer.class));
-                                    newDto.setBrandName(row.getColumn("b_name", String.class));
+                                newDto.setCategoryId(row.getColumn("c_id", Integer.class));
+                                newDto.setCategoryName(row.getColumn("c_name", String.class));
+                                newDto.setBrandId(row.getColumn("b_id", Integer.class));
+                                newDto.setBrandName(row.getColumn("b_name", String.class));
 
-                                    return newDto;
-                                }
-                        );
-
-                        if (row.getColumn("pi_id", Integer.class) != null) {
-                            ProductImageDTO2 image = row.getRow(ProductImageDTO2.class);
-                            if (image.isMain()) {
-                                dto.setMainImage(image.getImage());
+                                return newDto;
                             }
-                            if (dto.getImages().stream()
-                                    .noneMatch(img -> img.getId() == image.getId())) {
-                                dto.getImages().add(image);
+                    );
+
+                    // Map ProductImage
+                    if (row.getColumn("pi_id", Integer.class) != null) {
+                        ProductImageDTO2 image = row.getRow(ProductImageDTO2.class);
+                        if (image.isMain()) {
+                            dto.setMainImage(image.getImage());
+                        }
+                        if (dto.getImages().stream()
+                                .noneMatch(img -> img.getId() == image.getId())) {
+                            dto.getImages().add(image);
+                        }
+                    }
+
+                    // Map ProductColor with its images (chỉ lấy color đang active)
+                    if (row.getColumn("pc_id", Integer.class) != null && 
+                        row.getColumn("pc_status", Integer.class) == 1) {
+                        ProductColorDTO2 color = row.getRow(ProductColorDTO2.class);
+                        if (dto.getColors().stream()
+                                .noneMatch(c -> c.getId() == color.getId())) {
+                            List<String> colorImages = handle.createQuery(
+                                    "SELECT image FROM product_color_images WHERE colorId = :colorId ORDER BY sortOrder")
+                                    .bind("colorId", color.getId())
+                                    .mapTo(String.class)
+                                    .list();
+                            color.setImages(colorImages);
+                            dto.getColors().add(color);
+                        }
+                    }
+
+                    // Map ProductAddon with its images (chỉ lấy addon đang active)
+                    if (row.getColumn("pa_id", Integer.class) != null && 
+                        row.getColumn("pa_status", Integer.class) == 1) {
+                        ProductAddonDTO addon = row.getRow(ProductAddonDTO.class);
+                        if (dto.getAddons().stream()
+                                .noneMatch(a -> a.getId() == addon.getId())) {
+                            List<String> addonImages = handle.createQuery(
+                                    "SELECT image FROM product_addon_images WHERE addonId = :addonId ORDER BY sortOrder")
+                                    .bind("addonId", addon.getId())
+                                    .mapTo(String.class)
+                                    .list();
+                            addon.setImages(addonImages);
+                            dto.getAddons().add(addon);
+                        }
+                    }
+
+                    // Map ProductVariant (chỉ lấy variant đang active và có stock > 0)
+                    if (row.getColumn("pv_id", Integer.class) != null && 
+                        row.getColumn("pv_status", Integer.class) == 1) {
+                        ProductVariantDTO variant = row.getRow(ProductVariantDTO.class);
+                        if (dto.getVariants().stream()
+                                .noneMatch(v -> v.getId() == variant.getId())) {
+                            // Chỉ thêm variant có stock > 0
+                            if (variant.getStock() > 0) {
+                                dto.getVariants().add(variant);
                             }
                         }
+                    }
 
-                        if (row.getColumn("pc_id", Integer.class) != null) {
-                            ProductColorDTO2 color = row.getRow(ProductColorDTO2.class);
-                            if (dto.getColors().stream()
-                                    .noneMatch(c -> c.getId() == color.getId())) {
-                                List<String> colorImages = handle.createQuery(
-                                                "SELECT image FROM product_color_images WHERE colorId = :colorId ORDER BY sortOrder")
-                                        .bind("colorId", color.getId())
-                                        .mapTo(String.class)
-                                        .list();
-                                color.setImages(colorImages);
-                                dto.getColors().add(color);
-                            }
+                    // Map ProductReview with its images (chỉ lấy review đã được duyệt)
+                    if (row.getColumn("pr_id", Integer.class) != null && 
+                        row.getColumn("pr_status", Integer.class) == 1) {
+                        ProductReviewDTO review = row.getRow(ProductReviewDTO.class);
+                        if (dto.getReviews().stream()
+                                .noneMatch(r -> r.getId() == review.getId())) {
+                            List<String> reviewImages = handle.createQuery(
+                                    "SELECT image FROM review_images WHERE reviewId = :reviewId ORDER BY sortOrder")
+                                    .bind("reviewId", review.getId())
+                                    .mapTo(String.class)
+                                    .list();
+                            review.setImages(reviewImages);
+                            review.setUserName(row.getColumn("pr_userName", String.class));
+                            review.setUserAvatar(row.getColumn("pr_userAvatar", String.class));
+                            dto.getReviews().add(review);
                         }
+                    }
 
-                        if (row.getColumn("pa_id", Integer.class) != null) {
-                            ProductAddonDTO addon = row.getRow(ProductAddonDTO.class);
-                            if (dto.getAddons().stream()
-                                    .noneMatch(a -> a.getId() == addon.getId())) {
-                                List<String> addonImages = handle.createQuery(
-                                                "SELECT image FROM product_addon_images WHERE addonId = :addonId ORDER BY sortOrder")
-                                        .bind("addonId", addon.getId())
-                                        .mapTo(String.class)
-                                        .list();
-                                addon.setImages(addonImages);
-                                dto.getAddons().add(addon);
-                            }
+                    // Map Sale (chỉ lấy sale đang active và trong thời gian hiệu lực)
+                    if (row.getColumn("s_id", Integer.class) != null) {
+                        ProductSaleDTO2 sale = row.getRow(ProductSaleDTO2.class);
+                        if (dto.getSales().stream()
+                                .noneMatch(s -> s.getId() == sale.getId())) {
+                            dto.getSales().add(sale);
                         }
+                    }
 
-                        if (row.getColumn("pr_id", Integer.class) != null) {
-                            ProductReviewDTO review = row.getRow(ProductReviewDTO.class);
-                            if (dto.getReviews().stream()
-                                    .noneMatch(r -> r.getId() == review.getId())) {
-                                List<String> reviewImages = handle.createQuery(
-                                                "SELECT image FROM review_images WHERE reviewId = :reviewId ORDER BY sortOrder")
-                                        .bind("reviewId", review.getId())
-                                        .mapTo(String.class)
-                                        .list();
-                                review.setImages(reviewImages);
-                                dto.getReviews().add(review);
-                            }
-                        }
-                        if (row.getColumn("s_id", Integer.class) != null) {
-                            ProductSaleDTO2 sale = row.getRow(ProductSaleDTO2.class);
-                            if (dto.getSales().stream()
-                                    .noneMatch(s -> s.getId() == sale.getId())) {
-                                dto.getSales().add(sale);
-                            }
-                        }
-                        return map;
-                    })
-                    .values()
-                    .stream()
-                    .findFirst()
-                    .orElse(null);
-        });
+                    return map;
+                })
+                .values()
+                .stream()
+                .findFirst()
+                .orElse(null));
     }
 }

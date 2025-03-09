@@ -84,4 +84,19 @@ public class ProductColorDTO2 {
     public void setImages(List<String> images) {
         this.images = images;
     }
+
+    @Override
+    public String toString() {
+        return "ProductColorDTO2{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                ", image='" + image + '\'' +
+                ", additionalPrice=" + additionalPrice +
+                ", stock=" + stock +
+                ", status=" + status +
+                ", sortOrder=" + sortOrder +
+                ", images=" + images +
+                '}';
+    }
 }

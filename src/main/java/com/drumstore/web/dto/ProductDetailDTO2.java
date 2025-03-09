@@ -8,14 +8,12 @@ public class ProductDetailDTO2 {
     private String name;
     private String description;
     private double basePrice;
-    private int stock;
-    private boolean hasColorOptions;
-    private boolean hasAddonOptions;
-    private int totalViews;
     private boolean isFeatured;
     private int status;
     private double averageRating;
+    private int totalViews;
     private int totalReviews;
+    private int stockManagementType;
     private int categoryId;
     private String categoryName;
     private int brandId;
@@ -29,6 +27,7 @@ public class ProductDetailDTO2 {
     private List<ProductAddonDTO> addons;
     private List<ProductReviewDTO> reviews;
     private List<ProductSaleDTO2> sales;
+    private List<ProductVariantDTO> variants;
 
     public int getId() {
         return id;
@@ -60,30 +59,6 @@ public class ProductDetailDTO2 {
 
     public void setBasePrice(double basePrice) {
         this.basePrice = basePrice;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public boolean isHasColorOptions() {
-        return hasColorOptions;
-    }
-
-    public void setHasColorOptions(boolean hasColorOptions) {
-        this.hasColorOptions = hasColorOptions;
-    }
-
-    public boolean isHasAddonOptions() {
-        return hasAddonOptions;
-    }
-
-    public void setHasAddonOptions(boolean hasAddonOptions) {
-        this.hasAddonOptions = hasAddonOptions;
     }
 
     public int getTotalViews() {
@@ -230,6 +205,22 @@ public class ProductDetailDTO2 {
         this.sales = sales;
     }
 
+    public List<ProductVariantDTO> getVariants() {
+        return variants;
+    }
+
+    public void setVariants(List<ProductVariantDTO> variants) {
+        this.variants = variants;
+    }
+
+    public int getStockManagementType() {
+        return stockManagementType;
+    }
+
+    public void setStockManagementType(int stockManagementType) {
+        this.stockManagementType = stockManagementType;
+    }
+
     @Override
     public String toString() {
         return "ProductDetailDTO2{" +
@@ -237,9 +228,6 @@ public class ProductDetailDTO2 {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", basePrice=" + basePrice +
-                ", stock=" + stock +
-                ", hasColorOptions=" + hasColorOptions +
-                ", hasAddonOptions=" + hasAddonOptions +
                 ", totalViews=" + totalViews +
                 ", isFeatured=" + isFeatured +
                 ", status=" + status +
