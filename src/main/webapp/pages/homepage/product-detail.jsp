@@ -3,30 +3,41 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <style>
     .btn i {
-    font-size: 1.1rem;
-}
+        font-size: 1.1rem;
+    }
 
-.input-group input[type="number"] {
-    text-align: center;
-}
+    .input-group input[type="number"] {
+        text-align: center;
+    }
 
-.input-group input[type="number"]::-webkit-inner-spin-button,
-.input-group input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+    .input-group input[type="number"]::-webkit-inner-spin-button,
+    .input-group input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
-.btn-outline-danger:hover i {
-    animation: heartBeat 1s;
-}
+    .btn-outline-danger:hover i {
+        animation: heartBeat 1s;
+    }
 
-@keyframes heartBeat {
-    0% { transform: scale(1); }
-    14% { transform: scale(1.3); }
-    28% { transform: scale(1); }
-    42% { transform: scale(1.3); }
-    70% { transform: scale(1); }
-}
+    @keyframes heartBeat {
+        0% {
+            transform: scale(1);
+        }
+        14% {
+            transform: scale(1.3);
+        }
+        28% {
+            transform: scale(1);
+        }
+        42% {
+            transform: scale(1.3);
+        }
+        70% {
+            transform: scale(1);
+        }
+    }
+
     * {
         margin: 0;
         padding: 0;
@@ -274,11 +285,13 @@
         border-color: #0d6efd;
         background-color: #0d6efd;
         color: white;
-    } .product-info {
+    }
+
+    .product-info {
         padding: 20px;
         background: #fff;
         border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .product-price {
@@ -413,8 +426,8 @@
                                     <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₫"/>
                                 </del>
                                 <span class="badge bg-danger">
-                                    -<fmt:formatNumber value="${product.productSale.sale.discountPercentage}" 
-                                                    maxFractionDigits="0"/>%
+                                    -<fmt:formatNumber value="${product.productSale.sale.discountPercentage}"
+                                                       maxFractionDigits="0"/>%
                                 </span>
                             </div>
                         </c:when>
@@ -463,11 +476,13 @@
                         <span>Mua ngay</span>
                     </button>
 
+                    <c:if test="${sessionScope.user != null}">
                     <button class="btn btn-outline-danger" onclick="toggleWishlist(${product.id})"
                             data-bs-toggle="tooltip" data-bs-placement="top" title="Thêm vào yêu thích">
                         <i class="bi bi-heart"></i>
                     </button>
                 </div>
+                </c:if>
 
                 <!-- Mô tả -->
                 <div class="description mt-4">
@@ -507,30 +522,34 @@
             return parseInt(document.getElementById('quantityInput').value);
         }
 
-      // Thay thế hàm getSelectedColor() hiện tại bằng:
-function getSelectedColor() {
-    const selectedColor = document.querySelector('input[name="color"]:checked');
-    if (!selectedColor) {
-        Swal.fire({
-            title: 'Lỗi!',
-            text: 'Vui lòng chọn màu sắc',
-            icon: 'warning'
-        });
-        return null;
-    }
-    return selectedColor.value;
-}
+        function toggleWishlist(productId){
+            AjaxUtils.addProductToWhiteList(productId);
+        }
 
-// Thêm hàm buyNow
-function buyNow(productId, quantity, color) {
-    if (!color) {
-        return;
-    }
-    // Thêm vào giỏ hàng và chuyển đến trang thanh toán
-    AjaxUtils.addToCart(productId, quantity, color).then(() => {
-        window.location.href = '${pageContext.request.contextPath}/checkout';
-    });
-}
+        // Thay thế hàm getSelectedColor() hiện tại bằng:
+        function getSelectedColor() {
+            const selectedColor = document.querySelector('input[name="color"]:checked');
+            if (!selectedColor) {
+                Swal.fire({
+                    title: 'Lỗi!',
+                    text: 'Vui lòng chọn màu sắc',
+                    icon: 'warning'
+                });
+                return null;
+            }
+            return selectedColor.value;
+        }
+
+        // Thêm hàm buyNow
+        function buyNow(productId, quantity, color) {
+            if (!color) {
+                return;
+            }
+            // Thêm vào giỏ hàng và chuyển đến trang thanh toán
+            AjaxUtils.addToCart(productId, quantity, color).then(() => {
+                window.location.href = '${pageContext.request.contextPath}/checkout';
+            });
+        }
 
         function addToCart(productId, quantity, color) {
             AjaxUtils.addToCart(productId, quantity, color);
@@ -551,7 +570,7 @@ function buyNow(productId, quantity, color) {
 
         // Xử lý ảnh thumbnail
         document.querySelectorAll('.thumb-img').forEach(thumb => {
-            thumb.addEventListener('click', function() {
+            thumb.addEventListener('click', function () {
                 document.getElementById('mainImage').src = this.getAttribute('data-large');
             });
         });
