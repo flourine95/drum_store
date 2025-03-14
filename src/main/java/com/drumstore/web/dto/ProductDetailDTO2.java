@@ -1,9 +1,10 @@
 package com.drumstore.web.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ProductDetailDTO2 {
+public class ProductDetailDTO2 implements Serializable {
     private int id;
     private String name;
     private String description;
@@ -20,14 +21,26 @@ public class ProductDetailDTO2 {
     private String brandName;
     private String mainImage;
     private double discountPercent;
-    private double salePrice;
     private LocalDateTime createdAt;
     private List<ProductImageDTO2> images;
-    private List<ProductColorDTO2> colors;
-    private List<ProductAddonDTO> addons;
     private List<ProductReviewDTO> reviews;
     private List<ProductSaleDTO2> sales;
     private List<ProductVariantDTO> variants;
+
+    public double getLowestSalePrice() {
+        double discountedBasePrice = basePrice * (1 - discountPercent / 100.0);
+
+        if (variants == null || variants.isEmpty()) {
+            return discountedBasePrice;
+        }
+
+        double minAdditionalPrice = Double.MAX_VALUE;
+        for (ProductVariantDTO variant : variants) {
+            minAdditionalPrice = Math.min(minAdditionalPrice, variant.getAdditionalPrice());
+        }
+
+        return (basePrice + minAdditionalPrice) * (1 - discountPercent / 100.0);
+    }
 
     public int getId() {
         return id;
@@ -86,7 +99,13 @@ public class ProductDetailDTO2 {
     }
 
     public double getAverageRating() {
-        return averageRating;
+        if (reviews == null || reviews.isEmpty()) {
+            return 0.0;
+        }
+        return reviews.stream()
+                .mapToDouble(ProductReviewDTO::getRating)
+                .average()
+                .orElse(0.0);
     }
 
     public void setAverageRating(double averageRating) {
@@ -94,7 +113,10 @@ public class ProductDetailDTO2 {
     }
 
     public int getTotalReviews() {
-        return totalReviews;
+        if (reviews == null) {
+            return 0;
+        }
+        return reviews.size();
     }
 
     public void setTotalReviews(int totalReviews) {
@@ -134,7 +156,7 @@ public class ProductDetailDTO2 {
     }
 
     public String getMainImage() {
-        return mainImage;
+        return images.stream().filter(ProductImageDTO2::isIsMain).findFirst().map(ProductImageDTO2::getImage).orElse(null);
     }
 
     public void setMainImage(String mainImage) {
@@ -149,13 +171,6 @@ public class ProductDetailDTO2 {
         this.discountPercent = discountPercent;
     }
 
-    public double getSalePrice() {
-        return salePrice;
-    }
-
-    public void setSalePrice(double salePrice) {
-        this.salePrice = salePrice;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -173,21 +188,6 @@ public class ProductDetailDTO2 {
         this.images = images;
     }
 
-    public List<ProductColorDTO2> getColors() {
-        return colors;
-    }
-
-    public void setColors(List<ProductColorDTO2> colors) {
-        this.colors = colors;
-    }
-
-    public List<ProductAddonDTO> getAddons() {
-        return addons;
-    }
-
-    public void setAddons(List<ProductAddonDTO> addons) {
-        this.addons = addons;
-    }
 
     public List<ProductReviewDTO> getReviews() {
         return reviews;
@@ -221,6 +221,7 @@ public class ProductDetailDTO2 {
         this.stockManagementType = stockManagementType;
     }
 
+
     @Override
     public String toString() {
         return "ProductDetailDTO2{" +
@@ -228,24 +229,23 @@ public class ProductDetailDTO2 {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", basePrice=" + basePrice +
-                ", totalViews=" + totalViews +
                 ", isFeatured=" + isFeatured +
                 ", status=" + status +
                 ", averageRating=" + averageRating +
+                ", totalViews=" + totalViews +
                 ", totalReviews=" + totalReviews +
+                ", stockManagementType=" + stockManagementType +
                 ", categoryId=" + categoryId +
                 ", categoryName='" + categoryName + '\'' +
                 ", brandId=" + brandId +
                 ", brandName='" + brandName + '\'' +
                 ", mainImage='" + mainImage + '\'' +
                 ", discountPercent=" + discountPercent +
-                ", salePrice=" + salePrice +
                 ", createdAt=" + createdAt +
                 ", images=" + images +
-                ", colors=" + colors +
-                ", addons=" + addons +
                 ", reviews=" + reviews +
                 ", sales=" + sales +
+                ", variants=" + variants +
                 '}';
     }
 }

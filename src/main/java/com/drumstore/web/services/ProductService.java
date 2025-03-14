@@ -1,7 +1,6 @@
 package com.drumstore.web.services;
 
 import com.drumstore.web.dto.ProductCardDTO;
-import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.dto.ProductDetailDTO2;
 import com.drumstore.web.models.Product;
 import com.drumstore.web.models.ProductSale;
@@ -40,9 +39,7 @@ public class ProductService {
         return productRepository.findWithDetails(id);
     }
 
-    public List<ProductCardDTO> getFeaturedProducts(int limit) {
-        return productRepository.getFeaturedProducts(limit);
-    }
+
 
     public List<Product> getLatestProducts(int limit) {
         return productRepository.getLatestProducts(limit);
@@ -52,38 +49,20 @@ public class ProductService {
         return productRepository.allWithDetails();
     }
 
-//    public List<Product> getProducts(int page, int limit, String search, String category, String brand, String priceRange, String sortBy) {
-//        int offset = (page - 1) * limit;
-//        return productRepository.getFilteredProducts(offset, limit, search, category, brand, priceRange, sortBy);
-//    }
 
     public int countProducts(String search, String category, String brand, String priceRange) {
         return productRepository.countFilteredProducts(search, category, brand, priceRange);
     }
 
-//    public List<Product> getRelatedProducts(int productId, int categoryId, int limit) {
-//        return productRepository.getRelatedProducts(productId, categoryId, limit);
-//    }
 
     public Product findWithDetailsAndSale(int id) {
         Product product = productRepository.findWithDetails(id);
         if (product != null) {
-            // Lấy thông tin sale nếu có
             ProductSale sale = productRepository.getCurrentSale(id);
             product.setProductSale(sale);
-
         }
         return product;
     }
-
-//    public List<Product> getRelatedProductsWithSale(int productId, int categoryId, int limit) {
-//        List<Product> products = productRepository.getRelatedProducts(productId, categoryId, limit);
-//        for (Product product : products) {
-//            ProductSale sale = productRepository.getCurrentSale(product.getId());
-//            product.setProductSale(sale);
-//        }
-//        return products;
-//    }
 
     public List<ProductCardDTO> getProductCards(int page, int limit, String search, String category, String brand, String priceRange, String sortBy) {
         int offset = (page - 1) * limit;
@@ -96,9 +75,5 @@ public class ProductService {
             productRepository.incrementViewCount(id);
         }
         return product;
-    }
-
-    public List<ProductCardDTO> getRelatedProductCards(int productId, int categoryId, int limit) {
-        return productRepository.getRelatedProductCards(productId, categoryId, limit);
     }
 }

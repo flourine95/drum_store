@@ -62,39 +62,17 @@ CREATE TABLE product_colors
     id              INT PRIMARY KEY AUTO_INCREMENT,
     productId       INT         NOT NULL,
     name            VARCHAR(50) NOT NULL,
-    code            VARCHAR(20),
-    image           VARCHAR(255),
-    additionalPrice DECIMAL(10, 2) DEFAULT 0,
-    status          TINYINT        DEFAULT 1,
-    sort_order      INT            DEFAULT 0
+    additionalPrice DECIMAL(10, 2) DEFAULT 0
 );
-CREATE TABLE product_color_images
-(
-    imageId   INT PRIMARY KEY AUTO_INCREMENT,
-    colorId   INT          NOT NULL,
-    image     VARCHAR(255) NOT NULL,
-    isMain    BOOLEAN DEFAULT FALSE,
-    sortOrder INT     DEFAULT 0
-);
+
 CREATE TABLE product_addons
 (
     id              INT PRIMARY KEY AUTO_INCREMENT,
     productId       INT          NOT NULL,
     name            VARCHAR(100) NOT NULL,
-    description     TEXT,
-    additionalPrice DECIMAL(10, 2) DEFAULT 0,
-    status          TINYINT        DEFAULT 1,
-    isDefault       BOOLEAN        DEFAULT FALSE,
-    sortOrder       INT            DEFAULT 0
+    additionalPrice DECIMAL(10, 2) DEFAULT 0
 );
-CREATE TABLE product_addon_images
-(
-    imageId   INT PRIMARY KEY AUTO_INCREMENT,
-    addonId   INT          NOT NULL,
-    image     VARCHAR(255) NOT NULL,
-    isMain    BOOLEAN DEFAULT FALSE,
-    sortOrder INT     DEFAULT 0
-);
+
 CREATE TABLE product_reviews
 (
     id        INT AUTO_INCREMENT PRIMARY KEY,
@@ -113,6 +91,7 @@ CREATE TABLE product_variants
     productId INT NOT NULL,
     colorId   INT,
     addonId   INT,
+    imageId   INT,
     stock     INT       DEFAULT 0,
     status    TINYINT   DEFAULT 1,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -177,12 +156,13 @@ CREATE TABLE orders
 );
 CREATE TABLE order_items
 (
-    id        INT AUTO_INCREMENT PRIMARY KEY,
-    orderId   INT,
-    productId INT,
-    quantity  INT NOT NULL,
-    price     DECIMAL(10, 2),
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    orderId    INT,
+    variantId  INT,          -- Variant bao gồm cả productId
+    quantity   INT NOT NULL,
+    basePrice  DECIMAL(10, 2), -- Giá gốc của sản phẩm
+    finalPrice DECIMAL(13, 2), -- Giá cuối sau khi tính color/addon và sale
+    createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE posts
 (

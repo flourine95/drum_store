@@ -1,8 +1,9 @@
 package com.drumstore.web.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class ProductImageDTO2 {
+public class ProductImageDTO2 implements Serializable {
     private int id;
     private String image;
     private boolean isMain;
@@ -25,11 +26,11 @@ public class ProductImageDTO2 {
         this.image = image;
     }
 
-    public boolean isMain() {
+    public boolean isIsMain() {
         return isMain;
     }
 
-    public void setMain(boolean main) {
+    public void setIsMain(boolean main) {
         isMain = main;
     }
 
@@ -47,5 +48,16 @@ public class ProductImageDTO2 {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductImageDTO2{" +
+                "id=" + id +
+                ", image='" + image + '\'' +
+                ", isMain=" + isMain +
+                ", sortOrder=" + sortOrder +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

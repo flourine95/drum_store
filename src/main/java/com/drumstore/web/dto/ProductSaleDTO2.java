@@ -1,8 +1,9 @@
 package com.drumstore.web.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class ProductSaleDTO2 {
+public class ProductSaleDTO2 implements Serializable {
     private int id;
     private String name;
     private double discountPercentage;
@@ -47,5 +48,16 @@ public class ProductSaleDTO2 {
 
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductSaleDTO2{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", discountPercentage=" + discountPercentage +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }

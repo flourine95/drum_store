@@ -1,17 +1,11 @@
 package com.drumstore.web.dto;
 
-import java.util.List;
+import java.io.Serializable;
 
-public class ProductColorDTO2 {
+public class ProductColorDTO2 implements Serializable {
     private int id;
     private String name;
-    private String code;
-    private String image;
     private double additionalPrice;
-    private int stock;
-    private int status;
-    private int sortOrder;
-    private List<String> images;
 
     public int getId() {
         return id;
@@ -29,22 +23,6 @@ public class ProductColorDTO2 {
         this.name = name;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public double getAdditionalPrice() {
         return additionalPrice;
     }
@@ -53,50 +31,12 @@ public class ProductColorDTO2 {
         this.additionalPrice = additionalPrice;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getSortOrder() {
-        return sortOrder;
-    }
-
-    public void setSortOrder(int sortOrder) {
-        this.sortOrder = sortOrder;
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
-    }
-
     @Override
     public String toString() {
         return "ProductColorDTO2{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", code='" + code + '\'' +
-                ", image='" + image + '\'' +
                 ", additionalPrice=" + additionalPrice +
-                ", stock=" + stock +
-                ", status=" + status +
-                ", sortOrder=" + sortOrder +
-                ", images=" + images +
                 '}';
     }
 }

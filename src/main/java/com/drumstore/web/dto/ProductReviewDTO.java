@@ -1,9 +1,10 @@
 package com.drumstore.web.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ProductReviewDTO {
+public class ProductReviewDTO implements Serializable {
     private int id;
     private int userId;
     private String userName;
@@ -102,5 +103,22 @@ public class ProductReviewDTO {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductReviewDTO{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", userAvatar='" + userAvatar + '\'' +
+                ", orderId=" + orderId +
+                ", rating=" + rating +
+                ", content='" + content + '\'' +
+                ", status=" + status +
+                ", images=" + images +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }

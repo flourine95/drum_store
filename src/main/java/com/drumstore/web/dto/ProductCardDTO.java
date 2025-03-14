@@ -5,33 +5,16 @@ public class ProductCardDTO {
     private int id;
     private String name;
     private String mainImage;
-    private double originalPrice;
-    private double salePrice;
-    private double discountPercent;
-    private int stock;
+    private double basePrice;
+    private double lowestSalePrice;
     private double averageRating;
+    private double discountPercent;
+    private int totalViews;
+    private int totalReviews;
     private int categoryId;
     private String categoryName;
     private int brandId;
     private String brandName;
-
-    @Override
-    public String toString() {
-        return "ProductCardDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", mainImage='" + mainImage + '\'' +
-                ", originalPrice=" + originalPrice +
-                ", salePrice=" + salePrice +
-                ", discountPercent=" + discountPercent +
-                ", stock=" + stock +
-                ", averageRating=" + averageRating +
-                ", categoryId=" + categoryId +
-                ", categoryName='" + categoryName + '\'' +
-                ", brandId=" + brandId +
-                ", brandName='" + brandName + '\'' +
-                '}';
-    }
 
     public int getId() {
         return id;
@@ -57,20 +40,28 @@ public class ProductCardDTO {
         this.mainImage = mainImage;
     }
 
-    public double getOriginalPrice() {
-        return originalPrice;
+    public double getBasePrice() {
+        return basePrice;
     }
 
-    public void setOriginalPrice(double originalPrice) {
-        this.originalPrice = originalPrice;
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
     }
 
-    public double getSalePrice() {
-        return salePrice;
+    public double getLowestSalePrice() {
+        return lowestSalePrice;
     }
 
-    public void setSalePrice(double salePrice) {
-        this.salePrice = salePrice;
+    public void setLowestSalePrice(double lowestSalePrice) {
+        this.lowestSalePrice = lowestSalePrice;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
     public double getDiscountPercent() {
@@ -81,20 +72,20 @@ public class ProductCardDTO {
         this.discountPercent = discountPercent;
     }
 
-    public int getStock() {
-        return stock;
+    public int getTotalViews() {
+        return totalViews;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setTotalViews(int totalViews) {
+        this.totalViews = totalViews;
     }
 
-    public double getAverageRating() {
-        return averageRating;
+    public int getTotalReviews() {
+        return totalReviews;
     }
 
-    public void setAverageRating(double averageRating) {
-        this.averageRating = averageRating;
+    public void setTotalReviews(int totalReviews) {
+        this.totalReviews = totalReviews;
     }
 
     public int getCategoryId() {

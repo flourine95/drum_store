@@ -22,9 +22,6 @@ public class HomeService {
         return postService.getLatestPosts(limit);
     }
 
-    public List<ProductCardDTO> getFeaturedProducts(int limit) {
-        return productService.getFeaturedProducts(limit);
-    }
 
     public List<Category> getCategories(int limit) {
         return categoryService.getCategories(limit);

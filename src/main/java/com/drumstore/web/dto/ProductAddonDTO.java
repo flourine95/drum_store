@@ -1,17 +1,11 @@
 package com.drumstore.web.dto;
 
-import java.util.List;
+import java.io.Serializable;
 
-public class ProductAddonDTO {
+public class ProductAddonDTO implements Serializable {
     private int id;
     private String name;
-    private String description;
     private double additionalPrice;
-    private int stock;
-    private int status;
-    private boolean isDefault;
-    private int sortOrder;
-    private List<String> images;
 
     public int getId() {
         return id;
@@ -29,14 +23,6 @@ public class ProductAddonDTO {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public double getAdditionalPrice() {
         return additionalPrice;
     }
@@ -45,43 +31,12 @@ public class ProductAddonDTO {
         this.additionalPrice = additionalPrice;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public boolean isIsDefault() {
-        return isDefault;
-    }
-
-    public void setIsDefault(boolean aDefault) {
-        isDefault = aDefault;
-    }
-
-    public int getSortOrder() {
-        return sortOrder;
-    }
-
-    public void setSortOrder(int sortOrder) {
-        this.sortOrder = sortOrder;
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
+    @Override
+    public String toString() {
+        return "ProductAddonDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", additionalPrice=" + additionalPrice +
+                '}';
     }
 }

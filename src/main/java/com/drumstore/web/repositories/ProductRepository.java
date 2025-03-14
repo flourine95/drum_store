@@ -6,10 +6,7 @@ import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class ProductRepository extends BaseRepository<Product> {
     private final Jdbi jdbi;
@@ -148,66 +145,6 @@ public class ProductRepository extends BaseRepository<Product> {
         );
 
     }
-
-    public List<ProductCardDTO> getFeaturedProducts(int limit) {
-        String sql = """
-                SELECT
-                    p.id,
-                    p.name,
-                    p.price AS originalPrice,
-                    p.stock,
-                    p.averageRating,
-                    pi.image AS mainImage,
-                    c.id AS categoryId,
-                    c.name AS categoryName,
-                    b.id AS brandId,
-                    b.name AS brandName,
-                    (SELECT MAX(s.discountPercentage)
-                     FROM product_sales ps
-                     JOIN sales s ON ps.saleId = s.id
-                     WHERE ps.productId = p.id
-                     AND NOW() BETWEEN s.startDate AND s.endDate) AS discountPercent
-                FROM products p
-                LEFT JOIN (
-                    SELECT productId, image
-                    FROM product_images
-                    WHERE isMain = true
-                ) pi ON p.id = pi.productId
-                LEFT JOIN categories c ON p.categoryId = c.id
-                LEFT JOIN brands b ON p.brandId = b.id
-                WHERE p.isFeatured = true
-                ORDER BY p.createdAt DESC
-                LIMIT :limit
-                """;
-
-        return jdbi.withHandle(handle ->
-                handle.createQuery(sql)
-                        .bind("limit", limit)
-                        .map((rs, ctx) -> {
-                            ProductCardDTO dto = new ProductCardDTO();
-                            dto.setId(rs.getInt("id"));
-                            dto.setName(rs.getString("name"));
-                            dto.setMainImage(rs.getString("mainImage"));
-                            dto.setOriginalPrice(rs.getDouble("originalPrice"));
-                            dto.setStock(rs.getInt("stock"));
-                            dto.setAverageRating(rs.getDouble("averageRating"));
-                            dto.setCategoryId(rs.getInt("categoryId"));
-                            dto.setCategoryName(rs.getString("categoryName"));
-                            dto.setBrandId(rs.getInt("brandId"));
-                            dto.setBrandName(rs.getString("brandName"));
-
-                            Double discountPercent = rs.getObject("discountPercent", Double.class);
-                            if (discountPercent != null) {
-                                dto.setDiscountPercent(discountPercent);
-                                dto.setSalePrice(dto.getOriginalPrice() * (1 - discountPercent / 100));
-                            }
-
-                            return dto;
-                        })
-                        .list()
-        );
-    }
-
 
     public List<Product> getLatestProducts(int limit) {
         return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM products ORDER BY createdAt DESC LIMIT :limit").bind("limit", limit).mapToBean(Product.class).list());
@@ -438,18 +375,38 @@ public class ProductRepository extends BaseRepository<Product> {
                     SELECT
                         p.id AS p_id,
                         p.name AS p_name,
-                        p.price AS p_price,
-                        p.stock AS p_stock,
-                        p.averageRating AS p_averageRating,
+                        p.basePrice AS p_basePrice,
+                        p.totalViews AS p_totalViews,
                         p.categoryId AS p_categoryId,
                         p.brandId AS p_brandId,
+                        p.stockManagementType AS p_stockManagementType,
                         (SELECT MAX(s.discountPercentage)
                          FROM product_sales ps
-                         JOIN sales s ON ps.saleId = s.id
+                                  JOIN sales s ON ps.saleId = s.id
                          WHERE ps.productId = p.id
-                         AND NOW() BETWEEN s.startDate AND s.endDate) AS max_discount
+                           AND CURRENT_DATE BETWEEN s.startDate AND s.endDate) AS max_discount,
+                        (SELECT COALESCE(AVG(pr.rating), 0)
+                         FROM product_reviews pr
+                         WHERE pr.productId = p.id
+                           AND pr.status = 1) AS p_averageRating,
+                        (SELECT COUNT(*)
+                         FROM product_reviews pr
+                         WHERE pr.productId = p.id
+                           AND pr.status = 1) AS p_totalReviews,
+                        (SELECT MIN(
+                                        CASE
+                                            WHEN p.stockManagementType = 0 THEN p.basePrice
+                                            WHEN p.stockManagementType = 1 THEN p.basePrice + COALESCE(pc.additionalPrice, 0)
+                                            WHEN p.stockManagementType = 2 THEN p.basePrice + COALESCE(pa.additionalPrice, 0)
+                                            ELSE p.basePrice + COALESCE(pc.additionalPrice, 0) + COALESCE(pa.additionalPrice, 0)
+                                            END)
+                         FROM product_variants pv
+                                  LEFT JOIN product_colors pc ON pv.colorId = pc.id
+                                  LEFT JOIN product_addons pa ON pv.addonId = pa.id
+                         WHERE pv.productId = p.id
+                           AND pv.status = 1) AS lowest_variant_price
                     FROM products p
-                    WHERE 1=1
+                    WHERE p.status = 1
                 """);
 
         List<Object> params = new ArrayList<>();
@@ -474,7 +431,7 @@ public class ProductRepository extends BaseRepository<Product> {
         if (priceRange != null && !priceRange.isEmpty()) {
             String[] prices = priceRange.split("-");
             if (prices.length == 2) {
-                sql.append(" AND p.price BETWEEN ? AND ?");
+                sql.append(" AND p.basePrice BETWEEN ? AND ?");
                 params.add(Double.parseDouble(prices[0]));
                 params.add(Double.parseDouble(prices[1]));
             }
@@ -501,26 +458,30 @@ public class ProductRepository extends BaseRepository<Product> {
         sql.append("""
                 )
                 SELECT
-                    p.p_id AS id,
-                    p.p_name AS name,
-                    p.p_price AS originalPrice,
-                    p.p_stock AS stock,
-                    p.p_averageRating AS averageRating,
-                    pi.image AS mainImage,
-                    c.id AS categoryId,
-                    c.name AS categoryName,
-                    b.id AS brandId,
-                    b.name AS brandName,
-                    p.max_discount AS discountPercent
-                FROM FilteredProducts p
-                LEFT JOIN (
-                    SELECT productId, image
-                    FROM product_images
-                    WHERE isMain = true
-                ) pi ON p.p_id = pi.productId
-                LEFT JOIN categories c ON p.p_categoryId = c.id
-                LEFT JOIN brands b ON p.p_brandId = b.id
-                """);
+                p.p_id AS id,
+                p.p_name AS name,
+                p.p_basePrice AS basePrice,
+                p.p_totalViews AS totalViews,
+                p.p_averageRating AS averageRating,
+                p.p_totalReviews AS totalReviews,
+                (SELECT image
+                 FROM product_images
+                 WHERE productId = p.p_id
+                   AND isMain = 1
+                 LIMIT 1) AS mainImage,
+                c.id AS categoryId,
+                c.name AS categoryName,
+                b.id AS brandId,
+                b.name AS brandName,
+                p.max_discount AS discountPercent,
+                CASE
+                    WHEN p.max_discount IS NOT NULL
+                        THEN p.lowest_variant_price * (1 - p.max_discount/100)
+                    ELSE p.lowest_variant_price
+                    END AS lowestSalePrice
+            FROM FilteredProducts p
+                     LEFT JOIN categories c ON p.p_categoryId = c.id
+                     LEFT JOIN brands b ON p.p_brandId = b.id""");
         return jdbi.withHandle(handle -> {
             var query = handle.createQuery(sql.toString());
 
@@ -533,403 +494,206 @@ public class ProductRepository extends BaseRepository<Product> {
                 dto.setId(rs.getInt("id"));
                 dto.setName(rs.getString("name"));
                 dto.setMainImage(rs.getString("mainImage"));
-                dto.setOriginalPrice(rs.getDouble("originalPrice"));
-                dto.setStock(rs.getInt("stock"));
+                dto.setBasePrice(rs.getDouble("basePrice"));
+                dto.setLowestSalePrice(rs.getDouble("lowestSalePrice"));
                 dto.setAverageRating(rs.getDouble("averageRating"));
+                dto.setTotalViews(rs.getInt("totalViews"));
+                dto.setTotalReviews(rs.getInt("totalReviews"));
                 dto.setCategoryId(rs.getInt("categoryId"));
                 dto.setCategoryName(rs.getString("categoryName"));
                 dto.setBrandId(rs.getInt("brandId"));
                 dto.setBrandName(rs.getString("brandName"));
-
+                
                 Double discountPercent = rs.getObject("discountPercent", Double.class);
                 if (discountPercent != null) {
                     dto.setDiscountPercent(discountPercent);
-                    dto.setSalePrice(dto.getOriginalPrice() * (1 - discountPercent / 100));
                 }
-
+                
                 return dto;
             }).list();
         });
     }
 
-//    public ProductDetailDTO findProductDetail(int id) {
-//        String sql = """
-//                SELECT
-//                    p.id AS p_id,
-//                    p.name AS p_name,
-//                    p.description AS p_description,
-//                    p.price AS p_price,
-//                    p.stock AS p_stock,
-//                    p.totalViews AS p_totalViews,
-//                    p.isFeatured AS p_isFeatured,
-//                    p.status AS p_status,
-//                    p.averageRating AS p_averageRating,
-//                    p.createdAt AS p_createdAt,
-//                    pi.id AS pi_id,
-//                    pi.image AS pi_image,
-//                    pi.isMain AS pi_isMain,
-//                    pc.id AS pc_id,
-//                    pc.colorCode AS pc_code,
-//                    pc.colorName AS pc_name,
-//                    c.id AS c_id,
-//                    c.name AS c_name,
-//                    c.image AS c_image,
-//                    c.description AS c_description,
-//                    b.id AS b_id,
-//                    b.name AS b_name,
-//                    b.image AS b_image,
-//                    b.description AS b_description,
-//                    s.id AS s_id,
-//                    s.name AS s_name,
-//                    s.discountPercentage AS s_discountPercentage,
-//                    s.startDate AS s_startDate,
-//                    s.endDate AS s_endDate,
-//                    CASE
-//                        WHEN s.discountPercentage IS NOT NULL
-//                        THEN p.price * (1 - s.discountPercentage/100)
-//                        ELSE p.price
-//                    END AS p_salePrice,
-//                    COALESCE(s.discountPercentage, 0) AS p_discountPercent
-//                FROM products p
-//                LEFT JOIN product_images pi ON p.id = pi.productId
-//                LEFT JOIN product_colors pc ON p.id = pc.productId
-//                LEFT JOIN categories c ON p.categoryId = c.id
-//                LEFT JOIN brands b ON p.brandId = b.id
-//                LEFT JOIN product_sales ps ON p.id = ps.productId
-//                LEFT JOIN sales s ON ps.saleId = s.id
-//                    AND NOW() BETWEEN s.startDate AND s.endDate
-//                WHERE p.id = :id
-//                """;
-//
-//        return jdbi.withHandle(handle -> handle.createQuery(sql)
-//                .bind("id", id)
-//                .registerRowMapper(BeanMapper.factory(ProductDetailDTO.class, "p"))
-//                .registerRowMapper(BeanMapper.factory(ProductImageDTO.class, "pi"))
-//                .registerRowMapper(BeanMapper.factory(ProductColorDTO.class, "pc"))
-//                .registerRowMapper(BeanMapper.factory(CategoryDTO.class, "c"))
-//                .registerRowMapper(BeanMapper.factory(BrandDTO.class, "b"))
-//                .registerRowMapper(BeanMapper.factory(ProductSaleDTO.class, "s"))
-//                .reduceRows(new LinkedHashMap<Integer, ProductDetailDTO>(), (map, row) -> {
-//                    ProductDetailDTO product = map.computeIfAbsent(
-//                            row.getColumn("p_id", Integer.class),
-//                            _ -> {
-//                                ProductDetailDTO dto = row.getRow(ProductDetailDTO.class);
-//                                dto.setImages(new ArrayList<>());
-//                                dto.setColors(new ArrayList<>());
-//                                dto.setSales(new ArrayList<>());
-//                                return dto;
-//                            }
-//                    );
-//
-//                    // Map ProductImage
-//                    if (row.getColumn("pi_id", Integer.class) != null) {
-//                        ProductImageDTO image = row.getRow(ProductImageDTO.class);
-//                        if (image.isIsMain()) {
-//                            product.setMainImage(image.getImage());
-//                        }
-//                        if (product.getImages().stream()
-//                                .noneMatch(img -> img.getId() == image.getId())) {
-//                            product.getImages().add(image);
-//                        }
-//                    }
-//
-//                    // Map ProductColor
-//                    if (row.getColumn("pc_id", Integer.class) != null) {
-//                        ProductColorDTO color = row.getRow(ProductColorDTO.class);
-//                        if (product.getColors().stream()
-//                                .noneMatch(c -> c.getId() == color.getId())) {
-//                            product.getColors().add(color);
-//                        }
-//                    }
-//
-//                    // Map Category
-//                    if (row.getColumn("c_id", Integer.class) != null && product.getCategory() == null) {
-//                        product.setCategory(row.getRow(CategoryDTO.class));
-//                    }
-//
-//                    // Map Brand
-//                    if (row.getColumn("b_id", Integer.class) != null && product.getBrand() == null) {
-//                        product.setBrand(row.getRow(BrandDTO.class));
-//                    }
-//
-//                    // Map Sale
-//                    if (row.getColumn("s_id", Integer.class) != null) {
-//                        ProductSaleDTO sale = row.getRow(ProductSaleDTO.class);
-//                        if (product.getSales().stream()
-//                                .noneMatch(s -> s.getSaleId() == sale.getSaleId())) {
-//                            product.getSales().add(sale);
-//                        }
-//                    }
-//
-//                    return map;
-//                })
-//                .values()
-//                .stream()
-//                .findFirst()
-//                .orElse(null)
-//        );
-//    }
+    public ProductDetailDTO2 findProductDetail(int id) {
+        String sql = """
+                WITH ProductColors AS (
+                    SELECT * FROM product_colors WHERE productId = :id
+                ),
+                ProductAddons AS (
+                    SELECT * FROM product_addons WHERE productId = :id
+                )
+                SELECT
+                    p.id AS p_id,
+                    p.name AS p_name,
+                    p.description AS p_description,
+                    p.basePrice AS p_basePrice,
+                    p.totalViews AS p_totalViews,
+                    p.isFeatured AS p_isFeatured,
+                    p.status AS p_status,
+                    p.stockManagementType AS p_stockManagementType,
+                    (SELECT AVG(rating) FROM product_reviews WHERE productId = p.id AND status = 1) AS p_averageRating,
+                    (SELECT COUNT(*) FROM product_reviews WHERE productId = p.id AND status = 1) AS p_totalReviews,
+                    p.createdAt AS p_createdAt,
+                    pi.id AS pi_id,
+                    pi.image AS pi_image,
+                    pi.isMain AS pi_isMain,
+                    pi.sortOrder AS pi_sortOrder,
+                    pc.id AS pc_id,
+                    pc.name AS pc_name,
+                    pc.additionalPrice AS pc_additionalPrice,
+                    pa.id AS pa_id,
+                    pa.name AS pa_name,
+                    pa.additionalPrice AS pa_additionalPrice,
+                    pv.id AS pv_id,
+                    pv.stock AS pv_stock,
+                    pv.status AS pv_status,
+                    pv.colorId AS pv_colorId,
+                    pv.addonId AS pv_addonId,
+                    pv.imageId AS pv_imageId,
+                    pr.id AS pr_id,
+                    pr.userId AS pr_userId,
+                    pr.orderId AS pr_orderId,
+                    pr.rating AS pr_rating,
+                    pr.content AS pr_content,
+                    pr.status AS pr_status,
+                    pr.createdAt AS pr_createdAt,
+                    u.fullname AS pr_userName,
+                    u.avatar AS pr_userAvatar,
+                    c.id AS c_id,
+                    c.name AS c_name,
+                    b.id AS b_id,
+                    b.name AS b_name,
+                    s.id AS s_id,
+                    s.name AS s_name,
+                    s.discountPercentage AS s_discountPercentage,
+                    s.startDate AS s_startDate,
+                    s.endDate AS s_endDate,
+                    CASE
+                        WHEN s.discountPercentage IS NOT NULL
+                        THEN p.basePrice * (1 - s.discountPercentage/100)
+                        ELSE p.basePrice
+                    END AS p_salePrice,
+                    COALESCE(s.discountPercentage, 0) AS p_discountPercent
+                FROM products p
+                LEFT JOIN product_images pi ON p.id = pi.productId
+                LEFT JOIN product_variants pv ON p.id = pv.productId AND pv.status = 1
+                LEFT JOIN ProductColors pc ON pc.id = pv.colorId
+                LEFT JOIN ProductAddons pa ON pa.id = pv.addonId
+                LEFT JOIN product_reviews pr ON p.id = pr.productId AND pr.status = 1
+                LEFT JOIN users u ON pr.userId = u.id
+                LEFT JOIN categories c ON p.categoryId = c.id
+                LEFT JOIN brands b ON p.brandId = b.id
+                LEFT JOIN product_sales ps ON p.id = ps.productId
+                LEFT JOIN sales s ON ps.saleId = s.id
+                    AND NOW() BETWEEN s.startDate AND s.endDate
+                WHERE p.id = :id AND p.status = 1
+                """;
+
+        return jdbi.withHandle(handle -> {
+            Map<Integer, ProductColorDTO2> colorMap = new HashMap<>();
+            Map<Integer, ProductAddonDTO> addonMap = new HashMap<>();
+            Map<Integer, ProductVariantDTO> variantMap = new HashMap<>();
+
+            return handle.createQuery(sql)
+                    .bind("id", id)
+                    .registerRowMapper(BeanMapper.factory(ProductDetailDTO2.class, "p"))
+                    .registerRowMapper(BeanMapper.factory(ProductImageDTO2.class, "pi"))
+                    .registerRowMapper(BeanMapper.factory(ProductColorDTO2.class, "pc"))
+                    .registerRowMapper(BeanMapper.factory(ProductAddonDTO.class, "pa"))
+                    .registerRowMapper(BeanMapper.factory(ProductVariantDTO.class, "pv"))
+                    .registerRowMapper(BeanMapper.factory(ProductReviewDTO.class, "pr"))
+                    .registerRowMapper(BeanMapper.factory(ProductSaleDTO2.class, "s"))
+                    .reduceRows(new LinkedHashMap<Integer, ProductDetailDTO2>(), (map, row) -> {
+                        ProductDetailDTO2 dto = map.computeIfAbsent(
+                                row.getColumn("p_id", Integer.class),
+                                _ -> {
+                                    ProductDetailDTO2 newDto = row.getRow(ProductDetailDTO2.class);
+                                    newDto.setImages(new ArrayList<>());
+                                    newDto.setVariants(new ArrayList<>());
+                                    newDto.setReviews(new ArrayList<>());
+                                    newDto.setSales(new ArrayList<>());
+
+                                    newDto.setCategoryId(row.getColumn("c_id", Integer.class));
+                                    newDto.setCategoryName(row.getColumn("c_name", String.class));
+                                    newDto.setBrandId(row.getColumn("b_id", Integer.class));
+                                    newDto.setBrandName(row.getColumn("b_name", String.class));
+
+                                    return newDto;
+                                }
+                        );
+
+                        // Map ProductImage
+                        if (row.getColumn("pi_id", Integer.class) != null) {
+                            ProductImageDTO2 image = row.getRow(ProductImageDTO2.class);
+                            if (dto.getImages().stream().noneMatch(img -> img.getId() == image.getId())) {
+                                dto.getImages().add(image);
+                            }
+                        }
+
+                        // Map ProductColor
+                        if (row.getColumn("pc_id", Integer.class) != null) {
+                            ProductColorDTO2 color = row.getRow(ProductColorDTO2.class);
+                            colorMap.put(color.getId(), color);
+                        }
+
+                        // Map ProductAddon
+                        if (row.getColumn("pa_id", Integer.class) != null) {
+                            ProductAddonDTO addon = row.getRow(ProductAddonDTO.class);
+                            addonMap.put(addon.getId(), addon);
+                        }
+
+                        // Map ProductVariant
+                        if (row.getColumn("pv_id", Integer.class) != null) {
+                            Integer variantId = row.getColumn("pv_id", Integer.class);
+
+                            // Lấy hoặc tạo mới variant
+                            ProductVariantDTO variant = variantMap.computeIfAbsent(variantId, k -> {
+                                ProductVariantDTO v = row.getRow(ProductVariantDTO.class);
+
+                                // Set color và addon ngay khi tạo variant
+                                Integer colorId = row.getColumn("pv_colorId", Integer.class);
+                                Integer addonId = row.getColumn("pv_addonId", Integer.class);
+
+                                if (colorId != null && colorMap.containsKey(colorId)) {
+                                    v.setColor(colorMap.get(colorId));
+                                }
+
+                                if (addonId != null && addonMap.containsKey(addonId)) {
+                                    v.setAddon(addonMap.get(addonId));
+                                }
+
+                                dto.getVariants().add(v);
+                                return v;
+                            });
+                        }
+
+                        // Map ProductReview
+                        if (row.getColumn("pr_id", Integer.class) != null) {
+                            ProductReviewDTO review = row.getRow(ProductReviewDTO.class);
+                            if (dto.getReviews().stream().noneMatch(r -> r.getId() == review.getId())) {
+                                review.setUserName(row.getColumn("pr_userName", String.class));
+                                review.setUserAvatar(row.getColumn("pr_userAvatar", String.class));
+                                dto.getReviews().add(review);
+                            }
+                        }
+
+                        // Map Sale
+                        if (row.getColumn("s_id", Integer.class) != null) {
+                            ProductSaleDTO2 sale = row.getRow(ProductSaleDTO2.class);
+                            if (dto.getSales().stream().noneMatch(s -> s.getId() == sale.getId())) {
+                                dto.getSales().add(sale);
+                            }
+                        }
+                        return map;
+                    })
+                    .values()
+                    .stream()
+                    .findFirst()
+                    .orElse(null);
+        });
+    }
 
     public void incrementViewCount(int id) {
     }
 
-    public List<ProductCardDTO> getRelatedProductCards(int productId, int categoryId, int limit) {
-        String sql = """
-                    SELECT
-                        p.id,
-                        p.name,
-                        p.price AS originalPrice,
-                        p.stock,
-                        p.averageRating,
-                        pi.image AS mainImage,
-                        c.id AS categoryId,
-                        c.name AS categoryName,
-                        b.id AS brandId,
-                        b.name AS brandName,
-                        (SELECT MAX(s.discountPercentage)
-                         FROM product_sales ps
-                         JOIN sales s ON ps.saleId = s.id
-                         WHERE ps.productId = p.id
-                         AND NOW() BETWEEN s.startDate AND s.endDate) AS discountPercent
-                    FROM products p
-                    LEFT JOIN (
-                        SELECT productId, image
-                        FROM product_images
-                        WHERE isMain = true
-                    ) pi ON p.id = pi.productId
-                    LEFT JOIN categories c ON p.categoryId = c.id
-                    LEFT JOIN brands b ON p.brandId = b.id
-                    WHERE p.categoryId = :categoryId 
-                    AND p.id != :productId
-                    ORDER BY RAND()
-                    LIMIT :limit
-                """;
-
-        return jdbi.withHandle(handle ->
-                handle.createQuery(sql)
-                        .bind("categoryId", categoryId)
-                        .bind("productId", productId)
-                        .bind("limit", limit)
-                        .map((rs, ctx) -> {
-                            ProductCardDTO dto = new ProductCardDTO();
-                            dto.setId(rs.getInt("id"));
-                            dto.setName(rs.getString("name"));
-                            dto.setMainImage(rs.getString("mainImage"));
-                            dto.setOriginalPrice(rs.getDouble("originalPrice"));
-                            dto.setStock(rs.getInt("stock"));
-                            dto.setAverageRating(rs.getDouble("averageRating"));
-                            dto.setCategoryId(rs.getInt("categoryId"));
-                            dto.setCategoryName(rs.getString("categoryName"));
-                            dto.setBrandId(rs.getInt("brandId"));
-                            dto.setBrandName(rs.getString("brandName"));
-
-                            Double discountPercent = rs.getObject("discountPercent", Double.class);
-                            if (discountPercent != null) {
-                                dto.setDiscountPercent(discountPercent);
-                                dto.setSalePrice(dto.getOriginalPrice() * (1 - discountPercent / 100));
-                            }
-
-                            return dto;
-                        })
-                        .list()
-        );
-    }
-
-    public ProductDetailDTO2 findProductDetail(int id) {
-        String sql = """
-            SELECT
-                p.id AS p_id,
-                p.name AS p_name,
-                p.description AS p_description,
-                p.basePrice AS p_basePrice,
-                p.totalViews AS p_totalViews,
-                p.isFeatured AS p_isFeatured,
-                p.status AS p_status,
-                p.stockManagementType AS p_stockManagementType,
-                (SELECT AVG(rating) FROM product_reviews WHERE productId = p.id AND status = 1) AS p_averageRating,
-                (SELECT COUNT(*) FROM product_reviews WHERE productId = p.id AND status = 1) AS p_totalReviews,
-                p.createdAt AS p_createdAt,
-                pi.id AS pi_id,
-                pi.image AS pi_image,
-                pi.isMain AS pi_isMain,
-                pi.sortOrder AS pi_sortOrder,
-                pc.id AS pc_id,
-                pc.name AS pc_name,
-                pc.code AS pc_code,
-                pc.image AS pc_image,
-                pc.additionalPrice AS pc_additionalPrice,
-                pc.status AS pc_status,
-                pc.sort_order AS pc_sortOrder,
-                pa.id AS pa_id,
-                pa.name AS pa_name,
-                pa.description AS pa_description,
-                pa.additionalPrice AS pa_additionalPrice,
-                pa.status AS pa_status,
-                pa.isDefault AS pa_isDefault,
-                pa.sortOrder AS pa_sortOrder,
-                pv.id AS pv_id,
-                pv.stock AS pv_stock,
-                pv.status AS pv_status,
-                pv.colorId AS pv_colorId,
-                pv.addonId AS pv_addonId,
-                pr.id AS pr_id,
-                pr.userId AS pr_userId,
-                pr.orderId AS pr_orderId,
-                pr.rating AS pr_rating,
-                pr.content AS pr_content,
-                pr.status AS pr_status,
-                pr.createdAt AS pr_createdAt,
-                u.fullname AS pr_userName,
-                u.avatar AS pr_userAvatar,
-                c.id AS c_id,
-                c.name AS c_name,
-                b.id AS b_id,
-                b.name AS b_name,
-                s.id AS s_id,
-                s.name AS s_name,
-                s.discountPercentage AS s_discountPercentage,
-                s.startDate AS s_startDate,
-                s.endDate AS s_endDate,
-                CASE
-                    WHEN s.discountPercentage IS NOT NULL
-                    THEN p.basePrice * (1 - s.discountPercentage/100)
-                    ELSE p.basePrice
-                END AS p_salePrice,
-                COALESCE(s.discountPercentage, 0) AS p_discountPercent
-            FROM products p
-            LEFT JOIN product_images pi ON p.id = pi.productId
-            LEFT JOIN product_colors pc ON p.id = pc.productId AND pc.status = 1
-            LEFT JOIN product_addons pa ON p.id = pa.productId AND pa.status = 1
-            LEFT JOIN product_variants pv ON p.id = pv.productId AND pv.status = 1
-            LEFT JOIN product_reviews pr ON p.id = pr.productId AND pr.status = 1
-            LEFT JOIN users u ON pr.userId = u.id
-            LEFT JOIN categories c ON p.categoryId = c.id
-            LEFT JOIN brands b ON p.brandId = b.id
-            LEFT JOIN product_sales ps ON p.id = ps.productId
-            LEFT JOIN sales s ON ps.saleId = s.id
-                AND NOW() BETWEEN s.startDate AND s.endDate
-            WHERE p.id = :id AND p.status = 1
-            """;
-
-        return jdbi.withHandle(handle -> handle.createQuery(sql)
-                .bind("id", id)
-                .registerRowMapper(BeanMapper.factory(ProductDetailDTO2.class, "p"))
-                .registerRowMapper(BeanMapper.factory(ProductImageDTO2.class, "pi"))
-                .registerRowMapper(BeanMapper.factory(ProductColorDTO2.class, "pc"))
-                .registerRowMapper(BeanMapper.factory(ProductAddonDTO.class, "pa"))
-                .registerRowMapper(BeanMapper.factory(ProductVariantDTO.class, "pv"))
-                .registerRowMapper(BeanMapper.factory(ProductReviewDTO.class, "pr"))
-                .registerRowMapper(BeanMapper.factory(ProductSaleDTO2.class, "s"))
-                .reduceRows(new LinkedHashMap<Integer, ProductDetailDTO2>(), (map, row) -> {
-                    ProductDetailDTO2 dto = map.computeIfAbsent(
-                            row.getColumn("p_id", Integer.class),
-                            _ -> {
-                                ProductDetailDTO2 newDto = row.getRow(ProductDetailDTO2.class);
-                                newDto.setImages(new ArrayList<>());
-                                newDto.setColors(new ArrayList<>());
-                                newDto.setAddons(new ArrayList<>());
-                                newDto.setVariants(new ArrayList<>());
-                                newDto.setReviews(new ArrayList<>());
-                                newDto.setSales(new ArrayList<>());
-
-                                newDto.setCategoryId(row.getColumn("c_id", Integer.class));
-                                newDto.setCategoryName(row.getColumn("c_name", String.class));
-                                newDto.setBrandId(row.getColumn("b_id", Integer.class));
-                                newDto.setBrandName(row.getColumn("b_name", String.class));
-
-                                return newDto;
-                            }
-                    );
-
-                    // Map ProductImage
-                    if (row.getColumn("pi_id", Integer.class) != null) {
-                        ProductImageDTO2 image = row.getRow(ProductImageDTO2.class);
-                        if (image.isMain()) {
-                            dto.setMainImage(image.getImage());
-                        }
-                        if (dto.getImages().stream()
-                                .noneMatch(img -> img.getId() == image.getId())) {
-                            dto.getImages().add(image);
-                        }
-                    }
-
-                    // Map ProductColor with its images (chỉ lấy color đang active)
-                    if (row.getColumn("pc_id", Integer.class) != null && 
-                        row.getColumn("pc_status", Integer.class) == 1) {
-                        ProductColorDTO2 color = row.getRow(ProductColorDTO2.class);
-                        if (dto.getColors().stream()
-                                .noneMatch(c -> c.getId() == color.getId())) {
-                            List<String> colorImages = handle.createQuery(
-                                    "SELECT image FROM product_color_images WHERE colorId = :colorId ORDER BY sortOrder")
-                                    .bind("colorId", color.getId())
-                                    .mapTo(String.class)
-                                    .list();
-                            color.setImages(colorImages);
-                            dto.getColors().add(color);
-                        }
-                    }
-
-                    // Map ProductAddon with its images (chỉ lấy addon đang active)
-                    if (row.getColumn("pa_id", Integer.class) != null && 
-                        row.getColumn("pa_status", Integer.class) == 1) {
-                        ProductAddonDTO addon = row.getRow(ProductAddonDTO.class);
-                        if (dto.getAddons().stream()
-                                .noneMatch(a -> a.getId() == addon.getId())) {
-                            List<String> addonImages = handle.createQuery(
-                                    "SELECT image FROM product_addon_images WHERE addonId = :addonId ORDER BY sortOrder")
-                                    .bind("addonId", addon.getId())
-                                    .mapTo(String.class)
-                                    .list();
-                            addon.setImages(addonImages);
-                            dto.getAddons().add(addon);
-                        }
-                    }
-
-                    // Map ProductVariant (chỉ lấy variant đang active và có stock > 0)
-                    if (row.getColumn("pv_id", Integer.class) != null && 
-                        row.getColumn("pv_status", Integer.class) == 1) {
-                        ProductVariantDTO variant = row.getRow(ProductVariantDTO.class);
-                        if (dto.getVariants().stream()
-                                .noneMatch(v -> v.getId() == variant.getId())) {
-                            // Chỉ thêm variant có stock > 0
-                            if (variant.getStock() > 0) {
-                                dto.getVariants().add(variant);
-                            }
-                        }
-                    }
-
-                    // Map ProductReview with its images (chỉ lấy review đã được duyệt)
-                    if (row.getColumn("pr_id", Integer.class) != null && 
-                        row.getColumn("pr_status", Integer.class) == 1) {
-                        ProductReviewDTO review = row.getRow(ProductReviewDTO.class);
-                        if (dto.getReviews().stream()
-                                .noneMatch(r -> r.getId() == review.getId())) {
-                            List<String> reviewImages = handle.createQuery(
-                                    "SELECT image FROM review_images WHERE reviewId = :reviewId ORDER BY sortOrder")
-                                    .bind("reviewId", review.getId())
-                                    .mapTo(String.class)
-                                    .list();
-                            review.setImages(reviewImages);
-                            review.setUserName(row.getColumn("pr_userName", String.class));
-                            review.setUserAvatar(row.getColumn("pr_userAvatar", String.class));
-                            dto.getReviews().add(review);
-                        }
-                    }
-
-                    // Map Sale (chỉ lấy sale đang active và trong thời gian hiệu lực)
-                    if (row.getColumn("s_id", Integer.class) != null) {
-                        ProductSaleDTO2 sale = row.getRow(ProductSaleDTO2.class);
-                        if (dto.getSales().stream()
-                                .noneMatch(s -> s.getId() == sale.getId())) {
-                            dto.getSales().add(sale);
-                        }
-                    }
-
-                    return map;
-                })
-                .values()
-                .stream()
-                .findFirst()
-                .orElse(null));
-    }
 }
