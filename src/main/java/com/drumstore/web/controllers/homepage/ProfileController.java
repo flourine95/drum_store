@@ -87,7 +87,7 @@ public class ProfileController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/login");
@@ -322,9 +322,4 @@ public class ProfileController extends HttpServlet {
         super.destroy();
     }
 
-    private void setProfileAttributes(HttpServletRequest request, String title, String profileContent, String activePage) {
-        request.setAttribute("title", title);
-        request.setAttribute("profileContent", profileContent);
-        request.setAttribute("activePage", activePage);
-    }
 }

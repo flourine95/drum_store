@@ -7,23 +7,16 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>${title}</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@400;600&display=swap"
-            rel="stylesheet">
     <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logos/logo.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
-          rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="${pageContext.request.contextPath}/assets/lib/jquery-3.7.1/jquery-3.7.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/lib/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/lib/sweetalert2-11.17.2/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/fontawesome-free-5.15.4-web/css/all.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/animate.css-4.1.1/animate.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/sweetalert2-11.17.2/sweetalert2.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/custom.css">
-    <script src="${pageContext.request.contextPath}/assets/js/ajax-utils.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/auth.js"></script>
     <style>
         .dropdown-menu a {
             cursor: pointer;
@@ -292,6 +285,8 @@
     <jsp:include page="${content}"/>
 </main>
 <jsp:include page="footer.jsp"/>
+<script src="${pageContext.request.contextPath}/assets/js/ajax-utils.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/auth.js"></script>
 <script>
     const adjustDesktopPadding = () => {
         if (window.innerWidth >= 992) {

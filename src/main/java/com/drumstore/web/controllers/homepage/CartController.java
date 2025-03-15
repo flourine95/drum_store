@@ -18,10 +18,11 @@ import java.util.Map;
 
 @WebServlet("/cart/*")
 public class CartController extends HttpServlet {
-    private final ProductService productService;
-    private final Gson gson;
+    private ProductService productService;
+    private Gson gson;
 
-    public CartController() {
+    @Override
+    public void init() throws ServletException {
         this.productService = new ProductService();
         this.gson = new Gson();
     }
@@ -44,7 +45,7 @@ public class CartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            String action = request.getPathInfo();
+            String action = request.getParameter("action");
             HttpSession session = request.getSession();
             Cart cart = (Cart) session.getAttribute("cart");
             if (cart == null) {
@@ -54,53 +55,59 @@ public class CartController extends HttpServlet {
 
             Map<String, Object> result = new HashMap<>();
             System.out.println("action: " + action);
-            if ("/add".equals(action)) {
-                System.out.println("add");
-                int productId = Integer.parseInt(request.getParameter("productId"));
-                System.out.println("productId: " + productId);
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
-                System.out.println("quantity: " + quantity);
-                String color = request.getParameter("color");
-                System.out.println("color: " + color);
+            switch (action) {
+                case "add" -> {
+                    System.out.println("add");
+                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    System.out.println("productId: " + productId);
+                    int quantity = Integer.parseInt(request.getParameter("quantity"));
+                    System.out.println("quantity: " + quantity);
+                    String color = request.getParameter("color");
+                    System.out.println("color: " + color);
 
-                Product product = productService.findWithDetailsAndSale(productId);
-                if (product != null) {
-                    cart.addItem(new CartItem(product, quantity, color));
+                    Product product = productService.findWithDetailsAndSale(productId);
+                    if (product != null) {
+                        cart.addItem(new CartItem(product, quantity, color));
+                        result.put("success", true);
+                        result.put("message", "Đã thêm vào giỏ hàng");
+                        result.put("cartCount", cart.getItemCount());
+                        result.put("total", cart.getTotal());
+                    } else {
+                        result.put("success", false);
+                        result.put("message", "Không tìm thấy sản phẩm");
+                    }
+                }
+                case "update" -> {
+                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    int quantity = Integer.parseInt(request.getParameter("quantity"));
+                    String color = request.getParameter("color");
+
+                    cart.updateQuantity(productId, color, quantity);
                     result.put("success", true);
-                    result.put("message", "Đã thêm vào giỏ hàng");
+                    result.put("total", cart.getTotal());
+                }
+                case "update-color" -> {
+                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    String oldColor = request.getParameter("oldColor");
+                    String newColor = request.getParameter("newColor");
+
+                    cart.updateColor(productId, oldColor, newColor);
+                    result.put("success", true);
+                    result.put("message", "Đã cập nhật màu sắc");
+                }
+                case "remove" -> {
+                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    String color = request.getParameter("color");
+
+                    cart.removeItem(productId, color);
+                    result.put("success", true);
                     result.put("cartCount", cart.getItemCount());
                     result.put("total", cart.getTotal());
-                } else {
-                    result.put("success", false);
-                    result.put("message", "Không tìm thấy sản phẩm");
                 }
-            } else if ("/update".equals(action)) {
-                int productId = Integer.parseInt(request.getParameter("productId"));
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
-                String color = request.getParameter("color");
-
-                cart.updateQuantity(productId, color, quantity);
-                result.put("success", true);
-                result.put("total", cart.getTotal());
-            } else if ("/update-color".equals(action)) {
-                int productId = Integer.parseInt(request.getParameter("productId"));
-                String oldColor = request.getParameter("oldColor");
-                String newColor = request.getParameter("newColor");
-
-                cart.updateColor(productId, oldColor, newColor);
-                result.put("success", true);
-                result.put("message", "Đã cập nhật màu sắc");
-            } else if ("/remove".equals(action)) {
-                int productId = Integer.parseInt(request.getParameter("productId"));
-                String color = request.getParameter("color");
-
-                cart.removeItem(productId, color);
-                result.put("success", true);
-                result.put("cartCount", cart.getItemCount());
-                result.put("total", cart.getTotal());
-            } else {
-                result.put("success", false);
-                result.put("message", "Invalid action");
+                case null, default -> {
+                    result.put("success", false);
+                    result.put("message", "Invalid action");
+                }
             }
 
             response.setContentType("application/json");
