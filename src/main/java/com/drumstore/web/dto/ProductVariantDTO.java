@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public class ProductVariantDTO implements Serializable {
     private int id;
     private int imageId;
-    private ProductColorDTO2 color;
+    private ProductColorDTO color;
     private ProductAddonDTO addon;
     private int stock;
     private int status;
@@ -51,11 +51,11 @@ public class ProductVariantDTO implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public ProductColorDTO2 getColor() {
+    public ProductColorDTO getColor() {
         return color;
     }
 
-    public void setColor(ProductColorDTO2 color) {
+    public void setColor(ProductColorDTO color) {
         this.color = color;
     }
 

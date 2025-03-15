@@ -1,51 +1,63 @@
 package com.drumstore.web.dto;
 
-import java.time.LocalDate;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
-public class ProductSaleDTO {
-    private int saleId;
-    private String saleName;
-    private double discountPercent;
-    private LocalDate startDate;
-    private LocalDate endDate;
+public class ProductSaleDTO implements Serializable {
+    private int id;
+    private String name;
+    private double discountPercentage;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
-    public int getSaleId() {
-        return saleId;
+    public int getId() {
+        return id;
     }
 
-    public void setSaleId(int saleId) {
-        this.saleId = saleId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getSaleName() {
-        return saleName;
+    public String getName() {
+        return name;
     }
 
-    public void setSaleName(String saleName) {
-        this.saleName = saleName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public double getDiscountPercent() {
-        return discountPercent;
+    public double getDiscountPercentage() {
+        return discountPercentage;
     }
 
-    public void setDiscountPercent(double discountPercent) {
-        this.discountPercent = discountPercent;
+    public void setDiscountPercentage(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductSaleDTO2{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", discountPercentage=" + discountPercentage +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }

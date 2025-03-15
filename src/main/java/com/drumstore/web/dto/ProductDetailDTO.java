@@ -1,28 +1,46 @@
 package com.drumstore.web.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDetailDTO {
+public class ProductDetailDTO implements Serializable {
     private int id;
     private String name;
     private String description;
-    private double price;
-    private int stock;
-    private int totalViews;
+    private double basePrice;
     private boolean isFeatured;
     private int status;
     private double averageRating;
+    private int totalViews;
+    private int totalReviews;
+    private int stockManagementType;
+    private int categoryId;
+    private String categoryName;
+    private int brandId;
+    private String brandName;
     private String mainImage;
     private double discountPercent;
-    private double salePrice;
-    private List<ProductImageDTO> images = new ArrayList<>();
-    private List<ProductSaleDTO> sales = new ArrayList<>();
-    private List<ProductColorDTO> colors = new ArrayList<>();
-    private BrandDTO brand;
-    private CategoryDTO category;
     private LocalDateTime createdAt;
+    private List<ProductImageDTO> images;
+    private List<ProductReviewDTO> reviews;
+    private List<ProductSaleDTO> sales;
+    private List<ProductVariantDTO> variants;
+
+    public double getLowestSalePrice() {
+        double discountedBasePrice = basePrice * (1 - discountPercent / 100.0);
+
+        if (variants == null || variants.isEmpty()) {
+            return discountedBasePrice;
+        }
+
+        double minAdditionalPrice = Double.MAX_VALUE;
+        for (ProductVariantDTO variant : variants) {
+            minAdditionalPrice = Math.min(minAdditionalPrice, variant.getAdditionalPrice());
+        }
+
+        return (basePrice + minAdditionalPrice) * (1 - discountPercent / 100.0);
+    }
 
     public int getId() {
         return id;
@@ -48,20 +66,12 @@ public class ProductDetailDTO {
         this.description = description;
     }
 
-    public double getPrice() {
-        return price;
+    public double getBasePrice() {
+        return basePrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
     }
 
     public int getTotalViews() {
@@ -89,15 +99,64 @@ public class ProductDetailDTO {
     }
 
     public double getAverageRating() {
-        return averageRating;
+        if (reviews == null || reviews.isEmpty()) {
+            return 0.0;
+        }
+        return reviews.stream()
+                .mapToDouble(ProductReviewDTO::getRating)
+                .average()
+                .orElse(0.0);
     }
 
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
     }
 
+    public int getTotalReviews() {
+        if (reviews == null) {
+            return 0;
+        }
+        return reviews.size();
+    }
+
+    public void setTotalReviews(int totalReviews) {
+        this.totalReviews = totalReviews;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public int getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(int brandId) {
+        this.brandId = brandId;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
     public String getMainImage() {
-        return mainImage;
+        return images.stream().filter(ProductImageDTO::isIsMain).findFirst().map(ProductImageDTO::getImage).orElse(null);
     }
 
     public void setMainImage(String mainImage) {
@@ -112,12 +171,13 @@ public class ProductDetailDTO {
         this.discountPercent = discountPercent;
     }
 
-    public double getSalePrice() {
-        return salePrice;
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setSalePrice(double salePrice) {
-        this.salePrice = salePrice;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public List<ProductImageDTO> getImages() {
@@ -128,6 +188,15 @@ public class ProductDetailDTO {
         this.images = images;
     }
 
+
+    public List<ProductReviewDTO> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ProductReviewDTO> reviews) {
+        this.reviews = reviews;
+    }
+
     public List<ProductSaleDTO> getSales() {
         return sales;
     }
@@ -136,59 +205,47 @@ public class ProductDetailDTO {
         this.sales = sales;
     }
 
-    public List<ProductColorDTO> getColors() {
-        return colors;
+    public List<ProductVariantDTO> getVariants() {
+        return variants;
     }
 
-    public void setColors(List<ProductColorDTO> colors) {
-        this.colors = colors;
+    public void setVariants(List<ProductVariantDTO> variants) {
+        this.variants = variants;
     }
 
-    public BrandDTO getBrand() {
-        return brand;
+    public int getStockManagementType() {
+        return stockManagementType;
     }
 
-    public void setBrand(BrandDTO brand) {
-        this.brand = brand;
+    public void setStockManagementType(int stockManagementType) {
+        this.stockManagementType = stockManagementType;
     }
 
-    public CategoryDTO getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryDTO category) {
-        this.category = category;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
     @Override
     public String toString() {
-        return "ProductDetailDTO{" +
+        return "ProductDetailDTO2{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", price=" + price +
-                ", stock=" + stock +
-                ", totalViews=" + totalViews +
+                ", basePrice=" + basePrice +
                 ", isFeatured=" + isFeatured +
                 ", status=" + status +
                 ", averageRating=" + averageRating +
-                ", imageMain='" + mainImage + '\'' +
+                ", totalViews=" + totalViews +
+                ", totalReviews=" + totalReviews +
+                ", stockManagementType=" + stockManagementType +
+                ", categoryId=" + categoryId +
+                ", categoryName='" + categoryName + '\'' +
+                ", brandId=" + brandId +
+                ", brandName='" + brandName + '\'' +
+                ", mainImage='" + mainImage + '\'' +
                 ", discountPercent=" + discountPercent +
-                ", salePrice=" + salePrice +
-                ", images=" + images +
-                ", sales=" + sales +
-                ", colors=" + colors +
-                ", brand=" + brand +
-                ", category=" + category +
                 ", createdAt=" + createdAt +
+                ", images=" + images +
+                ", reviews=" + reviews +
+                ", sales=" + sales +
+                ", variants=" + variants +
                 '}';
     }
 }

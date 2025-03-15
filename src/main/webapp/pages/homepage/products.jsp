@@ -404,6 +404,48 @@
         margin-bottom: 1rem;
     }
 }
+
+.badges {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    z-index: 1;
+}
+
+.featured-badge {
+    background-color: #ffc107;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    order: 2;
+}
+
+.discount-badge {
+    position: static;
+    background-color: #dc3545;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    order: 1;
+}
+
+.product-card {
+    cursor: default;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
 </style>
 
 <main>
@@ -505,53 +547,77 @@
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     <c:forEach items="${products}" var="product">
                         <div class="col-md-4 mb-4">
-                            <div class="card product-card h-100" onclick="goToProduct(${product.id})">
+                            <div class="card product-card h-100" 
+                                 onclick="goToProduct(${product.id}, event)" 
+                                 title="Nhấn Ctrl + Click để mở trong tab mới">
                                 <div class="card-img-wrapper">
-                                    <img src="${pageContext.request.contextPath}/assets/images/products/${product.mainImage}" class="card-img-top" alt="${product.name}">
-                                    <c:if test="${product.discountPercent > 0}">
-                                        <div class="discount-badge">
-                                            -<fmt:formatNumber value="${product.discountPercent}" type="number" maxFractionDigits="0"/>%
-                                        </div>
-                                    </c:if>
+                                    <img src="${pageContext.request.contextPath}/assets/images/products/${product.mainImage}" 
+                                         class="card-img-top" 
+                                         alt="${product.name}">
+                                    <div class="badges">
+                                        <c:if test="${product.discountPercent > 0}">
+                                            <div class="discount-badge">
+                                                -<fmt:formatNumber value="${product.discountPercent}" type="number" maxFractionDigits="0"/>%
+                                            </div>
+                                        </c:if>
+                                        <c:if test="${product.isFeatured}">
+                                            <div class="featured-badge">
+                                                <i class="bi bi-star-fill"></i> Nổi bật
+                                            </div>
+                                        </c:if>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title text-truncate">${product.name}</h5>
+                                    
                                     <div class="price-section">
                                         <c:choose>
                                             <c:when test="${product.discountPercent > 0}">
                                                 <p class="sale-price">
-                                                    <fmt:formatNumber value="${product.salePrice}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                                    <fmt:formatNumber value="${product.lowestSalePrice}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                                                 </p>
                                                 <p class="original-price">
-                                                    <fmt:formatNumber value="${product.originalPrice}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                                    <fmt:formatNumber value="${product.basePrice}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                                                 </p>
                                             </c:when>
                                             <c:otherwise>
                                                 <p class="regular-price">
-                                                    <fmt:formatNumber value="${product.originalPrice}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                                    <fmt:formatNumber value="${product.basePrice}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                                                 </p>
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
+
                                     <div class="product-meta">
                                         <div class="rating-section">
                                             <div class="stars">
+                                                <c:set var="rating" value="${product.averageRating}"/>
                                                 <c:forEach begin="1" end="5" var="i">
-                                                    <i class="bi ${i <= product.averageRating ? 'bi-star-fill' : 'bi-star'}"></i>
+                                                    <c:choose>
+                                                        <c:when test="${i <= Math.floor(rating)}">
+                                                            <i class="bi bi-star-fill"></i>
+                                                        </c:when>
+                                                        <c:when test="${i == Math.ceil(rating) && rating % 1 != 0}">
+                                                            <i class="bi bi-star-half"></i>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <i class="bi bi-star"></i>
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </c:forEach>
+                                                <span class="rating-text">
+                                                    (${product.averageRating > 0 ? String.format("%.1f", product.averageRating) : "Chưa có đánh giá"})
+                                                </span>
                                             </div>
+                                            <span class="review-count">
+                                                ${product.totalReviews} đánh giá
+                                            </span>
                                         </div>
-                                        <div class="stock-info">
-                                            <c:choose>
-                                                <c:when test="${product.stock > 0}">
-                                                    <span class="in-stock">Còn ${product.stock} sản phẩm</span>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <span class="out-of-stock">Hết hàng</span>
-                                                </c:otherwise>
-                                            </c:choose>
+                                        <div class="view-count">
+                                            <i class="bi bi-eye"></i> ${product.totalViews}
                                         </div>
                                     </div>
+
                                     <div class="product-tags">
                                         <span class="category-tag">${product.categoryName}</span>
                                         <span class="brand-tag">${product.brandName}</span>
@@ -673,7 +739,7 @@
     }
 
     function resetFilter() {
-        window.location.href = '${pageContext.request.contextPath}/products';
+        window.location.href = `${pageContext.request.contextPath}/products`;
     }
 
     function updateQueryParams(newParams) {
@@ -694,8 +760,14 @@
         document.getElementById('filterForm').submit();
     }
 
-    function goToProduct(productId) {
-        window.location.href = '${pageContext.request.contextPath}/product/' + productId;
+    function goToProduct(productId, event) {
+        const url = '${pageContext.request.contextPath}/product/' + productId;
+        
+        if (event.ctrlKey || event.metaKey) { // metaKey cho macOS
+            window.open(url, '_blank');
+        } else {
+            window.location.href = url;
+        }
     }
 
 </script>

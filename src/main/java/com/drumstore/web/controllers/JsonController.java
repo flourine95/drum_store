@@ -1,7 +1,9 @@
 package com.drumstore.web.controllers;
 
-import com.drumstore.web.dto.ProductDetailDTO2;
+import com.drumstore.web.dto.ProductCardDTO;
+import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.repositories.ProductRepository;
+import com.drumstore.web.services.ProductService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -16,7 +18,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+//controller này dùng để convert object java -> json để dễ debug
 @WebServlet("/json/*")
 public class JsonController extends HttpServlet {
     private static final Gson gson = new GsonBuilder()
@@ -32,8 +36,8 @@ public class JsonController extends HttpServlet {
         ProductRepository productRepository = new ProductRepository();
 
         // Lấy product detail
-        ProductDetailDTO2 product = productRepository.findProductDetail(productId);
-        System.out.println(product);
+        ProductDetailDTO product = productRepository.findProductDetail(productId);
+
         // Cấu hình response
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");

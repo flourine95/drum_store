@@ -378,6 +378,7 @@ public class ProductRepository extends BaseRepository<Product> {
                         p.basePrice AS p_basePrice,
                         p.totalViews AS p_totalViews,
                         p.categoryId AS p_categoryId,
+                        p.isFeatured AS p_isFeatured,
                         p.brandId AS p_brandId,
                         p.stockManagementType AS p_stockManagementType,
                         (SELECT MAX(s.discountPercentage)
@@ -464,6 +465,7 @@ public class ProductRepository extends BaseRepository<Product> {
                 p.p_totalViews AS totalViews,
                 p.p_averageRating AS averageRating,
                 p.p_totalReviews AS totalReviews,
+                p.p_isFeatured AS isFeatured,
                 (SELECT image
                  FROM product_images
                  WHERE productId = p.p_id
@@ -495,6 +497,7 @@ public class ProductRepository extends BaseRepository<Product> {
                 dto.setName(rs.getString("name"));
                 dto.setMainImage(rs.getString("mainImage"));
                 dto.setBasePrice(rs.getDouble("basePrice"));
+                dto.setIsFeatured(rs.getBoolean("isFeatured"));
                 dto.setLowestSalePrice(rs.getDouble("lowestSalePrice"));
                 dto.setAverageRating(rs.getDouble("averageRating"));
                 dto.setTotalViews(rs.getInt("totalViews"));
@@ -514,13 +517,20 @@ public class ProductRepository extends BaseRepository<Product> {
         });
     }
 
-    public ProductDetailDTO2 findProductDetail(int id) {
+    public ProductDetailDTO findProductDetail(int id) {
         String sql = """
                 WITH ProductColors AS (
                     SELECT * FROM product_colors WHERE productId = :id
                 ),
                 ProductAddons AS (
                     SELECT * FROM product_addons WHERE productId = :id
+                ),
+                MaxDiscount AS (
+                    SELECT productId, MAX(s.discountPercentage) as maxDiscount
+                    FROM product_sales ps 
+                    JOIN sales s ON ps.saleId = s.id
+                    WHERE NOW() BETWEEN s.startDate AND s.endDate
+                    GROUP BY productId
                 )
                 SELECT
                     p.id AS p_id,
@@ -569,11 +579,11 @@ public class ProductRepository extends BaseRepository<Product> {
                     s.startDate AS s_startDate,
                     s.endDate AS s_endDate,
                     CASE
-                        WHEN s.discountPercentage IS NOT NULL
-                        THEN p.basePrice * (1 - s.discountPercentage/100)
+                        WHEN md.maxDiscount IS NOT NULL
+                        THEN p.basePrice * (1 - md.maxDiscount/100)
                         ELSE p.basePrice
                     END AS p_salePrice,
-                    COALESCE(s.discountPercentage, 0) AS p_discountPercent
+                    COALESCE(md.maxDiscount, 0) AS p_discountPercent
                 FROM products p
                 LEFT JOIN product_images pi ON p.id = pi.productId
                 LEFT JOIN product_variants pv ON p.id = pv.productId AND pv.status = 1
@@ -586,28 +596,29 @@ public class ProductRepository extends BaseRepository<Product> {
                 LEFT JOIN product_sales ps ON p.id = ps.productId
                 LEFT JOIN sales s ON ps.saleId = s.id
                     AND NOW() BETWEEN s.startDate AND s.endDate
+                LEFT JOIN MaxDiscount md ON md.productId = p.id
                 WHERE p.id = :id AND p.status = 1
                 """;
 
         return jdbi.withHandle(handle -> {
-            Map<Integer, ProductColorDTO2> colorMap = new HashMap<>();
+            Map<Integer, ProductColorDTO> colorMap = new HashMap<>();
             Map<Integer, ProductAddonDTO> addonMap = new HashMap<>();
             Map<Integer, ProductVariantDTO> variantMap = new HashMap<>();
 
             return handle.createQuery(sql)
                     .bind("id", id)
-                    .registerRowMapper(BeanMapper.factory(ProductDetailDTO2.class, "p"))
-                    .registerRowMapper(BeanMapper.factory(ProductImageDTO2.class, "pi"))
-                    .registerRowMapper(BeanMapper.factory(ProductColorDTO2.class, "pc"))
+                    .registerRowMapper(BeanMapper.factory(ProductDetailDTO.class, "p"))
+                    .registerRowMapper(BeanMapper.factory(ProductImageDTO.class, "pi"))
+                    .registerRowMapper(BeanMapper.factory(ProductColorDTO.class, "pc"))
                     .registerRowMapper(BeanMapper.factory(ProductAddonDTO.class, "pa"))
                     .registerRowMapper(BeanMapper.factory(ProductVariantDTO.class, "pv"))
                     .registerRowMapper(BeanMapper.factory(ProductReviewDTO.class, "pr"))
-                    .registerRowMapper(BeanMapper.factory(ProductSaleDTO2.class, "s"))
-                    .reduceRows(new LinkedHashMap<Integer, ProductDetailDTO2>(), (map, row) -> {
-                        ProductDetailDTO2 dto = map.computeIfAbsent(
+                    .registerRowMapper(BeanMapper.factory(ProductSaleDTO.class, "s"))
+                    .reduceRows(new LinkedHashMap<Integer, ProductDetailDTO>(), (map, row) -> {
+                        ProductDetailDTO dto = map.computeIfAbsent(
                                 row.getColumn("p_id", Integer.class),
                                 _ -> {
-                                    ProductDetailDTO2 newDto = row.getRow(ProductDetailDTO2.class);
+                                    ProductDetailDTO newDto = row.getRow(ProductDetailDTO.class);
                                     newDto.setImages(new ArrayList<>());
                                     newDto.setVariants(new ArrayList<>());
                                     newDto.setReviews(new ArrayList<>());
@@ -624,7 +635,7 @@ public class ProductRepository extends BaseRepository<Product> {
 
                         // Map ProductImage
                         if (row.getColumn("pi_id", Integer.class) != null) {
-                            ProductImageDTO2 image = row.getRow(ProductImageDTO2.class);
+                            ProductImageDTO image = row.getRow(ProductImageDTO.class);
                             if (dto.getImages().stream().noneMatch(img -> img.getId() == image.getId())) {
                                 dto.getImages().add(image);
                             }
@@ -632,7 +643,7 @@ public class ProductRepository extends BaseRepository<Product> {
 
                         // Map ProductColor
                         if (row.getColumn("pc_id", Integer.class) != null) {
-                            ProductColorDTO2 color = row.getRow(ProductColorDTO2.class);
+                            ProductColorDTO color = row.getRow(ProductColorDTO.class);
                             colorMap.put(color.getId(), color);
                         }
 
@@ -679,7 +690,7 @@ public class ProductRepository extends BaseRepository<Product> {
 
                         // Map Sale
                         if (row.getColumn("s_id", Integer.class) != null) {
-                            ProductSaleDTO2 sale = row.getRow(ProductSaleDTO2.class);
+                            ProductSaleDTO sale = row.getRow(ProductSaleDTO.class);
                             if (dto.getSales().stream().noneMatch(s -> s.getId() == sale.getId())) {
                                 dto.getSales().add(sale);
                             }

@@ -1,9 +1,11 @@
 package com.drumstore.web.dto;
 
-public class ProductColorDTO {
+import java.io.Serializable;
+
+public class ProductColorDTO implements Serializable {
     private int id;
     private String name;
-    private String code;
+    private double additionalPrice;
 
     public int getId() {
         return id;
@@ -21,20 +23,20 @@ public class ProductColorDTO {
         this.name = name;
     }
 
-    public String getCode() {
-        return code;
+    public double getAdditionalPrice() {
+        return additionalPrice;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setAdditionalPrice(double additionalPrice) {
+        this.additionalPrice = additionalPrice;
     }
 
     @Override
     public String toString() {
-        return "ProductColorDTO{" +
+        return "ProductColorDTO2{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", code='" + code + '\'' +
+                ", additionalPrice=" + additionalPrice +
                 '}';
     }
 }

@@ -8,6 +8,7 @@ public class ProductCardDTO {
     private double basePrice;
     private double lowestSalePrice;
     private double averageRating;
+    private boolean isFeatured;
     private double discountPercent;
     private int totalViews;
     private int totalReviews;
@@ -15,6 +16,14 @@ public class ProductCardDTO {
     private String categoryName;
     private int brandId;
     private String brandName;
+
+    public boolean isIsFeatured() {
+        return isFeatured;
+    }
+
+    public void setIsFeatured(boolean featured) {
+        isFeatured = featured;
+    }
 
     public int getId() {
         return id;
@@ -118,5 +127,24 @@ public class ProductCardDTO {
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductCardDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", mainImage='" + mainImage + '\'' +
+                ", basePrice=" + basePrice +
+                ", lowestSalePrice=" + lowestSalePrice +
+                ", averageRating=" + averageRating +
+                ", discountPercent=" + discountPercent +
+                ", totalViews=" + totalViews +
+                ", totalReviews=" + totalReviews +
+                ", categoryId=" + categoryId +
+                ", categoryName='" + categoryName + '\'' +
+                ", brandId=" + brandId +
+                ", brandName='" + brandName + '\'' +
+                '}';
     }
 }

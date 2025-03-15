@@ -1,7 +1,7 @@
 package com.drumstore.web.controllers.homepage;
 
 import com.drumstore.web.dto.ProductCardDTO;
-import com.drumstore.web.dto.ProductDetailDTO2;
+import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.services.BrandService;
 import com.drumstore.web.services.CategoryService;
 import com.drumstore.web.services.ProductService;
@@ -76,8 +76,7 @@ public class ProductController extends HttpServlet {
         String pathInfo = request.getPathInfo();
         String productId = pathInfo.substring(1);
 
-        ProductDetailDTO2 product = productService.getProductDetail(Integer.parseInt(productId));
-        System.out.println(product);
+        ProductDetailDTO product = productService.getProductDetail(Integer.parseInt(productId));
         if (product == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
@@ -86,7 +85,7 @@ public class ProductController extends HttpServlet {
         request.setAttribute("product", product);
 //        request.setAttribute("relatedProducts", relatedProducts);
         request.setAttribute("title", product.getName());
-        request.setAttribute("content", "product-detail2.jsp");
+        request.setAttribute("content", "product-detail.jsp");
         request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
 
     }
