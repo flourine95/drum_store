@@ -457,33 +457,33 @@ public class ProductRepository extends BaseRepository<Product> {
 
         // JOIN với các bảng liên quan
         sql.append("""
-                )
-                SELECT
-                p.p_id AS id,
-                p.p_name AS name,
-                p.p_basePrice AS basePrice,
-                p.p_totalViews AS totalViews,
-                p.p_averageRating AS averageRating,
-                p.p_totalReviews AS totalReviews,
-                p.p_isFeatured AS isFeatured,
-                (SELECT image
-                 FROM product_images
-                 WHERE productId = p.p_id
-                   AND isMain = 1
-                 LIMIT 1) AS mainImage,
-                c.id AS categoryId,
-                c.name AS categoryName,
-                b.id AS brandId,
-                b.name AS brandName,
-                p.max_discount AS discountPercent,
-                CASE
-                    WHEN p.max_discount IS NOT NULL
-                        THEN p.lowest_variant_price * (1 - p.max_discount/100)
-                    ELSE p.lowest_variant_price
-                    END AS lowestSalePrice
-            FROM FilteredProducts p
-                     LEFT JOIN categories c ON p.p_categoryId = c.id
-                     LEFT JOIN brands b ON p.p_brandId = b.id""");
+                    )
+                    SELECT
+                    p.p_id AS id,
+                    p.p_name AS name,
+                    p.p_basePrice AS basePrice,
+                    p.p_totalViews AS totalViews,
+                    p.p_averageRating AS averageRating,
+                    p.p_totalReviews AS totalReviews,
+                    p.p_isFeatured AS isFeatured,
+                    (SELECT image
+                     FROM product_images
+                     WHERE productId = p.p_id
+                       AND isMain = 1
+                     LIMIT 1) AS mainImage,
+                    c.id AS categoryId,
+                    c.name AS categoryName,
+                    b.id AS brandId,
+                    b.name AS brandName,
+                    p.max_discount AS discountPercent,
+                    CASE
+                        WHEN p.max_discount IS NOT NULL
+                            THEN p.lowest_variant_price * (1 - p.max_discount/100)
+                        ELSE p.lowest_variant_price
+                        END AS lowestSalePrice
+                FROM FilteredProducts p
+                         LEFT JOIN categories c ON p.p_categoryId = c.id
+                         LEFT JOIN brands b ON p.p_brandId = b.id""");
         return jdbi.withHandle(handle -> {
             var query = handle.createQuery(sql.toString());
 

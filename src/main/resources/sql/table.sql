@@ -1,6 +1,5 @@
-drop database drum_store2;
+drop database drum_store;
 create database drum_store;
-create database drum_store2;
 CREATE TABLE categories
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,

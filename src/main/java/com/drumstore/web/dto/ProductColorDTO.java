@@ -33,19 +33,10 @@ public class ProductColorDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ProductColorDTO2{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", additionalPrice=" + additionalPrice +
-                '}';
-    }
-
-    @Override
-    public String toString() {
         return "ProductColorDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", code='" + code + '\'' +
+                ", additionalPrice=" + additionalPrice +
                 '}';
     }
 }

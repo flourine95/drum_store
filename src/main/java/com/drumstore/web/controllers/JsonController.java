@@ -1,9 +1,7 @@
 package com.drumstore.web.controllers;
 
-import com.drumstore.web.dto.ProductCardDTO;
 import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.repositories.ProductRepository;
-import com.drumstore.web.services.ProductService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -18,7 +16,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 //controller này dùng để convert object java -> json để dễ debug
 @WebServlet("/json/*")

@@ -55,7 +55,6 @@ public class ProductController extends HttpServlet {
         int totalPages = (int) Math.ceil((double) totalProducts / PRODUCTS_PER_PAGE);
 
         List<ProductCardDTO> products = productService.getProductCards(page, PRODUCTS_PER_PAGE, searchKeyword, category, brand, priceRange, sortBy);
-        System.out.println(products);
         request.setAttribute("products", products);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);

@@ -20,7 +20,7 @@ public class ForgotPasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String token = request.getParameter("token");
-        
+
         if (token != null) {
             if (passwordResetService.validateResetToken(token)) {
                 request.setAttribute("token", token);
@@ -44,7 +44,7 @@ public class ForgotPasswordController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        
+
         if ("request".equals(action)) {
             handleForgotPasswordRequest(request, response);
         } else if ("reset".equals(action)) {
@@ -54,7 +54,7 @@ public class ForgotPasswordController extends HttpServlet {
 
     private void handleForgotPasswordRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
-        
+
         if (passwordResetService.requestPasswordReset(email)) {
             request.setAttribute("message", "Password reset instructions have been sent to your email.");
         } else {
