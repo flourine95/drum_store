@@ -1,88 +1,42 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <style>
-    .select2-container {
-        width: 100% !important;
-    }
-
-    .select2-container .select2-selection--single {
-        height: 42px;
-        border: 1px solid rgba(0, 0, 0, 0.1);
+    .form-control, .form-select {
         border-radius: 8px;
-    }
-
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-        line-height: 42px;
-        padding-left: 15px;
-    }
-
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 40px;
-    }
-
-    .select2-dropdown {
+        padding: 10px 15px;
         border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
     }
 
-    .select2-search__field {
-        border-radius: 4px !important;
-        padding: 8px !important;
+    .form-control:focus, .form-select:focus {
+        border-color: var(--bs-primary);
+        box-shadow: 0 0 0 0.2rem rgba(253, 0, 0, 0.25);
+        outline: none;
     }
 
-    .select2-results__option {
-        padding: 8px 15px;
+    .form-check {
+        padding: 10px 0;
     }
 
-    .select2-results__option--highlighted[aria-selected] {
-        background-color: var(--bs-primary) !important;
-        color: var(--hover-color) !important;
-    }
-
-    .form-check-input {
-        width: 1.2em;
-        height: 1.2em;
-        margin-top: 0.25em;
-        border: 2px solid rgba(0, 0, 0, 0.2);
+    .form-check .form-check-input {
+        width: 18px;
+        height: 18px;
+        margin-top: 0.2em;
+        border: 2px solid var(--bs-primary);
+        border-radius: 4px;
         cursor: pointer;
-        transition: all 0.3s ease;
+        margin-left: 0;
     }
 
     .form-check-input:checked {
-        background-color: var(--bs-primary) !important;
-        border-color: var(--bs-primary) !important;
-    }
-
-    .form-check-input:focus {
-        border-color: var(--bs-primary);
-        box-shadow: 0 0 0 0.2rem rgba(253, 0, 0, 0.25);
-    }
-
-    .form-check-input:hover {
+        background-color: var(--bs-primary);
         border-color: var(--bs-primary);
     }
 
     .form-check-label {
+        padding-left: 8px;
         cursor: pointer;
-        user-select: none;
-        padding-left: 0.5rem;
         color: var(--text-color);
-    }
-
-    /* Custom checkbox container */
-    .form-check {
-        display: flex;
-        align-items: center;
-        padding: 0.5rem;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .form-check:hover {
-        background-color: rgba(253, 0, 0, 0.05);
     }
 
     .address-card {
@@ -161,17 +115,6 @@
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
-    }
-
-    .form-control {
-        border-radius: 8px;
-        padding: 10px 15px;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    .form-control:focus {
-        border-color: var(--bs-primary);
-        box-shadow: 0 0 0 0.2rem rgba(253, 0, 0, 0.25);
     }
 </style>
 
@@ -379,13 +322,7 @@
 </script>
 <script>
     $(document).ready(function () {
-        $('#add_provinceSelect, #add_districtSelect, #add_wardSelect, #edit_provinceSelect, #edit_districtSelect, #edit_wardSelect').select2({
-            placeholder: 'Chọn...',
-            allowClear: true,
-            width: '100%'
-        });
-
-        // Load provinces cho cả 2 form
+        // Load provinces
         function loadProvinces(selector) {
             $.get('${pageContext.request.contextPath}/location?action=provinces', function (data) {
                 $(selector).empty().append('<option value="">Chọn Tỉnh/Thành phố</option>');
@@ -400,8 +337,7 @@
             if (!provinceId) {
                 $(selector).empty()
                     .append('<option value="">Chọn Quận/Huyện</option>')
-                    .prop('disabled', true)
-                    .trigger('change.select2');
+                    .prop('disabled', true);
                 return;
             }
 
@@ -409,23 +345,22 @@
                 action: 'districts',
                 provinceId: provinceId
             })
-                .done(function(districts) {
+                .done(function (districts) {
                     const $select = $(selector);
                     $select.empty().append('<option value="">Chọn Quận/Huyện</option>');
-                    districts.forEach(function(district) {
+                    districts.forEach(function (district) {
                         $select.append(new Option(district.name, district.id));
                     });
-                    $select.prop('disabled', false).trigger('change.select2');
+                    $select.prop('disabled', false);
                 });
         }
 
-// Hàm load wards
+        // Load wards
         function loadWards(districtId, selector) {
             if (!districtId) {
                 $(selector).empty()
                     .append('<option value="">Chọn Phường/Xã</option>')
-                    .prop('disabled', true)
-                    .trigger('change.select2');
+                    .prop('disabled', true);
                 return;
             }
 
@@ -433,13 +368,13 @@
                 action: 'wards',
                 districtId: districtId
             })
-                .done(function(wards) {
+                .done(function (wards) {
                     const $select = $(selector);
                     $select.empty().append('<option value="">Chọn Phường/Xã</option>');
-                    wards.forEach(function(ward) {
+                    wards.forEach(function (ward) {
                         $select.append(new Option(ward.name, ward.id));
                     });
-                    $select.prop('disabled', false).trigger('change.select2');
+                    $select.prop('disabled', false);
                 });
         }
 
@@ -458,57 +393,49 @@
         });
 
         // Event handlers for edit form
-        $('#edit_provinceSelect').on('change', function() {
+        $('#edit_provinceSelect').on('change', function () {
             const provinceId = $(this).val();
             loadDistricts(provinceId, '#edit_districtSelect');
             $('#edit_wardSelect').empty()
                 .append('<option value="">Chọn Phường/Xã</option>')
-                .prop('disabled', true)
-                .trigger('change.select2');
+                .prop('disabled', true);
         });
 
-        $('#edit_districtSelect').on('change', function() {
+        $('#edit_districtSelect').on('change', function () {
             const districtId = $(this).val();
             loadWards(districtId, '#edit_wardSelect');
         });
 
         // Sửa lại phần xử lý click edit button
-        $('.btn-edit').click(function() {
+        $('.btn-edit').click(function () {
             const addressId = $(this).closest('.address-item').data('address-id');
 
-            // Hiển thị loading
             $('#edit-address-form').slideDown(300);
             $('#add-address-form').slideUp(300);
 
-            // Load thông tin địa chỉ
             $.ajax({
                 url: '${pageContext.request.contextPath}/profile',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     action: 'get_address',
-                    data: { addressId: addressId }
+                    data: {addressId: addressId}
                 }),
-                success: function(data) {
-                    // Fill thông tin cơ bản ngay lập tức
+                success: function (data) {
+                    // Fill basic info
                     $('#editAddressId').val(data.id);
                     $('input[name="edit_fullname"]').val(data.fullname);
-                    $('input[name="edit_phone"]').val(data.address);
+                    $('input[name="edit_phone"]').val(data.phone);
                     $('input[name="edit_addressDetail"]').val(data.address);
                     $('#edit_defaultAddress').prop('checked', data.isDefault);
 
-                    // Tạm thời off các event handlers
-                    $('#edit_provinceSelect').off('change');
-                    $('#edit_districtSelect').off('change');
-                    $('#edit_wardSelect').off('change');
-
-                    // Load tất cả dữ liệu địa chỉ trong một request
+                    // Load location data
                     $.get('${pageContext.request.contextPath}/location', {
                         action: 'full_location',
                         provinceId: data.provinceId,
                         districtId: data.districtId
                     })
-                        .done(function(locationData) {
+                        .done(function (locationData) {
                             // Fill provinces
                             $('#edit_provinceSelect').empty()
                                 .append('<option value="">Chọn Tỉnh/Thành phố</option>');
@@ -533,39 +460,16 @@
                             });
 
                             // Set selected values
-                            $('#edit_provinceSelect').val(data.provinceId).trigger('change.select2');
-
-                            // Đợi districts load xong
-                            setTimeout(() => {
-                                $('#edit_districtSelect').val(data.districtId).trigger('change.select2');
-
-                                // Đợi wards load xong
-                                setTimeout(() => {
-                                    $('#edit_wardSelect').val(data.wardId).trigger('change.select2');
-                                }, 300);
-                            }, 300);
-
-                            // Gắn lại event handlers
-                            $('#edit_provinceSelect').off('change').on('change', function() {
-                                const provinceId = $(this).val();
-                                loadDistricts(provinceId, '#edit_districtSelect');
-                                $('#edit_wardSelect').empty()
-                                    .append('<option value="">Chọn Phường/Xã</option>')
-                                    .prop('disabled', true)
-                                    .trigger('change.select2');
-                            });
-
-                            $('#edit_districtSelect').off('change').on('change', function() {
-                                const districtId = $(this).val();
-                                loadWards(districtId, '#edit_wardSelect');
-                            });
+                            $('#edit_provinceSelect').val(data.provinceId);
+                            $('#edit_districtSelect').val(data.districtId);
+                            $('#edit_wardSelect').val(data.wardId);
                         })
-                        .fail(function(xhr, status, error) {
+                        .fail(function (xhr, status, error) {
                             console.error('Error loading location data:', error);
                             alert('Có lỗi xảy ra khi tải dữ liệu địa chỉ');
                         });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Error:', error);
                     alert('Không thể tải thông tin địa chỉ');
                 }

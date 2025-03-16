@@ -1,5 +1,6 @@
 package com.drumstore.web.controllers.homepage;
 
+import com.drumstore.web.dto.ProductCardDTO;
 import com.drumstore.web.models.Category;
 import com.drumstore.web.models.Post;
 import com.drumstore.web.models.Product;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/")
@@ -25,9 +27,12 @@ public class HomeController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Product> featuredProducts = homeService.getFeaturedProducts(LIMIT);
-        List<Category> categories = homeService.getCategories(LIMIT);
-        List<Post> latestPosts = homeService.getLatestPosts(LIMIT);
+//        List<ProductCardDTO> featuredProducts = homeService.getFeaturedProducts(LIMIT);
+//        List<Category> categories = homeService.getCategories(LIMIT);
+//        List<Post> latestPosts = homeService.getLatestPosts(LIMIT);
+        List<ProductCardDTO> featuredProducts = new ArrayList<>();
+        List<Category> categories = new ArrayList<>();
+        List<Post> latestPosts = new ArrayList<>();
         request.setAttribute("featuredProducts", featuredProducts);
         request.setAttribute("categories", categories);
         request.setAttribute("latestPosts", latestPosts);
