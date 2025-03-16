@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Auth.js loaded');
-    
+
     window.logout = function() {
         console.log('Logout function called');
-        
+
         if (typeof Swal === 'undefined') {
             console.error('Swal is not defined');
             return false;
         }
-        
+
         Swal.fire({
             title: 'Xác nhận đăng xuất?',
             text: "Bạn có chắc chắn muốn đăng xuất?",
@@ -25,15 +25,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (form) {
                     form.submit();
                 } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Không tìm thấy biểu mẫu đăng xuất!',
+                    });
                     console.error('Logout form not found');
                 }
             }
         }).catch(error => {
             console.error('Swal error:', error);
         });
-        
+
         return false;
     };
+
+    const loginLink = document.getElementById("loginLink");
+    if (loginLink) {
+        loginLink.href = `${loginLink.href}?redirect=${encodeURIComponent(window.location.href)}`;
+        console.log(`${loginLink.href}?redirect=${encodeURIComponent(window.location.href)}`)
+    } else {
+        console.warn("loginLink not found");
+    }
 });
 
 

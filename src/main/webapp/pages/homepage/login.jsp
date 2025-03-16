@@ -202,6 +202,10 @@
                     <p id="user-password-error" class="error-message"></p>
                 </div>
 
+                <%--Field ẩn chứa redirectUrl--%>
+                <input type="hidden" name="redirectUrl" value="${redirectUrl}"
+                       >
+
                 <div style="text-align: right; margin-bottom: 15px;">
                     <a href="${pageContext.request.contextPath}/forgot-password" class="forgot-password">Quên mật
                         khẩu?</a>

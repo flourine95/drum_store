@@ -146,9 +146,18 @@
                         <button id="buyNow" class="btn btn-danger flex-grow-1" disabled>
                             <i class="fas fa-bolt"></i> Mua ngay
                         </button>
-                        <button id="addToWishlist" class="btn btn-outline-danger">
-                            <i class="fas fa-heart"></i>
-                        </button>
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.user}">
+                                <button id="addToWishlist" class="btn btn-outline-danger"  onclick="toggleWishList()">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <button class="btn btn-outline-danger" onclick="redirectToLogin()">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
 
@@ -354,7 +363,7 @@
 </style>
 
 <script>
-    $(document).ready(function () {
+$(document).ready(function () {
         const variants = [
             <c:forEach items="${product.variants}" var="variant" varStatus="status">
             {
@@ -667,29 +676,9 @@
             window.location.href = `/checkout?variantId=${currentVariant.id}&quantity=${quantity}`;
         });
 
-        $('#addToWishlist').click(function() {
-            // TODO: Thêm vào wishlist
-            $.ajax({
-                url: '/api/wishlist/toggle',
-                method: 'POST',
-                data: {
-                    productId: ${product.id}
-                },
-                success: function(response) {
-                    const icon = $('#addToWishlist i');
-                    if (response.inWishlist) {
-                        icon.removeClass('far').addClass('fas');
-                        alert('Đã thêm vào danh sách yêu thích');
-                    } else {
-                        icon.removeClass('fas').addClass('far');
-                        alert('Đã xóa khỏi danh sách yêu thích');
-                    }
-                },
-                error: function(xhr) {
-                    alert('Có lỗi xảy ra');
-                }
-            });
-        });
+
+
+
 
         function renderStarRating(rating) {
             const fullStars = Math.floor(rating);
@@ -727,5 +716,70 @@
         // Gọi hàm render khi trang load
         renderVariants();
     });
+
+// xử lí thêm xóa trong danh sách yêu thích
+function toggleWishList(productId) {
+    $.ajax({
+        url: '/profile',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            action: 'toggle-wishList',
+            data: ${product.id}
+        }),
+        success: function(response) {
+            if (response.success) {
+                const icon = $('#addToWishlist i');
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+
+                if (response.inWishlist) {
+                    icon.removeClass('far').addClass('fas');
+                    Toast.fire({
+                        icon: 'success',
+                        title: response.message || 'Đã thêm sản phẩm vào danh sách yêu thích!'
+                    });
+                } else {
+                    icon.removeClass('fas').addClass('far');
+                    Toast.fire({
+                        icon: 'info',
+                        title: response.message || 'Đã xóa sản phẩm khỏi danh sách yêu thích!'
+                    });
+                }
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: response.message || 'Có lỗi xảy ra, vui lòng thử lại!',
+                });
+            }
+        },
+        error: function(xhr) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Có lỗi xảy ra, vui lòng thử lại!',
+            });
+        }
+    });
+}
+
+
+
+function redirectToLogin() {
+    let currentURL = encodeURIComponent(window.location.href);
+    window.location.href = "/login?redirect="+currentURL;
+}
+
 </script>
 

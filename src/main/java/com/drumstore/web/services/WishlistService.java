@@ -28,7 +28,14 @@ public class WishlistService {
         wishListRepository.save(wishList);
     }
 
-    public void delete(int productId, int userId) {
-        wishListRepository.delete(productId, userId);
+
+    public boolean toogleWishtList(int productId , int userId) {
+      boolean isExist = wishListRepository.isExists(productId, userId);
+      if(isExist){
+          wishListRepository.delete(productId, userId);
+            return false;
+      }
+        save( productId, userId);
+        return true;
     }
 }
