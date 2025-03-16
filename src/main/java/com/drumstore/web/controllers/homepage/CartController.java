@@ -1,8 +1,7 @@
 package com.drumstore.web.controllers.homepage;
 
+import com.drumstore.web.dto.CartItemDTO;
 import com.drumstore.web.models.Cart;
-import com.drumstore.web.models.CartItem;
-import com.drumstore.web.models.Product;
 import com.drumstore.web.services.ProductService;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
@@ -54,20 +53,14 @@ public class CartController extends HttpServlet {
             }
 
             Map<String, Object> result = new HashMap<>();
-            System.out.println("action: " + action);
             switch (action) {
                 case "add" -> {
                     System.out.println("add");
-                    int productId = Integer.parseInt(request.getParameter("productId"));
-                    System.out.println("productId: " + productId);
+                    int productVariantId = Integer.parseInt(request.getParameter("variantId"));
                     int quantity = Integer.parseInt(request.getParameter("quantity"));
-                    System.out.println("quantity: " + quantity);
-                    String color = request.getParameter("color");
-                    System.out.println("color: " + color);
-
-                    Product product = productService.findWithDetailsAndSale(productId);
+                    CartItemDTO product = productService.findProductForCartItem(productVariantId);
                     if (product != null) {
-                        cart.addItem(new CartItem(product, quantity, color));
+                        cart.addItem(product, quantity);
                         result.put("success", true);
                         result.put("message", "Đã thêm vào giỏ hàng");
                         result.put("cartCount", cart.getItemCount());
@@ -82,24 +75,13 @@ public class CartController extends HttpServlet {
                     int quantity = Integer.parseInt(request.getParameter("quantity"));
                     String color = request.getParameter("color");
 
-                    cart.updateQuantity(productId, color, quantity);
+//                    cart.updateQuantity(productId, color, quantity);
                     result.put("success", true);
                     result.put("total", cart.getTotal());
                 }
-                case "update-color" -> {
-                    int productId = Integer.parseInt(request.getParameter("productId"));
-                    String oldColor = request.getParameter("oldColor");
-                    String newColor = request.getParameter("newColor");
-
-                    cart.updateColor(productId, oldColor, newColor);
-                    result.put("success", true);
-                    result.put("message", "Đã cập nhật màu sắc");
-                }
                 case "remove" -> {
-                    int productId = Integer.parseInt(request.getParameter("productId"));
-                    String color = request.getParameter("color");
-
-                    cart.removeItem(productId, color);
+                    int cartId = Integer.parseInt(request.getParameter("cartId"));
+                    cart.removeItem(cartId);
                     result.put("success", true);
                     result.put("cartCount", cart.getItemCount());
                     result.put("total", cart.getTotal());

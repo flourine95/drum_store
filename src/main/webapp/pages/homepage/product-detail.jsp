@@ -148,7 +148,7 @@
                         </button>
                         <c:choose>
                             <c:when test="${not empty sessionScope.user}">
-                                <button id="addToWishlist" class="btn btn-outline-danger"  onclick="toggleWishList()">
+                                <button id="addToWishlist" class="btn btn-outline-danger"  onclick="toggleWishList(${product.id})">
                                     <i class="fas fa-heart"></i>
                                 </button>
                             </c:when>
@@ -646,21 +646,59 @@ $(document).ready(function () {
                 alert('Vui lòng chọn biến thể sản phẩm');
                 return;
             }
-
             const quantity = parseInt($('#quantity').val());
-            // TODO: Thêm vào giỏ hàng
             $.ajax({
-                url: '/api/cart/add',
+                url: '/cart/add',
                 method: 'POST',
                 data: {
+                    action: "add",
                     variantId: currentVariant.id,
                     quantity: quantity
                 },
                 success: function(response) {
-                    alert('Đã thêm vào giỏ hàng');
+                    if(response.success){
+                        // cập nhật lại số lượng
+                        const cartCount = response.cartCount !== undefined ? response.cartCount : 0;
+                        // document.querySelector(".cartCount").innerHTML = cartCount;
+
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer);
+                                toast.addEventListener('mouseleave', Swal.resumeTimer);
+                            }
+                        });
+
+                        if(response.success) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: response.message || 'Đã thêm vào giỏ hàng!'
+                            });
+                        }else {
+                            Toast.fire({
+                                icon: 'error',
+                                title: response.message || 'Có lỗi xảy ra!'
+                            });
+                        }
+
+                    }else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: response.message || 'Có lỗi xảy ra, vui lòng thử lại!',
+                        });
+                    }
                 },
-                error: function(xhr) {
-                    alert('Có lỗi xảy ra');
+                error: function (xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Có lỗi xảy ra, vui lòng thử lại!',
+                    });
                 }
             });
         });
@@ -719,59 +757,7 @@ $(document).ready(function () {
 
 // xử lí thêm xóa trong danh sách yêu thích
 function toggleWishList(productId) {
-    $.ajax({
-        url: '/profile',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            action: 'toggle-wishList',
-            data: ${product.id}
-        }),
-        success: function(response) {
-            if (response.success) {
-                const icon = $('#addToWishlist i');
-
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer);
-                        toast.addEventListener('mouseleave', Swal.resumeTimer);
-                    }
-                });
-
-                if (response.inWishlist) {
-                    icon.removeClass('far').addClass('fas');
-                    Toast.fire({
-                        icon: 'success',
-                        title: response.message || 'Đã thêm sản phẩm vào danh sách yêu thích!'
-                    });
-                } else {
-                    icon.removeClass('fas').addClass('far');
-                    Toast.fire({
-                        icon: 'info',
-                        title: response.message || 'Đã xóa sản phẩm khỏi danh sách yêu thích!'
-                    });
-                }
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi',
-                    text: response.message || 'Có lỗi xảy ra, vui lòng thử lại!',
-                });
-            }
-        },
-        error: function(xhr) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Lỗi',
-                text: 'Có lỗi xảy ra, vui lòng thử lại!',
-            });
-        }
-    });
+    AjaxUtils.toggleWishList(productId);
 }
 
 

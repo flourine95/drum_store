@@ -5,6 +5,7 @@ import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.services.BrandService;
 import com.drumstore.web.services.CategoryService;
 import com.drumstore.web.services.ProductService;
+import com.drumstore.web.services.WishlistService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

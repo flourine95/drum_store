@@ -1,5 +1,7 @@
 package com.drumstore.web.models;
 
+import com.drumstore.web.dto.CartItemDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,32 +23,31 @@ public class Cart {
         this.items = new ArrayList<>();
     }
 
-    public void addItem(CartItem item) {
+    public void addItem(CartItemDTO item , int quantity) {
         // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
         for (CartItem existingItem : items) {
-            if (existingItem.getProduct().getId() == item.getProduct().getId() 
-                && existingItem.getColor().equals(item.getColor())) {
-                existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
+            if (existingItem.getCartItem().getVariants().getId() == item.getVariants().getId()) {
+                existingItem.setQuantity(existingItem.getQuantity() + quantity);
                 return;
             }
         }
-        items.add(item);
+        items.add(new CartItem(items.size()+1, quantity ,item ));
     }
 
-    public void removeItem(int productId, String color) {
-        items.removeIf(item -> item.getProduct().getId() == productId 
-                             && item.getColor().equals(color));
+    public void removeItem(int cartId) {
+        items.removeIf(item -> item.getCartId() == cartId
+                            );
     }
 
-    public void updateQuantity(int productId, String color, int quantity) {
-        for (CartItem item : items) {
-            if (item.getProduct().getId() == productId 
-                && item.getColor().equals(color)) {
-                item.setQuantity(quantity);
-                return;
-            }
-        }
-    }
+//    public void updateQuantity(int productId, String color, int quantity) {
+//        for (CartItem item : items) {
+//            if (item.getProduct().getId() == productId
+//                && item.getColor().equals(color)) {
+//                item.setQuantity(quantity);
+//                return;
+//            }
+//        }
+//    }
 
     public List<CartItem> getItems() {
         return items;
@@ -54,7 +55,7 @@ public class Cart {
 
     public double getTotal() {
         return items.stream()
-                   .mapToDouble(CartItem::getTotal)
+                   .mapToDouble(CartItem::getQuantity)
                    .sum();
     }
 
@@ -64,12 +65,5 @@ public class Cart {
                    .sum();
     }
 
-    public void updateColor(int productId, String oldColor, String newColor) {
-        for (CartItem item : items) {
-            if (item.getProduct().getId() == productId && item.getColor().equals(oldColor)) {
-                item.setColor(newColor);
-                break;
-            }
-        }
-    }
+
 }

@@ -157,62 +157,62 @@ const AjaxUtils = {
             },
             body: `productId=${productId}&oldColor=${oldColor}&newColor=${newColor}`
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                const cartItem = document.querySelector(`.cart-item[data-product-id="${productId}"][data-color="${oldColor}"]`);
-                if (cartItem) {
-                    cartItem.setAttribute('data-color', newColor);
-                    
-                    // Cập nhật data-color cho tất cả các phần tử liên quan
-                    const quantityInput = cartItem.querySelector('input[type="text"]');
-                    const colorSelect = cartItem.querySelector('select');
-                    if (quantityInput) {
-                        quantityInput.setAttribute('data-color', newColor);
-                    }
-                    if (colorSelect) {
-                        colorSelect.value = newColor;
-                    }
-
-                    // Xóa thông báo warning nếu có
-                    const warningText = cartItem.querySelector('small.text-danger');
-                    if (warningText) {
-                        warningText.remove();
-                    }
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    const cartItem = document.querySelector(`.cart-item[data-product-id="${productId}"][data-color="${oldColor}"]`);
+                    if (cartItem) {
+                        cartItem.setAttribute('data-color', newColor);
 
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
+                        // Cập nhật data-color cho tất cả các phần tử liên quan
+                        const quantityInput = cartItem.querySelector('input[type="text"]');
+                        const colorSelect = cartItem.querySelector('select');
+                        if (quantityInput) {
+                            quantityInput.setAttribute('data-color', newColor);
+                        }
+                        if (colorSelect) {
+                            colorSelect.value = newColor;
+                        }
+
+                        // Xóa thông báo warning nếu có
+                        const warningText = cartItem.querySelector('small.text-danger');
+                        if (warningText) {
+                            warningText.remove();
+                        }
+                    }
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Đã cập nhật màu sắc'
+                    });
+
+                    return data;
+                } else {
+                    throw new Error(data.message || 'Có lỗi xảy ra');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Lỗi!',
+                    text: error.message || 'Có lỗi xảy ra khi cập nhật màu sắc',
+                    icon: 'error'
                 });
-
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Đã cập nhật màu sắc'
-                });
-
-                return data;
-            } else {
-                throw new Error(data.message || 'Có lỗi xảy ra');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                title: 'Lỗi!',
-                text: error.message || 'Có lỗi xảy ra khi cập nhật màu sắc',
-                icon: 'error'
+                throw error;
             });
-            throw error;
-        });
     },
 
     updateCartCount: function (count) {
@@ -326,90 +326,20 @@ const AjaxUtils = {
         }
     },
 
-    addProductToWhiteList: function(productId) {
-        // Kiểm tra productId hợp lệ
-        if (!productId || productId < 1) {
-            Swal.fire({
-                title: 'Lỗi!',
-                text: 'ID sản phẩm không hợp lệ',
-                icon: 'warning'
-            });
-            return Promise.reject('ID sản phẩm không hợp lệ');
-        }
-
-
-
-         return fetch('/profile', {
-             method: 'POST',
-             headers: {
-                 'Content-Type': 'application/json'
-             },
-             body: JSON.stringify({
-                 action: 'add-product-in-wishList',
-                 data: productId
-             }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer);
-                            toast.addEventListener('mouseleave', Swal.resumeTimer);
-                        }
-                    });
-
-                    Toast.fire({
-                        icon: 'success',
-                        title: data.message || 'Đã thêm sản phẩm vào danh sách yêu thích!'
-                    });
-
-                    return data;
-                } else {
-                    throw new Error(data.message || 'Có lỗi xảy ra');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire({
-                    title: 'Lỗi!',
-                    text: error.message || 'Có lỗi xảy ra khi thêm vào danh sách yêu thích',
-                    icon: 'error'
-                });
-                throw error;
-            });
-    },
-    removeProductToWhiteList: function(productId) {
-        // Kiểm tra productId hợp lệ
-        if (!productId || productId < 1) {
-            Swal.fire({
-                title: 'Lỗi!',
-                text: 'ID sản phẩm không hợp lệ',
-                icon: 'warning'
-            });
-            return Promise.reject('ID sản phẩm không hợp lệ');
-        }
-
-
-
-        return fetch('/profile', {
+    // xử lí thêm xóa trong danh sách yêu thích
+    toggleWishList(productId) {
+        return   $.ajax({
+            url: '/profile',
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                action: 'delete-product-in-wishList',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                action: 'toggle-wishList',
                 data: productId
             }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
+            success: function (response) {
+                if (response.success) {
+                    const icon = $('#addToWishlist i');
+
                     const Toast = Swal.mixin({
                         toast: true,
                         position: 'top-end',
@@ -422,24 +352,37 @@ const AjaxUtils = {
                         }
                     });
 
-                    Toast.fire({
-                        icon: 'success',
-                        title: data.message || 'Đã xóa sản phẩm ra khỏi danh sách yêu thích!'
-                    });
-
-                    return data;
+                    if (response.inWishlist) {
+                        icon.removeClass('far').addClass('fas');
+                        Toast.fire({
+                            icon: 'success',
+                            title: response.message || 'Đã thêm sản phẩm vào danh sách yêu thích!'
+                        });
+                    } else {
+                        icon.removeClass('fas').addClass('far');
+                        Toast.fire({
+                            icon: 'info',
+                            title: response.message || 'Đã xóa sản phẩm khỏi danh sách yêu thích!'
+                        });
+                    }
                 } else {
-                    throw new Error(data.message || 'Có lỗi xảy ra');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: response.message || 'Có lỗi xảy ra, vui lòng thử lại!',
+                    });
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
+            },
+            error: function (xhr) {
                 Swal.fire({
-                    title: 'Lỗi!',
-                    text: error.message || 'Có lỗi xảy ra khi thêm vào danh sách yêu thích',
-                    icon: 'error'
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Có lỗi xảy ra, vui lòng thử lại!',
                 });
-                throw error;
-            });
+            }
+        });
     }
+
+
+
 }; 

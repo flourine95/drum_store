@@ -1,5 +1,6 @@
 package com.drumstore.web.services;
 
+import com.drumstore.web.dto.CartItemDTO;
 import com.drumstore.web.dto.ProductCardDTO;
 import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.models.Product;
@@ -74,5 +75,9 @@ public class ProductService {
             productRepository.incrementViewCount(id);
         }
         return product;
+    }
+
+    public CartItemDTO findProductForCartItem(int productVariantid){
+        return productRepository.findProductForCartItem(productVariantid);
     }
 }

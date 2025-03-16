@@ -707,4 +707,93 @@ public class ProductRepository extends BaseRepository<Product> {
     public void incrementViewCount(int id) {
     }
 
+    public CartItemDTO findProductForCartItem(int productVariantId) {
+        String sql = """
+            WITH ProductColors AS (
+                SELECT * FROM product_colors WHERE productId = :id
+            ),
+            ProductAddons AS (
+                SELECT * FROM product_addons WHERE productId = :id
+            ),
+            MaxDiscount AS (
+                SELECT productId, MAX(s.discountPercentage) as maxDiscount
+                FROM product_sales ps 
+                JOIN sales s ON ps.saleId = s.id
+                WHERE NOW() BETWEEN s.startDate AND s.endDate
+                GROUP BY productId
+            )
+            SELECT
+                p.id AS p_productId,
+                p.name AS p_name,
+                p.basePrice AS p_basePrice,
+                pi.image AS pi_image,
+                COALESCE(md.maxDiscount, 0) AS p_discountPercent,
+                pv.id AS pv_id,
+                s.id AS s_id,
+                s.name AS s_name,
+                s.discountPercentage AS s_discountPercentage,
+                s.startDate AS s_startDate,
+                s.endDate AS s_endDate,
+                pv.stock AS pv_stock,
+                pv.status AS pv_status,
+                pv.colorId AS pv_colorId,
+                pv.addonId AS pv_addonId,
+                pv.imageId AS pv_imageId
+            FROM products p
+            LEFT JOIN product_images pi ON p.id = pi.productId AND pi.isMain = 1
+            LEFT JOIN product_variants pv ON p.id = pv.productId AND pv.status = 1
+            LEFT JOIN ProductColors pc ON pc.id = pv.colorId
+            LEFT JOIN ProductAddons pa ON pa.id = pv.addonId
+            LEFT JOIN product_sales ps ON p.id = ps.productId
+            LEFT JOIN sales s ON ps.saleId = s.id
+                AND NOW() BETWEEN s.startDate AND s.endDate
+            LEFT JOIN MaxDiscount md ON md.productId = p.id
+            WHERE pv.id = :id AND p.status = 1
+            """;
+
+        return jdbi.withHandle(handle -> {
+            return handle.createQuery(sql)
+                    .bind("id", productVariantId)
+                    .registerRowMapper(BeanMapper.factory(CartItemDTO.class, "p"))
+                    .registerRowMapper(BeanMapper.factory(ProductSaleDTO.class, "s"))
+                    .registerRowMapper(BeanMapper.factory(ProductVariantDTO.class, "pv"))
+                    .reduceRows(new LinkedHashMap<Integer, CartItemDTO>(), (map, row) -> {
+                        CartItemDTO dto = map.computeIfAbsent(
+                                row.getColumn("p_productId", Integer.class),
+                                _ -> {
+                                    CartItemDTO newDto = row.getRow(CartItemDTO.class);
+                                    newDto.setSales(new ArrayList<>());
+                                    return newDto;
+                                }
+                        );
+
+                        // Ánh xạ mainImage từ product_images (lấy hình chính)
+                        if (row.getColumn("pi_image", String.class) != null) {
+                            dto.setMainImage(row.getColumn("pi_image", String.class));
+                        }
+
+                        // Ánh xạ ProductSale
+                        if (row.getColumn("s_id", Integer.class) != null) {
+                            ProductSaleDTO sale = row.getRow(ProductSaleDTO.class);
+                            if (dto.getSales().stream().noneMatch(s -> s.getId() == sale.getId())) {
+                                dto.getSales().add(sale);
+                            }
+                        }
+
+                        // Ánh xạ ProductVariant
+                        if (row.getColumn("pv_id", Integer.class) != null) {
+                            ProductVariantDTO variant = row.getRow(ProductVariantDTO.class);
+                                dto.setVariants(variant);
+                        }
+
+                        return map;
+                    })
+                    .values()
+                    .stream()
+                    .findFirst()
+                    .orElse(null);
+        });
+    }
+
+
 }

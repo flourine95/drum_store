@@ -1,5 +1,7 @@
 package com.drumstore.web.services;
 
+import com.drumstore.web.dto.ProductDetailDTO;
+import com.drumstore.web.dto.ProductReviewDTO;
 import com.drumstore.web.models.Product;
 import com.drumstore.web.models.User;
 import com.drumstore.web.models.WishList;
@@ -12,9 +14,9 @@ public class WishlistService {
     private final WishListRepository wishListRepository = new WishListRepository();
     private final ProductService productService = new ProductService();
 
-    public List<Product> getAll(User user){
+    public List<ProductDetailDTO> getAll(User user){
         return wishListRepository.getAll(user).stream()
-                .map(wishList -> productService.findWithDetails(wishList.getProductId()))
+                .map(wishList -> productService.getProductDetail(wishList.getProductId()))
                 .toList();
     }
 

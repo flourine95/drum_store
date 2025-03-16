@@ -1,6 +1,7 @@
 package com.drumstore.web.controllers.homepage;
 
 import com.drumstore.web.dto.AddressDTO;
+import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.models.Product;
 import com.drumstore.web.models.User;
 import com.drumstore.web.services.AddressService;
@@ -61,7 +62,7 @@ public class ProfileController extends HttpServlet {
                 request.setAttribute("activePage", "orders");
             }
             case "wishlist" -> {
-                List<Product> products = wishlistService.getAll(user);
+                List<ProductDetailDTO> products = wishlistService.getAll(user);
                 request.setAttribute("products", products);
                 request.setAttribute("title", "Danh sách yêu thích");
                 request.setAttribute("profileContent", "profile-wishlist.jsp");
