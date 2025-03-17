@@ -1,7 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<!DOCTYPE html>
-
 <div class="bg-light">
     <div class="container">
         <div class="row justify-content-center mt-5">
@@ -16,7 +14,7 @@
                             </div>
                         </c:if>
 
-                        <form action="${pageContext.request.contextPath}/forgot-password2" method="post"
+                        <form action="${pageContext.request.contextPath}/forgot-password" method="post"
                               onsubmit="return validateForm()">
                             <input type="hidden" name="action" value="reset">
                             <input type="hidden" name="token" value="${token}">
@@ -54,17 +52,16 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function validateForm() {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return false;
-            }
-            return true;
-        }
-    </script>
 </div>
+<script>
+    function validateForm() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match!');
+            return false;
+        }
+        return true;
+    }
+</script>
