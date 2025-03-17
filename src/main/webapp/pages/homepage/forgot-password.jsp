@@ -22,7 +22,7 @@
                             </div>
                         </c:if>
 
-                        <form action="${pageContext.request.contextPath}/forgot-password2" method="post">
+                        <form action="${pageContext.request.contextPath}/forgot-password" method="post">
                             <input type="hidden" name="action" value="request">
                             
                             <div class="mb-3">
