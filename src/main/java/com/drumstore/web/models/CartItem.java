@@ -37,6 +37,10 @@ public class CartItem {
         this.cartItem = cartItem;
     }
 
+    public double getTotal() {
+        return cartItem.getLowestSalePrice()*quantity;
+    }
+
     @Override
     public String toString() {
         return "CartItem{" +

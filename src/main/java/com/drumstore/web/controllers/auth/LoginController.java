@@ -25,7 +25,6 @@ public class LoginController extends HttpServlet {
         request.setAttribute("title", "Đăng nhập");
         request.setAttribute("content", "login.jsp");
         request.setAttribute("redirectUrl", request.getParameter("redirect"));
-        System.out.println(request.getParameter("redirect"));
         request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
     }
 
@@ -46,8 +45,13 @@ public class LoginController extends HttpServlet {
             if (user.isAdmin()) {
                 response.sendRedirect(request.getContextPath() + "/dashboard");
             } else {
-                response.sendRedirect(redirectUrl);
-//                response.sendRedirect(request.getContextPath() + "/");
+                if (redirectUrl != null) {
+                    response.sendRedirect(redirectUrl);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/");
+                }
+
+//
             }
         } else {
             request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng.");

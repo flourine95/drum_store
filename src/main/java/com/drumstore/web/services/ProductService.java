@@ -77,7 +77,10 @@ public class ProductService {
         return product;
     }
 
-    public CartItemDTO findProductForCartItem(int productVariantid){
-        return productRepository.findProductForCartItem(productVariantid);
+    public CartItemDTO findProductForCartItem(int productVariantId , int productId){
+        System.out.println("productVariantId: " + productVariantId + " productId: " + productId);
+        CartItemDTO cartItemDTO =  productRepository.findMainProductVariant(productVariantId);
+        cartItemDTO.setVariants(productRepository.findAllVariants(productId));
+        return cartItemDTO;
     }
 }

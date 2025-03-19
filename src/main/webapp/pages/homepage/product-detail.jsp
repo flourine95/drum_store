@@ -653,6 +653,7 @@ $(document).ready(function () {
                 data: {
                     action: "add",
                     variantId: currentVariant.id,
+                    productId: ${product.id},
                     quantity: quantity
                 },
                 success: function(response) {

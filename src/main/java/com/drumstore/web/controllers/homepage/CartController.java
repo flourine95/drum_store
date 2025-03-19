@@ -55,10 +55,10 @@ public class CartController extends HttpServlet {
             Map<String, Object> result = new HashMap<>();
             switch (action) {
                 case "add" -> {
-                    System.out.println("add");
                     int productVariantId = Integer.parseInt(request.getParameter("variantId"));
                     int quantity = Integer.parseInt(request.getParameter("quantity"));
-                    CartItemDTO product = productService.findProductForCartItem(productVariantId);
+                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    CartItemDTO product = productService.findProductForCartItem(productVariantId, productId);
                     if (product != null) {
                         cart.addItem(product, quantity);
                         result.put("success", true);
@@ -71,12 +71,11 @@ public class CartController extends HttpServlet {
                     }
                 }
                 case "update" -> {
-                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    int cartId = Integer.parseInt(request.getParameter("cartId"));
                     int quantity = Integer.parseInt(request.getParameter("quantity"));
-                    String color = request.getParameter("color");
-
-//                    cart.updateQuantity(productId, color, quantity);
+                    double price = cart.updateQuantity(cartId, quantity);
                     result.put("success", true);
+                    result.put("price", price);
                     result.put("total", cart.getTotal());
                 }
                 case "remove" -> {

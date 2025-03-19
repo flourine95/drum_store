@@ -23,31 +23,31 @@ public class Cart {
         this.items = new ArrayList<>();
     }
 
-    public void addItem(CartItemDTO item , int quantity) {
+    public void addItem(CartItemDTO item, int quantity) {
         // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
         for (CartItem existingItem : items) {
-            if (existingItem.getCartItem().getVariants().getId() == item.getVariants().getId()) {
+            if (existingItem.getCartItem().getProductVariant().getId() == item.getProductVariant().getId()) {
                 existingItem.setQuantity(existingItem.getQuantity() + quantity);
                 return;
             }
         }
-        items.add(new CartItem(items.size()+1, quantity ,item ));
+        items.add(new CartItem(items.size() + 1, quantity, item));
     }
 
     public void removeItem(int cartId) {
         items.removeIf(item -> item.getCartId() == cartId
-                            );
+        );
     }
 
-//    public void updateQuantity(int productId, String color, int quantity) {
-//        for (CartItem item : items) {
-//            if (item.getProduct().getId() == productId
-//                && item.getColor().equals(color)) {
-//                item.setQuantity(quantity);
-//                return;
-//            }
-//        }
-//    }
+    public double updateQuantity(int cartId, int quantity) {
+        for (CartItem item : items) {
+            if (item.getCartId() == cartId) {
+                item.setQuantity(quantity);
+                return item.getTotal();
+            }
+        }
+        return 0;
+    }
 
     public List<CartItem> getItems() {
         return items;
@@ -55,14 +55,14 @@ public class Cart {
 
     public double getTotal() {
         return items.stream()
-                   .mapToDouble(CartItem::getQuantity)
-                   .sum();
+                .mapToDouble(CartItem::getTotal)
+                .sum();
     }
 
     public int getItemCount() {
         return items.stream()
-                   .mapToInt(CartItem::getQuantity)
-                   .sum();
+                .mapToInt(CartItem::getQuantity)
+                .sum();
     }
 
 
