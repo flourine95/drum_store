@@ -54,8 +54,10 @@
                                         <li><a class="dropdown-item" href="${pageContext.request.contextPath}/register">Đăng ký</a></li>
                                     </c:when>
                                     <c:otherwise>
-                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/account/my-account">Tài khoản của tôi</a></li>
-                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/account/orders">Đơn hàng</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile">Thông tin tài khoản</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile?action=wishlist">Sản phẩm yêu thích</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile?action=orders">Quản lý đơn hàng</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile?action=addresses">Danh sách địa chỉ</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
                                             <form id="logoutFormUser" action="${pageContext.request.contextPath}/logout" method="POST" class="dropdown-item p-0">
@@ -98,12 +100,14 @@
                                         <li><a class="dropdown-item" href="${pageContext.request.contextPath}/register">Đăng ký</a></li>
                                     </c:when>
                                     <c:otherwise>
-                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/account/my-account">Tài khoản của tôi</a></li>
-                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/account/orders">Đơn hàng</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile">Thông tin tài khoản</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile?action=wishlist">Sản phẩm yêu thích</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile?action=orders">Quản lý đơn hàng</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile?action=addresses">Danh sách địa chỉ</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
-                                            <form id="logoutForm" action="${pageContext.request.contextPath}/logout" method="POST" class="dropdown-item p-0">
-                                                <button type="button" onclick="return logout()" 
+                                            <form id="logoutFormUser" action="${pageContext.request.contextPath}/logout" method="POST" class="dropdown-item p-0">
+                                                <button type="button" onclick="return logout()"
                                                         class="btn btn-link text-danger text-decoration-none w-100 text-start px-3">
                                                     <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất
                                                 </button>

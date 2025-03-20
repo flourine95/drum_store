@@ -10,6 +10,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/dashboard/products/*")
@@ -27,7 +28,8 @@ public class ProductManagerController extends ResourceController  {
 
     @Override
     public void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Product> products = productService.all();
+        List<Product> products = new ArrayList<>();
+//        List<Product> products = productService.all();
         request.setAttribute("products", products);
         request.setAttribute("pageTitle", "Quản lí sản phẩm");
         request.setAttribute("content", "products/index.jsp");

@@ -27,7 +27,6 @@ public class LoginController extends HttpServlet {
         request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
     }
 
-    // Phương thức doPost để xử lý yêu cầu POST
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -36,20 +35,17 @@ public class LoginController extends HttpServlet {
         User user = userService.login(username, password);
 
         if (user != null) {
-            // Lưu thông tin người dùng vào session
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            user.setPassword(null); // Xóa mật khẩu để tránh lộ thông tin
+            user.setPassword(null);
 
-            // Điều hướng đến trang dashboard hoặc home
             request.setAttribute("successMessage", "Đăng nhập thành công.");
             if (user.isAdmin()) {
                 response.sendRedirect(request.getContextPath() + "/dashboard");
             } else {
-                response.sendRedirect(request.getContextPath() + "/home");
+                response.sendRedirect(request.getContextPath() + "/");
             }
         } else {
-            // Nếu đăng nhập thất bại, quay lại trang đăng nhập với thông báo lỗi
             request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng.");
             request.setAttribute("title", "Đăng nhập");
             request.setAttribute("content", "login.jsp");

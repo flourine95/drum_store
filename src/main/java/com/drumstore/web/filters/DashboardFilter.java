@@ -13,36 +13,22 @@ import java.io.IOException;
 public class DashboardFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        // Khởi tạo filter nếu cần
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response; // Thêm dòng này để sử dụng HttpServletResponse
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession(false);
-
-        // Kiểm tra xem người dùng đã đăng nhập hay chưa
-        if (session == null || session.getAttribute("user") == null) {
-            // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login"); // Điều hướng đến trang đăng nhập
-        } else {
-            // Nếu đã đăng nhập, kiểm tra vai trò của người dùng
-            User user = (User) session.getAttribute("user");
-            if (!user.isAdmin()) { // Kiểm tra xem người dùng có phải là admin không
-                // Nếu không phải admin, chuyển hướng đến trang home hoặc thông báo lỗi
-                httpResponse.sendRedirect(httpRequest.getContextPath() + "/home"); // Điều hướng đến trang home
-                return; // Kết thúc filter
-            }
-            // Nếu là admin, tiếp tục xử lý yêu cầu
-            chain.doFilter(request, response);
-        }
+//        if (session == null || session.getAttribute("user") == null) {
+//            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
+//        } else {
+//            User user = (User) session.getAttribute("user");
+//            if (!user.isAdmin()) {
+//                httpResponse.sendRedirect(httpRequest.getContextPath() + "/home");
+//                return;
+//            }
+//        }
+        // bypass filter
+        // bỏ qua đăng nhập
+        chain.doFilter(request, response);
     }
 
-    @Override
-    public void destroy() {
-        // Giải phóng tài nguyên nếu cần
-    }
 }

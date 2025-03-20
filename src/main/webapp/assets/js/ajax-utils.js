@@ -324,5 +324,122 @@ const AjaxUtils = {
                 this.updateQuantity(productId, color, currentQuantity - 1);
             }
         }
+    },
+
+    addProductToWhiteList: function(productId) {
+        // Kiểm tra productId hợp lệ
+        if (!productId || productId < 1) {
+            Swal.fire({
+                title: 'Lỗi!',
+                text: 'ID sản phẩm không hợp lệ',
+                icon: 'warning'
+            });
+            return Promise.reject('ID sản phẩm không hợp lệ');
+        }
+
+
+
+         return fetch('/profile', {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+                 action: 'add-product-in-wishList',
+                 data: productId
+             }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.message || 'Đã thêm sản phẩm vào danh sách yêu thích!'
+                    });
+
+                    return data;
+                } else {
+                    throw new Error(data.message || 'Có lỗi xảy ra');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Lỗi!',
+                    text: error.message || 'Có lỗi xảy ra khi thêm vào danh sách yêu thích',
+                    icon: 'error'
+                });
+                throw error;
+            });
+    },
+    removeProductToWhiteList: function(productId) {
+        // Kiểm tra productId hợp lệ
+        if (!productId || productId < 1) {
+            Swal.fire({
+                title: 'Lỗi!',
+                text: 'ID sản phẩm không hợp lệ',
+                icon: 'warning'
+            });
+            return Promise.reject('ID sản phẩm không hợp lệ');
+        }
+
+
+
+        return fetch('/profile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                action: 'delete-product-in-wishList',
+                data: productId
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.message || 'Đã xóa sản phẩm ra khỏi danh sách yêu thích!'
+                    });
+
+                    return data;
+                } else {
+                    throw new Error(data.message || 'Có lỗi xảy ra');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Lỗi!',
+                    text: error.message || 'Có lỗi xảy ra khi thêm vào danh sách yêu thích',
+                    icon: 'error'
+                });
+                throw error;
+            });
     }
 }; 

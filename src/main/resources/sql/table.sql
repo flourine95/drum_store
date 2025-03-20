@@ -24,29 +24,87 @@ CREATE TABLE sales
     startDate          DATE          NOT NULL,
     endDate            DATE          NOT NULL
 );
+
 CREATE TABLE password_resets
 (
-    id        INT AUTO_INCREMENT PRIMARY KEY,
-    email     VARCHAR(100),
-    token     VARCHAR(100),
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expiresAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT NOT NULL,
+    token VARCHAR(100) NOT NULL,
+    expiryTime TIMESTAMP NOT NULL,
+    used TINYINT DEFAULT 0,
+    usedAt TIMESTAMP NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE products
 (
-    id            INT AUTO_INCREMENT PRIMARY KEY,
-    name          VARCHAR(100),
-    description   TEXT,
-    price         DECIMAL(10, 2),
-    stock         INT,
-    totalViews    INT            DEFAULT 0,
-    isFeatured    TINYINT        DEFAULT 0,
-    status        TINYINT        DEFAULT 1,
-    averageRating DECIMAL(10, 2) DEFAULT NULL,
-    categoryId    INT,
-    brandId       INT,
-    createdAt     TIMESTAMP      DEFAULT CURRENT_TIMESTAMP
+    id                  INT AUTO_INCREMENT PRIMARY KEY,
+    name                VARCHAR(100),
+    description         TEXT,
+    basePrice           DECIMAL(10, 2),
+    totalViews          INT       DEFAULT 0,
+    isFeatured          TINYINT   DEFAULT 0,
+    status              TINYINT   DEFAULT 1,
+    stockManagementType TINYINT   DEFAULT 0 COMMENT '0: Simple, 1: Color Only, 2: Addon Only, 3: Color and Addon',
+    categoryId          INT,
+    brandId             INT,
+    createdAt           TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE product_images
+(
+    id        INT PRIMARY KEY AUTO_INCREMENT,
+    productId INT          NOT NULL,
+    image     VARCHAR(255) NOT NULL,
+    isMain    BOOLEAN   DEFAULT FALSE,
+    sortOrder INT       DEFAULT 0,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE product_colors
+(
+    id              INT PRIMARY KEY AUTO_INCREMENT,
+    productId       INT         NOT NULL,
+    name            VARCHAR(50) NOT NULL,
+    additionalPrice DECIMAL(10, 2) DEFAULT 0
+);
+
+CREATE TABLE product_addons
+(
+    id              INT PRIMARY KEY AUTO_INCREMENT,
+    productId       INT          NOT NULL,
+    name            VARCHAR(100) NOT NULL,
+    additionalPrice DECIMAL(10, 2) DEFAULT 0
+);
+
+CREATE TABLE product_reviews
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    productId INT           NOT NULL,
+    userId    INT           NOT NULL,
+    orderId   INT           NOT NULL,
+    rating    DECIMAL(2, 1) NOT NULL, -- Thang điểm từ 1.0 đến 5.0
+    content   TEXT,
+    status    TINYINT   DEFAULT 1,    -- 0: Chờ duyệt, 1: Đã duyệt, 2: Từ chối
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+CREATE TABLE product_variants
+(
+    id        INT PRIMARY KEY AUTO_INCREMENT,
+    productId INT NOT NULL,
+    colorId   INT,
+    addonId   INT,
+    imageId   INT,
+    stock     INT       DEFAULT 0,
+    status    TINYINT   DEFAULT 1,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE review_images
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    reviewId  INT          NOT NULL,
+    image     VARCHAR(255) NOT NULL,
+    sortOrder INT       DEFAULT 0,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE users
 (
@@ -60,24 +118,12 @@ CREATE TABLE users
     avatar    VARCHAR(255),
     createdAt TIMESTAMP
 );
-CREATE TABLE product_images
-(
-    id        INT AUTO_INCREMENT PRIMARY KEY,
-    image     VARCHAR(255) DEFAULT NULL,
-    isMain    TINYINT(1)   DEFAULT 0,
-    productId INT
-);
-CREATE TABLE product_colors
-(
-    id        INT AUTO_INCREMENT PRIMARY KEY,
-    colorCode VARCHAR(7)   DEFAULT NULL,
-    colorName VARCHAR(100) DEFAULT NULL,
-    productId INT
-);
+
 CREATE TABLE user_addresses
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
     userId     INT,
+    fullname   VARCHAR(100),
     address    TEXT,
     phone      VARCHAR(25),
     provinceId INT,
@@ -113,20 +159,12 @@ CREATE TABLE orders
 );
 CREATE TABLE order_items
 (
-    id        INT AUTO_INCREMENT PRIMARY KEY,
-    orderId   INT,
-    productId INT,
-    quantity  INT NOT NULL,
-    price     DECIMAL(10, 2),
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-CREATE TABLE product_reviews
-(
     id         INT AUTO_INCREMENT PRIMARY KEY,
-    productId  INT,
-    userId     INT,
-    rating     TINYINT,
-    reviewText TEXT,
+    orderId    INT,
+    variantId  INT,          -- Variant bao gồm cả productId
+    quantity   INT NOT NULL,
+    basePrice  DECIMAL(10, 2), -- Giá gốc của sản phẩm
+    finalPrice DECIMAL(13, 2), -- Giá cuối sau khi tính color/addon và sale
     createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE posts
@@ -137,12 +175,10 @@ CREATE TABLE posts
     userId     INT,
     image      VARCHAR(255),
     viewsCount INT,
-    status     TINYINT DEFAULT 1,
+    status     TINYINT   DEFAULT 1,
     createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
--- Bảng vouchers
 CREATE TABLE vouchers
 (
     id               INT AUTO_INCREMENT PRIMARY KEY,
@@ -160,18 +196,12 @@ CREATE TABLE vouchers
     createdAt        TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
--- Bảng order_items
-
-
--- Bảng provinces
 CREATE TABLE provinces
 (
     id   INT PRIMARY KEY,
     name VARCHAR(100) NOT NULL
 );
 
--- Bảng districts
 CREATE TABLE districts
 (
     id         INT PRIMARY KEY,
@@ -179,14 +209,12 @@ CREATE TABLE districts
     provinceId INT
 );
 
--- Bảng wards
 CREATE TABLE wards
 (
     id         INT PRIMARY KEY,
     name       VARCHAR(100) NOT NULL,
     districtId INT
 );
-
 
 CREATE TABLE product_sales
 (

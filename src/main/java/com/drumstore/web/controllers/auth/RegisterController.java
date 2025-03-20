@@ -27,7 +27,6 @@ public class RegisterController extends HttpServlet {
         request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
     }
 
-    // Phương thức doPost để xử lý yêu cầu POST
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String fullname = request.getParameter("fullname");
@@ -37,7 +36,6 @@ public class RegisterController extends HttpServlet {
 
         boolean hasError = false;
 
-        // Kiểm tra từng trường và thiết lập thông báo lỗi nếu cần
         if (fullname == null || fullname.isEmpty()) {
             request.setAttribute("fullnameError", "Họ và tên không được để trống.");
             hasError = true;
@@ -49,9 +47,6 @@ public class RegisterController extends HttpServlet {
         } else if (!isValidPhoneNumber(phone)) {
             request.setAttribute("phoneError", "Số điện thoại không hợp lệ.");
             hasError = true;
-        } else if (userService.isPhoneExists(phone)) { // Kiểm tra xem số điện thoại đã tồn tại
-            request.setAttribute("phoneError", "Số điện thoại đã tồn tại.");
-            hasError = true;
         }
 
         if (email == null || email.isEmpty()) {
@@ -60,7 +55,7 @@ public class RegisterController extends HttpServlet {
         } else if (!isValidEmail(email)) {
             request.setAttribute("emailError", "Email không hợp lệ.");
             hasError = true;
-        } else if (userService.isEmailExists(email)) { // Kiểm tra xem email đã tồn tại
+        } else if (userService.isEmailExists(email)) {
             request.setAttribute("emailError", "Email đã tồn tại.");
             hasError = true;
         }

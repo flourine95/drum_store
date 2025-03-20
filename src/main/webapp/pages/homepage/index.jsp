@@ -1,6 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<style>
+    .product-card {
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+</style>
 <div id="carouselExampleIndicators" class="carousel slide">
     <div class="carousel-indicators" id="carouselIndicators"></div>
     <div class="carousel-inner" id="carouselItems"></div>
@@ -72,24 +83,65 @@
     <h2 class="text-start mb-4">SẢN PHẨM NỔI BẬT</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4" id="featuredProducts">
         <c:forEach var="product" items="${featuredProducts}">
-            <div class="col">
-                <div class="card h-100">
-                    <img src="/assets/images/data/${product.imageMain}" class="card-img-top" alt="${product.name}">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title"><a href="/product/${product.id}"
-                                                  class="text-decoration-none">${product.name}</a></h5>
-                        <p class="card-text">${product.description}</p>
-                        <fmt:setLocale value="vi_VN"/>
-                        <p class="card-text">
-                            <span style="text-decoration: line-through;">
-                                <fmt:formatNumber value="${product.price}" type="currency"/>
-                            </span>
-                            <strong class="text-danger">
-                                <fmt:formatNumber value="${product.salePrice}" type="currency"/>
-                            </strong>
-                        </p>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100 position-relative"
+                     onclick="window.location.href='/product/${product.id}'">
+                    <!-- Sale Tag -->
+                    <c:if test="${product.discountPercent > 0}">
+                        <div class="position-absolute top-0 end-0 m-2 badge bg-danger">
+                            -<fmt:formatNumber value="${product.discountPercent}" type="number" pattern="0"/>%
+                        </div>
+                    </c:if>
 
-                        <a href="/product/${product.id}" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                    <!-- Product Image -->
+                    <img src="/assets/images/products/${product.mainImage}"
+                         class="card-img-top object-fit-cover"
+                         alt="${product.name}"
+                         style="height: 200px;">
+
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">${product.name}</h5>
+
+                        <!-- Price Section -->
+                        <div class="d-flex align-items-center justify-content-between mt-2">
+                            <div class="product-price">
+                                <c:choose>
+                                    <c:when test="${product.discountPercent > 0}">
+                                        <span class="text-danger fw-bold">
+                                            <fmt:formatNumber value="${product.salePrice}" type="number" pattern="#,##0 ₫"/>
+                                        </span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="text-danger fw-bold">
+                                            <fmt:formatNumber value="${product.originalPrice}" type="number" pattern="#,##0 ₫"/>
+                                        </span>
+                                    </c:otherwise>
+                                </c:choose>
+
+                            </div>
+
+                            <!-- Stock Status -->
+                            <div class="stock-status">
+                                <c:choose>
+                                    <c:when test="${product.stock > 0}">
+                                        <span class="badge bg-success">Còn hàng</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="badge bg-danger">Hết hàng</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+
+                        <!-- Additional Product Info -->
+                        <div class="mt-2 d-flex justify-content-between small text-muted">
+                            <span>${product.brandName}</span>
+                            <span>
+                            <i class="bi bi-star-fill text-warning"></i>
+                            <fmt:formatNumber value="${product.averageRating}" pattern="0.0"/>
+                        </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,7 +158,8 @@
                     <div class="card-body">
                         <h5 class="card-title">${category.name}</h5>
                         <p class="card-text">${category.description}</p>
-                        <a href="${pageContext.request.contextPath}/products" class="btn btn-primary text-black mt-auto">Xem thêm</a>
+                        <a href="${pageContext.request.contextPath}/products"
+                           class="btn btn-primary text-black mt-auto">Xem thêm</a>
                     </div>
                 </div>
             </div>
@@ -124,7 +177,8 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">${post.title}</h5>
                         <p class="card-text">${post.content}</p>
-                        <a href="${pageContext.request.contextPath}/posts" class="btn btn-primary mt-auto w-100 text-black">Xem chi
+                        <a href="${pageContext.request.contextPath}/posts"
+                           class="btn btn-primary mt-auto w-100 text-black">Xem chi
                             tiết</a>
                     </div>
                 </div>
