@@ -41,6 +41,10 @@ public class CartItem {
         return cartItem.getLowestSalePrice()*quantity;
     }
 
+    public void changeCartItem(CartItemDTO cartItem) {
+        this.cartItem = cartItem;
+    }
+
     @Override
     public String toString() {
         return "CartItem{" +

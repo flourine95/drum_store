@@ -65,5 +65,16 @@ public class Cart {
                 .sum();
     }
 
+    // cập nhật lại item khi người dùng chọn biến thể khác
+    public CartItem changeVariant(int cartId ,CartItemDTO cartItemDTO) {
+        for (CartItem item : items) {
+            if (item.getCartId() == cartId) {
+                item.changeCartItem(cartItemDTO);
+                return item;
+            }
+        }
+        return null;
+    }
+
 
 }

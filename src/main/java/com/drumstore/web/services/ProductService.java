@@ -78,9 +78,14 @@ public class ProductService {
     }
 
     public CartItemDTO findProductForCartItem(int productVariantId , int productId){
-        System.out.println("productVariantId: " + productVariantId + " productId: " + productId);
         CartItemDTO cartItemDTO =  productRepository.findMainProductVariant(productVariantId);
         cartItemDTO.setVariants(productRepository.findAllVariants(productId));
         return cartItemDTO;
     }
+
+    public CartItemDTO findProductWithVariantForCartItem( int colorId , int addonId ,int productId){
+       CartItemDTO cartItemDTO = productRepository.findProductWithVariant(colorId, addonId, productId);
+       cartItemDTO.setVariants(productRepository.findAllVariants(productId));
+        return cartItemDTO;
+    };
 }

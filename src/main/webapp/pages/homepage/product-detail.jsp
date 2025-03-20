@@ -80,8 +80,9 @@
                                 <c:forEach items="${product.sales}" var="sale">
                                     <li class="sale-item">
                                         <span class="badge bg-danger">${sale.discountPercentage}% OFF</span>
-                                        ${sale.name} 
-                                        <small>(<span class="sale-date" data-start="${sale.startDate}" data-end="${sale.endDate}"></span>)</small>
+                                            ${sale.name}
+                                        <small>(<span class="sale-date" data-start="${sale.startDate}"
+                                                      data-end="${sale.endDate}"></span>)</small>
                                     </li>
                                 </c:forEach>
                             </ul>
@@ -140,24 +141,33 @@
 
                 <div class="action-buttons mb-4">
                     <div class="d-flex gap-2">
-                        <button id="addToCart" class="btn btn-primary flex-grow-1" disabled>
-                            <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
-                        </button>
-                        <button id="buyNow" class="btn btn-danger flex-grow-1" disabled>
-                            <i class="fas fa-bolt"></i> Mua ngay
-                        </button>
                         <c:choose>
                             <c:when test="${not empty sessionScope.user}">
-                                <button id="addToWishlist" class="btn btn-outline-danger"  onclick="toggleWishList(${product.id})">
+                                <button id="addToCart" class="btn btn-primary flex-grow-1" disabled>
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button id="buyNow" class="btn btn-danger flex-grow-1" disabled>
+                                    <i class="fas fa-bolt"></i> Mua ngay
+                                </button>
+                                <button id="addToWishlist" class="btn btn-outline-danger"
+                                        onclick="toggleWishList(${product.id})">
                                     <i class="fas fa-heart"></i>
                                 </button>
                             </c:when>
                             <c:otherwise>
+                                <button  class="btn btn-primary flex-grow-1"  onclick="redirectToLogin()">
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button class="btn btn-danger flex-grow-1"  onclick="redirectToLogin()">
+                                    <i class="fas fa-bolt"></i> Mua ngay
+                                </button>
                                 <button class="btn btn-outline-danger" onclick="redirectToLogin()">
                                     <i class="fas fa-heart"></i>
                                 </button>
                             </c:otherwise>
                         </c:choose>
+
+
                     </div>
                 </div>
 
@@ -175,8 +185,8 @@
                             <c:if test="${status.index < 2}">
                                 <div class="review-item p-3 mb-2 bg-light rounded">
                                     <div class="d-flex align-items-center mb-2">
-                                        <img src="/assets/images/products/${review.userAvatar}" 
-                                             alt="${review.userName}" 
+                                        <img src="/assets/images/products/${review.userAvatar}"
+                                             alt="${review.userName}"
                                              class="rounded-circle me-2"
                                              style="width: 40px; height: 40px; object-fit: cover;">
                                         <div>
@@ -311,7 +321,7 @@
     .quantity-controls input[type="number"] {
         -moz-appearance: textfield;
     }
-    
+
     .quantity-controls input[type="number"]::-webkit-outer-spin-button,
     .quantity-controls input[type="number"]::-webkit-inner-spin-button {
         -webkit-appearance: none;
@@ -363,7 +373,7 @@
 </style>
 
 <script>
-$(document).ready(function () {
+    $(document).ready(function () {
         const variants = [
             <c:forEach items="${product.variants}" var="variant" varStatus="status">
             {
@@ -460,7 +470,7 @@ $(document).ready(function () {
             if (variant) {
                 const colorPrice = selectedColor ? parseFloat(selectedColor.data('price') || 0) : 0;
                 const addonPrice = selectedAddon ? parseFloat(selectedAddon.data('price') || 0) : 0;
-                
+
                 // Cập nhật tổng giá gốc bao gồm cả phụ phí của variant
                 totalBasePrice = basePrice + colorPrice + addonPrice;
                 // Tính giá sau khi giảm giá
@@ -575,12 +585,12 @@ $(document).ready(function () {
         }
 
         // Format dates for sales
-        $('.sale-date').each(function() {
+        $('.sale-date').each(function () {
             const startDate = $(this).data('start');
             const endDate = $(this).data('end');
             const start = formatShortDate(startDate);
             const end = formatShortDate(endDate);
-            
+
             // Chỉ hiển thị năm một lần ở cuối
             $(this).text(`\${start.shortDate} - \${end.shortDate}/\${end.year}`);
         });
@@ -588,18 +598,18 @@ $(document).ready(function () {
         function updateQuantityControls() {
             const quantityInput = $('#quantity');
             const currentQty = parseInt(quantityInput.val());
-            
+
             // Cập nhật max quantity dựa trên variant được chọn
             if (currentVariant) {
                 maxQuantity = currentVariant.stock;
                 $('#maxQuantityMsg').text(`Còn \${maxQuantity} sản phẩm`);
-                
+
                 // Enable/disable các nút
                 $('#addToCart, #buyNow').prop('disabled', false);
             } else {
                 maxQuantity = 0;
                 $('#maxQuantityMsg').text('Vui lòng chọn biến thể');
-                
+
                 // Disable các nút
                 $('#addToCart, #buyNow').prop('disabled', true);
             }
@@ -611,7 +621,7 @@ $(document).ready(function () {
         }
 
         // Xử lý số lượng
-        $('#decreaseQuantity').click(function() {
+        $('#decreaseQuantity').click(function () {
             const quantityInput = $('#quantity');
             const currentQty = parseInt(quantityInput.val());
             if (currentQty > 1) {
@@ -619,7 +629,7 @@ $(document).ready(function () {
             }
         });
 
-        $('#increaseQuantity').click(function() {
+        $('#increaseQuantity').click(function () {
             const quantityInput = $('#quantity');
             const currentQty = parseInt(quantityInput.val());
             if (currentQty < maxQuantity) {
@@ -627,26 +637,29 @@ $(document).ready(function () {
             }
         });
 
-        $('#quantity').on('input', function() {
+        $('#quantity').on('input', function () {
             let value = parseInt($(this).val());
-            
+
             // Kiểm tra giá trị hợp lệ
             if (isNaN(value) || value < 1) {
                 value = 1;
             } else if (value > maxQuantity) {
                 value = maxQuantity;
             }
-            
+
             $(this).val(value);
         });
 
         // Xử lý các nút hành động
-        $('#addToCart').click(function() {
+        $('#addToCart').click(function () {
             if (!currentVariant) {
                 alert('Vui lòng chọn biến thể sản phẩm');
                 return;
             }
             const quantity = parseInt($('#quantity').val());
+            if(quantity ===0) {
+             return  $('#quantity').focus();
+            }
             $.ajax({
                 url: '/cart/add',
                 method: 'POST',
@@ -656,8 +669,8 @@ $(document).ready(function () {
                     productId: ${product.id},
                     quantity: quantity
                 },
-                success: function(response) {
-                    if(response.success){
+                success: function (response) {
+                    if (response.success) {
                         // cập nhật lại số lượng
                         const cartCount = response.cartCount !== undefined ? response.cartCount : 0;
                         // document.querySelector(".cartCount").innerHTML = cartCount;
@@ -674,19 +687,19 @@ $(document).ready(function () {
                             }
                         });
 
-                        if(response.success) {
+                        if (response.success) {
                             Toast.fire({
                                 icon: 'success',
                                 title: response.message || 'Đã thêm vào giỏ hàng!'
                             });
-                        }else {
+                        } else {
                             Toast.fire({
                                 icon: 'error',
                                 title: response.message || 'Có lỗi xảy ra!'
                             });
                         }
 
-                    }else {
+                    } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Lỗi',
@@ -704,7 +717,7 @@ $(document).ready(function () {
             });
         });
 
-        $('#buyNow').click(function() {
+        $('#buyNow').click(function () {
             if (!currentVariant) {
                 alert('Vui lòng chọn biến thể sản phẩm');
                 return;
@@ -716,26 +729,23 @@ $(document).ready(function () {
         });
 
 
-
-
-
         function renderStarRating(rating) {
             const fullStars = Math.floor(rating);
             const hasHalfStar = rating % 1 >= 0.5;
             const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-            
+
             let starsHtml = '';
-            
+
             // Thêm sao đầy
             for (let i = 0; i < fullStars; i++) {
                 starsHtml += '<i class="fas fa-star"></i>';
             }
-            
+
             // Thêm nửa sao nếu có
             if (hasHalfStar) {
                 starsHtml += '<i class="fas fa-star-half-alt"></i>';
             }
-            
+
             // Thêm sao rỗng
             for (let i = 0; i < emptyStars; i++) {
                 starsHtml += '<i class="far fa-star"></i>';
@@ -744,7 +754,7 @@ $(document).ready(function () {
         }
 
         // Cập nhật hiển thị rating trong reviews
-        $('.review-item').each(function() {
+        $('.review-item').each(function () {
             const rating = parseFloat($(this).find('.text-warning').data('rating'));
             $(this).find('.text-warning').html(`
                 \${renderStarRating(rating)}
@@ -756,17 +766,16 @@ $(document).ready(function () {
         renderVariants();
     });
 
-// xử lí thêm xóa trong danh sách yêu thích
-function toggleWishList(productId) {
-    AjaxUtils.toggleWishList(productId);
-}
+    // xử lí thêm xóa trong danh sách yêu thích
+    function toggleWishList(productId) {
+        AjaxUtils.toggleWishList(productId);
+    }
 
 
-
-function redirectToLogin() {
-    let currentURL = encodeURIComponent(window.location.href);
-    window.location.href = "/login?redirect="+currentURL;
-}
+    function redirectToLogin() {
+        let currentURL = encodeURIComponent(window.location.href);
+        window.location.href = "/login?redirect=" + currentURL;
+    }
 
 </script>
 

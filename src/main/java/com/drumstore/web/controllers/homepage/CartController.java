@@ -2,6 +2,7 @@ package com.drumstore.web.controllers.homepage;
 
 import com.drumstore.web.dto.CartItemDTO;
 import com.drumstore.web.models.Cart;
+import com.drumstore.web.models.CartItem;
 import com.drumstore.web.services.ProductService;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
@@ -76,8 +77,29 @@ public class CartController extends HttpServlet {
                     double price = cart.updateQuantity(cartId, quantity);
                     result.put("success", true);
                     result.put("price", price);
+                    result.put("cartCount", cart.getItemCount());
                     result.put("total", cart.getTotal());
                 }
+
+                case "change-variant" -> {
+                    int cartId = Integer.parseInt(request.getParameter("cartId"));
+                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    int addonId = Integer.parseInt(request.getParameter("addonId"));
+                    int colorId = Integer.parseInt(request.getParameter("colorId"));
+                    CartItemDTO  cartItemDTO = productService.findProductWithVariantForCartItem(colorId, addonId, productId);
+                    if(cartItemDTO != null){
+                        CartItem cartItem  = cart.changeVariant(cartId,cartItemDTO);
+                        result.put("success", true);
+                        result.put("item", cartItem);
+                        result.put("price", cartItem.getTotal());
+                        result.put("total", cart.getTotal());
+                    }else {
+                        result.put("success", false);
+                        result.put("message", "Lỗi");
+                    }
+
+                }
+
                 case "remove" -> {
                     int cartId = Integer.parseInt(request.getParameter("cartId"));
                     cart.removeItem(cartId);
