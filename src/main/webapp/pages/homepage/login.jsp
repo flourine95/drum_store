@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <style>
     .success-message {
-        color: green;
+        color: blue;
         font-size: 14px;
         margin-bottom: 20px;
     }
@@ -88,7 +88,7 @@
         border: none;
         border-bottom: 1px solid #ccc;
         outline: none;
-        color: #fd0;
+        color: #000000;
         background: none;
     }
 
@@ -98,7 +98,7 @@
         top: 0;
         left: 0;
         translate: 0.625rem 0.625rem;
-        color: #fd0;
+        color: #000000;
         padding-inline-start: 0.25rem;
         pointer-events: none;
         transition: translate 250ms;
@@ -117,7 +117,7 @@
     }
 
     .field input:focus {
-        border-bottom: 1px solid #fd0;
+        border-bottom: 1px solid #007BFF;
     }
 
     .field input:focus::placeholder {
@@ -133,8 +133,8 @@
     }
 
     .btn-login {
-        background-color: #fd0;
-        color: black;
+        background-color:  #007BFF;
+        color: white;
         padding: 10px;
         width: 100%;
         border: none;
@@ -144,7 +144,7 @@
     }
 
     .btn-login:hover {
-        background-color: #fd0;
+        background-color: #0056b3;
     }
 
     .text-link {
