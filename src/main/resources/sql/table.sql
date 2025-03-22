@@ -1,4 +1,4 @@
-drop database drum_store;
+# drop database drum_store;
 create database drum_store;
 CREATE TABLE categories
 (
@@ -175,22 +175,22 @@ CREATE TABLE posts
     createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE vouchers
-(
-    id               INT AUTO_INCREMENT PRIMARY KEY,
-    code             VARCHAR(50),
-    description      TEXT,
-    discountType     TINYINT,
-    discountValue    DECIMAL(10, 2),
-    minOrderValue    DECIMAL(10, 2),
-    maxDiscountValue DECIMAL(10, 2),
-    startDate        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    endDate          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    usageLimit       INT,
-    perUserLimit     INT,
-    status           TINYINT,
-    createdAt        TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+    CREATE TABLE vouchers
+    (
+        id               INT AUTO_INCREMENT PRIMARY KEY,
+        code             VARCHAR(50),
+        description      TEXT,
+        discountType     TINYINT,
+        discountValue    DECIMAL(10, 2),
+        minOrderValue    DECIMAL(10, 2),
+        maxDiscountValue DECIMAL(10, 2),
+        startDate        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        endDate          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        usageLimit       INT,
+        perUserLimit     INT,
+        status           TINYINT,
+        createdAt        TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
 
 CREATE TABLE provinces
 (

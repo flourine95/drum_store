@@ -136,6 +136,52 @@
     .btn.confirm:hover {
         background-color: var(--rating-star);
     }
+
+    .order-summary {
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+    }
+
+    .promo-code {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .promo-code input {
+        height: 35px;
+        font-size: 14px;
+        width: 73%;
+    }
+    .promo-code .btn {
+        color: white;
+        border: none;
+        height: 35px;
+        text-transform: uppercase;
+        /*font-weight: bold;*/
+    }
+
+
+    .order-details p {
+        margin-bottom: 0.5rem;
+    }
+
+    .order-details .total {
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .order-details hr {
+        border: none; /* Xóa đường mặc định */
+        border-top: 1px dashed #dee2e6; /* Tạo đường nét đứt */
+        margin: 10px 0; /* Khoảng cách trên và dưới */
+    }
+
+    .checkout-btn {
+        border: none;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
 </style>
 
 <div class="container my-5" style="min-height: 70vh">
@@ -258,7 +304,6 @@
                                             <div class="col-2">
                                                 <div class="input-group" style="width: 120px;">
                                                     <button class="btn btn-outline-secondary decrease" type="button"
-<%--                                                            onclick="updateQuantity(${item.cartId}, ${item.quantity}-1)"--%>
                                                             aria-label="Giảm số lượng"
                                                             data-cart-id="${item.cartId}">
                                                         <i class="bi bi-dash"></i>
@@ -266,10 +311,10 @@
                                                     <input type="text" class="form-control text-center"
                                                            id="quantity-${item.cartId}"
                                                            value="${item.quantity}"
-                                                           data-cart-quantity-id="${item.cartId}"  max="${item.cartItem.productVariant.stock}"
+                                                           data-cart-quantity-id="${item.cartId}"
+                                                           max="${item.cartItem.productVariant.stock}"
                                                            readonly>
                                                     <button class="btn btn-outline-secondary increase" type="button"
-<%--                                                            onclick="updateQuantity(${item.cartId}, ${item.quantity}+1)"--%>
                                                             data-cart-id="${item.cartId}"
                                                             aria-label="Tăng số lượng">
                                                         <i class="bi bi-plus"></i>
@@ -293,14 +338,35 @@
                                 </c:forEach>
                             </div>
                             <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Tổng tiền</h5>
-                                        <p class="h3 cart-total">
-                                            <fmt:formatNumber value="${cart.total}" type="currency" currencySymbol="₫"/>
-                                        </p>
-                                        <button class="btn btn-primary w-100 mt-3">Thanh toán</button>
+                                <div class="order-summary p-3">
+                                    <h5 class="text-uppercase fw-bold mb-3">Đơn hàng</h5>
+                                    <hr style="border: 1px solid black"/>
+                                    <div class="promo-code mb-3">
+                                        <input type="text" class="form-control" placeholder="Nhập mã khuyến mãi">
+                                        <button class="btn btn-primary">Áp dụng</button>
                                     </div>
+                                    <div class="order-details">
+                                        <hr>
+                                        <p class="d-flex justify-content-between">
+                                            <span>Đơn hàng</span>
+                                            <span>3.888.000 VND</span>
+                                        </p>
+                                        <p class="d-flex justify-content-between">
+                                            <span>Giảm</span>
+                                            <span>0 VND</span>
+                                        </p>
+                                        <hr>
+                                        <p class="d-flex justify-content-between total">
+                                            <span>Tạm tính</span>
+                                            <span class="h5 cart-total">
+                                                          <fmt:formatNumber value="${cart.total}" type="currency"
+                                                                            currencySymbol="₫"/>
+                                                    </span>
+                                        </p>
+                                    </div>
+                                    <button class="btn btn-primary checkout-btn w-100 mt-3">Tiếp tục thanh
+                                        toán
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -324,7 +390,7 @@
 <script>
 
     // Xử lý nút giảm số lượng
-    $('.decrease').click(function(event) {
+    $('.decrease').click(function (event) {
         event.stopPropagation();
 
         const cartId = $(this).data('cart-id');
@@ -335,7 +401,7 @@
     });
 
     // Xử lý nút tăng số lượng
-    $('.increase').click(function(event) {
+    $('.increase').click(function (event) {
         event.stopPropagation();
 
         const cartId = $(this).data('cart-id');
@@ -363,10 +429,10 @@
         updateQuantity(cartId, currentQty + 1);
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const confirmButtons = document.querySelectorAll('#confirmButton');
         confirmButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
+            button.addEventListener('click', function (event) {
                 event.stopPropagation();
                 const cartId = this.dataset.cartId;
                 const productId = this.dataset.productId;
@@ -409,7 +475,6 @@
     }
 
 
-
     function updateQuantity(cartId, newQuantity) {
         if (newQuantity === 0) return removeItem(cartId);
 
@@ -450,7 +515,7 @@
                 }
 
                 const cartCount = document.querySelector('.bg-danger.cartCount');
-                if(cartCount){
+                if (cartCount) {
                     cartCount.textContent = response.cartCount
                 }
             },
@@ -513,12 +578,12 @@
                             }, 500);
 
                             const cartCount = document.querySelector('.bg-danger.cartCount');
-                            if(cartCount){
+                            if (cartCount) {
                                 cartCount.textContent = response.cartCount
                             }
 
                             const cartTotal = document.querySelector('.cart-total');
-                            if(cartTotal){
+                            if (cartTotal) {
                                 cartTotal.textContent = formatCurrency(response.total)
                             }
 
@@ -604,41 +669,41 @@
                         // Cập nhật giá gốc, giá giảm giá, và phần trăm giảm giá
                         const priceElement = element.querySelector('.cart-item-price');
                         if (priceElement) {
-                                if (item.cartItem.discountPercent && item.cartItem.discountPercent > 0) {
-                                    const salePrice = (item.cartItem.basePrice + (item.cartItem?.productVariant?.color?.additionalPrice || 0) + (item.cartItem?.productVariant?.addon.additionalPrice)) * (1 - item.cartItem.discountPercent / 100) ;
-                                    // Cập nhật giá giảm
-                                    const salePriceElement = priceElement.querySelector('.cart-item-sale-price');
-                                    salePriceElement.textContent = formatCurrency(salePrice);
-                                    <%--// Cập nhật giá gốc--%>
-                                    const basePriceElement = priceElement.querySelector('.cart-item-base-price');
-                                    basePriceElement.textContent = formatCurrency(item.cartItem.basePrice + (item.cartItem?.productVariant?.color?.additionalPrice || 0) + (item.cartItem?.productVariant?.addon.additionalPrice));
-                                    <%--// Cập nhật phần trăm giảm giá--%>
-                                    const discountElement = priceElement.querySelector('.cart-item-discount');
-                                    <%--discountElement.textContent = `-${Math.round(item.cartItem.discountPercent)}%`;--%>
-                                    <%--// Hiển thị các phần tử liên quan đến giảm giá--%>
-                                    if (salePriceElement) salePriceElement.style.display = 'inline';
-                                    if (basePriceElement) basePriceElement.style.display = 'inline';
-                                    if (discountElement) discountElement.style.display = 'inline';
+                            if (item.cartItem.discountPercent && item.cartItem.discountPercent > 0) {
+                                const salePrice = (item.cartItem.basePrice + (item.cartItem?.productVariant?.color?.additionalPrice || 0) + (item.cartItem?.productVariant?.addon.additionalPrice)) * (1 - item.cartItem.discountPercent / 100);
+                                // Cập nhật giá giảm
+                                const salePriceElement = priceElement.querySelector('.cart-item-sale-price');
+                                salePriceElement.textContent = formatCurrency(salePrice);
+                                <%--// Cập nhật giá gốc--%>
+                                const basePriceElement = priceElement.querySelector('.cart-item-base-price');
+                                basePriceElement.textContent = formatCurrency(item.cartItem.basePrice + (item.cartItem?.productVariant?.color?.additionalPrice || 0) + (item.cartItem?.productVariant?.addon.additionalPrice));
+                                <%--// Cập nhật phần trăm giảm giá--%>
+                                const discountElement = priceElement.querySelector('.cart-item-discount');
+                                <%--discountElement.textContent = `-${Math.round(item.cartItem.discountPercent)}%`;--%>
+                                <%--// Hiển thị các phần tử liên quan đến giảm giá--%>
+                                if (salePriceElement) salePriceElement.style.display = 'inline';
+                                if (basePriceElement) basePriceElement.style.display = 'inline';
+                                if (discountElement) discountElement.style.display = 'inline';
 
-                                    // Ẩn phần tử giá gốc (không giảm giá)
-                                    const basePriceOnlyElement = priceElement.querySelector('.cart-item-base-price:not(del)');
-                                    if (basePriceOnlyElement) basePriceOnlyElement.style.display = 'none';
-                                } else {
-                                    // // Cập nhật giá gốc (không có giảm giá)
-                                    const basePriceOnlyElement = priceElement.querySelector('.cart-item-base-price:not(del)');
-                                    if (basePriceOnlyElement) {
-                                        basePriceOnlyElement.textContent = formatCurrency(item.cartItem.basePrice);
-                                        basePriceOnlyElement.style.display = 'inline';
-                                    }
-                                    //
-                                    // // Ẩn các phần tử liên quan đến giảm giá
-                                    // const salePriceElement = priceElement.querySelector('.cart-item-sale-price');
-                                    // const basePriceElement = priceElement.querySelector('.cart-item-base-price');
-                                    // const discountElement = priceElement.querySelector('.cart-item-discount');
-                                    // if (salePriceElement) salePriceElement.style.display = 'none';
-                                    // if (basePriceElement) basePriceElement.style.display = 'none';
-                                    // if (discountElement) discountElement.style.display = 'none';
+                                // Ẩn phần tử giá gốc (không giảm giá)
+                                const basePriceOnlyElement = priceElement.querySelector('.cart-item-base-price:not(del)');
+                                if (basePriceOnlyElement) basePriceOnlyElement.style.display = 'none';
+                            } else {
+                                // // Cập nhật giá gốc (không có giảm giá)
+                                const basePriceOnlyElement = priceElement.querySelector('.cart-item-base-price:not(del)');
+                                if (basePriceOnlyElement) {
+                                    basePriceOnlyElement.textContent = formatCurrency(item.cartItem.basePrice);
+                                    basePriceOnlyElement.style.display = 'inline';
                                 }
+                                //
+                                // // Ẩn các phần tử liên quan đến giảm giá
+                                // const salePriceElement = priceElement.querySelector('.cart-item-sale-price');
+                                // const basePriceElement = priceElement.querySelector('.cart-item-base-price');
+                                // const discountElement = priceElement.querySelector('.cart-item-discount');
+                                // if (salePriceElement) salePriceElement.style.display = 'none';
+                                // if (basePriceElement) basePriceElement.style.display = 'none';
+                                // if (discountElement) discountElement.style.display = 'none';
+                            }
                         }
 
                         // Cập nhật phân loại
@@ -669,10 +734,9 @@
 
                         // cập nhật total
                         const cartTotal = document.querySelector('.cart-total');
-                        if(cartTotal){
+                        if (cartTotal) {
                             cartTotal.textContent = formatCurrency(response.total)
                         }
-
 
 
                     }
