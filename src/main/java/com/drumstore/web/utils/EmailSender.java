@@ -29,7 +29,7 @@ public class EmailSender {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
             message.setSubject("Password Reset Request");
 
-            String resetLink = "http://localhost:8080/forgot-password2?token=" + resetToken;
+            String resetLink = "http://localhost:8080/forgot-password?token=" + resetToken;
             String htmlContent = String.format("""
                 <h2>Password Reset Request</h2>
                 <p>Click the link below to reset your password:</p>

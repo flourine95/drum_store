@@ -163,8 +163,8 @@ public class UserRepository extends BaseRepository<User> {
     public void saveResetToken(int userId, String token, LocalDateTime expiryTime) {
         String sql = """
                 INSERT INTO password_resets 
-                (userId, token, expiryTime, createdAt) 
-                VALUES (:userId, :token, :expiryTime, CURRENT_TIMESTAMP)
+                (userId, token, expiryTime, used, createdAt) 
+                VALUES (:userId, :token, :expiryTime, 0, CURRENT_TIMESTAMP)
                 """;
         jdbi.useHandle(handle -> 
             handle.createUpdate(sql)
@@ -172,22 +172,6 @@ public class UserRepository extends BaseRepository<User> {
                 .bind("token", token)
                 .bind("expiryTime", expiryTime)
                 .execute()
-        );
-    }
-
-    public User findByResetToken(String token) {
-        String sql = """
-                SELECT u.* FROM users u 
-                JOIN password_resets pr ON u.id = pr.userId 
-                WHERE pr.token = :token 
-                AND pr.used = 0
-                """;
-        return jdbi.withHandle(handle ->
-            handle.createQuery(sql)
-                .bind("token", token)
-                .mapToBean(User.class)
-                .findFirst()
-                .orElse(null)
         );
     }
 
@@ -206,6 +190,37 @@ public class UserRepository extends BaseRepository<User> {
         );
     }
 
+    public void markResetTokenAsUsed(String token) {
+        String sql = """
+                UPDATE password_resets 
+                SET used = 1, 
+                    usedAt = CURRENT_TIMESTAMP 
+                WHERE token = :token
+                """;
+        jdbi.useHandle(handle ->
+            handle.createUpdate(sql)
+                .bind("token", token)
+                .execute()
+        );
+    }
+
+    public User findByResetToken(String token) {
+        String sql = """
+                SELECT u.* FROM users u 
+                JOIN password_resets pr ON u.id = pr.userId 
+                WHERE pr.token = :token 
+                AND pr.expiryTime > CURRENT_TIMESTAMP
+                AND pr.used = 0
+                """;
+        return jdbi.withHandle(handle ->
+            handle.createQuery(sql)
+                .bind("token", token)
+                .mapToBean(User.class)
+                .findFirst()
+                .orElse(null)
+        );
+    }
+
     public void updatePassword(int userId, String newPassword) {
         String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
         String sql = "UPDATE users SET password = :password WHERE id = :userId";
@@ -213,22 +228,6 @@ public class UserRepository extends BaseRepository<User> {
             handle.createUpdate(sql)
                 .bind("userId", userId)
                 .bind("password", hashedPassword)
-                .execute()
-        );
-    }
-
-    public void markResetTokenAsUsed(int userId, String token) {
-        String sql = """
-                UPDATE password_resets 
-                SET used = 1, 
-                    usedAt = CURRENT_TIMESTAMP 
-                WHERE userId = :userId 
-                AND token = :token
-                """;
-        jdbi.useHandle(handle ->
-            handle.createUpdate(sql)
-                .bind("userId", userId)
-                .bind("token", token)
                 .execute()
         );
     }

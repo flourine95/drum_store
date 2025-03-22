@@ -23,7 +23,7 @@ public class ForgotPasswordService {
 
         String resetToken = generateResetToken();
         LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(15);
-        
+
         try {
             userRepository.saveResetToken(user.getId(), resetToken, expiryTime);
             EmailSender.sendPasswordResetEmail(email, resetToken);
@@ -46,7 +46,7 @@ public class ForgotPasswordService {
 
         try {
             userRepository.updatePassword(user.getId(), newPassword);
-            userRepository.markResetTokenAsUsed(user.getId(), token);
+            userRepository.markResetTokenAsUsed(token);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -24,13 +24,16 @@ CREATE TABLE sales
     startDate          DATE          NOT NULL,
     endDate            DATE          NOT NULL
 );
+
 CREATE TABLE password_resets
 (
-    id        INT AUTO_INCREMENT PRIMARY KEY,
-    email     VARCHAR(100),
-    token     VARCHAR(100),
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expiresAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT NOT NULL,
+    token VARCHAR(100) NOT NULL,
+    expiryTime TIMESTAMP NOT NULL,
+    used TINYINT DEFAULT 0,
+    usedAt TIMESTAMP NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE products
@@ -122,6 +125,7 @@ CREATE TABLE user_addresses
     userId     INT,
     fullname   VARCHAR(100),
     address    TEXT,
+    phone      VARCHAR(25),
     provinceId INT,
     districtId INT,
     wardId     INT,
