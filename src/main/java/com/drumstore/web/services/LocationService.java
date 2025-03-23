@@ -10,15 +10,9 @@ import com.drumstore.web.repositories.WardRepository;
 import java.util.List;
 
 public class LocationService {
-    private ProvinceRepository provinceRepository;
-    private DistrictRepository districtRepository;
-    private WardRepository wardRepository;
-
-    public LocationService(ProvinceRepository provinceRepository, DistrictRepository districtRepository, WardRepository wardRepository) {
-        this.provinceRepository = provinceRepository;
-        this.districtRepository = districtRepository;
-        this.wardRepository = wardRepository;
-    }
+    private final ProvinceRepository provinceRepository = new ProvinceRepository();
+    private final DistrictRepository districtRepository = new DistrictRepository();
+    private final WardRepository wardRepository = new WardRepository();
 
     public List<Province> getAllProvinces() {
         return provinceRepository.getAllProvinces();
@@ -30,5 +24,17 @@ public class LocationService {
 
     public List<Ward> getWardsByDistrictId(int districtId) {
         return wardRepository.getWardsByDistrictId(districtId);
+    }
+
+    public Province getProvinceById(int provinceId) {
+        return provinceRepository.getProvinceById(provinceId);
+    }
+
+    public District getDistrictById(int districtId) {
+        return districtRepository.getDistrictById(districtId);
+    }
+
+    public Ward getWardById(int wardId) {
+        return wardRepository.getWardById(wardId);
     }
 }

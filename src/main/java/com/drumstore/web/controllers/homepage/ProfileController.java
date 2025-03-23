@@ -7,8 +7,8 @@ import com.drumstore.web.services.AddressService;
 import com.drumstore.web.services.OrderService;
 import com.drumstore.web.services.UserService;
 import com.drumstore.web.services.WishlistService;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.drumstore.web.utils.GsonUtils;
+import com.google.gson.JsonObject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -94,49 +94,43 @@ public class ProfileController extends HttpServlet {
             return;
         }
 
-        ObjectMapper mapper = new ObjectMapper();
         try {
             // Đọc JSON từ request body
-            JsonNode jsonNode = mapper.readTree(request.getReader());
-            String action = jsonNode.get("action").asText();
+            JsonObject jsonObject = GsonUtils.fromJson(request.getReader());
+            String action = jsonObject.get("action").getAsString();
 
             switch (action) {
-                // Cập nhật thông tin tài khoản
-                case "update-account" -> updateAccount(request, response, user, jsonNode);
-                // quán lí address
-                case "get_address" -> getAddress(request, response, user, jsonNode);
-                case "add_address" -> addAddress(request, response, user, jsonNode);
-                case "delete_address" -> deleteAddress(request, response, user, jsonNode);
-                case "update_address" -> updateAddress(request, response, user, jsonNode);
-                // quản lí wishList
-                case "add-product-in-wishList" -> addProductInWishList(request, response, user, jsonNode);
-                case "delete-product-in-wishList" -> deleteProductInWishList(request, response, user, jsonNode);
-
+                case "update-account" -> updateAccount(request, response, user, jsonObject);
+                case "get_address" -> getAddress(request, response, user, jsonObject);
+                case "add_address" -> addAddress(request, response, user, jsonObject);
+                case "delete_address" -> deleteAddress(request, response, user, jsonObject);
+                case "update_address" -> updateAddress(request, response, user, jsonObject);
+                case "add-product-in-wishList" -> addProductInWishList(request, response, user, jsonObject);
+                case "delete-product-in-wishList" -> deleteProductInWishList(request, response, user, jsonObject);
                 default -> response.sendRedirect(request.getContextPath() + "/profile");
             }
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(response.getWriter(), Map.of(
-                    "success", false,
-                    "message", "Có lỗi xảy ra: " + e.getMessage()
-            ));
+            Map<String, Object> errorResponse = Map.of(
+                "success", false,
+                "message", "Có lỗi xảy ra: " + e.getMessage()
+            );
+            writeJson(response, errorResponse);
         }
     }
 
-    private void addProductInWishList(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
+    private void addProductInWishList(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> resp = new HashMap<>();
         try {
-            int productId = jsonNode.get("data").asInt();
+            int productId = jsonObject.get("data").getAsInt();
 
-            String message = null;
             boolean isExist = wishlistService.isExitsInWishlist(productId, user.getId());
             if (isExist) {
                 resp.put("message", "Sản phẩm đã tồn tại");
-            }else {
+            } else {
                 wishlistService.save(productId, user.getId());
                 resp.put("message", "Sản phẩm đã được thêm vào danh sách yêu thích");
             }
@@ -145,16 +139,15 @@ public class ProfileController extends HttpServlet {
             resp.put("success", false);
             resp.put("message", "Lỗi server: " + e.getMessage());
         }
-        mapper.writeValue(response.getWriter(), resp);
+        writeJson(response, resp);
     }
 
-    private void deleteProductInWishList(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
+    private void deleteProductInWishList(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> resp = new HashMap<>();
         try {
-            int productId = jsonNode.get("data").asInt();
+            int productId = jsonObject.get("data").getAsInt();
             wishlistService.delete(productId, user.getId());
             resp.put("success", true);
             resp.put("message", "Sản phẩm đã được xóa khỏi danh sách yêu thích");
@@ -162,81 +155,75 @@ public class ProfileController extends HttpServlet {
             resp.put("success", false);
             resp.put("message", "Lỗi server: " + e.getMessage());
         }
-        mapper.writeValue(response.getWriter(), resp);
+        writeJson(response, resp);
     }
 
-    private void updateAccount(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
+    private void updateAccount(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            String fullName = jsonNode.get("data").get("fullName").asText();
-            String phone = jsonNode.get("data").get("phone").asText();
+            JsonObject data = jsonObject.get("data").getAsJsonObject();
+            String fullName = data.get("fullName").getAsString();
+            String phone = data.get("phone").getAsString();
 
             user.setFullname(fullName);
             user.setPhone(phone);
-            // cap nhat thong tin
             boolean success = userService.update(user) != 0;
 
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("success", success);
             responseMap.put("message", success ? "Cập nhật tài khoản thành công" : "Cập nhật tài khoản thất bại");
-            mapper.writeValue(response.getWriter(), responseMap);
+            writeJson(response, responseMap);
         } catch (Exception e) {
-            e.printStackTrace();
-            mapper.writeValue(response.getWriter(), Map.of(
-                    "success", false,
-                    "message", "Có lỗi xảy ra: " + e.getMessage()
+            writeJson(response, Map.of(
+                "success", false,
+                "message", "Có lỗi xảy ra: " + e.getMessage()
             ));
         }
     }
 
-    private void getAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
+    private void getAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            // Đọc addressId từ JSON data thay vì parameter
-            int addressId = jsonNode.get("data").get("addressId").asInt();
+            int addressId = jsonObject.get("data").getAsJsonObject().get("addressId").getAsInt();
             AddressDTO address = addressService.getAddressById(addressId);
 
             if (address != null && address.getUserId() == user.getId()) {
-                mapper.writeValue(response.getWriter(), address);
+                writeJson(response, address);
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                mapper.writeValue(response.getWriter(), Map.of(
-                        "success", false,
-                        "message", "Không tìm thấy địa chỉ"
+                writeJson(response, Map.of(
+                    "success", false,
+                    "message", "Không tìm thấy địa chỉ"
                 ));
             }
         } catch (Exception e) {
-            e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            mapper.writeValue(response.getWriter(), Map.of(
-                    "success", false,
-                    "message", "Có lỗi xảy ra: " + e.getMessage()
+            writeJson(response, Map.of(
+                "success", false,
+                "message", "Có lỗi xảy ra: " + e.getMessage()
             ));
         }
     }
 
-    private void updateAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
+    private void updateAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        ObjectMapper mapper = new ObjectMapper();
 
         try {
-            JsonNode data = jsonNode.get("data");
+            JsonObject data = jsonObject.get("data").getAsJsonObject();
 
             AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setId(data.get("id").asInt());
+            addressDTO.setId(data.get("id").getAsInt());
             addressDTO.setUserId(user.getId());
-            addressDTO.setFullname(data.get("fullname").asText());
-            addressDTO.setPhone(data.get("phone").asText());
-            addressDTO.setProvinceId(data.get("provinceId").asInt());
-            addressDTO.setDistrictId(data.get("districtId").asInt());
-            addressDTO.setWardId(data.get("wardId").asInt());
-            addressDTO.setAddress(data.get("addressDetail").asText());
-            addressDTO.setIsDefault(data.get("isDefault").asBoolean());
+            addressDTO.setFullname(data.get("fullname").getAsString());
+            addressDTO.setPhone(data.get("phone").getAsString());
+            addressDTO.setProvinceId(data.get("provinceId").getAsInt());
+            addressDTO.setDistrictId(data.get("districtId").getAsInt());
+            addressDTO.setWardId(data.get("wardId").getAsInt());
+            addressDTO.setAddress(data.get("addressDetail").getAsString());
+            addressDTO.setIsDefault(data.get("isDefault").getAsBoolean());
 
             boolean success = addressService.updateAddress(addressDTO);
 
@@ -244,78 +231,72 @@ public class ProfileController extends HttpServlet {
             responseMap.put("success", success);
             responseMap.put("message", success ? "Cập nhật địa chỉ thành công" : "Cập nhật địa chỉ thất bại");
 
-            mapper.writeValue(response.getWriter(), responseMap);
-
+            writeJson(response, responseMap);
         } catch (Exception e) {
-            e.printStackTrace();
-            mapper.writeValue(response.getWriter(), Map.of(
-                    "success", false,
-                    "message", "Có lỗi xảy ra: " + e.getMessage()
+            writeJson(response, Map.of(
+                "success", false,
+                "message", "Có lỗi xảy ra: " + e.getMessage()
             ));
         }
     }
 
-    private void deleteAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
+    private void deleteAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        ObjectMapper mapper = new ObjectMapper();
 
         try {
-            int addressId = jsonNode.get("addressId").asInt();
+            int addressId = jsonObject.get("addressId").getAsInt();
             boolean success = addressService.deleteAddress(addressId, user.getId());
 
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("success", success);
             responseMap.put("message", success ? "Xóa địa chỉ thành công" : "Xóa địa chỉ thất bại");
 
-            mapper.writeValue(response.getWriter(), responseMap);
-
+            writeJson(response, responseMap);
         } catch (Exception e) {
-            e.printStackTrace();
-            mapper.writeValue(response.getWriter(), Map.of(
-                    "success", false,
-                    "message", "Có lỗi xảy ra: " + e.getMessage()
+            writeJson(response, Map.of(
+                "success", false,
+                "message", "Có lỗi xảy ra: " + e.getMessage()
             ));
         }
     }
 
-    private void addAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
+    private void addAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        ObjectMapper mapper = new ObjectMapper();
 
         try {
-            JsonNode data = jsonNode.get("data");
+            JsonObject data = jsonObject.get("data").getAsJsonObject();
 
-            // Tạo AddressDTO từ JSON data
             AddressDTO addressDTO = new AddressDTO();
             addressDTO.setUserId(user.getId());
-            addressDTO.setFullname(data.get("fullname").asText());
-            addressDTO.setPhone(data.get("phone").asText());
-            addressDTO.setProvinceId(data.get("provinceId").asInt());
-            addressDTO.setDistrictId(data.get("districtId").asInt());
-            addressDTO.setWardId(data.get("wardId").asInt());
-            addressDTO.setAddress(data.get("addressDetail").asText());
-            addressDTO.setIsDefault(data.get("isDefault").asBoolean());
-            // Lưu địa chỉ mới
+            addressDTO.setFullname(data.get("fullname").getAsString());
+            addressDTO.setPhone(data.get("phone").getAsString());
+            addressDTO.setProvinceId(data.get("provinceId").getAsInt());
+            addressDTO.setDistrictId(data.get("districtId").getAsInt());
+            addressDTO.setWardId(data.get("wardId").getAsInt());
+            addressDTO.setAddress(data.get("addressDetail").getAsString());
+            addressDTO.setIsDefault(data.get("isDefault").getAsBoolean());
+
             boolean success = addressService.addAddress(addressDTO);
 
-            // Trả về response
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("success", success);
             responseMap.put("message", success ? "Thêm địa chỉ thành công" : "Thêm địa chỉ thất bại");
 
-            mapper.writeValue(response.getWriter(), responseMap);
-
+            writeJson(response, responseMap);
         } catch (Exception e) {
-            e.printStackTrace();
-            mapper.writeValue(response.getWriter(), Map.of(
-                    "success", false,
-                    "message", "Có lỗi xảy ra: " + e.getMessage()
+            writeJson(response, Map.of(
+                "success", false,
+                "message", "Có lỗi xảy ra: " + e.getMessage()
             ));
         }
     }
 
+    // Helper method để ghi JSON response
+    private void writeJson(HttpServletResponse response, Object data) throws IOException {
+        response.getWriter().write(GsonUtils.toJson(data));
+    }
 
     @Override
     public void destroy() {

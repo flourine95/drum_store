@@ -1,6 +1,6 @@
 package com.drumstore.web.controllers.auth;
 
-import com.drumstore.web.models.User;
+import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.services.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,12 +13,7 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
-    private UserService userService;
-
-    @Override
-    public void init() throws ServletException {
-        this.userService = new UserService();
-    }
+    private final UserService userService = new UserService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,7 +27,7 @@ public class LoginController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        User user = userService.login(username, password);
+        UserDTO user = userService.login2(username, password);
 
         if (user != null) {
             HttpSession session = request.getSession();
@@ -40,7 +35,7 @@ public class LoginController extends HttpServlet {
             user.setPassword(null);
 
             request.setAttribute("successMessage", "Đăng nhập thành công.");
-            if (user.isAdmin()) {
+            if (user.getRoles() != null) {
                 response.sendRedirect(request.getContextPath() + "/dashboard");
             } else {
                 response.sendRedirect(request.getContextPath() + "/");

@@ -1,6 +1,7 @@
 package com.drumstore.web.services;
 
 import com.drumstore.web.dto.ProductCardDTO;
+import com.drumstore.web.dto.ProductDashboardDTO;
 import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.models.Product;
 import com.drumstore.web.models.ProductSale;
@@ -11,9 +12,14 @@ import java.util.List;
 public class ProductService {
     private ProductRepository productRepository = new ProductRepository();
 
-    public List<Product> all() {
+    public List<ProductDashboardDTO> all() {
         return productRepository.all();
     }
+
+    public List<ProductDashboardDTO> all2() {
+        return productRepository.all();
+    }
+
 
     public void create(Product product) {
         productRepository.save(product);
@@ -74,5 +80,14 @@ public class ProductService {
             productRepository.incrementViewCount(id);
         }
         return product;
+    }
+
+    public List<ProductDashboardDTO> getProductDashboards(int page, int limit, String search, String category, String sortColumn, String sortDir) {
+        int offset = (page - 1) * limit;
+        return productRepository.getProductDashboards(offset, limit, search, category, sortColumn, sortDir);
+    }
+
+    public int getTotalProducts() {
+        return productRepository.getTotalProducts();
     }
 }

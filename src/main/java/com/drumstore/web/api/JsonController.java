@@ -1,4 +1,4 @@
-package com.drumstore.web.controllers;
+package com.drumstore.web.api;
 
 import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.repositories.ProductRepository;

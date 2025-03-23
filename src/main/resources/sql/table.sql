@@ -106,17 +106,57 @@ CREATE TABLE review_images
     sortOrder INT       DEFAULT 0,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 CREATE TABLE users
 (
     id        INT PRIMARY KEY AUTO_INCREMENT,
     email     VARCHAR(100) UNIQUE,
     password  VARCHAR(255),
     fullname  VARCHAR(100),
-    role      TINYINT DEFAULT 0,
     phone     VARCHAR(25),
     status    TINYINT DEFAULT 1,
     avatar    VARCHAR(255),
     createdAt TIMESTAMP
+);
+
+CREATE TABLE roles
+(
+    id          INT PRIMARY KEY AUTO_INCREMENT,
+    name        VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT        NULL
+);
+CREATE TABLE user_roles
+(
+    id     INT PRIMARY KEY AUTO_INCREMENT,
+    userId INT NOT NULL,
+    roleId INT NOT NULL
+);
+CREATE TABLE permissions
+(
+    id          INT PRIMARY KEY AUTO_INCREMENT,
+    name        VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT        NULL
+);
+CREATE TABLE role_permissions
+(
+    id           INT PRIMARY KEY AUTO_INCREMENT,
+    roleId       INT NOT NULL,
+    permissionId INT NOT NULL
+);
+CREATE TABLE audit_logs
+(
+    id           INT PRIMARY KEY AUTO_INCREMENT,
+    userId       INT          NOT NULL,
+    activityType VARCHAR(100) NOT NULL,
+    timestamp    DATETIME DEFAULT CURRENT_TIMESTAMP,
+    description  TEXT         NULL
+);
+CREATE TABLE two_factor_auth
+(
+    userId           INT PRIMARY KEY,
+    method           TINYINT, -- 0: SMS, 1: Email
+    verificationCode VARCHAR(10)                      NOT NULL,
+    expiryDate       DATETIME                         NOT NULL
 );
 
 CREATE TABLE user_addresses
@@ -235,4 +275,6 @@ CREATE TABLE payments
     paymentDate   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     createdAt     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
 

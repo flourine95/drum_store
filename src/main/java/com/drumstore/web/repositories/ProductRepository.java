@@ -8,41 +8,75 @@ import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
 import java.util.*;
 
-public class ProductRepository extends BaseRepository<Product> {
+public class ProductRepository {
     private final Jdbi jdbi;
 
     public ProductRepository() {
         this.jdbi = DBConnection.getJdbi();
     }
 
-    public List<Product> all() {
-        return new ArrayList<>();
-//        String sql = """
-//                    SELECT
-//                        p.id AS p_id, p.name AS p_name, p.price AS p_price, p.description as p_description,
-//                        p.stock as p_stock, p.createdAt as p_createdAt,
-//                        c.id AS c_id, c.name AS c_name,
-//                        b.id AS b_id, b.name AS b_name,
-//                        i.id AS i_id, i.image AS i_image, i.isMain AS i_isMain
-//                    FROM products p
-//                             LEFT JOIN categories c ON p.categoryId = c.id
-//                             LEFT JOIN brands b ON p.brandId = b.id
-//                             LEFT JOIN product_images i ON p.id = i.productId AND i.isMain = 1
-//                """;
-//
-//        return jdbi.withHandle(handle -> handle.createQuery(sql).registerRowMapper(BeanMapper.factory(Product.class, "p")).registerRowMapper(BeanMapper.factory(Category.class, "c")).registerRowMapper(BeanMapper.factory(ProductImage.class, "i")).registerRowMapper(BeanMapper.factory(Brand.class, "b")).reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
-//            Product product = map.computeIfAbsent(row.getColumn("p_id", Integer.class), _ -> row.getRow(Product.class));
-//            if (row.getColumn("c_id", Integer.class) != null) {
-//                product.setCategory(row.getRow(Category.class));
-//            }
-//            if (row.getColumn("i_id", Integer.class) != null) {
-//                product.setImages(List.of(row.getRow(ProductImage.class)));
-//            }
-//            if (row.getColumn("b_id", Integer.class) != null) {
-//                product.setBrand(row.getRow(Brand.class));
-//            }
-//            return map;
-//        }).values().stream().toList());
+    public List<ProductDashboardDTO> all() {
+        String sql = """
+            SELECT 
+                p.id,
+                p.name,
+                p.basePrice,
+                c.name AS categoryName,
+                b.name AS brandName,
+                p.totalViews,
+                p.isFeatured,
+                p.status,
+                COALESCE(pv.total_stock, 0) as stock,
+                COALESCE(pc.total_colors, 0) as totalColors,
+                COALESCE(pa.total_addons, 0) as totalAddons,
+                COALESCE(pv.total_variants, 0) as totalVariants,
+                COALESCE(pr.total_reviews, 0) as totalReviews,
+                COALESCE(pr.avg_rating, 0) as avgRating,
+                (
+                    SELECT image 
+                    FROM product_images 
+                    WHERE productId = p.id AND isMain = 1 
+                    LIMIT 1
+                ) as mainImage,
+                p.createdAt
+            FROM products p
+            LEFT JOIN categories c ON p.categoryId = c.id
+            LEFT JOIN brands b ON p.brandId = b.id
+            LEFT JOIN (
+                SELECT productId, COUNT(*) as total_colors
+                FROM product_colors
+                GROUP BY productId
+            ) pc ON p.id = pc.productId
+            LEFT JOIN (
+                SELECT productId, COUNT(*) as total_addons
+                FROM product_addons
+                GROUP BY productId
+            ) pa ON p.id = pa.productId
+            LEFT JOIN (
+                SELECT 
+                    productId,
+                    COUNT(*) as total_variants,
+                    SUM(stock) as total_stock
+                FROM product_variants
+                WHERE status = 1
+                GROUP BY productId
+            ) pv ON p.id = pv.productId
+            LEFT JOIN (
+                SELECT 
+                    productId,
+                    COUNT(*) as total_reviews,
+                    AVG(rating) as avg_rating
+                FROM product_reviews
+                WHERE status = 1
+                GROUP BY productId
+            ) pr ON p.id = pr.productId
+        """;
+
+        return jdbi.withHandle(handle -> 
+            handle.createQuery(sql)
+                .mapToBean(ProductDashboardDTO.class)
+                .list()
+        );
     }
 
     public Product findById(int id) {
@@ -707,4 +741,126 @@ public class ProductRepository extends BaseRepository<Product> {
     public void incrementViewCount(int id) {
     }
 
+    public List<ProductDashboardDTO> getProductDashboards(int offset, int limit, String search, String category, String sortColumn, String sortDir) {
+        StringBuilder sql = new StringBuilder("""
+            SELECT 
+                p.id,
+                p.name,
+                p.basePrice,
+                c.name AS categoryName,
+                b.name AS brandName,
+                p.totalViews,
+                p.isFeatured,
+                p.status,
+                COALESCE(pv.total_stock, 0) as stock,
+                COALESCE(pc.total_colors, 0) as totalColors,
+                COALESCE(pa.total_addons, 0) as totalAddons,
+                COALESCE(pv.total_variants, 0) as totalVariants,
+                COALESCE(pr.total_reviews, 0) as totalReviews,
+                COALESCE(pr.avg_rating, 0) as avgRating,
+                (
+                    SELECT image 
+                    FROM product_images 
+                    WHERE productId = p.id AND isMain = 1 
+                    LIMIT 1
+                ) as mainImage,
+                p.createdAt
+            FROM products p
+            LEFT JOIN categories c ON p.categoryId = c.id
+            LEFT JOIN brands b ON p.brandId = b.id
+            LEFT JOIN (
+                SELECT productId, COUNT(*) as total_colors
+                FROM product_colors
+                GROUP BY productId
+            ) pc ON p.id = pc.productId
+            LEFT JOIN (
+                SELECT productId, COUNT(*) as total_addons
+                FROM product_addons
+                GROUP BY productId
+            ) pa ON p.id = pa.productId
+            LEFT JOIN (
+                SELECT 
+                    productId,
+                    COUNT(*) as total_variants,
+                    SUM(stock) as total_stock
+                FROM product_variants
+                WHERE status = 1
+                GROUP BY productId
+            ) pv ON p.id = pv.productId
+            LEFT JOIN (
+                SELECT 
+                    productId,
+                    COUNT(*) as total_reviews,
+                    AVG(rating) as avg_rating
+                FROM product_reviews
+                WHERE status = 1
+                GROUP BY productId
+            ) pr ON p.id = pr.productId
+            WHERE 1=1
+        """);
+
+        List<Object> params = new ArrayList<>();
+
+        // Thêm điều kiện tìm kiếm
+        if (search != null && !search.isEmpty()) {
+            sql.append(" AND (p.name LIKE ? OR p.description LIKE ?)");
+            params.add("%" + search + "%");
+            params.add("%" + search + "%");
+        }
+
+        // Thêm điều kiện category
+        if (category != null && !category.isEmpty()) {
+            sql.append(" AND p.categoryId = ?");
+            params.add(Integer.parseInt(category));
+        }
+
+        // Thêm sắp xếp
+        if (sortColumn != null && !sortColumn.isEmpty()) {
+            String sortField = switch (sortColumn) {
+                case "name" -> "p.name";
+                case "basePrice" -> "p.basePrice";
+                case "categoryName" -> "c.name";
+                case "brandName" -> "b.name";
+                case "totalViews" -> "p.totalViews";
+                case "stock" -> "COALESCE(pv.total_stock, 0)";
+                case "totalColors" -> "COALESCE(pc.total_colors, 0)";
+                case "totalAddons" -> "COALESCE(pa.total_addons, 0)";
+                case "totalVariants" -> "COALESCE(pv.total_variants, 0)";
+                case "totalReviews" -> "COALESCE(pr.total_reviews, 0)";
+                case "avgRating" -> "COALESCE(pr.avg_rating, 0)";
+                default -> "p.id";
+            };
+            
+            sql.append(" ORDER BY ").append(sortField);
+            if ("desc".equalsIgnoreCase(sortDir)) {
+                sql.append(" DESC");
+            } else {
+                sql.append(" ASC");
+            }
+        } else {
+            sql.append(" ORDER BY p.id DESC");
+        }
+
+        // Thêm phân trang
+        sql.append(" LIMIT ? OFFSET ?");
+        params.add(limit);
+        params.add(offset);
+
+        return jdbi.withHandle(handle -> {
+            var query = handle.createQuery(sql.toString());
+            for (int i = 0; i < params.size(); i++) {
+                query.bind(i, params.get(i));
+            }
+            return query.mapToBean(ProductDashboardDTO.class).list();
+        });
+    }
+
+    public int getTotalProducts() {
+        String sql = "SELECT COUNT(*) FROM products";
+        return jdbi.withHandle(handle -> 
+            handle.createQuery(sql)
+                .mapTo(Integer.class)
+                .one()
+        );
+    }
 }

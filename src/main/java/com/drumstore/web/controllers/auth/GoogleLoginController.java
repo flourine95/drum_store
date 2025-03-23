@@ -7,6 +7,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeToken
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.gson.JsonObject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,10 +16,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
-import org.json.JSONObject;
+import java.net.URI;
+
+import com.drumstore.web.utils.GsonUtils;
 
 @WebServlet({"/login/google", "/login/oauth2/code/google"})
 public class GoogleLoginController extends HttpServlet {
@@ -58,26 +60,25 @@ public class GoogleLoginController extends HttpServlet {
 
             // Lấy thông tin user từ Google
             String accessToken = tokenResponse.getAccessToken();
-            URL url = new URL(GoogleAuthConfig.USERINFO_ENDPOINT);
+            var url = URI.create(GoogleAuthConfig.USERINFO_ENDPOINT).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-            Scanner scanner = new Scanner(conn.getInputStream());
-            String response_body = scanner.useDelimiter("\\A").next();
-            scanner.close();
-
-            JSONObject userInfo = new JSONObject(response_body);
+            // Lấy thông tin user từ Google sử dụng GsonUtils
+            JsonObject userInfo = GsonUtils.fromJson(
+                new InputStreamReader(conn.getInputStream())
+            );
 
             // Kiểm tra email đã tồn tại chưa
-            String email = userInfo.getString("email");
+            String email = userInfo.get("email").getAsString();
             User user = userService.findByEmail(email);
 
             if (user == null) {
                 // Tạo user mới nếu chưa tồn tại
                 user = new User();
                 user.setEmail(email);
-                user.setFullname(userInfo.getString("name"));
-                user.setAvatar(userInfo.getString("picture"));
+                user.setFullname(userInfo.get("name").getAsString());
+                user.setAvatar(userInfo.get("picture").getAsString());
                 user.setStatus(1);
                 user.setRole(0);
                 userService.create(user);
