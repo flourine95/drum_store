@@ -671,10 +671,10 @@
                 },
                 success: function (response) {
                     if (response.success) {
-                        // cập nhật lại số lượng
-                        const cartCount = response.cartCount !== undefined ? response.cartCount : 0;
-                        // document.querySelector(".cartCount").innerHTML = cartCount;
-
+                        const quantityInCart = document.querySelectorAll('.bg-danger.cartCount');
+                        quantityInCart.forEach(element => {
+                            element.textContent = response.cartCount;
+                        });
                         const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',

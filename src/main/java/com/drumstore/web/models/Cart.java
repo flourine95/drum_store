@@ -1,18 +1,28 @@
 package com.drumstore.web.models;
 
 import com.drumstore.web.dto.CartItemDTO;
+import com.drumstore.web.dto.VoucherDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
     private List<CartItem> items;
+    private VoucherDTO voucher;
 
     @Override
     public String toString() {
         return "Cart{" +
                 "items=" + items +
                 '}';
+    }
+
+    public VoucherDTO getVoucher() {
+        return voucher;
+    }
+
+    public void setVoucher(VoucherDTO voucher) {
+        this.voucher = voucher;
     }
 
     public void setItems(List<CartItem> items) {
@@ -49,6 +59,8 @@ public class Cart {
         return 0;
     }
 
+
+
     public List<CartItem> getItems() {
         return items;
     }
@@ -56,7 +68,13 @@ public class Cart {
     public double getTotal() {
         return items.stream()
                 .mapToDouble(CartItem::getTotal)
-                .sum();
+                .sum() ;
+    }
+    public double getDiscountTotal(){
+        if (voucher == null) {
+            return 0;
+        }
+        return voucher.calculateDiscount(getTotal());
     }
 
     public int getItemCount() {

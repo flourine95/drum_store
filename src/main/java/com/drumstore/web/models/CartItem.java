@@ -43,6 +43,7 @@ public class CartItem {
 
     public void changeCartItem(CartItemDTO cartItem) {
         this.cartItem = cartItem;
+        this.quantity = 1;
     }
 
     @Override

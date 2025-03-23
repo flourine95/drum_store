@@ -93,6 +93,7 @@ public class CartController extends HttpServlet {
                         result.put("item", cartItem);
                         result.put("price", cartItem.getTotal());
                         result.put("total", cart.getTotal());
+                        result.put("cart", cart);
                     }else {
                         result.put("success", false);
                         result.put("message", "Lỗi");
