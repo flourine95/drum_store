@@ -1,7 +1,7 @@
 package com.drumstore.web.controllers.dashboard;
 
+import com.drumstore.web.dto.ProductDashboardDetailDTO;
 import com.drumstore.web.dto.ProductDashboardDTO;
-import com.drumstore.web.models.Product;
 import com.drumstore.web.services.ProductService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,7 +24,9 @@ public class ProductManagerController extends ResourceController {
 
     @Override
     public void show(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
-
+        ProductDashboardDetailDTO product = productService.find(Integer.parseInt(id));
+        setPageTitle("Chi tiết sản phẩm");
+        setViewData(product);
     }
 
     @Override

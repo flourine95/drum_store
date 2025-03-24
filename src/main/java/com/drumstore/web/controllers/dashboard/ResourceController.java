@@ -1,13 +1,14 @@
 package com.drumstore.web.controllers.dashboard;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.ServletException;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import jakarta.servlet.annotation.WebServlet;
 
 public abstract class ResourceController extends HttpServlet implements AbstractController, NestedController {
     // Các thuộc tính để xử lý view
@@ -64,7 +65,7 @@ public abstract class ResourceController extends HttpServlet implements Abstract
     }
 
     // Method để render view
-    protected void renderView(HttpServletRequest request, HttpServletResponse response) 
+    protected void renderView(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Set default view path nếu chưa được set
         if (viewPath == null) {
@@ -75,8 +76,8 @@ public abstract class ResourceController extends HttpServlet implements Abstract
         if (pageTitle != null) {
             request.setAttribute("pageTitle", pageTitle);
         }
-        request.setAttribute("content", viewPath);
-        
+        request.setAttribute("content", moduleName + viewPath);
+
         if (viewData != null) {
             request.setAttribute(moduleName, viewData);
         }

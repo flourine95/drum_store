@@ -1,9 +1,11 @@
 package com.drumstore.web.repositories;
 
+import com.drumstore.web.dto.ProductDashboardDetailDTO;
 import com.drumstore.web.dto.*;
 import com.drumstore.web.models.*;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
 import java.util.*;
@@ -79,9 +81,155 @@ public class ProductRepository {
         );
     }
 
-    public Product findById(int id) {
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM products WHERE id = :id")
-                .bind("id", id).mapToBean(Product.class).findFirst().orElse(null));
+    public ProductDashboardDetailDTO findById(int id) {
+        String sql = """
+            WITH ProductStats AS (
+                SELECT 
+                    productId,
+                    SUM(stock) as total_stock,
+                    COUNT(*) as total_variants
+                FROM product_variants
+                WHERE productId = :id AND status = 1
+                GROUP BY productId
+            ),
+            ReviewStats AS (
+                SELECT 
+                    productId,
+                    COUNT(*) as total_reviews,
+                    AVG(rating) as avg_rating
+                FROM product_reviews
+                WHERE productId = :id AND status = 1
+                GROUP BY productId
+            )
+            SELECT 
+                p.*,
+                c.name as categoryName,
+                b.name as brandName,
+                COALESCE(ps.total_stock, 0) as totalStock,
+                COALESCE(ps.total_variants, 0) as totalVariants,
+                COALESCE(rs.total_reviews, 0) as totalReviews,
+                COALESCE(rs.avg_rating, 0) as avgRating
+            FROM products p
+            LEFT JOIN categories c ON p.categoryId = c.id
+            LEFT JOIN brands b ON p.brandId = b.id
+            LEFT JOIN ProductStats ps ON p.id = ps.productId
+            LEFT JOIN ReviewStats rs ON p.id = rs.productId
+            WHERE p.id = :id
+        """;
+
+        return jdbi.withHandle(handle -> {
+            ProductDashboardDetailDTO dto = handle.createQuery(sql)
+                .bind("id", id)
+                .mapToBean(ProductDashboardDetailDTO.class)
+                .one();
+
+            // Load images
+            dto.setImages(loadProductImages(handle, id));
+            
+            // Load colors
+            dto.setColors(loadProductColors(handle, id));
+            
+            // Load variants
+            dto.setVariants(loadProductVariants(handle, id));
+            
+            // Load reviews
+            dto.setReviews(loadProductReviews(handle, id));
+            
+            // Load active sales
+            dto.setSales(loadActiveSales(handle, id));
+            
+            return dto;
+        });
+    }
+
+    private List<ProductImageDTO> loadProductImages(Handle handle, int productId) {
+        String sql = """
+            SELECT id, image, isMain, sortOrder
+            FROM product_images
+            WHERE productId = :productId
+            ORDER BY isMain DESC, sortOrder ASC
+        """;
+        
+        return handle.createQuery(sql)
+            .bind("productId", productId)
+            .mapToBean(ProductImageDTO.class)
+            .list();
+    }
+
+    private List<ProductColorDTO> loadProductColors(Handle handle, int productId) {
+        String sql = """
+            SELECT 
+                pc.*,
+                COUNT(pv.id) as variantsCount,
+                COALESCE(SUM(pv.stock), 0) as totalStock
+            FROM product_colors pc
+            LEFT JOIN product_variants pv ON pc.id = pv.colorId
+            WHERE pc.productId = :productId
+            GROUP BY pc.id
+        """;
+        
+        return handle.createQuery(sql)
+            .bind("productId", productId)
+            .mapToBean(ProductColorDTO.class)
+            .list();
+    }
+
+    private List<ProductVariantDTO> loadProductVariants(Handle handle, int productId) {
+        String sql = """
+            SELECT 
+                pv.*,
+                pc.name as colorName,
+                pa.name as addonName,
+                pi.image as variantImage
+            FROM product_variants pv
+            LEFT JOIN product_colors pc ON pv.colorId = pc.id
+            LEFT JOIN product_addons pa ON pv.addonId = pa.id
+            LEFT JOIN product_images pi ON pv.imageId = pi.id
+            WHERE pv.productId = :productId
+        """;
+        
+        return handle.createQuery(sql)
+            .bind("productId", productId)
+            .mapToBean(ProductVariantDTO.class)
+            .list();
+    }
+
+    private List<ProductReviewDTO> loadProductReviews(Handle handle, int productId) {
+        String sql = """
+            SELECT 
+                pr.*,
+                u.fullname as userName,
+                u.avatar as userAvatar,
+                GROUP_CONCAT(ri.image) as reviewImages
+            FROM product_reviews pr
+            LEFT JOIN users u ON pr.userId = u.id
+            LEFT JOIN review_images ri ON pr.id = ri.reviewId
+            WHERE pr.productId = :productId AND pr.status = 1
+            GROUP BY pr.id
+            ORDER BY pr.createdAt DESC
+            LIMIT 5
+        """;
+        
+        return handle.createQuery(sql)
+            .bind("productId", productId)
+            .mapToBean(ProductReviewDTO.class)
+            .list();
+    }
+
+    private List<ProductSaleDTO> loadActiveSales(Handle handle, int productId) {
+        String sql = """
+            SELECT 
+                s.*
+            FROM product_sales ps
+            JOIN sales s ON ps.saleId = s.id
+            WHERE ps.productId = :productId
+            AND CURRENT_DATE BETWEEN s.startDate AND s.endDate
+        """;
+        
+        return handle.createQuery(sql)
+            .bind("productId", productId)
+            .mapToBean(ProductSaleDTO.class)
+            .list();
     }
 
     public void save(Product product) {

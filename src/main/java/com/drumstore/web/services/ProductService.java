@@ -1,5 +1,6 @@
 package com.drumstore.web.services;
 
+import com.drumstore.web.dto.ProductDashboardDetailDTO;
 import com.drumstore.web.dto.ProductCardDTO;
 import com.drumstore.web.dto.ProductDashboardDTO;
 import com.drumstore.web.dto.ProductDetailDTO;
@@ -33,7 +34,7 @@ public class ProductService {
         productRepository.delete(id);
     }
 
-    public Product find(int id) {
+    public ProductDashboardDetailDTO find(int id) {
         return productRepository.findById(id);
     }
 
