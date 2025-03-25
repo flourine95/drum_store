@@ -65,8 +65,7 @@ public abstract class ResourceController extends HttpServlet implements Abstract
     }
 
     // Method để render view
-    protected void renderView(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void renderView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Set default view path nếu chưa được set
         if (viewPath == null) {
             viewPath = moduleName + "/index.jsp";
@@ -76,7 +75,7 @@ public abstract class ResourceController extends HttpServlet implements Abstract
         if (pageTitle != null) {
             request.setAttribute("pageTitle", pageTitle);
         }
-        request.setAttribute("content", moduleName + viewPath);
+        request.setAttribute("content",  viewPath);
 
         if (viewData != null) {
             request.setAttribute(moduleName, viewData);

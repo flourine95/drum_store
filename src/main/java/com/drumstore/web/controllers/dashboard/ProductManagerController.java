@@ -26,7 +26,8 @@ public class ProductManagerController extends ResourceController {
     public void show(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
         ProductDashboardDetailDTO product = productService.find(Integer.parseInt(id));
         setPageTitle("Chi tiết sản phẩm");
-        setViewData(product);
+        setViewPath("products/show.jsp");
+        addViewAttribute("product", product);
     }
 
     @Override

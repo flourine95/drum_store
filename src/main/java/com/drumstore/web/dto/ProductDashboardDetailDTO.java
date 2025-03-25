@@ -8,18 +8,54 @@ public class ProductDashboardDetailDTO {
     private String name;
     private String description;
     private double basePrice;
-    private int totalViews;
     private boolean isFeatured;
     private int status;
     private int stockManagementType;
     private String categoryName;
     private String brandName;
+    private int totalViews;
+    private int totalStock;
+    private int averageRating;
+    private int totalVariants;
+    private int totalReviews;
     private List<ProductImageDTO> images;
     private List<ProductSaleDTO> sales;
     private List<ProductColorDTO> colors;
     private List<ProductReviewDTO> reviews;
     private List<ProductVariantDTO> variants;
     private LocalDateTime createdAt;
+
+    public int getTotalReviews() {
+        return totalReviews;
+    }
+
+    public void setTotalReviews(int totalReviews) {
+        this.totalReviews = totalReviews;
+    }
+
+    public int getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(int averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public int getTotalVariants() {
+        return totalVariants;
+    }
+
+    public void setTotalVariants(int totalVariants) {
+        this.totalVariants = totalVariants;
+    }
+
+    public int getTotalStock() {
+        return totalStock;
+    }
+
+    public void setTotalStock(int totalStock) {
+        this.totalStock = totalStock;
+    }
 
     public int getId() {
         return id;

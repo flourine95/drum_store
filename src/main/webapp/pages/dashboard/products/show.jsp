@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <div class="container-fluid">
     <div class="row">
         <!-- Thông tin cơ bản -->
@@ -17,7 +17,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Giá cơ bản:</label>
-                            <input type="text" value="${String.format('%,.0f', product.basePrice)}đ" class="form-control" readonly>
+                            <input type="text" value="<fmt:formatNumber value='${product.basePrice}' type='number' groupingUsed='true'/>đ" class="form-control" readonly>
                         </div>
                         <div class="col-md-12 mb-3">
                             <label class="form-label fw-bold">Mô tả:</label>
@@ -71,7 +71,7 @@
                             <div class="card bg-info text-white">
                                 <div class="card-body">
                                     <h6>Đánh giá</h6>
-                                    <h3>${String.format('%.1f', product.avgRating)} ⭐</h3>
+                                    <h3><fmt:formatNumber value="${product.averageRating}" type="number" pattern="0.0"/> ⭐</h3>
                                     <small>${product.totalReviews} đánh giá</small>
                                 </div>
                             </div>
@@ -105,8 +105,8 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Sản phẩm nổi bật:</label>
-                        <div class="badge ${product.featured ? 'bg-warning' : 'bg-secondary'} fs-6">
-                            ${product.featured ? 'Có' : 'Không'}
+                        <div class="badge ${product.isFeatured ? 'bg-warning' : 'bg-secondary'} fs-6">
+                            ${product.isFeatured ? 'Có' : 'Không'}
                         </div>
                     </div>
                     <div>
