@@ -1,7 +1,11 @@
 package com.drumstore.web.controllers.dashboard;
 
+import com.drumstore.web.constants.ProductConstants;
 import com.drumstore.web.dto.ProductDashboardDetailDTO;
 import com.drumstore.web.dto.ProductDashboardDTO;
+import com.drumstore.web.models.Product;
+import com.drumstore.web.services.BrandService;
+import com.drumstore.web.services.CategoryService;
 import com.drumstore.web.services.ProductService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,11 +13,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet("/dashboard/products/*")
 public class ProductManagerController extends ResourceController {
     private final ProductService productService = new ProductService();
+    private final CategoryService categoryService = new CategoryService();
+    private final BrandService brandService = new BrandService();
+
 
     @Override
     public void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,7 +40,12 @@ public class ProductManagerController extends ResourceController {
 
     @Override
     public void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        setPageTitle("Thêm sản phẩm");
+        setViewPath("products/create.jsp");
+        addViewAttribute("stockManagementTypes", ProductConstants.StockManagementType.values());
+        addViewAttribute("statusTypes", ProductConstants.Status.values());
+        addViewAttribute("categories", categoryService.all());
+        addViewAttribute("brands", brandService.all());
     }
 
     @Override

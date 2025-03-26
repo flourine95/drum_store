@@ -18,8 +18,8 @@ public class UserRepository extends BaseRepository<User> {
 
     public int save(User user) {
         String query = """
-                INSERT INTO users (email, password, fullname, role, status, avatar, createdAt)
-                VALUES (:email, :password, :fullname, :role, :status, :avatar, CURRENT_TIMESTAMP)
+                INSERT INTO users (email, password, fullname,  status, avatar, createdAt)
+                VALUES (:email, :password, :fullname,  :status, :avatar, CURRENT_TIMESTAMP)
                 """;
         return super.save(query, user);
     }
