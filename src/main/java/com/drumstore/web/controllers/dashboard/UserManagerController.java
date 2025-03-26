@@ -4,9 +4,8 @@ import com.drumstore.web.models.User;
 import com.drumstore.web.models.UserAddress;
 import com.drumstore.web.services.UserAddressService;
 import com.drumstore.web.services.UserService;
-import com.drumstore.web.utils.Utils;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.drumstore.web.utils.GsonUtils;
+import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,6 +16,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -284,13 +284,12 @@ public class UserManagerController extends ResourceController {
                 user.setAvatar(avatarFileName); // Chỉ lưu tên file vào database
             }
 
-            // Parse địa chỉ từ JSON và lưu user
+            // Parse địa chỉ từ JSON sử dụng Gson
             List<UserAddress> addresses = new ArrayList<>();
             if (addressesJson != null && !addressesJson.isEmpty()) {
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                addresses = mapper.readValue(addressesJson,
-                        mapper.getTypeFactory().constructCollectionType(List.class, UserAddress.class));
+                Type listType = new TypeToken<ArrayList<UserAddress>>() {
+                }.getType();
+                addresses = GsonUtils.fromJson(addressesJson, listType);
             }
 
             userService.createWithAddresses(user, addresses);
