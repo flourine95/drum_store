@@ -1,8 +1,8 @@
 package com.drumstore.web.controllers.homepage;
 
+import com.drumstore.web.dto.CartItemDTO;
 import com.drumstore.web.models.Cart;
 import com.drumstore.web.models.CartItem;
-import com.drumstore.web.models.Product;
 import com.drumstore.web.services.ProductService;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
@@ -54,20 +54,14 @@ public class CartController extends HttpServlet {
             }
 
             Map<String, Object> result = new HashMap<>();
-            System.out.println("action: " + action);
             switch (action) {
                 case "add" -> {
-                    System.out.println("add");
-                    int productId = Integer.parseInt(request.getParameter("productId"));
-                    System.out.println("productId: " + productId);
+                    int productVariantId = Integer.parseInt(request.getParameter("variantId"));
                     int quantity = Integer.parseInt(request.getParameter("quantity"));
-                    System.out.println("quantity: " + quantity);
-                    String color = request.getParameter("color");
-                    System.out.println("color: " + color);
-
-                    Product product = productService.findWithDetailsAndSale(productId);
+                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    CartItemDTO product = productService.findProductForCartItem(productVariantId, productId);
                     if (product != null) {
-                        cart.addItem(new CartItem(product, quantity, color));
+                        cart.addItem(product, quantity);
                         result.put("success", true);
                         result.put("message", "Đã thêm vào giỏ hàng");
                         result.put("cartCount", cart.getItemCount());
@@ -78,28 +72,38 @@ public class CartController extends HttpServlet {
                     }
                 }
                 case "update" -> {
-                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    int cartId = Integer.parseInt(request.getParameter("cartId"));
                     int quantity = Integer.parseInt(request.getParameter("quantity"));
-                    String color = request.getParameter("color");
-
-                    cart.updateQuantity(productId, color, quantity);
+                    double price = cart.updateQuantity(cartId, quantity);
                     result.put("success", true);
+                    result.put("price", price);
+                    result.put("cartCount", cart.getItemCount());
                     result.put("total", cart.getTotal());
                 }
-                case "update-color" -> {
-                    int productId = Integer.parseInt(request.getParameter("productId"));
-                    String oldColor = request.getParameter("oldColor");
-                    String newColor = request.getParameter("newColor");
 
-                    cart.updateColor(productId, oldColor, newColor);
-                    result.put("success", true);
-                    result.put("message", "Đã cập nhật màu sắc");
+                case "change-variant" -> {
+                    int cartId = Integer.parseInt(request.getParameter("cartId"));
+                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    int addonId = Integer.parseInt(request.getParameter("addonId"));
+                    int colorId = Integer.parseInt(request.getParameter("colorId"));
+                    CartItemDTO  cartItemDTO = productService.findProductWithVariantForCartItem(colorId, addonId, productId);
+                    if(cartItemDTO != null){
+                        CartItem cartItem  = cart.changeVariant(cartId,cartItemDTO);
+                        result.put("success", true);
+                        result.put("item", cartItem);
+                        result.put("price", cartItem.getTotal());
+                        result.put("total", cart.getTotal());
+                        result.put("cart", cart);
+                    }else {
+                        result.put("success", false);
+                        result.put("message", "Lỗi");
+                    }
+
                 }
-                case "remove" -> {
-                    int productId = Integer.parseInt(request.getParameter("productId"));
-                    String color = request.getParameter("color");
 
-                    cart.removeItem(productId, color);
+                case "remove" -> {
+                    int cartId = Integer.parseInt(request.getParameter("cartId"));
+                    cart.removeItem(cartId);
                     result.put("success", true);
                     result.put("cartCount", cart.getItemCount());
                     result.put("total", cart.getTotal());

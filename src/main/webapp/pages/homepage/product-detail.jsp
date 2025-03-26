@@ -80,8 +80,9 @@
                                 <c:forEach items="${product.sales}" var="sale">
                                     <li class="sale-item">
                                         <span class="badge bg-danger">${sale.discountPercentage}% OFF</span>
-                                        ${sale.name} 
-                                        <small>(<span class="sale-date" data-start="${sale.startDate}" data-end="${sale.endDate}"></span>)</small>
+                                            ${sale.name}
+                                        <small>(<span class="sale-date" data-start="${sale.startDate}"
+                                                      data-end="${sale.endDate}"></span>)</small>
                                     </li>
                                 </c:forEach>
                             </ul>
@@ -140,15 +141,33 @@
 
                 <div class="action-buttons mb-4">
                     <div class="d-flex gap-2">
-                        <button id="addToCart" class="btn btn-primary flex-grow-1" disabled>
-                            <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
-                        </button>
-                        <button id="buyNow" class="btn btn-danger flex-grow-1" disabled>
-                            <i class="fas fa-bolt"></i> Mua ngay
-                        </button>
-                        <button id="addToWishlist" class="btn btn-outline-danger">
-                            <i class="fas fa-heart"></i>
-                        </button>
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.user}">
+                                <button id="addToCart" class="btn btn-primary flex-grow-1" disabled>
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button id="buyNow" class="btn btn-danger flex-grow-1" disabled>
+                                    <i class="fas fa-bolt"></i> Mua ngay
+                                </button>
+                                <button id="addToWishlist" class="btn btn-outline-danger"
+                                        onclick="toggleWishList(${product.id})">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <button  class="btn btn-primary flex-grow-1"  onclick="redirectToLogin()">
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button class="btn btn-danger flex-grow-1"  onclick="redirectToLogin()">
+                                    <i class="fas fa-bolt"></i> Mua ngay
+                                </button>
+                                <button class="btn btn-outline-danger" onclick="redirectToLogin()">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
+
+
                     </div>
                 </div>
 
@@ -166,8 +185,8 @@
                             <c:if test="${status.index < 2}">
                                 <div class="review-item p-3 mb-2 bg-light rounded">
                                     <div class="d-flex align-items-center mb-2">
-                                        <img src="/assets/images/products/${review.userAvatar}" 
-                                             alt="${review.userName}" 
+                                        <img src="/assets/images/products/${review.userAvatar}"
+                                             alt="${review.userName}"
                                              class="rounded-circle me-2"
                                              style="width: 40px; height: 40px; object-fit: cover;">
                                         <div>
@@ -302,7 +321,7 @@
     .quantity-controls input[type="number"] {
         -moz-appearance: textfield;
     }
-    
+
     .quantity-controls input[type="number"]::-webkit-outer-spin-button,
     .quantity-controls input[type="number"]::-webkit-inner-spin-button {
         -webkit-appearance: none;
@@ -451,7 +470,7 @@
             if (variant) {
                 const colorPrice = selectedColor ? parseFloat(selectedColor.data('price') || 0) : 0;
                 const addonPrice = selectedAddon ? parseFloat(selectedAddon.data('price') || 0) : 0;
-                
+
                 // Cập nhật tổng giá gốc bao gồm cả phụ phí của variant
                 totalBasePrice = basePrice + colorPrice + addonPrice;
                 // Tính giá sau khi giảm giá
@@ -566,12 +585,12 @@
         }
 
         // Format dates for sales
-        $('.sale-date').each(function() {
+        $('.sale-date').each(function () {
             const startDate = $(this).data('start');
             const endDate = $(this).data('end');
             const start = formatShortDate(startDate);
             const end = formatShortDate(endDate);
-            
+
             // Chỉ hiển thị năm một lần ở cuối
             $(this).text(`\${start.shortDate} - \${end.shortDate}/\${end.year}`);
         });
@@ -579,18 +598,18 @@
         function updateQuantityControls() {
             const quantityInput = $('#quantity');
             const currentQty = parseInt(quantityInput.val());
-            
+
             // Cập nhật max quantity dựa trên variant được chọn
             if (currentVariant) {
                 maxQuantity = currentVariant.stock;
                 $('#maxQuantityMsg').text(`Còn \${maxQuantity} sản phẩm`);
-                
+
                 // Enable/disable các nút
                 $('#addToCart, #buyNow').prop('disabled', false);
             } else {
                 maxQuantity = 0;
                 $('#maxQuantityMsg').text('Vui lòng chọn biến thể');
-                
+
                 // Disable các nút
                 $('#addToCart, #buyNow').prop('disabled', true);
             }
@@ -602,7 +621,7 @@
         }
 
         // Xử lý số lượng
-        $('#decreaseQuantity').click(function() {
+        $('#decreaseQuantity').click(function () {
             const quantityInput = $('#quantity');
             const currentQty = parseInt(quantityInput.val());
             if (currentQty > 1) {
@@ -610,7 +629,7 @@
             }
         });
 
-        $('#increaseQuantity').click(function() {
+        $('#increaseQuantity').click(function () {
             const quantityInput = $('#quantity');
             const currentQty = parseInt(quantityInput.val());
             if (currentQty < maxQuantity) {
@@ -618,45 +637,87 @@
             }
         });
 
-        $('#quantity').on('input', function() {
+        $('#quantity').on('input', function () {
             let value = parseInt($(this).val());
-            
+
             // Kiểm tra giá trị hợp lệ
             if (isNaN(value) || value < 1) {
                 value = 1;
             } else if (value > maxQuantity) {
                 value = maxQuantity;
             }
-            
+
             $(this).val(value);
         });
 
         // Xử lý các nút hành động
-        $('#addToCart').click(function() {
+        $('#addToCart').click(function () {
             if (!currentVariant) {
                 alert('Vui lòng chọn biến thể sản phẩm');
                 return;
             }
-
             const quantity = parseInt($('#quantity').val());
-            // TODO: Thêm vào giỏ hàng
+            if(quantity ===0) {
+             return  $('#quantity').focus();
+            }
             $.ajax({
-                url: '/api/cart/add',
+                url: '/cart/add',
                 method: 'POST',
                 data: {
+                    action: "add",
                     variantId: currentVariant.id,
+                    productId: ${product.id},
                     quantity: quantity
                 },
-                success: function(response) {
-                    alert('Đã thêm vào giỏ hàng');
+                success: function (response) {
+                    if (response.success) {
+                        const quantityInCart = document.querySelectorAll('.bg-danger.cartCount');
+                        quantityInCart.forEach(element => {
+                            element.textContent = response.cartCount;
+                        });
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer);
+                                toast.addEventListener('mouseleave', Swal.resumeTimer);
+                            }
+                        });
+
+                        if (response.success) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: response.message || 'Đã thêm vào giỏ hàng!'
+                            });
+                        } else {
+                            Toast.fire({
+                                icon: 'error',
+                                title: response.message || 'Có lỗi xảy ra!'
+                            });
+                        }
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: response.message || 'Có lỗi xảy ra, vui lòng thử lại!',
+                        });
+                    }
                 },
-                error: function(xhr) {
-                    alert('Có lỗi xảy ra');
+                error: function (xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Có lỗi xảy ra, vui lòng thử lại!',
+                    });
                 }
             });
         });
 
-        $('#buyNow').click(function() {
+        $('#buyNow').click(function () {
             if (!currentVariant) {
                 alert('Vui lòng chọn biến thể sản phẩm');
                 return;
@@ -667,47 +728,24 @@
             window.location.href = `/checkout?variantId=${currentVariant.id}&quantity=${quantity}`;
         });
 
-        $('#addToWishlist').click(function() {
-            // TODO: Thêm vào wishlist
-            $.ajax({
-                url: '/api/wishlist/toggle',
-                method: 'POST',
-                data: {
-                    productId: ${product.id}
-                },
-                success: function(response) {
-                    const icon = $('#addToWishlist i');
-                    if (response.inWishlist) {
-                        icon.removeClass('far').addClass('fas');
-                        alert('Đã thêm vào danh sách yêu thích');
-                    } else {
-                        icon.removeClass('fas').addClass('far');
-                        alert('Đã xóa khỏi danh sách yêu thích');
-                    }
-                },
-                error: function(xhr) {
-                    alert('Có lỗi xảy ra');
-                }
-            });
-        });
 
         function renderStarRating(rating) {
             const fullStars = Math.floor(rating);
             const hasHalfStar = rating % 1 >= 0.5;
             const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-            
+
             let starsHtml = '';
-            
+
             // Thêm sao đầy
             for (let i = 0; i < fullStars; i++) {
                 starsHtml += '<i class="fas fa-star"></i>';
             }
-            
+
             // Thêm nửa sao nếu có
             if (hasHalfStar) {
                 starsHtml += '<i class="fas fa-star-half-alt"></i>';
             }
-            
+
             // Thêm sao rỗng
             for (let i = 0; i < emptyStars; i++) {
                 starsHtml += '<i class="far fa-star"></i>';
@@ -716,7 +754,7 @@
         }
 
         // Cập nhật hiển thị rating trong reviews
-        $('.review-item').each(function() {
+        $('.review-item').each(function () {
             const rating = parseFloat($(this).find('.text-warning').data('rating'));
             $(this).find('.text-warning').html(`
                 \${renderStarRating(rating)}
@@ -727,5 +765,17 @@
         // Gọi hàm render khi trang load
         renderVariants();
     });
+
+    // xử lí thêm xóa trong danh sách yêu thích
+    function toggleWishList(productId) {
+        AjaxUtils.toggleWishList(productId);
+    }
+
+
+    function redirectToLogin() {
+        let currentURL = encodeURIComponent(window.location.href);
+        window.location.href = "/login?redirect=" + currentURL;
+    }
+
 </script>
 

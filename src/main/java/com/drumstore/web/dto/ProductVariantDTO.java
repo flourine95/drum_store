@@ -10,7 +10,7 @@ public class ProductVariantDTO implements Serializable {
     private ProductAddonDTO addon;
     private int stock;
     private int status;
-    private LocalDateTime createdAt;
+//    private LocalDateTime createdAt;
 
     public double getAdditionalPrice() {
         double colorPrice = (color != null) ? color.getAdditionalPrice() : 0.0;
@@ -43,13 +43,13 @@ public class ProductVariantDTO implements Serializable {
         this.status = status;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+//    public LocalDateTime getCreatedAt() {
+//        return createdAt;
+//    }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+//    public void setCreatedAt(LocalDateTime createdAt) {
+//        this.createdAt = createdAt;
+//    }
 
     public ProductColorDTO getColor() {
         return color;
@@ -76,7 +76,7 @@ public class ProductVariantDTO implements Serializable {
                 ", addon=" + addon +
                 ", stock=" + stock +
                 ", status=" + status +
-                ", createdAt=" + createdAt +
+//                ", createdAt=" + createdAt +
                 '}';
     }
 

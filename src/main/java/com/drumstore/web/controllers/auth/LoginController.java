@@ -24,6 +24,7 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("title", "Đăng nhập");
         request.setAttribute("content", "login.jsp");
+        request.setAttribute("redirectUrl", request.getParameter("redirect"));
         request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
     }
 
@@ -31,6 +32,7 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String redirectUrl = request.getParameter("redirectUrl");
 
         User user = userService.login(username, password);
 
@@ -43,7 +45,13 @@ public class LoginController extends HttpServlet {
             if (user.isAdmin()) {
                 response.sendRedirect(request.getContextPath() + "/dashboard");
             } else {
-                response.sendRedirect(request.getContextPath() + "/");
+                if (redirectUrl != null) {
+                    response.sendRedirect(redirectUrl);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/");
+                }
+
+//
             }
         } else {
             request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng.");

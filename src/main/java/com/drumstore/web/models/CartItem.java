@@ -1,31 +1,24 @@
 package com.drumstore.web.models;
 
+import com.drumstore.web.dto.CartItemDTO;
+
 public class CartItem {
-    private Product product;
+    private int cartId;
+    private CartItemDTO cartItem;
     private int quantity;
-    private String color;
 
-    public CartItem(Product product, int quantity, String color) {
-        this.product = product;
+    public CartItem(int cartId, int quantity, CartItemDTO cartItem) {
+        this.cartId = cartId;
         this.quantity = quantity;
-        this.color = color;
+        this.cartItem = cartItem;
     }
 
-    @Override
-    public String toString() {
-        return "CartItem{" +
-                "product=" + product +
-                ", quantity=" + quantity +
-                ", color='" + color + '\'' +
-                '}';
+    public int getCartId() {
+        return cartId;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setCartId(int cartId) {
+        this.cartId = cartId;
     }
 
     public int getQuantity() {
@@ -36,15 +29,29 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public String getColor() {
-        return color;
+    public CartItemDTO getCartItem() {
+        return cartItem;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setCartItem(CartItemDTO cartItem) {
+        this.cartItem = cartItem;
     }
 
     public double getTotal() {
-        return product.getSalePrice() * quantity;
+        return cartItem.getLowestSalePrice()*quantity;
     }
-} 
+
+    public void changeCartItem(CartItemDTO cartItem) {
+        this.cartItem = cartItem;
+        this.quantity = 1;
+    }
+
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "cartId=" + cartId +
+                ", cartItem=" + cartItem +
+                ", quantity=" + quantity +
+                '}';
+    }
+}

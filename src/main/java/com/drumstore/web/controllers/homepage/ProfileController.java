@@ -1,6 +1,7 @@
 package com.drumstore.web.controllers.homepage;
 
 import com.drumstore.web.dto.AddressDTO;
+import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.models.Product;
 import com.drumstore.web.models.User;
 import com.drumstore.web.services.AddressService;
@@ -61,7 +62,7 @@ public class ProfileController extends HttpServlet {
                 request.setAttribute("activePage", "orders");
             }
             case "wishlist" -> {
-                List<Product> products = wishlistService.getAll(user);
+                List<ProductDetailDTO> products = wishlistService.getAll(user);
                 request.setAttribute("products", products);
                 request.setAttribute("title", "Danh sách yêu thích");
                 request.setAttribute("profileContent", "profile-wishlist.jsp");
@@ -109,8 +110,7 @@ public class ProfileController extends HttpServlet {
                 case "delete_address" -> deleteAddress(request, response, user, jsonNode);
                 case "update_address" -> updateAddress(request, response, user, jsonNode);
                 // quản lí wishList
-                case "add-product-in-wishList" -> addProductInWishList(request, response, user, jsonNode);
-                case "delete-product-in-wishList" -> deleteProductInWishList(request, response, user, jsonNode);
+                case "toggle-wishList" -> toogleWishtList(request, response, user, jsonNode);
 
                 default -> response.sendRedirect(request.getContextPath() + "/profile");
             }
@@ -124,46 +124,33 @@ public class ProfileController extends HttpServlet {
         }
     }
 
-    private void addProductInWishList(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
+    private void toogleWishtList(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> resp = new HashMap<>();
+
         try {
             int productId = jsonNode.get("data").asInt();
-
-            String message = null;
-            boolean isExist = wishlistService.isExitsInWishlist(productId, user.getId());
-            if (isExist) {
-                resp.put("message", "Sản phẩm đã tồn tại");
-            }else {
-                wishlistService.save(productId, user.getId());
-                resp.put("message", "Sản phẩm đã được thêm vào danh sách yêu thích");
+            // Kiểm tra xem sản phẩm đã có trong danh sách yêu thích hay chưa
+            boolean isWishlisted = wishlistService.toogleWishtList(productId, user.getId());
+            if (!isWishlisted) {
+                resp.put("inWishlist", false);
+            } else {
+                resp.put("inWishlist", true);
             }
+
             resp.put("success", true);
         } catch (Exception e) {
             resp.put("success", false);
             resp.put("message", "Lỗi server: " + e.getMessage());
         }
+
         mapper.writeValue(response.getWriter(), resp);
     }
 
-    private void deleteProductInWishList(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> resp = new HashMap<>();
-        try {
-            int productId = jsonNode.get("data").asInt();
-            wishlistService.delete(productId, user.getId());
-            resp.put("success", true);
-            resp.put("message", "Sản phẩm đã được xóa khỏi danh sách yêu thích");
-        } catch (Exception e) {
-            resp.put("success", false);
-            resp.put("message", "Lỗi server: " + e.getMessage());
-        }
-        mapper.writeValue(response.getWriter(), resp);
-    }
+
+
 
     private void updateAccount(HttpServletRequest request, HttpServletResponse response, User user, JsonNode jsonNode) throws IOException {
         response.setContentType("application/json");

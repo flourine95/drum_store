@@ -707,4 +707,236 @@ public class ProductRepository extends BaseRepository<Product> {
     public void incrementViewCount(int id) {
     }
 
+
+    public CartItemDTO findMainProductVariant(int productVariantId) {
+        String sql = """
+                WITH MaxDiscount AS (
+                    SELECT productId, MAX(s.discountPercentage) as maxDiscount
+                    FROM product_sales ps
+                    JOIN sales s ON ps.saleId = s.id
+                    WHERE NOW() BETWEEN s.startDate AND s.endDate
+                    GROUP BY productId
+                )
+                SELECT
+                    p.id AS p_productId,
+                    p.name AS p_name,
+                    p.basePrice AS p_basePrice,
+                    pi.image AS pi_image,
+                    COALESCE(md.maxDiscount, 0) AS p_discountPercent,
+                    pv.id AS pv_id,
+                    pv.stock AS pv_stock,
+                    pv.status AS pv_status,
+                    pv.colorId AS pv_colorId,
+                    pv.addonId AS pv_addonId,
+                    pv.imageId AS pv_imageId,
+                    pc.name AS pc_colorName,
+                    pc.additionalPrice AS pc_additionalPrice,
+                    pa.name AS pa_addonName,
+                    pa.additionalPrice AS pa_additionalPrice
+                FROM products p
+                LEFT JOIN product_images pi ON p.id = pi.productId AND pi.isMain = 1
+                LEFT JOIN product_variants pv ON p.id = pv.productId AND pv.status = 1
+                LEFT JOIN product_colors pc ON pc.id = pv.colorId
+                LEFT JOIN product_addons pa ON pa.id = pv.addonId
+                LEFT JOIN MaxDiscount md ON md.productId = p.id
+                WHERE pv.id = :productVariantId AND p.status = 1
+                """;
+
+        return jdbi.withHandle(handle ->
+                        handle.createQuery(sql)
+                                .bind("productVariantId", productVariantId)
+                                .map((rs, ctx) -> {
+                                    // Tạo CartItemDTO
+                                    CartItemDTO dto = new CartItemDTO();
+                                    dto.setProductId(rs.getInt("p_productId"));
+                                    dto.setName(rs.getString("p_name"));
+                                    dto.setBasePrice(rs.getDouble("p_basePrice"));
+                                    dto.setDiscountPercent(rs.getDouble("p_discountPercent"));
+                                    dto.setMainImage(rs.getString("pi_image"));
+//                            dto.setVariants(new ArrayList<>());
+
+                                    // Tạo ProductVariantDTO
+                                    ProductVariantDTO variant = new ProductVariantDTO();
+                                    variant.setId(rs.getInt("pv_id"));
+                                    variant.setStock(rs.getInt("pv_stock"));
+                                    variant.setStatus(rs.getInt("pv_status"));
+                                    variant.setImageId(rs.getInt("pv_imageId"));
+
+                                    // Ánh xạ ProductColorDTO
+                                    Integer colorId = rs.getObject("pv_colorId", Integer.class);
+                                    if (colorId != null) {
+                                        ProductColorDTO color = new ProductColorDTO();
+                                        color.setId(colorId);
+                                        color.setName(rs.getString("pc_colorName"));
+                                        color.setAdditionalPrice(rs.getDouble("pc_additionalPrice"));
+                                        variant.setColor(color);
+                                    }
+
+                                    // Ánh xạ ProductAddonDTO
+                                    Integer addonId = rs.getObject("pv_addonId", Integer.class);
+                                    if (addonId != null) {
+                                        ProductAddonDTO addon = new ProductAddonDTO();
+                                        addon.setId(addonId);
+                                        addon.setName(rs.getString("pa_addonName"));
+                                        addon.setAdditionalPrice(rs.getDouble("pa_additionalPrice"));
+                                        variant.setAddon(addon);
+                                    }
+
+                                    // Gán variant vào CartItemDTO
+                                    dto.setProductVariant(variant);
+                                    return dto;
+                                })
+                                .findFirst()
+                                .orElse(null)
+        );
+    }
+
+    public Map<String, List<Object>> findAllVariants(int productId) {
+        String colorSql = """
+                SELECT id AS pc_id, name AS pc_colorName, additionalPrice AS pc_additionalPrice 
+                FROM product_colors WHERE productId = :productId
+                """;
+
+        String addonSql = """
+                SELECT id AS pa_id, name AS pa_addonName, additionalPrice AS pa_additionalPrice 
+                FROM product_addons WHERE productId = :productId
+                """;
+
+        return jdbi.withHandle(handle -> {
+            List<ProductColorDTO> colorList = new ArrayList<>();
+            List<ProductAddonDTO> addonList = new ArrayList<>();
+            Map<String, List<Object>> variantMap = new LinkedHashMap<>();
+
+            List<Map<String, Object>> colorResults = handle.createQuery(colorSql)
+                    .bind("productId", productId)
+                    .mapToMap()
+                    .list();
+
+            for (Map<String, Object> row : colorResults) {
+                Integer colorId = (Integer) row.get("pc_id");
+                String colorName = (String) row.get("pc_colorname");
+                Double additionalPriceColor = row.get("pc_additionalprice") != null ? ((Number) row.get("pc_additionalprice")).doubleValue() : 0.0;
+                if (colorId != null && colorName != null) {
+                    ProductColorDTO color = new ProductColorDTO();
+                    color.setId(colorId);
+                    color.setName(colorName);
+                    color.setAdditionalPrice(additionalPriceColor);
+                    colorList.add(color);
+                }
+            }
+
+            List<Map<String, Object>> addonResults = handle.createQuery(addonSql)
+                    .bind("productId", productId)
+                    .mapToMap()
+                    .list();
+
+            for (Map<String, Object> row : addonResults) {
+                Integer addonId = (Integer) row.get("pa_id");
+                String addonName = (String) row.get("pa_addonname");
+                Double additionalPriceAddon = row.get("pa_additionalprice") != null ? ((Number) row.get("pa_additionalprice")).doubleValue() : 0.0;
+                if (addonId != null && addonName != null) {
+                    ProductAddonDTO addon = new ProductAddonDTO();
+                    addon.setId(addonId);
+                    addon.setName(addonName);
+                    addon.setAdditionalPrice(additionalPriceAddon);
+                    addonList.add(addon);
+                }
+            }
+
+            variantMap.put("color", new ArrayList<>(colorList));
+            variantMap.put("addon", new ArrayList<>(addonList));
+
+            return variantMap;
+        });
+    }
+
+    public CartItemDTO findProductWithVariant(int colorId, int addonId, int productId) {
+        System.out.println("colorId = " + colorId + ", addonId = " + addonId + ", productId = " + productId);
+        String sql = """
+                WITH MaxDiscount AS (
+                    SELECT productId, MAX(s.discountPercentage) as maxDiscount
+                    FROM product_sales ps
+                    JOIN sales s ON ps.saleId = s.id
+                    WHERE NOW() BETWEEN s.startDate AND s.endDate
+                    GROUP BY productId
+                )
+                SELECT
+                    p.id AS p_productId,
+                    p.name AS p_name,
+                    p.basePrice AS p_basePrice,
+                    pi.image AS pi_image,
+                    COALESCE(md.maxDiscount, 0) AS p_discountPercent,
+                    pv.id AS pv_id,
+                    pv.stock AS pv_stock,
+                    pv.status AS pv_status,
+                    pv.colorId AS pv_colorId,
+                    pv.addonId AS pv_addonId,
+                    pv.imageId AS pv_imageId,
+                    pc.name AS pc_colorName,
+                    pc.additionalPrice AS pc_additionalPrice,
+                    pa.name AS pa_addonName,
+                    pa.additionalPrice AS pa_additionalPrice
+                FROM products p
+                LEFT JOIN product_images pi ON p.id = pi.productId AND pi.isMain = 1
+                LEFT JOIN product_variants pv ON p.id = pv.productId AND pv.status = 1
+                LEFT JOIN product_colors pc ON pc.id = pv.colorId
+                LEFT JOIN product_addons pa ON pa.id = pv.addonId
+                LEFT JOIN MaxDiscount md ON md.productId = p.id
+                WHERE p.id = :productId
+                    AND p.status = 1
+                    AND (pv.colorId = NULLIF(:colorId, 0) OR (pv.colorId IS NULL AND :colorId = 0))
+                    AND (pv.addonId = NULLIF(:addonId, 0) OR (pv.addonId IS NULL AND :addonId = 0))
+                """;
+
+        return jdbi.withHandle(handle ->
+                        handle.createQuery(sql)
+                                .bind("productId", productId)
+                                .bind("colorId", colorId)
+                                .bind("addonId", addonId)
+                                .map((rs, ctx) -> {
+                                    // Tạo CartItemDTO
+                                    CartItemDTO dto = new CartItemDTO();
+                                    dto.setProductId(rs.getInt("p_productId"));
+                                    dto.setName(rs.getString("p_name"));
+                                    dto.setBasePrice(rs.getDouble("p_basePrice"));
+                                    dto.setDiscountPercent(rs.getDouble("p_discountPercent"));
+                                    dto.setMainImage(rs.getString("pi_image"));
+
+                                    // Tạo ProductVariantDTO
+                                    ProductVariantDTO variant = new ProductVariantDTO();
+                                    variant.setId(rs.getInt("pv_id"));
+                                    variant.setStock(rs.getInt("pv_stock"));
+                                    variant.setStatus(rs.getInt("pv_status"));
+                                    variant.setImageId(rs.getInt("pv_imageId"));
+
+                                    // Ánh xạ ProductColorDTO
+                                    Integer currentColorId = rs.getObject("pv_colorId", Integer.class);
+                                    if (currentColorId != null) {
+                                        ProductColorDTO color = new ProductColorDTO();
+                                        color.setId(currentColorId);
+                                        color.setName(rs.getString("pc_colorName"));
+                                        color.setAdditionalPrice(rs.getDouble("pc_additionalPrice"));
+                                        variant.setColor(color);
+                                    }
+
+                                    // Ánh xạ ProductAddonDTO
+                                    Integer currentAddonId = rs.getObject("pv_addonId", Integer.class);
+                                    if (currentAddonId != null) {
+                                        ProductAddonDTO addon = new ProductAddonDTO();
+                                        addon.setId(currentAddonId);
+                                        addon.setName(rs.getString("pa_addonName"));
+                                        addon.setAdditionalPrice(rs.getDouble("pa_additionalPrice"));
+                                        variant.setAddon(addon);
+                                    }
+
+                                    // Gán variant vào CartItemDTO
+                                    dto.setProductVariant(variant);
+                                    return dto;
+                                })
+                                .findFirst()
+                                .orElse(null)
+        );
+    }
+
+
 }

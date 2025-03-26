@@ -1,5 +1,6 @@
 package com.drumstore.web.services;
 
+import com.drumstore.web.dto.CartItemDTO;
 import com.drumstore.web.dto.ProductCardDTO;
 import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.models.Product;
@@ -75,4 +76,16 @@ public class ProductService {
         }
         return product;
     }
+
+    public CartItemDTO findProductForCartItem(int productVariantId , int productId){
+        CartItemDTO cartItemDTO =  productRepository.findMainProductVariant(productVariantId);
+        cartItemDTO.setVariants(productRepository.findAllVariants(productId));
+        return cartItemDTO;
+    }
+
+    public CartItemDTO findProductWithVariantForCartItem( int colorId , int addonId ,int productId){
+       CartItemDTO cartItemDTO = productRepository.findProductWithVariant(colorId, addonId, productId);
+       cartItemDTO.setVariants(productRepository.findAllVariants(productId));
+        return cartItemDTO;
+    };
 }

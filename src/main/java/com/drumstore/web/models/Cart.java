@@ -1,16 +1,28 @@
 package com.drumstore.web.models;
 
+import com.drumstore.web.dto.CartItemDTO;
+import com.drumstore.web.dto.VoucherDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
     private List<CartItem> items;
+    private VoucherDTO voucher;
 
     @Override
     public String toString() {
         return "Cart{" +
                 "items=" + items +
                 '}';
+    }
+
+    public VoucherDTO getVoucher() {
+        return voucher;
+    }
+
+    public void setVoucher(VoucherDTO voucher) {
+        this.voucher = voucher;
     }
 
     public void setItems(List<CartItem> items) {
@@ -21,32 +33,33 @@ public class Cart {
         this.items = new ArrayList<>();
     }
 
-    public void addItem(CartItem item) {
+    public void addItem(CartItemDTO item, int quantity) {
         // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
         for (CartItem existingItem : items) {
-            if (existingItem.getProduct().getId() == item.getProduct().getId() 
-                && existingItem.getColor().equals(item.getColor())) {
-                existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
+            if (existingItem.getCartItem().getProductVariant().getId() == item.getProductVariant().getId()) {
+                existingItem.setQuantity(existingItem.getQuantity() + quantity);
                 return;
             }
         }
-        items.add(item);
+        items.add(new CartItem(items.size() + 1, quantity, item));
     }
 
-    public void removeItem(int productId, String color) {
-        items.removeIf(item -> item.getProduct().getId() == productId 
-                             && item.getColor().equals(color));
+    public void removeItem(int cartId) {
+        items.removeIf(item -> item.getCartId() == cartId
+        );
     }
 
-    public void updateQuantity(int productId, String color, int quantity) {
+    public double updateQuantity(int cartId, int quantity) {
         for (CartItem item : items) {
-            if (item.getProduct().getId() == productId 
-                && item.getColor().equals(color)) {
+            if (item.getCartId() == cartId) {
                 item.setQuantity(quantity);
-                return;
+                return item.getTotal();
             }
         }
+        return 0;
     }
+
+
 
     public List<CartItem> getItems() {
         return items;
@@ -54,22 +67,32 @@ public class Cart {
 
     public double getTotal() {
         return items.stream()
-                   .mapToDouble(CartItem::getTotal)
-                   .sum();
+                .mapToDouble(CartItem::getTotal)
+                .sum() ;
+    }
+    public double getDiscountTotal(){
+        if (voucher == null) {
+            return 0;
+        }
+        return voucher.calculateDiscount(getTotal());
     }
 
     public int getItemCount() {
         return items.stream()
-                   .mapToInt(CartItem::getQuantity)
-                   .sum();
+                .mapToInt(CartItem::getQuantity)
+                .sum();
     }
 
-    public void updateColor(int productId, String oldColor, String newColor) {
+    // cập nhật lại item khi người dùng chọn biến thể khác
+    public CartItem changeVariant(int cartId ,CartItemDTO cartItemDTO) {
         for (CartItem item : items) {
-            if (item.getProduct().getId() == productId && item.getColor().equals(oldColor)) {
-                item.setColor(newColor);
-                break;
+            if (item.getCartId() == cartId) {
+                item.changeCartItem(cartItemDTO);
+                return item;
             }
         }
+        return null;
     }
+
+
 }

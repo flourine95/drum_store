@@ -27,8 +27,8 @@ public class VoucherConstants {
     }
 
     public enum DiscountType {
-        FIXED(0),      // Giảm giá trực tiếp một số tiền cố định
-        PERCENTAGE(1); // Giảm giá theo phần trăm
+        FIXED(1),      // Giảm giá trực tiếp một số tiền cố định
+        PERCENTAGE(2); // Giảm giá theo phần trăm
 
         private final int value;
 
