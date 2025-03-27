@@ -3,8 +3,10 @@ package com.drumstore.web.controllers.homepage;
 import com.drumstore.web.dto.AddressDTO;
 import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.dto.UserDTO;
-import com.drumstore.web.models.User;
-import com.drumstore.web.services.*;
+import com.drumstore.web.services.AddressService;
+import com.drumstore.web.services.OrderService;
+import com.drumstore.web.services.UserService;
+import com.drumstore.web.services.WishlistService;
 import com.drumstore.web.utils.GsonUtils;
 import com.google.gson.JsonObject;
 import jakarta.servlet.ServletException;
@@ -25,7 +27,6 @@ public class ProfileController extends HttpServlet {
     private AddressService addressService;
     private WishlistService wishlistService;
     private OrderService orderService;
-    private UserAddressService  userAddressService;
 
     @Override
     public void init() throws ServletException {
@@ -33,7 +34,6 @@ public class ProfileController extends HttpServlet {
         this.addressService = new AddressService();
         this.wishlistService = new WishlistService();
         this.orderService = new OrderService();
-        this.userAddressService = new UserAddressService();
     }
 
     @Override
@@ -61,21 +61,21 @@ public class ProfileController extends HttpServlet {
                 request.setAttribute("activePage", "orders");
             }
             case "wishlist" -> {
-                List<ProductDetailDTO> products = wishlistService.getAll(user.getId());
+                List<ProductDetailDTO> products = wishlistService.getAll(user);
                 request.setAttribute("products", products);
                 request.setAttribute("title", "Danh sách yêu thích");
                 request.setAttribute("profileContent", "profile-wishlist.jsp");
                 request.setAttribute("activePage", "wishlist");
             }
             case "edit-account" -> {
-//                user = userService.find(userId);
+                user = userService.findUser("id", userId);
                 request.setAttribute("user", user);
                 request.setAttribute("title", "Chỉnh sửa tài khoản");
                 request.setAttribute("profileContent", "edit-account.jsp");
                 request.setAttribute("activePage", "profile");
             }
             default -> {
-//                user = userService.find(userId);
+                user = userService.findUser("id", userId);
                 request.setAttribute("user", user);
                 request.setAttribute("title", "Tài khoản của tôi");
                 request.setAttribute("profileContent", "index.jsp");
@@ -100,28 +100,15 @@ public class ProfileController extends HttpServlet {
             String action = jsonObject.get("action").getAsString();
 
             switch (action) {
-//                case "update-account" -> updateAccount(request, response, user, jsonObject);
-//                case "get_address" -> getAddress(request, response, user, jsonObject);
-//                case "add_address" -> addAddress(request, response, user, jsonObject);
-//                case "delete_address" -> deleteAddress(request, response, user, jsonObject);
-//                case "update_address" -> updateAddress(request, response, user, jsonObject);
-                case "count_user_address" -> {
-                    response.setContentType("application/json");
-                    response.setCharacterEncoding("UTF-8");
-                    Map<String, Object> resp = new HashMap<>();
-                    int count  = userAddressService.isExitsUserAddress(user.getId());
-                    if(count > 0) {
-                        resp.put("status", true);
-                    }else {
-                        resp.put("status", false);
-                    }
-                    writeJson(response, resp);
-                }
-//                case "toggle-wishList" -> toogleWishtList(request, response, user, jsonObject);
+                case "update-account" -> updateAccount(request, response, user, jsonObject);
+                case "get_address" -> getAddress(request, response, user, jsonObject);
+                case "add_address" -> addAddress(request, response, user, jsonObject);
+                case "delete_address" -> deleteAddress(request, response, user, jsonObject);
+                case "update_address" -> updateAddress(request, response, user, jsonObject);
+                case "toggle-wishList" -> toogleWishtList(request, response, user, jsonObject);
                 default -> response.sendRedirect(request.getContextPath() + "/profile");
             }
         } catch (Exception e) {
-            e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             Map<String, Object> errorResponse = Map.of(
                     "success", false,
@@ -131,7 +118,7 @@ public class ProfileController extends HttpServlet {
         }
     }
 
-    private void toogleWishtList(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
+    private void toogleWishtList(HttpServletRequest request, HttpServletResponse response, UserDTO user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         Map<String, Object> resp = new HashMap<>();
@@ -153,7 +140,7 @@ public class ProfileController extends HttpServlet {
         writeJson(response, resp);
     }
 
-    private void updateAccount(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
+    private void updateAccount(HttpServletRequest request, HttpServletResponse response, UserDTO user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try {
@@ -177,7 +164,7 @@ public class ProfileController extends HttpServlet {
         }
     }
 
-    private void getAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
+    private void getAddress(HttpServletRequest request, HttpServletResponse response, UserDTO user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try {
@@ -202,7 +189,7 @@ public class ProfileController extends HttpServlet {
         }
     }
 
-    private void updateAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
+    private void updateAddress(HttpServletRequest request, HttpServletResponse response, UserDTO user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -235,7 +222,7 @@ public class ProfileController extends HttpServlet {
         }
     }
 
-    private void deleteAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
+    private void deleteAddress(HttpServletRequest request, HttpServletResponse response, UserDTO user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -256,7 +243,7 @@ public class ProfileController extends HttpServlet {
         }
     }
 
-    private void addAddress(HttpServletRequest request, HttpServletResponse response, User user, JsonObject jsonObject) throws IOException {
+    private void addAddress(HttpServletRequest request, HttpServletResponse response, UserDTO user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 

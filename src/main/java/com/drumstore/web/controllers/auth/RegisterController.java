@@ -51,8 +51,7 @@ public class RegisterController extends HttpServlet {
 
         String hashedPassword = userService.hashPassword(registerRequest.getPassword());
         User user = new User(registerRequest.getFullname(), registerRequest.getPhone(), hashedPassword, registerRequest.getEmail());
-        userService.register2(user);
-
+        userService.register(user);
         request.setAttribute("successMessage", "Đăng ký thành công! Bạn có thể đăng nhập ngay.");
         request.setAttribute("title", "Đăng nhập");
         request.setAttribute("content", "login.jsp");

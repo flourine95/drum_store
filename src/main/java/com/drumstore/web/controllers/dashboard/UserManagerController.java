@@ -348,11 +348,8 @@ public class UserManagerController extends ResourceController {
 
     @Override
     public void delete(HttpServletRequest request, HttpServletResponse response, String id) throws IOException, ServletException {
-
-
         try {
             userService.delete(Integer.parseInt(id));
-
             response.sendRedirect(request.getContextPath() + "/dashboard/users");
         } catch (Exception e) {
             e.printStackTrace();
