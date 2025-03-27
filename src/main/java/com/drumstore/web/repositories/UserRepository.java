@@ -9,7 +9,6 @@ import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -24,11 +23,34 @@ public class UserRepository extends BaseRepository<User> {
         return super.save(query, user);
     }
 
+    public int save(UserDTO user) {
+        String query = """
+                INSERT INTO users (email, password, fullname, status, avatar, createdAt)
+                VALUES (:email, :password, :fullname, :status, :avatar, CURRENT_TIMESTAMP)
+                """;
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(query)
+                        .bindBean(user)
+                        .execute()
+        );
+    }
+
     public int update(User user) {
         String query = """
                 UPDATE users SET phone = :phone, fullname = :fullname WHERE id = :id
                 """;
         return super.update(query, user);
+    }
+
+    public int update(UserDTO user) {
+        String query = """
+                UPDATE users SET phone = :phone, fullname = :fullname WHERE id = :id
+                """;
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(query)
+                        .bindBean(user)
+                        .execute()
+        );
     }
 
 
@@ -78,16 +100,7 @@ public class UserRepository extends BaseRepository<User> {
                 .orElse(null)
         );
     }
-
     public boolean register(User user) {
-        String query = """
-                INSERT INTO users (email, password, fullname, phone, role, status, createdAt)
-                VALUES (:email, :password, :fullname,:phone, :role, 1, CURRENT_TIMESTAMP)
-                """;
-        return super.save(query, user) > 0;
-    }
-
-    public boolean register2(User user) {
         String query = """
                 INSERT INTO users (email, password, fullname, status, createdAt)
                 VALUES (:email, :password, :fullname, 1, CURRENT_TIMESTAMP)
@@ -103,25 +116,6 @@ public class UserRepository extends BaseRepository<User> {
     public boolean isEmailExists(String email) {
         String query = "SELECT COUNT(*) FROM users WHERE email = ?";
         return jdbi.withHandle(handle -> handle.createQuery(query).bind(0, email).mapTo(Integer.class).one()) > 0;
-    }
-
-    public User login(String username, String password) {
-        String query = """
-                SELECT * FROM users WHERE (email = :username) AND status = 1
-                """;
-        User user = jdbi.withHandle(handle ->
-                handle.createQuery(query)
-                        .bind("username", username)
-                        .mapToBean(User.class)
-                        .findOne()
-                        .orElse(null)
-        );
-
-        // Kiểm tra mật khẩu
-        if (user != null && BCrypt.checkpw(password, user.getPassword())) {
-            return user; // Đăng nhập thành công
-        }
-        return null; // Đăng nhập thất bại
     }
 
     public int createWithAddresses(User user, List<UserAddress> addresses) {
@@ -158,17 +152,6 @@ public class UserRepository extends BaseRepository<User> {
                 return userId;
             });
         });
-    }
-
-    public User findByEmail(String email) {
-        String query = "SELECT * FROM users WHERE email = ? AND status = 1";
-        return jdbi.withHandle(handle ->
-                handle.createQuery(query)
-                        .bind(0, email)
-                        .mapToBean(User.class)
-                        .findFirst()
-                        .orElse(null)
-        );
     }
 
     public void saveResetToken(int userId, String token, LocalDateTime expiryTime) {
@@ -217,8 +200,8 @@ public class UserRepository extends BaseRepository<User> {
 
     public User findByResetToken(String token) {
         String sql = """
-                SELECT u.* FROM users u 
-                JOIN password_resets pr ON u.id = pr.userId 
+                SELECT u.* FROM users u
+                JOIN password_resets pr ON u.id = pr.userId
                 WHERE pr.token = :token 
                 AND pr.expiryTime > CURRENT_TIMESTAMP
                 AND pr.used = 0
@@ -313,7 +296,7 @@ public class UserRepository extends BaseRepository<User> {
         );
     }
 
-    public UserDTO login2(String username, String password) {
+    public UserDTO login(String username, String password) {
         String query = """
                 SELECT
                     u.id AS u_id, u.email AS u_email, u.password AS u_password, u.fullname AS u_fullname,
@@ -360,4 +343,46 @@ public class UserRepository extends BaseRepository<User> {
         );
     }
 
+    public UserDTO findUser(String field, Object value) {
+        String sql = """
+                SELECT
+                    u.id AS u_id, u.email AS u_email, u.password AS u_password, u.fullname AS u_fullname,
+                    u.phone AS u_phone, u.status AS u_status, u.avatar AS u_avatar,
+                    r.name AS r_name, p.name AS p_name
+                FROM users u
+                LEFT JOIN user_roles ur ON u.id = ur.userId
+                LEFT JOIN roles r ON ur.roleId = r.id
+                LEFT JOIN role_permissions rp ON r.id = rp.roleId
+                LEFT JOIN permissions p ON rp.permissionId = p.id
+                WHERE u.""" + field +
+                """ 
+                        = :value
+                        """;
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind("value", value)
+                .registerRowMapper(BeanMapper.factory(UserDTO.class, "u"))
+                .reduceRows(new LinkedHashMap<Integer, UserDTO>(), (map, row) -> {
+                    UserDTO user = map.computeIfAbsent(
+                            row.getColumn("u_id", Integer.class),
+                            _ -> row.getRow(UserDTO.class)
+                    );
+
+                    String role = row.getColumn("r_name", String.class);
+                    if (role != null) {
+                        user.addRole(role);
+                    }
+
+                    String permission = row.getColumn("p_name", String.class);
+                    if (permission != null) {
+                        user.addPermission(permission);
+                    }
+
+                    return map;
+                })
+                .values()
+                .stream()
+                .findFirst()
+                .orElse(null)
+        );
+    }
 }

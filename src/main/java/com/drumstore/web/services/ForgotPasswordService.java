@@ -1,5 +1,6 @@
 package com.drumstore.web.services;
 
+import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.models.User;
 import com.drumstore.web.repositories.UserRepository;
 import com.drumstore.web.utils.EmailSender;
@@ -10,13 +11,13 @@ import java.util.Base64;
 
 public class ForgotPasswordService {
     private final UserRepository userRepository;
-    
+
     public ForgotPasswordService() {
         this.userRepository = new UserRepository();
     }
 
     public boolean requestPasswordReset(String email) {
-        User user = userRepository.findByEmail(email);
+        UserDTO user = userRepository.findUser("email", email);
         if (user == null) {
             return false;
         }

@@ -1,8 +1,9 @@
 package com.drumstore.web.controllers.auth;
 
 import com.drumstore.web.config.GoogleAuthConfig;
-import com.drumstore.web.models.User;
+import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.services.UserService;
+import com.drumstore.web.utils.GsonUtils;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -20,24 +21,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 
-import com.drumstore.web.utils.GsonUtils;
-
 @WebServlet({"/login/google", "/login/oauth2/code/google"})
 public class GoogleLoginController extends HttpServlet {
-    private UserService userService;
+    private final UserService userService = new UserService();
 
     @Override
-    public void init() {
-        this.userService = new UserService();
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String code = request.getParameter("code");
 
         if (code == null || code.isEmpty()) {
-            // Tạo URL xác thực Google
             String authUrl = String.format("%s?client_id=%s&redirect_uri=%s&response_type=code&scope=%s",
                     GoogleAuthConfig.AUTH_ENDPOINT,
                     GoogleAuthConfig.CLIENT_ID,
@@ -48,7 +40,6 @@ public class GoogleLoginController extends HttpServlet {
         }
 
         try {
-            // Trao đổi code lấy access token
             GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(
                     new NetHttpTransport(),
                     new GsonFactory(),
@@ -58,37 +49,30 @@ public class GoogleLoginController extends HttpServlet {
                     GoogleAuthConfig.REDIRECT_URI
             ).execute();
 
-            // Lấy thông tin user từ Google
             String accessToken = tokenResponse.getAccessToken();
             var url = URI.create(GoogleAuthConfig.USERINFO_ENDPOINT).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-            // Lấy thông tin user từ Google sử dụng GsonUtils
             JsonObject userInfo = GsonUtils.fromJson(
-                new InputStreamReader(conn.getInputStream())
+                    new InputStreamReader(conn.getInputStream())
             );
 
-            // Kiểm tra email đã tồn tại chưa
             String email = userInfo.get("email").getAsString();
-            User user = userService.findByEmail(email);
+            UserDTO user = userService.findUser("email", email);
 
             if (user == null) {
-                // Tạo user mới nếu chưa tồn tại
-                user = new User();
+                user = new UserDTO();
                 user.setEmail(email);
                 user.setFullname(userInfo.get("name").getAsString());
                 user.setAvatar(userInfo.get("picture").getAsString());
-                user.setStatus(1);
-                user.setRole(0);
+                user.setStatus(true);
                 userService.create(user);
             }
 
-            // Lưu thông tin vào session
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
 
-            // Chuyển hướng về trang chủ
             response.sendRedirect(request.getContextPath() + "/home");
 
         } catch (Exception e) {

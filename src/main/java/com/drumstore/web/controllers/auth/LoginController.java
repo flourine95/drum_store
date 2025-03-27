@@ -29,7 +29,7 @@ public class LoginController extends HttpServlet {
         String password = request.getParameter("password");
         String redirectUrl = request.getParameter("redirectUrl");
 
-        UserDTO user = userService.login2(username, password);
+        UserDTO user = userService.login(username, password);
 
         if (user != null) {
             HttpSession session = request.getSession();
@@ -45,8 +45,6 @@ public class LoginController extends HttpServlet {
                 } else {
                     response.sendRedirect(request.getContextPath() + "/");
                 }
-
-//
             }
         } else {
             request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng.");

@@ -19,17 +19,20 @@ public class UserService {
     public int create(User user) {
         return userRepository.save(user);
     }
+    public int create(UserDTO user) {
+        return userRepository.save(user);
+    }
 
     public int update(User user) {
         return userRepository.update(user);
     }
 
-    public int delete(int id) {
-        return userRepository.delete(id);
+    public int update(UserDTO user) {
+        return userRepository.update(user);
     }
 
-    public User find(int id) {
-        return userRepository.find(id);
+    public int delete(int id) {
+        return userRepository.delete(id);
     }
 
     public User detail(int id) {
@@ -41,16 +44,11 @@ public class UserService {
     }
 
     public String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt()); // Mã hóa mật khẩu
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
-
 
     public boolean register(User user) {
         return userRepository.register(user);
-    }
-
-    public boolean register2(User user) {
-        return userRepository.register2(user);
     }
 
     public boolean isPhoneExists(String phone) {
@@ -61,23 +59,20 @@ public class UserService {
         return userRepository.isEmailExists(email);
     }
 
-    public User login(String username, String password) {
-        return userRepository.login(username, password);
-    }
-
     public int createWithAddresses(User user, List<UserAddress> addresses) {
         return userRepository.createWithAddresses(user, addresses);
-    }
-
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
     }
 
     public boolean hasPermission(int userId, String permissionName) {
         return userRepository.hasPermission(userId, permissionName);
     }
 
-    public UserDTO login2(String username, String password) {
-        return userRepository.login2(username, password);
+    public UserDTO login(String username, String password) {
+        return userRepository.login(username, password);
     }
+
+    public UserDTO findUser(String field, Object value) {
+        return userRepository.findUser(field, value);
+    }
+
 }

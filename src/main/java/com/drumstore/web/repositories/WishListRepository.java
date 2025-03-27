@@ -1,6 +1,6 @@
 package com.drumstore.web.repositories;
 
-import com.drumstore.web.models.Product;
+import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.models.User;
 import com.drumstore.web.models.WishList;
 import com.drumstore.web.utils.DBConnection;
@@ -20,6 +20,18 @@ public class WishListRepository extends BaseRepository<WishList> {
         String sql = """
             SELECT * FROM wishlist WHERE userId = :userId
             """;
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("userId", user.getId())
+                        .mapToBean(WishList.class)
+                        .list()
+        );
+    }
+
+    public List<WishList> getAll(UserDTO user) {
+        String sql = """
+                SELECT * FROM wishlist WHERE userId = :userId
+                """;
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
                         .bind("userId", user.getId())
