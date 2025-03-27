@@ -4,12 +4,14 @@
         margin: 0;
         padding: 0;
         font-family: Arial, sans-serif;
+        color: black;
     }
 
     body {
         justify-content: center;
         align-items: center;
         margin: 0;
+        background-color: #f8f9fa; /* Màu nền nhẹ */
     }
 
     .login-container {
@@ -20,6 +22,7 @@
         padding: 30px;
         text-align: center;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px; /* Bo góc nhẹ */
     }
 
     .login-container h3 {
@@ -63,8 +66,8 @@
         border: none;
         border-bottom: 1px solid #ccc;
         outline: none;
-        color: #fd0;
         background: none;
+        font-size: 16px;
     }
 
     .field label {
@@ -73,7 +76,7 @@
         top: 0;
         left: 0;
         translate: 0.625rem 0.625rem;
-        color: #fd0;
+        color: #000000;
         padding-inline-start: 0.25rem;
         pointer-events: none;
         transition: translate 250ms;
@@ -95,18 +98,22 @@
     }
 
     .btn-login {
-        background-color: #fd0;
-        color: black;
-        padding: 10px;
+        background-color: #007BFF; /* Màu xanh */
+        color: white;
+        padding: 12px;
         width: 100%;
         border: none;
         border-radius: 4px;
         cursor: pointer;
         font-size: 1rem;
+        transition: background 0.3s;
+    }
+    .btn-login:hover{
+        background-color: #0056b3;
     }
 
     .text-link {
-        color: #fd0;
+        color: #000000;
         text-decoration: none;
     }
 
