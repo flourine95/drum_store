@@ -35,7 +35,6 @@ public class CartController extends HttpServlet {
             cart = new Cart();
             session.setAttribute("cart", cart);
         }
-        System.out.println(cart);
         request.setAttribute("cart", cart);
         request.setAttribute("title", "Giỏ hàng");
         request.setAttribute("content", "cart.jsp");
@@ -78,6 +77,7 @@ public class CartController extends HttpServlet {
                     result.put("success", true);
                     result.put("price", price);
                     result.put("cartCount", cart.getItemCount());
+                    result.put("discount", cart.getDiscountTotal());
                     result.put("total", cart.getTotal());
                 }
 
@@ -92,6 +92,7 @@ public class CartController extends HttpServlet {
                         result.put("success", true);
                         result.put("item", cartItem);
                         result.put("price", cartItem.getTotal());
+                        result.put("discount", cart.getDiscountTotal());
                         result.put("total", cart.getTotal());
                         result.put("cart", cart);
                     }else {
@@ -106,6 +107,7 @@ public class CartController extends HttpServlet {
                     cart.removeItem(cartId);
                     result.put("success", true);
                     result.put("cartCount", cart.getItemCount());
+                    result.put("discount", cart.getDiscountTotal());
                     result.put("total", cart.getTotal());
                 }
                 case null, default -> {

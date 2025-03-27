@@ -9,7 +9,7 @@ import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class OrderRepository {
+public class OrderRepository extends BaseRepository<Order> {
     private final Jdbi jdbi;
 
     public OrderRepository() {
@@ -83,6 +83,20 @@ public class OrderRepository {
             e.printStackTrace();
             return false; // Trả về false nếu có lỗi xảy ra
         }
+    }
+
+    public Order save(Order order) {
+        String insertQuery = "INSERT INTO orders (userId, userAddressId, totalAmount, orderDate, status, createdAt) " +
+                "VALUES (:userId, :userAddressId, :totalAmount, :orderDate, :status, :createdAt)";
+        int orderId = jdbi.withHandle(handle ->
+                handle.createUpdate(insertQuery)
+                        .bindBean(order)
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(int.class)
+                        .one()
+        );
+        order.setId(orderId);
+        return order;
     }
 
 }

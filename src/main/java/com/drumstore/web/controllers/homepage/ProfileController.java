@@ -4,10 +4,7 @@ import com.drumstore.web.dto.AddressDTO;
 import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.models.Product;
 import com.drumstore.web.models.User;
-import com.drumstore.web.services.AddressService;
-import com.drumstore.web.services.OrderService;
-import com.drumstore.web.services.UserService;
-import com.drumstore.web.services.WishlistService;
+import com.drumstore.web.services.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
@@ -26,6 +23,7 @@ import java.util.Map;
 public class ProfileController extends HttpServlet {
     private UserService userService;
     private AddressService addressService;
+    private UserAddressService userAddressService;
     private WishlistService wishlistService;
     private OrderService orderService;
 
@@ -35,6 +33,7 @@ public class ProfileController extends HttpServlet {
         this.addressService = new AddressService();
         this.wishlistService = new WishlistService();
         this.orderService = new OrderService();
+        this.userAddressService = new UserAddressService();
     }
 
     @Override
@@ -109,6 +108,18 @@ public class ProfileController extends HttpServlet {
                 case "add_address" -> addAddress(request, response, user, jsonNode);
                 case "delete_address" -> deleteAddress(request, response, user, jsonNode);
                 case "update_address" -> updateAddress(request, response, user, jsonNode);
+                case "count_user_address" -> {
+                    Map<String, Object> resp = new HashMap<>();
+                    int count  = userAddressService.isExitsUserAddress(user.getId());
+                    if(count > 0) {
+                        resp.put("status", true);
+                    }else {
+                        resp.put("status", false);
+                    }
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                     mapper.writeValue(response.getWriter(), resp);
+                }
                 // quản lí wishList
                 case "toggle-wishList" -> toogleWishtList(request, response, user, jsonNode);
 

@@ -1,6 +1,6 @@
 package com.drumstore.web.constants;
 
-public class            OrderConstants {
+public class   OrderConstants {
     public enum Status {
         PENDING(0),
         CONFIRMED(1),

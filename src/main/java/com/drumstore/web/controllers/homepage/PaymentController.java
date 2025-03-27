@@ -27,7 +27,6 @@ public class PaymentController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
                 long amount = Long.parseLong(req.getParameter("amount")) * 100L;
               String url =  vnPayService.createPaymentUrl(amount, req);
-                System.out.println(url);
               resp.sendRedirect(url);
     }
 }
