@@ -3,10 +3,28 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <style>
+    /* Reset và style chung */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Section chung */
     .section {
         background-color: white;
         padding: 20px;
-        border: 1px solid #ddd;
         border-radius: 10px;
         margin-bottom: 20px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -23,73 +41,18 @@
         color: #333;
     }
 
-    .form-check-input:checked + .form-check-label {
-        color: #003087;
-    }
-
-    .order-summary {
-        background-color: white;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        height: fit-content;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .order-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .order-item img {
-        width: 50px;
-        height: 50px;
-        margin-right: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-    .order-item-details {
-        flex-grow: 1;
-    }
-
-    .order-item-details p {
-        margin: 0;
-        font-size: 14px;
-    }
-
-    .order-total {
-        font-weight: bold;
-        color: #003087;
-    }
-
-    .btn-primary {
-        background-color: #003087;
-        border: none;
-        color: #fff;
-        width: 100%;
-        border-radius: 8px;
-        padding: 10px;
-        font-weight: 500;
-    }
-
-    .btn-primary:hover {
-        background-color: #002669;
-    }
-
-    .form-select,
-    .form-control {
+    /* Form elements */
+    .form-control, .form-select {
         border: 1px solid #ddd;
         border-radius: 8px;
         padding: 8px;
         transition: border-color 0.3s ease;
     }
 
-    .form-select:focus,
-    .form-control:focus {
+    .form-control:focus, .form-select:focus {
         border-color: #003087;
         box-shadow: 0 0 5px rgba(0, 48, 135, 0.2);
+        outline: none;
     }
 
     .form-control.is-invalid {
@@ -104,45 +67,19 @@
     .form-check-label {
         font-size: 14px;
         color: #333;
+        cursor: pointer;
     }
 
-    .text-muted {
-        color: #6c757d;
-    }
-
-    .text-primary {
+    .form-check-input:checked + .form-check-label {
         color: #003087;
     }
 
-    .payment-method {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        margin-bottom: 10px;
-        transition: border-color 0.3s ease;
-    }
-
-    .payment-method:hover {
-        border-color: #003087;
-    }
-
-    .payment-method input:checked + label {
-        color: #003087;
-    }
-
-    .payment-method img {
-        height: 20px;
-        margin-left: 5px;
-    }
-
+    /* Shipping options */
     .shipping-options {
-        display: flex; /* Hiển thị mặc định */
+        display: flex;
         flex-direction: column;
         gap: 10px;
-        margin: 10px 0px;
+        margin: 10px 0;
     }
 
     .shipping-options h6 {
@@ -159,7 +96,7 @@
         padding: 10px 15px;
         border-radius: 8px;
         cursor: pointer;
-        transition: all 0.3s ease-in-out;
+        transition: border-color 0.3s ease;
     }
 
     .shipping-type input {
@@ -192,20 +129,104 @@
         color: #007bff;
     }
 
-    .shipping-type input:checked + label::before {
-        content: '';
-        display: inline-block;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        border: 2px solid #007bff;
-        border-radius: 8px;
-        z-index: -1;
+    .shipping-type input:checked + .shipping-type {
+        border-color: #007bff;
     }
 
-    .modal {
+    /* Payment methods */
+    .payment-method {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        transition: border-color 0.3s ease;
+    }
+
+    .payment-method:hover {
+        border-color: #003087;
+    }
+
+    .payment-method input:checked + label {
+        color: #003087;
+    }
+
+    .payment-method img {
+        height: 20px;
+        margin-left: 5px;
+    }
+
+    /* Order summary */
+    .order-summary {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+    }
+
+    .order-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .order-item img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .order-item-details {
+        flex-grow: 1;
+    }
+
+    .order-item-details p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .order-total {
+        font-weight: bold;
+        color: #003087;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background-color: #003087;
+        border: none;
+        color: #fff;
+        width: 100%;
+        border-radius: 8px;
+        padding: 10px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #002669;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: #fff;
+        border-radius: 8px;
+        padding: 8px 15px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    /* Popup */
+    #addressPopup {
         display: none;
         position: fixed;
         top: 0;
@@ -216,7 +237,7 @@
         z-index: 1000;
     }
 
-    .modal-content {
+    #addressPopup .modal-content {
         background-color: white;
         margin: 15% auto;
         padding: 20px;
@@ -249,17 +270,13 @@
         background-color: #f0f4ff;
     }
 
-    .btn-add-address {
-        background-color: #003087;
-        color: white;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 8px;
-        cursor: pointer;
+    /* Utility classes */
+    .text-muted {
+        color: #6c757d;
     }
 
-    .btn-add-address:hover {
-        background-color: #002669;
+    .text-primary {
+        color: #003087;
     }
 
     .hidden {
@@ -284,17 +301,12 @@
             <div class="section">
                 <h5>GIAO HÀNG</h5>
                 <div class="form-check mb-3">
-                    <input class="form-check-input" type="radio" name="shippingMethod" id="shipToAddress"
-                           value="shipToAddress" checked>
-                    <label class="form-check-label" for="shipToAddress">
-                        Vận chuyển
-                    </label>
+                    <input class="form-check-input" type="radio" name="shippingMethod" id="shipToAddress" value="shipToAddress" checked>
+                    <label class="form-check-label" for="shipToAddress">Vận chuyển</label>
                 </div>
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="radio" name="shippingMethod" id="pickup" value="pickup">
-                    <label class="form-check-label" for="pickup">
-                        Nhận hàng tại cửa hàng
-                    </label>
+                    <label class="form-check-label" for="pickup">Nhận hàng tại cửa hàng</label>
                 </div>
 
                 <div id="shippingOptions" class="shipping-options">
@@ -313,117 +325,81 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <c:set var="mainAddress" value="${address['mainAddress']}"/>
+                <div class="row address-section" data-address-id="${not empty mainAddress[0].id ? mainAddress[0].id : ''}">
                     <div class="col-md-6 mb-3">
                         <label for="name">Tên (*)</label>
-                        <input type="text" class="form-control" id="name" name="name"
-                               value="${not empty user.fullname ? user.fullname : ''}" required>
+                        <input type="text" class="form-control" id="name" name="name" value="${not empty mainAddress[0].fullName ? mainAddress[0].fullName : ''}" required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="phone">Điện thoại (*)</label>
-                        <input type="text" class="form-control" id="phone" name="phone"
-                               value="${not empty user.phone ? user.phone : ''}" required>
+                        <input type="text" class="form-control" id="phone" name="phone" value="${not empty mainAddress[0].phone ? mainAddress[0].phone : ''}" required>
                     </div>
-                </div>
-
-                <c:set var="mainAddress" value="${address['mainAddress']}"/>
-
-                <div class="row address-section" data-address-id="${not empty mainAddress[0].id ? mainAddress[0].id : ''}">
                     <div class="col-md-4 mb-3">
                         <label for="shippingProvince">Tỉnh/Thành phố <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="shippingProvince" readonly
-                               value="${not empty mainAddress[0].province ? mainAddress[0].province : ''}"
-                               placeholder="Tỉnh/Thành phố">
+                        <input type="text" class="form-control" id="shippingProvince" readonly value="${not empty mainAddress[0].province ? mainAddress[0].province : ''}" placeholder="Tỉnh/Thành phố">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="shippingDistrict">Quận/Huyện <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="shippingDistrict" readonly
-                               value="${not empty mainAddress[0].district ? mainAddress[0].district : ''}"
-                               placeholder="Quận/Huyện">
+                        <input type="text" class="form-control" id="shippingDistrict" readonly value="${not empty mainAddress[0].district ? mainAddress[0].district : ''}" placeholder="Quận/Huyện">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="shippingWard">Phường/Xã <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="shippingWard" readonly
-
-                               value="${not empty mainAddress[0].ward ? mainAddress[0].ward : ''}"
-                               placeholder="Phường/Xã">
+                        <input type="text" class="form-control" id="shippingWard" readonly value="${not empty mainAddress[0].ward ? mainAddress[0].ward : ''}" placeholder="Phường/Xã">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="shippingStreet">Địa chỉ cụ thể</label>
+                        <input type="text" class="form-control" id="shippingStreet" readonly value="${not empty mainAddress[0].fullAddress ? mainAddress[0].fullAddress : ''}" placeholder="Căn hộ, phòng, khu, v.v.">
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="shippingStreet">Địa chỉ cụ thể</label>
-                    <input type="text" class="form-control" id="shippingStreet" readonly
-                           value="${not empty mainAddress[0].fullAddress ? mainAddress[0].fullAddress : ''}"
-                           placeholder="Căn hộ, phòng, khu, v.v.">
-
-                </div>
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" id="saveInfo">
-                    <label class="form-check-label" for="saveInfo">
-                        Gửi chi tiết tài khoản và địa chỉ tới tin nhắn
-                    </label>
+                    <label class="form-check-label" for="saveInfo">Gửi chi tiết tài khoản và địa chỉ tới tin nhắn</label>
                 </div>
 
-                <!-- Phần THANH TOÁN -->
+                <!-- Thanh toán -->
                 <h5>THANH TOÁN</h5>
                 <p>Tất cả các giao dịch được mã hóa và an toàn.</p>
                 <div class="payment-method">
                     <div>
                         <input class="form-check-input" type="radio" name="paymentMethod" id="onepay" value="onepay">
-                        <label class="form-check-label" for="onepay">
-                            VNPAY
-                        </label>
+                        <label class="form-check-label" for="onepay">VNPAY</label>
                     </div>
                     <div>
                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Visa_Logo.png" alt="VNPay">
                     </div>
                 </div>
-                <div id="cardDetails" class="card-details" style="display: none;">
+                <div id="cardDetails" class="card-details hidden">
                     <div class="container">
+                        <div class="d-flex flex-column justify-content-center align-items-center gap-2 ">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-252.3 356.1 163 80.9" class="zjrzY">
-                            <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"
-                                  d="M-108.9 404.1v30c0 1.1-.9 2-2 2H-231c-1.1 0-2-.9-2-2v-75c0-1.1.9-2 2-2h120.1c1.1 0 2 .9 2 2v37m-124.1-29h124.1"></path>
+                            <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-108.9 404.1v30c0 1.1-.9 2-2 2H-231c-1.1 0-2-.9-2-2v-75c0-1.1.9-2 2-2h120.1c1.1 0 2 .9 2 2v37m-124.1-29h124.1"></path>
                             <circle cx="-227.8" cy="361.9" r="1.8" fill="currentColor"></circle>
                             <circle cx="-222.2" cy="361.9" r="1.8" fill="currentColor"></circle>
                             <circle cx="-216.6" cy="361.9" r="1.8" fill="currentColor"></circle>
-                            <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"
-                                  d="M-128.7 400.1H-92m-3.6-4.1 4 4.1-4 4.1"></path>
+                            <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-128.7 400.1H-92m-3.6-4.1 4 4.1-4 4.1"></path>
                         </svg>
-                        <p>Sau khi nhấp vào "Hoàn tất đơn hàng", bạn sẽ được chuyển hướng đến ONEPAY để hoàn tất mua
-                            hàng an toàn.</p>
+                        <p>Sau khi nhấp vào "Hoàn tất đơn hàng", bạn sẽ được chuyển hướng đến ONEPAY để hoàn tất mua hàng an toàn.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="payment-method">
                     <div>
                         <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="cod" checked>
-                        <label class="form-check-label" for="cod">
-                            Thanh toán khi nhận hàng (COD)
-                        </label>
+                        <label class="form-check-label" for="cod">Thanh toán khi nhận hàng (COD)</label>
                     </div>
                 </div>
 
-                <!-- Phần ĐỊA CHỈ THANH TOÁN -->
+                <!-- Địa chỉ thanh toán -->
                 <h5>ĐỊA CHỈ THANH TOÁN</h5>
                 <div class="form-check mb-3">
-                    <input class="form-check-input" type="radio" name="billingAddress" id="sameAsShipping"
-                           value="sameAsShipping" checked>
-                    <label class="form-check-label" for="sameAsShipping">
-                        Sử dụng địa chỉ giao hàng
-                    </label>
+                    <input class="form-check-input" type="radio" name="billingAddress" id="sameAsShipping" value="sameAsShipping" checked>
+                    <label class="form-check-label" for="sameAsShipping">Sử dụng địa chỉ giao hàng</label>
                 </div>
                 <div class="form-check mb-3">
-                    <input class="form-check-input" type="radio" name="billingAddress" id="differentAddress"
-                           value="differentAddress">
-                    <label class="form-check-label" for="differentAddress" id="showAddressPopup">
-                        Sử dụng địa chỉ thanh toán khác
-                    </label>
-                </div>
-                <div id="billingAddressFields" class="hidden">
-                    <div class="mb-3">
-                        <label for="billingAddressInput">Địa chỉ thanh toán (*)</label>
-                        <input type="text" class="form-control" id="billingAddressInput" readonly required
-                               placeholder="Chọn địa chỉ thanh toán">
-                    </div>
+                    <input class="form-check-input" type="radio" name="billingAddress" id="differentAddress" value="differentAddress">
+                    <label class="form-check-label" for="differentAddress">Sử dụng địa chỉ thanh toán khác</label>
                 </div>
             </div>
         </div>
@@ -442,8 +418,7 @@
                                 </c:if>
                             </p>
                         </div>
-                        <span><fmt:formatNumber value="${item.cartItem.getLowestSalePrice() * item.quantity}"
-                                                type="currency" currencySymbol="đ"/></span>
+                        <span><fmt:formatNumber value="${item.cartItem.getLowestSalePrice() * item.quantity}" type="currency" currencySymbol="đ"/></span>
                     </div>
                     <hr>
                 </c:forEach>
@@ -457,7 +432,7 @@
 
                 <div class="d-flex justify-content-between mb-2">
                     <span>Tạm tính</span>
-                    <span><fmt:formatNumber value="${cart.total}" type="currency" currencySymbol="đ"/></span>
+                    <span id="subTotal"><fmt:formatNumber value="${cart.total}" type="currency" currencySymbol="đ"/></span>
                 </div>
 
                 <div class="d-flex justify-content-between mb-2">
@@ -468,9 +443,7 @@
                 <hr>
                 <div class="d-flex justify-content-between order-total">
                     <span>TỔNG</span>
-                    <span id="totalAmount">
-                        <fmt:formatNumber value="${total + 30000}" type="currency" currencySymbol="đ"/>
-                    </span>
+                    <span id="totalAmount"><fmt:formatNumber value="${cart.total + 30000}" type="currency" currencySymbol="đ"/></span>
                 </div>
                 <button class="btn btn-primary mt-3" id="submitPayment">HOÀN TẤT ĐƠN HÀNG</button>
             </div>
@@ -479,59 +452,105 @@
 </div>
 
 <!-- Popup danh sách địa chỉ -->
-<div id="addressPopup" class="modal">
-    <div class="modal-content">
-        <h5>Danh sách địa chỉ</h5>
-        <div id="addressList" class="address-list">
-            <!-- Danh sách địa chỉ sẽ được thêm bằng JS -->
-        </div>
-        <button class="btn-add-address" id="addNewAddress">Thêm địa chỉ mới</button>
+<div id="addressPopup">
+    <div class="modal-content p-3">
+        <h5 class="mb-3">Danh sách địa chỉ</h5>
+        <c:choose>
+            <c:when test="${not empty address['subAddress']}">
+                <div id="addressList" class="address-list">
+                    <c:forEach var="addr" items="${address['subAddress']}">
+                        <div class="address-item" data-address-id="${addr.id}">
+                            <h6 class="mb-1">${addr.fullName}</h6>
+                            <p class="mb-1">${addr.phone}</p>
+                            <p class="mb-1">${addr.fullAddress}, ${addr.ward}, ${addr.district}, ${addr.province}</p>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <p class="text-center text-muted">Không có địa chỉ nào, hãy thêm địa chỉ mới.</p>
+            </c:otherwise>
+        </c:choose>
+        <button class="btn btn-primary mt-2" id="addNewAddress">Thêm địa chỉ mới</button>
         <button class="btn btn-secondary mt-2" id="closePopup">Đóng</button>
     </div>
 </div>
 
 <script>
     $(document).ready(function () {
-        // Đảm bảo các giá trị mặc định được hiển thị đúng khi tải trang
-        $('#shipToAddress').prop('checked', true); // Mặc định chọn "Vận chuyển"
-        $('#fastShipping').prop('checked', true); // Mặc định chọn "Vận chuyển nhanh"
-        $('#cod').prop('checked', true); // Mặc định chọn "Thanh toán khi nhận hàng (COD)"
-        $('#sameAsShipping').prop('checked', true); // Mặc định chọn "Sử dụng địa chỉ giao hàng"
-        $('#shippingOptions').show(); // Hiển thị tùy chọn vận chuyển
-        $('#cardDetails').hide(); // Ẩn chi tiết thẻ tín dụng
-        $('#billingAddressFields').hide(); // Ẩn trường địa chỉ thanh toán khác
+        // Khởi tạo giá trị ban đầu
+        const baseTotal = ${cart.total}; // Tổng tiền ban đầu từ server
+        let shippingFee = 30000; // Phí vận chuyển mặc định (Vận chuyển nhanh)
+        let totalAmount = baseTotal + shippingFee;
 
-        // Hiển thị/ẩn lựa chọn vận chuyển khi chọn "Vận chuyển"
+        // Cập nhật giao diện ban đầu
+        $('#shipToAddress').prop('checked', true);
+        $('#fastShipping').prop('checked', true);
+        $('#cod').prop('checked', true);
+        $('#sameAsShipping').prop('checked', true);
+        $('#shippingOptions').show();
+        $('#cardDetails').hide();
+        $('#addressPopup').hide();
+        updateTotal();
+
+        // Hiển thị/ẩn tùy chọn vận chuyển và cập nhật phí vận chuyển
         $('input[name="shippingMethod"]').change(function () {
             if ($('#shipToAddress').is(':checked')) {
                 $('#shippingOptions').show();
+                shippingFee = $('#fastShipping').is(':checked') ? 30000 : 50000;
             } else {
                 $('#shippingOptions').hide();
+                shippingFee = 0; // Nhận hàng tại cửa hàng: phí vận chuyển = 0
             }
+            updateTotal();
         });
 
-        // Cập nhật phí vận chuyển và tổng tiền khi thay đổi loại vận chuyển
+        // Cập nhật phí vận chuyển khi thay đổi loại vận chuyển
         $('input[name="shippingType"]').change(function () {
-            const shippingFee = $(this).val() === 'fast' ? 30000 : 50000;
-            const baseTotal = ${total}; // Tổng tiền ban đầu từ server
-            const newTotal = baseTotal + shippingFee;
-
-            $('#shippingFee').text(formatCurrency(shippingFee));
-            $('#totalAmount').text(formatCurrency(newTotal));
-
-            // Cập nhật viền và màu sắc
+            shippingFee = $(this).val() === 'fast' ? 30000 : 50000;
+            updateTotal();
             $('.shipping-type').css('border-color', '#ddd');
             $(this).closest('.shipping-type').css('border-color', '#007bff');
         });
 
-        // Hiển thị popup khi nhấn "Sử dụng địa chỉ thanh toán khác"
-        $('#showAddressPopup').click(function () {
-            $('#addressPopup').show();
+        // Hiển thị/ẩn popup địa chỉ thanh toán
+        $('input[name="billingAddress"]').change(function () {
+            if ($('#differentAddress').is(':checked')) {
+                $('#addressPopup').show();
+            } else {
+                $('#addressPopup').hide();
+            }
         });
 
-        // Đóng popup
+        // Đóng popup và đặt lại radio button
         $('#closePopup').click(function () {
             $('#addressPopup').hide();
+            $('#sameAsShipping').prop('checked', true);
+        });
+
+        // Xử lý chọn địa chỉ từ popup
+        $('.address-item').click(function () {
+            $('.address-item').removeClass('selected');
+            $(this).addClass('selected');
+            const addressId = $(this).data('address-id');
+            const fullName = $(this).find('h6').text();
+            const phone = $(this).find('p:eq(0)').text();
+            const addressDetails = $(this).find('p:eq(1)').text().split(', ');
+            const fullAddress = addressDetails[0];
+            const ward = addressDetails[1];
+            const district = addressDetails[2];
+            const province = addressDetails[3];
+
+            $('#name').val(fullName);
+            $('#phone').val(phone);
+            $('#shippingStreet').val(fullAddress);
+            $('#shippingWard').val(ward);
+            $('#shippingDistrict').val(district);
+            $('#shippingProvince').val(province);
+            $('.address-section').data('address-id', addressId);
+
+            $('#addressPopup').hide();
+            $('#sameAsShipping').prop('checked', true);
         });
 
         // Xử lý nút "Thêm địa chỉ mới" (giả lập)
@@ -539,69 +558,41 @@
             alert('Chức năng thêm địa chỉ mới đang được phát triển!');
         });
 
-        // Hiển thị/ẩn trường địa chỉ thanh toán khác
-        $('input[name="billingAddress"]').change(function () {
-            if ($('#differentAddress').is(':checked')) {
-                $('#billingAddressFields').show();
-            } else {
-                $('#billingAddressFields').hide();
-            }
-        });
-
-        // Hiển thị/ẩn form nhập thẻ tín dụng khi chọn ONEPAY
+        // Hiển thị/ẩn chi tiết thẻ tín dụng
         $('input[name="paymentMethod"]').change(function () {
-            if ($('#onepay').is(':checked')) {
-                $('#cardDetails').show();
-            } else {
-                $('#cardDetails').hide();
+            $('#cardDetails').toggle($('#onepay').is(':checked'));
+        });
+
+        // Xử lý nút "Hoàn tất đơn hàng"
+        $('#submitPayment').click(function (e) {
+            e.preventDefault();
+            const addressId = $('.address-section').data('address-id');
+            if (!addressId) {
+                Swal.fire({
+                    title: 'Không tìm thấy ID địa chỉ giao hàng!',
+                    icon: "error",
+                    draggable: true
+                });
+                return;
+            }
+
+            const paymentMethod = $('input[name="paymentMethod"]:checked').val();
+            if (paymentMethod === 'cod') {
+                handleCodPayment(addressId, totalAmount);
+            } else if (paymentMethod === 'onepay') {
+                handleVNPayPayment(addressId, totalAmount);
             }
         });
 
-        // Kiểm tra form khi nhấn "Hoàn tất đơn hàng"
-        $(document).ready(function () {
-            // Xử lý khi nhấn nút "Hoàn tất đơn hàng"
-            $('#submitPayment').click(function (e) {
-                // Lấy data-address-id
-                const addressId = $('.address-section').data('address-id');
-                if (!addressId) {
-                    e.preventDefault();
-                    Swal.fire({
-                        title: 'Không tìm thấy ID địa chỉ giao hàng!',
-                        icon: "error",
-                        draggable: true
-                    });
-                    return;
-                }
+        // Hàm cập nhật tổng tiền
+        function updateTotal() {
+            totalAmount = baseTotal + shippingFee;
+            $('#shippingFee').text(formatCurrency(shippingFee));
+            $('#totalAmount').text(formatCurrency(totalAmount));
+        }
 
-                // Lấy giá trị totalAmount
-                let totalAmountText = $('#totalAmount').text().trim();
-                totalAmountText = totalAmountText.replace('đ', '').replace(/\.,/g, '');
-                const totalAmount = parseFloat(totalAmountText);
-
-                if (isNaN(totalAmount)) {
-                    e.preventDefault();
-                    Swal.fire({
-                        title: 'Không thể lấy tổng tiền!',
-                        icon: "error",
-                        draggable: true
-                    });
-                    return;
-                }
-
-                // Lấy phương thức thanh toán
-                const paymentMethod = $('input[name="paymentMethod"]:checked').val();
-
-                // Xử lý theo phương thức thanh toán
-                if (paymentMethod === 'cod') {
-                    handleCodPayment(addressId, totalAmount, e);
-                } else if (paymentMethod === 'onepay') {
-                    handleVNPayPayment(addressId, totalAmount, e);
-                }
-            });
-        });
-
-        // Hàm xử lý thanh toán bằng COD
-        function handleCodPayment(addressId, totalAmount, event) {
+        // Hàm xử lý thanh toán COD
+        function handleCodPayment(addressId, totalAmount) {
             $.ajax({
                 url: '/order',
                 method: 'POST',
@@ -629,7 +620,7 @@
                         });
                     }
                 },
-                error: function (error) {
+                error: function () {
                     Swal.fire({
                         title: 'Có lỗi xảy ra!',
                         text: 'Không thể kết nối đến server.',
@@ -640,22 +631,28 @@
             });
         }
 
-        // Hàm xử lý thanh toán bằng VNPay
-        function handleVNPayPayment(addressId, totalAmount, event) {
-            const orderData = {
-                addressId: addressId,
-                totalAmount: totalAmount,
-                paymentMethod: 'onepay'
-            };
-
+        // Hàm xử lý thanh toán VNPay
+        function handleVNPayPayment(addressId, totalAmount) {
             $.ajax({
-                url: '/payment/vnpay',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(orderData),
+                url: '/order',
+                method: 'POST',
+                data: {
+                    action: 'payment',
+                    amount: totalAmount,
+                    userAddressId: addressId
+                },
                 success: function (response) {
-                    if (response.paymentUrl) {
-                        window.location.href = response.paymentUrl;
+                    if (response.success === "true" && response.paymentUrl) {
+                        Swal.fire({
+                            title: 'Đơn hàng đã được tạo!',
+                            text: response.orderId ? `Mã đơn hàng: #${response.orderId}` : 'Đang chuyển hướng đến VNPay...',
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false,
+                            draggable: true
+                        }).then(() => {
+                            window.location.href = response.paymentUrl;
+                        });
                     } else {
                         Swal.fire({
                             title: 'Không thể tạo thanh toán VNPay!',
@@ -665,21 +662,24 @@
                         });
                     }
                 },
-                error: function (error) {
+                error: function (xhr, status, error) {
                     Swal.fire({
-                        title: 'Có lỗi xảy ra khi tạo thanh toán VNPay!',
+                        title: 'Lỗi kết nối!',
+                        text: 'Không thể tạo đơn hàng hoặc thanh toán VNPay.',
                         icon: 'error',
                         draggable: true
                     });
+                    console.error('Lỗi AJAX:', status, error);
                 }
             });
         }
-    });
 
-    function formatCurrency(value) {
-        return new Intl.NumberFormat('vi-VN', {
-            style: 'currency',
-            currency: 'VND'
-        }).format(value);
-    }
+        // Hàm định dạng tiền tệ
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(value);
+        }
+    });
 </script>

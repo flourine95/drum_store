@@ -89,6 +89,8 @@ public class UserAddressRepository extends BaseRepository<UserAddress> {
         String sql = """
                     SELECT 
                         us.id, 
+                        us.fullname,
+                        us.phone,
                         p.name AS province, 
                         d.name AS district, 
                         w.name AS ward, 

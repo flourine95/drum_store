@@ -20,7 +20,7 @@ public class VnPayService {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long fakeamount = 10000000L;
+
         String bankCode = req.getParameter("bankCode");
 
         String vnp_TxnRef = VnPayUtils.getRandomNumber(8);
@@ -32,7 +32,7 @@ public class VnPayService {
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-        vnp_Params.put("vnp_Amount", String.valueOf(fakeamount));
+        vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
 
         if (bankCode != null && !bankCode.isEmpty()) {

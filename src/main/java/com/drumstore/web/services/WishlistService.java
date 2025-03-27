@@ -14,8 +14,8 @@ public class WishlistService {
     private final WishListRepository wishListRepository = new WishListRepository();
     private final ProductService productService = new ProductService();
 
-    public List<ProductDetailDTO> getAll(User user){
-        return wishListRepository.getAll(user).stream()
+    public List<ProductDetailDTO> getAll(int userId){
+        return wishListRepository.getAll(userId).stream()
                 .map(wishList -> productService.getProductDetail(wishList.getProductId()))
                 .toList();
     }

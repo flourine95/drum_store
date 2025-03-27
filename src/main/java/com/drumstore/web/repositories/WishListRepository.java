@@ -16,13 +16,13 @@ public class WishListRepository extends BaseRepository<WishList> {
         this.jdbi = DBConnection.getJdbi();
     }
 
-    public List<WishList> getAll(User user) {
+    public List<WishList> getAll(int userId) {
         String sql = """
             SELECT * FROM wishlist WHERE userId = :userId
             """;
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
-                        .bind("userId", user.getId())
+                        .bind("userId", userId)
                         .mapToBean(WishList.class)
                         .list()
         );

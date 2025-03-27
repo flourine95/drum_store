@@ -2,19 +2,13 @@ package com.drumstore.web.dto;
 
 public class UserAddressDTO {
     private int id ;
+    private String fullName;
+    private String phone;
     private String province ;
     private String district ;
     private String ward;
     private String fullAddress;
     private int isDefault;
-
-    public int getIsDefault() {
-        return isDefault;
-    }
-
-    public void setIsDefault(int isDefault) {
-        this.isDefault = isDefault;
-    }
 
     public int getId() {
         return id;
@@ -22,6 +16,22 @@ public class UserAddressDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getProvince() {
@@ -54,5 +64,13 @@ public class UserAddressDTO {
 
     public void setFullAddress(String fullAddress) {
         this.fullAddress = fullAddress;
+    }
+
+    public int getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(int isDefault) {
+        this.isDefault = isDefault;
     }
 }

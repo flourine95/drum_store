@@ -945,7 +945,6 @@
             }
         });
     });
-
     $('#payment').click(function (event) {
         event.preventDefault();
 
@@ -956,7 +955,7 @@
             data: JSON.stringify({ action: "count_user_address" }),
             success: function (response) {
                 if (response.status) {
-                    window.location.href = '/order'
+                    window.location.href = '/order';
                 } else {
                     Swal.fire({
                         icon: "warning",
@@ -973,11 +972,16 @@
                 }
             },
             error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi!",
+                    text: "Không thể kiểm tra địa chỉ. Vui lòng thử lại sau.",
+                    confirmButtonText: "OK"
+                });
                 console.error("Lỗi khi gọi API:", error);
             }
         });
     });
-
 </script>
 
 
