@@ -1,5 +1,6 @@
 package com.drumstore.web.repositories;
 
+import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.models.User;
 import com.drumstore.web.models.UserAddress;
 import com.drumstore.web.utils.DBConnection;
@@ -8,6 +9,7 @@ import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -16,8 +18,8 @@ public class UserRepository extends BaseRepository<User> {
 
     public int save(User user) {
         String query = """
-                INSERT INTO users (email, password, fullname, role, status, avatar, createdAt)
-                VALUES (:email, :password, :fullname, :role, :status, :avatar, CURRENT_TIMESTAMP)
+                INSERT INTO users (email, password, fullname,  status, avatar, createdAt)
+                VALUES (:email, :password, :fullname,  :status, :avatar, CURRENT_TIMESTAMP)
                 """;
         return super.save(query, user);
     }
@@ -31,7 +33,8 @@ public class UserRepository extends BaseRepository<User> {
 
 
     public User show(int id) {
-        User user = find(id);
+        User user = null;
+//        User user = find(id);
         if (user != null) {
             List<UserAddress> addresses = jdbi.withHandle(handle ->
                     handle.createQuery("SELECT * FROM user_addresses WHERE userId = :userId")
@@ -78,8 +81,16 @@ public class UserRepository extends BaseRepository<User> {
 
     public boolean register(User user) {
         String query = """
-                INSERT INTO users (email, password, fullname, role, status, createdAt)
-                VALUES (:email, :password, :fullname, :role, 1, CURRENT_TIMESTAMP)
+                INSERT INTO users (email, password, fullname, phone, role, status, createdAt)
+                VALUES (:email, :password, :fullname,:phone, :role, 1, CURRENT_TIMESTAMP)
+                """;
+        return super.save(query, user) > 0;
+    }
+
+    public boolean register2(User user) {
+        String query = """
+                INSERT INTO users (email, password, fullname, status, createdAt)
+                VALUES (:email, :password, :fullname, 1, CURRENT_TIMESTAMP)
                 """;
         return super.save(query, user) > 0;
     }
@@ -119,10 +130,10 @@ public class UserRepository extends BaseRepository<User> {
             return handle.inTransaction(h -> {
                 // Thêm user
                 String userSql = """
-                    INSERT INTO users (email, password, fullname, role, status, avatar, createdAt)
-                    VALUES (:email, :password, :fullname, :role, :status, :avatar, CURRENT_TIMESTAMP)
-                    """;
-                
+                        INSERT INTO users (email, password, fullname, role, status, avatar, createdAt)
+                        VALUES (:email, :password, :fullname, :role, :status, :avatar, CURRENT_TIMESTAMP)
+                        """;
+
                 int userId = h.createUpdate(userSql)
                         .bindBean(user)
                         .executeAndReturnGeneratedKeys("id")
@@ -132,10 +143,10 @@ public class UserRepository extends BaseRepository<User> {
                 // Thêm địa chỉ
                 if (addresses != null && !addresses.isEmpty()) {
                     String addressSql = """
-                        INSERT INTO user_addresses (userId, address, phone, provinceId, districtId, wardId, isDefault)
-                        VALUES (:userId, :address, :phone, :provinceId, :districtId, :wardId, :isDefault)
-                        """;
-                    
+                            INSERT INTO user_addresses (userId, address, phone, provinceId, districtId, wardId, isDefault)
+                            VALUES (:userId, :address, :phone, :provinceId, :districtId, :wardId, :isDefault)
+                            """;
+
                     for (UserAddress address : addresses) {
                         address.setUserId(userId);
                         h.createUpdate(addressSql)
@@ -166,12 +177,12 @@ public class UserRepository extends BaseRepository<User> {
                 (userId, token, expiryTime, used, createdAt) 
                 VALUES (:userId, :token, :expiryTime, 0, CURRENT_TIMESTAMP)
                 """;
-        jdbi.useHandle(handle -> 
-            handle.createUpdate(sql)
-                .bind("userId", userId)
-                .bind("token", token)
-                .bind("expiryTime", expiryTime)
-                .execute()
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("userId", userId)
+                        .bind("token", token)
+                        .bind("expiryTime", expiryTime)
+                        .execute()
         );
     }
 
@@ -183,10 +194,10 @@ public class UserRepository extends BaseRepository<User> {
                 AND used = 0
                 """;
         return jdbi.withHandle(handle ->
-            handle.createQuery(sql)
-                .bind("token", token)
-                .mapTo(Integer.class)
-                .one() > 0
+                handle.createQuery(sql)
+                        .bind("token", token)
+                        .mapTo(Integer.class)
+                        .one() > 0
         );
     }
 
@@ -198,9 +209,9 @@ public class UserRepository extends BaseRepository<User> {
                 WHERE token = :token
                 """;
         jdbi.useHandle(handle ->
-            handle.createUpdate(sql)
-                .bind("token", token)
-                .execute()
+                handle.createUpdate(sql)
+                        .bind("token", token)
+                        .execute()
         );
     }
 
@@ -213,11 +224,11 @@ public class UserRepository extends BaseRepository<User> {
                 AND pr.used = 0
                 """;
         return jdbi.withHandle(handle ->
-            handle.createQuery(sql)
-                .bind("token", token)
-                .mapToBean(User.class)
-                .findFirst()
-                .orElse(null)
+                handle.createQuery(sql)
+                        .bind("token", token)
+                        .mapToBean(User.class)
+                        .findFirst()
+                        .orElse(null)
         );
     }
 
@@ -225,10 +236,128 @@ public class UserRepository extends BaseRepository<User> {
         String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
         String sql = "UPDATE users SET password = :password WHERE id = :userId";
         jdbi.useHandle(handle ->
-            handle.createUpdate(sql)
-                .bind("userId", userId)
-                .bind("password", hashedPassword)
-                .execute()
+                handle.createUpdate(sql)
+                        .bind("userId", userId)
+                        .bind("password", hashedPassword)
+                        .execute()
         );
     }
+
+    public boolean hasPermission(int userId, String permissionName) {
+        String sql = """
+                    SELECT COUNT(*) > 0
+                    FROM users u
+                    JOIN user_roles ur ON u.id = ur.userId
+                    JOIN role_permissions rp ON ur.roleId = rp.roleId
+                    JOIN permissions p ON rp.permissionId = p.id
+                    WHERE u.id = :userId
+                    AND p.name = :permissionName
+                    AND u.status = 1
+                """;
+
+        try {
+            return jdbi.withHandle(handle ->
+                    handle.createQuery(sql)
+                            .bind("userId", userId)
+                            .bind("permissionName", permissionName)
+                            .mapTo(Boolean.class)
+                            .findFirst()
+                            .orElse(false)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public UserDTO find2(int id) {
+        String sql = """
+                    SELECT
+                        u.id AS u_id, u.email AS u_email, u.password AS u_password,
+                        u.fullname AS u_fullname, u.phone AS u_phone, u.status AS u_status,
+                        u.avatar AS u_avatar, u.createdAt AS u_createdAt,
+                        r.id AS r_id, r.name AS r_name,
+                        p.id AS p_id, p.name AS p_name
+                    FROM users u
+                    LEFT JOIN user_roles ur ON u.id = ur.userId
+                    LEFT JOIN roles r ON ur.roleId = r.id
+                    LEFT JOIN role_permissions rp ON r.id = rp.roleId
+                    LEFT JOIN permissions p ON rp.permissionId = p.id
+                    WHERE u.id = :id
+                """;
+
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind("id", id)
+                .registerRowMapper(BeanMapper.factory(UserDTO.class, "u"))
+                .reduceRows(new LinkedHashMap<Integer, UserDTO>(), (map, row) -> {
+                    UserDTO user = map.computeIfAbsent(row.getColumn("u_id", Integer.class),
+                            _ -> row.getRow(UserDTO.class)
+                    );
+
+                    String role = row.getColumn("r_name", String.class);
+                    if (role != null) {
+                        user.addRole(role);
+                    }
+
+                    String permission = row.getColumn("p_name", String.class);
+                    if (permission != null) {
+                        user.addPermission(permission);
+                    }
+
+                    return map;
+                })
+                .values()
+                .stream()
+                .findFirst()
+                .orElse(null)
+        );
+    }
+
+    public UserDTO login2(String username, String password) {
+        String query = """
+                SELECT
+                    u.id AS u_id, u.email AS u_email, u.password AS u_password, u.fullname AS u_fullname,
+                    u.phone AS u_phone, u.status AS u_status, u.avatar AS u_avatar,
+                    r.name AS r_name, p.name AS p_name
+                FROM users u
+                LEFT JOIN user_roles ur ON u.id = ur.userId
+                LEFT JOIN roles r ON ur.roleId = r.id
+                LEFT JOIN role_permissions rp ON r.id = rp.roleId
+                LEFT JOIN permissions p ON rp.permissionId = p.id
+                WHERE (u.email = :username) AND u.status = 1
+                """;
+
+        return jdbi.withHandle(handle -> handle.createQuery(query)
+                .bind("username", username)
+                .registerRowMapper(BeanMapper.factory(UserDTO.class, "u"))
+                .reduceRows(new LinkedHashMap<Integer, UserDTO>(), (map, row) -> {
+                    UserDTO user = map.computeIfAbsent(
+                            row.getColumn("u_id", Integer.class),
+                            _ -> row.getRow(UserDTO.class)
+                    );
+
+                    String role = row.getColumn("r_name", String.class);
+                    if (role != null) {
+                        user.addRole(role);
+                    }
+
+                    String permission = row.getColumn("p_name", String.class);
+                    if (permission != null) {
+                        user.addPermission(permission);
+                    }
+
+                    return map;
+                })
+                .values()
+                .stream()
+                .findFirst()
+                .filter(user -> {
+                    boolean isValid = BCrypt.checkpw(password, user.getPassword());
+                    user.setPassword(null);
+                    return isValid;
+                })
+                .orElse(null)
+        );
+    }
+
 }

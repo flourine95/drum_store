@@ -61,7 +61,7 @@ public class DBConnection {
         config.setJdbcUrl(prop.getProperty("db.url"));
         config.setUsername(prop.getProperty("db.username"));
         config.setPassword(prop.getProperty("db.password"));
-        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        config.setDriverClassName(prop.getProperty("db.driver"));
 
         // Connection pool settings
         config.setMaximumPoolSize(10);

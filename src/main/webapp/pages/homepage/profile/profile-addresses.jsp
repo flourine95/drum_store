@@ -324,7 +324,7 @@
     $(document).ready(function () {
         // Load provinces
         function loadProvinces(selector) {
-            $.get('${pageContext.request.contextPath}/location?action=provinces', function (data) {
+            $.get('${pageContext.request.contextPath}/api/locations/provinces', function (data) {
                 $(selector).empty().append('<option value="">Chọn Tỉnh/Thành phố</option>');
                 data.forEach(function (province) {
                     $(selector).append(new Option(province.name, province.id));
@@ -332,7 +332,7 @@
             });
         }
 
-        // Load districts
+        // Load districts by province
         function loadDistricts(provinceId, selector) {
             if (!provinceId) {
                 $(selector).empty()
@@ -341,21 +341,17 @@
                 return;
             }
 
-            $.get('${pageContext.request.contextPath}/location', {
-                action: 'districts',
-                provinceId: provinceId
-            })
-                .done(function (districts) {
-                    const $select = $(selector);
-                    $select.empty().append('<option value="">Chọn Quận/Huyện</option>');
-                    districts.forEach(function (district) {
-                        $select.append(new Option(district.name, district.id));
-                    });
-                    $select.prop('disabled', false);
+            $.get(`${pageContext.request.contextPath}/api/locations/provinces/\${provinceId}/districts`, function (data) {
+                const $select = $(selector);
+                $select.empty().append('<option value="">Chọn Quận/Huyện</option>');
+                data.forEach(function (district) {
+                    $select.append(new Option(district.name, district.id));
                 });
+                $select.prop('disabled', false);
+            });
         }
 
-        // Load wards
+        // Load wards by district
         function loadWards(districtId, selector) {
             if (!districtId) {
                 $(selector).empty()
@@ -364,18 +360,14 @@
                 return;
             }
 
-            $.get('${pageContext.request.contextPath}/location', {
-                action: 'wards',
-                districtId: districtId
-            })
-                .done(function (wards) {
-                    const $select = $(selector);
-                    $select.empty().append('<option value="">Chọn Phường/Xã</option>');
-                    wards.forEach(function (ward) {
-                        $select.append(new Option(ward.name, ward.id));
-                    });
-                    $select.prop('disabled', false);
+            $.get(`${pageContext.request.contextPath}/api/locations/districts/\${districtId}/wards`, function (data) {
+                const $select = $(selector);
+                $select.empty().append('<option value="">Chọn Phường/Xã</option>');
+                data.forEach(function (ward) {
+                    $select.append(new Option(ward.name, ward.id));
                 });
+                $select.prop('disabled', false);
+            });
         }
 
         // Load initial provinces
@@ -385,7 +377,9 @@
         // Event handlers for add form
         $('#add_provinceSelect').on('change', function () {
             loadDistricts($(this).val(), '#add_districtSelect');
-            $('#add_wardSelect').empty().append('<option value="">Chọn Phường/Xã</option>').prop('disabled', true);
+            $('#add_wardSelect').empty()
+                .append('<option value="">Chọn Phường/Xã</option>')
+                .prop('disabled', true);
         });
 
         $('#add_districtSelect').on('change', function () {
@@ -394,19 +388,17 @@
 
         // Event handlers for edit form
         $('#edit_provinceSelect').on('change', function () {
-            const provinceId = $(this).val();
-            loadDistricts(provinceId, '#edit_districtSelect');
+            loadDistricts($(this).val(), '#edit_districtSelect');
             $('#edit_wardSelect').empty()
                 .append('<option value="">Chọn Phường/Xã</option>')
                 .prop('disabled', true);
         });
 
         $('#edit_districtSelect').on('change', function () {
-            const districtId = $(this).val();
-            loadWards(districtId, '#edit_wardSelect');
+            loadWards($(this).val(), '#edit_wardSelect');
         });
 
-        // Sửa lại phần xử lý click edit button
+        // Sửa lại phần xử lý click edit button để load địa chỉ
         $('.btn-edit').click(function () {
             const addressId = $(this).closest('.address-item').data('address-id');
 
@@ -429,42 +421,22 @@
                     $('input[name="edit_addressDetail"]').val(data.address);
                     $('#edit_defaultAddress').prop('checked', data.isDefault);
 
-                    // Load location data
-                    $.get('${pageContext.request.contextPath}/location', {
-                        action: 'full_location',
-                        provinceId: data.provinceId,
-                        districtId: data.districtId
-                    })
-                        .done(function (locationData) {
-                            // Fill provinces
-                            $('#edit_provinceSelect').empty()
-                                .append('<option value="">Chọn Tỉnh/Thành phố</option>');
-                            locationData.provinces.forEach(province => {
-                                $('#edit_provinceSelect').append(new Option(province.name, province.id));
-                            });
-
-                            // Fill districts
-                            $('#edit_districtSelect').empty()
-                                .append('<option value="">Chọn Quận/Huyện</option>')
-                                .prop('disabled', false);
-                            locationData.districts.forEach(district => {
-                                $('#edit_districtSelect').append(new Option(district.name, district.id));
-                            });
-
-                            // Fill wards
-                            $('#edit_wardSelect').empty()
-                                .append('<option value="">Chọn Phường/Xã</option>')
-                                .prop('disabled', false);
-                            locationData.wards.forEach(ward => {
-                                $('#edit_wardSelect').append(new Option(ward.name, ward.id));
-                            });
-
-                            // Set selected values
+                    // Load provinces first
+                    loadProvinces('#edit_provinceSelect');
+                    
+                    // Then load districts for the selected province
+                    loadDistricts(data.provinceId, '#edit_districtSelect')
+                        .then(() => {
                             $('#edit_provinceSelect').val(data.provinceId);
                             $('#edit_districtSelect').val(data.districtId);
+                            
+                            // Finally load wards for the selected district
+                            return loadWards(data.districtId, '#edit_wardSelect');
+                        })
+                        .then(() => {
                             $('#edit_wardSelect').val(data.wardId);
                         })
-                        .fail(function (xhr, status, error) {
+                        .catch(error => {
                             console.error('Error loading location data:', error);
                             alert('Có lỗi xảy ra khi tải dữ liệu địa chỉ');
                         });

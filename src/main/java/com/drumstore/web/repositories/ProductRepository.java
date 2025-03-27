@@ -8,46 +8,197 @@ import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
 import java.util.*;
 
-public class ProductRepository extends BaseRepository<Product> {
+public class ProductRepository {
     private final Jdbi jdbi;
 
     public ProductRepository() {
         this.jdbi = DBConnection.getJdbi();
     }
 
-    public List<Product> all() {
-        return new ArrayList<>();
-//        String sql = """
-//                    SELECT
-//                        p.id AS p_id, p.name AS p_name, p.price AS p_price, p.description as p_description,
-//                        p.stock as p_stock, p.createdAt as p_createdAt,
-//                        c.id AS c_id, c.name AS c_name,
-//                        b.id AS b_id, b.name AS b_name,
-//                        i.id AS i_id, i.image AS i_image, i.isMain AS i_isMain
-//                    FROM products p
-//                             LEFT JOIN categories c ON p.categoryId = c.id
-//                             LEFT JOIN brands b ON p.brandId = b.id
-//                             LEFT JOIN product_images i ON p.id = i.productId AND i.isMain = 1
-//                """;
-//
-//        return jdbi.withHandle(handle -> handle.createQuery(sql).registerRowMapper(BeanMapper.factory(Product.class, "p")).registerRowMapper(BeanMapper.factory(Category.class, "c")).registerRowMapper(BeanMapper.factory(ProductImage.class, "i")).registerRowMapper(BeanMapper.factory(Brand.class, "b")).reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
-//            Product product = map.computeIfAbsent(row.getColumn("p_id", Integer.class), _ -> row.getRow(Product.class));
-//            if (row.getColumn("c_id", Integer.class) != null) {
-//                product.setCategory(row.getRow(Category.class));
-//            }
-//            if (row.getColumn("i_id", Integer.class) != null) {
-//                product.setImages(List.of(row.getRow(ProductImage.class)));
-//            }
-//            if (row.getColumn("b_id", Integer.class) != null) {
-//                product.setBrand(row.getRow(Brand.class));
-//            }
-//            return map;
-//        }).values().stream().toList());
+    public List<ProductDashboardDTO> all() {
+        String sql = """
+                    SELECT
+                        p.id,
+                        p.name,
+                        p.basePrice,
+                        c.name AS categoryName,
+                        b.name AS brandName,
+                        p.totalViews,
+                        p.isFeatured,
+                        p.status,
+                        COALESCE(pv.total_stock, 0) as stock,
+                        COALESCE(pc.total_colors, 0) as totalColors,
+                        COALESCE(pa.total_addons, 0) as totalAddons,
+                        COALESCE(pv.total_variants, 0) as totalVariants,
+                        COALESCE(pr.total_reviews, 0) as totalReviews,
+                        COALESCE(pr.avg_rating, 0) as avgRating,
+                        (
+                            SELECT image
+                            FROM product_images
+                            WHERE productId = p.id AND isMain = 1
+                            LIMIT 1
+                        ) as mainImage,
+                        p.createdAt
+                    FROM products p
+                    LEFT JOIN categories c ON p.categoryId = c.id
+                    LEFT JOIN brands b ON p.brandId = b.id
+                    LEFT JOIN (
+                        SELECT productId, COUNT(*) as total_colors
+                        FROM product_colors
+                        GROUP BY productId
+                    ) pc ON p.id = pc.productId
+                    LEFT JOIN (
+                        SELECT productId, COUNT(*) as total_addons
+                        FROM product_addons
+                        GROUP BY productId
+                    ) pa ON p.id = pa.productId
+                    LEFT JOIN (
+                        SELECT
+                            productId,
+                            COUNT(*) as total_variants,
+                            SUM(stock) as total_stock
+                        FROM product_variants
+                        WHERE status = 1
+                        GROUP BY productId
+                    ) pv ON p.id = pv.productId
+                    LEFT JOIN (
+                        SELECT
+                            productId,
+                            COUNT(*) as total_reviews,
+                            AVG(rating) as avg_rating
+                        FROM product_reviews
+                        WHERE status = 1
+                        GROUP BY productId
+                    ) pr ON p.id = pr.productId
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .mapToBean(ProductDashboardDTO.class)
+                        .list()
+        );
     }
 
-    public Product findById(int id) {
-        return jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM products WHERE id = :id")
-                .bind("id", id).mapToBean(Product.class).findFirst().orElse(null));
+    public ProductDashboardDetailDTO findById(int id) {
+        String sql = """
+                WITH ProductColors AS (
+                    SELECT * FROM product_colors WHERE productId = :id
+                ),
+                ProductAddons AS (
+                    SELECT * FROM product_addons WHERE productId = :id
+                ),
+                MaxDiscount AS (
+                    SELECT productId, MAX(s.discountPercentage) as maxDiscount
+                    FROM product_sales ps
+                    JOIN sales s ON ps.saleId = s.id
+                    WHERE NOW() BETWEEN s.startDate AND s.endDate
+                    GROUP BY productId
+                )
+                SELECT
+                    p.id AS p_id,
+                    p.name AS p_name,
+                    p.description AS p_description,
+                    p.basePrice AS p_basePrice,
+                    p.totalViews AS p_totalViews,
+                    p.isFeatured AS p_isFeatured,
+                    p.status AS p_status,
+                    p.stockManagementType AS p_stockManagementType,
+                    (SELECT AVG(rating) FROM product_reviews WHERE productId = p.id AND status = 1) AS p_averageRating,
+                    (SELECT COUNT(*) FROM product_reviews WHERE productId = p.id AND status = 1) AS p_totalReviews,
+                    COALESCE((SELECT SUM(stock) FROM product_variants WHERE productId = p.id AND status = 1), 0) AS p_totalStock,
+                    COALESCE((SELECT COUNT(*) FROM product_variants WHERE productId = p.id AND status = 1), 0) AS p_totalVariants,
+                    p.createdAt AS p_createdAt,
+                    pi.id AS pi_id,
+                    pi.image AS pi_image,
+                    pi.isMain AS pi_isMain,
+                    pi.sortOrder AS pi_sortOrder,
+                    pc.id AS pc_id,
+                    pc.name AS pc_name,
+                    pr.id AS pr_id,
+                    pr.rating AS pr_rating,
+                    pr.content AS pr_content,
+                    pr.status AS pr_status,
+                    pr.createdAt AS pr_createdAt,
+                    c.name AS c_name,
+                    b.name AS b_name,
+                    s.id AS s_id,
+                    s.name AS s_name,
+                    s.discountPercentage AS s_discountPercentage,
+                    s.startDate AS s_startDate,
+                    s.endDate AS s_endDate
+                FROM products p
+                LEFT JOIN product_images pi ON p.id = pi.productId
+                LEFT JOIN ProductColors pc ON p.id = pc.productId
+                LEFT JOIN product_reviews pr ON p.id = pr.productId AND pr.status = 1
+                LEFT JOIN categories c ON p.categoryId = c.id
+                LEFT JOIN brands b ON p.brandId = b.id
+                LEFT JOIN product_sales ps ON p.id = ps.productId
+                LEFT JOIN sales s ON ps.saleId = s.id
+                    AND NOW() BETWEEN s.startDate AND s.endDate
+                WHERE p.id = :id""";
+
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind("id", id)
+                .registerRowMapper(BeanMapper.factory(ProductDashboardDetailDTO.class, "p"))
+                .registerRowMapper(BeanMapper.factory(ProductImageDTO.class, "pi"))
+                .registerRowMapper(BeanMapper.factory(ProductColorDTO.class, "pc"))
+                .registerRowMapper(BeanMapper.factory(ProductReviewDTO.class, "pr"))
+                .registerRowMapper(BeanMapper.factory(ProductSaleDTO.class, "s"))
+                .reduceRows(new LinkedHashMap<Integer, ProductDashboardDetailDTO>(), (map, row) -> {
+                    ProductDashboardDetailDTO dto = map.computeIfAbsent(
+                            row.getColumn("p_id", Integer.class),
+                            _ -> {
+                                ProductDashboardDetailDTO newDto = row.getRow(ProductDashboardDetailDTO.class);
+                                newDto.setImages(new ArrayList<>());
+                                newDto.setColors(new ArrayList<>());
+                                newDto.setReviews(new ArrayList<>());
+                                newDto.setSales(new ArrayList<>());
+
+                                newDto.setCategoryName(row.getColumn("c_name", String.class));
+                                newDto.setBrandName(row.getColumn("b_name", String.class));
+
+                                return newDto;
+                            }
+                    );
+
+                    // Map ProductImage
+                    if (row.getColumn("pi_id", Integer.class) != null) {
+                        ProductImageDTO image = row.getRow(ProductImageDTO.class);
+                        if (dto.getImages().stream().noneMatch(img -> img.getId() == image.getId())) {
+                            dto.getImages().add(image);
+                        }
+                    }
+
+                    // Map ProductColor
+                    if (row.getColumn("pc_id", Integer.class) != null) {
+                        ProductColorDTO color = row.getRow(ProductColorDTO.class);
+                        if (dto.getColors().stream().noneMatch(c -> c.getId() == color.getId())) {
+                            dto.getColors().add(color);
+                        }
+                    }
+
+                    // Map ProductReview
+                    if (row.getColumn("pr_id", Integer.class) != null) {
+                        ProductReviewDTO review = row.getRow(ProductReviewDTO.class);
+                        if (dto.getReviews().stream().noneMatch(r -> r.getId() == review.getId())) {
+                            dto.getReviews().add(review);
+                        }
+                    }
+
+                    // Map Sale
+                    if (row.getColumn("s_id", Integer.class) != null) {
+                        ProductSaleDTO sale = row.getRow(ProductSaleDTO.class);
+                        if (dto.getSales().stream().noneMatch(s -> s.getId() == sale.getId())) {
+                            dto.getSales().add(sale);
+                        }
+                    }
+
+                    return map;
+                })
+                .values()
+                .stream()
+                .findFirst()
+                .orElse(null));
     }
 
     public void save(Product product) {
@@ -152,59 +303,6 @@ public class ProductRepository extends BaseRepository<Product> {
 
     public List<Product> allWithDetails() {
         return new ArrayList<>();
-//        String sql = """
-//                SELECT
-//                    p.id AS p_id, p.name AS p_name, p.description AS p_description,
-//                    p.price AS p_price, p.stock AS p_stock, p.totalViews AS p_totalViews,
-//                    p.isFeatured AS p_isFeatured, p.status AS p_status,
-//                    p.averageRating AS p_averageRating,
-//                    p.categoryId AS p_categoryId, p.brandId AS p_brandId,
-//                    p.createdAt AS p_createdAt,
-//
-//                    c.id AS c_id, c.name AS c_name, c.image AS c_image, c.description AS c_description,
-//                    c.createdAt AS c_createdAt,
-//
-//                    b.id AS b_id, b.name AS b_name, b.image AS b_image, b.description AS b_description,
-//                    b.createdAt AS b_createdAt,
-//
-//                    pi.id AS pi_id, pi.productId AS pi_productId, pi.image AS pi_image, pi.isMain AS pi_isMain,
-//
-//                    pc.id AS pc_id, pc.colorCode AS pc_colorCode, pc.colorName AS pc_colorName
-//                FROM products p
-//                         LEFT JOIN categories c ON p.categoryId = c.id
-//                         LEFT JOIN brands b ON p.brandId = b.id
-//                         LEFT JOIN product_images pi ON p.id = pi.productId
-//                         LEFT JOIN product_colors pc ON p.id = pc.productId
-//
-//                """;
-//
-//        return jdbi.withHandle(handle -> handle.createQuery(sql).registerRowMapper(BeanMapper.factory(Product.class, "p")).registerRowMapper(BeanMapper.factory(Category.class, "c")).registerRowMapper(BeanMapper.factory(Brand.class, "b")).registerRowMapper(BeanMapper.factory(ProductImage.class, "pi")).registerRowMapper(BeanMapper.factory(ProductColor.class, "pc")).reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
-//            Product product = map.computeIfAbsent(row.getColumn("p_id", Integer.class), _ -> row.getRow(Product.class));
-//
-//            if (row.getColumn("c_id", Integer.class) != null) {
-//                product.setCategory(row.getRow(Category.class));
-//            }
-//
-//            if (row.getColumn("b_id", Integer.class) != null) {
-//                product.setBrand(row.getRow(Brand.class));
-//            }
-//
-//            if (row.getColumn("pi_id", Integer.class) != null) {
-//                ProductImage image = row.getRow(ProductImage.class);
-//                if (product.getImages().stream().noneMatch(img -> img.getId() == image.getId())) {
-//                    product.addImage(image); // Chỉ thêm nếu chưa tồn tại
-//                }
-//            }
-//
-//            if (row.getColumn("pc_id", Integer.class) != null) {
-//                ProductColor color = row.getRow(ProductColor.class);
-//                if (product.getColors().stream().noneMatch(col -> col.getId() == color.getId())) {
-//                    product.addColor(color); // Chỉ thêm nếu chưa tồn tại
-//                }
-//            }
-//
-//            return map;
-//        }).values().stream().toList());
     }
 
     public int countFilteredProducts(String search, String category, String brand, String priceRange) {
@@ -252,77 +350,9 @@ public class ProductRepository extends BaseRepository<Product> {
         });
     }
 
-//    public List<Product> getRelatedProducts(int productId, int categoryId, int limit) {
-//        String sql = """
-//                    SELECT
-//                        p.*,
-//                        pi.id AS pi_id,
-//                        pi.image AS pi_image,
-//                        pi.isMain AS pi_isMain,
-//                        c.id AS c_id,
-//                        c.name AS c_name,
-//                        b.id AS b_id,
-//                        b.name AS b_name,
-//                        s.id AS s_id,
-//                        s.name AS s_name,
-//                        s.discountPercentage AS s_discountPercentage,
-//                        s.startDate AS s_startDate,
-//                        s.endDate AS s_endDate
-//                    FROM products p
-//                    LEFT JOIN product_images pi ON p.id = pi.productId
-//                    LEFT JOIN categories c ON p.categoryId = c.id
-//                    LEFT JOIN brands b ON p.brandId = b.id
-//                    LEFT JOIN product_sales ps ON p.id = ps.productId
-//                    LEFT JOIN sales s ON ps.saleId = s.id AND NOW() BETWEEN s.startDate AND s.endDate
-//                    WHERE p.categoryId = ? AND p.id != ?
-//                    ORDER BY RAND()
-//                    LIMIT ?
-//                """;
-//
-//        return jdbi.withHandle(handle -> handle.createQuery(sql)
-//                .bind(0, categoryId)
-//                .bind(1, productId)
-//                .bind(2, limit)
-//                .registerRowMapper(BeanMapper.factory(Product.class))
-//                .registerRowMapper(BeanMapper.factory(ProductImage.class, "pi"))
-//                .registerRowMapper(BeanMapper.factory(Category.class, "c"))
-//                .registerRowMapper(BeanMapper.factory(Brand.class, "b"))
-//                .registerRowMapper(BeanMapper.factory(Sale.class, "s"))
-//                .reduceRows(new LinkedHashMap<Integer, Product>(), (map, row) -> {
-//                    Product product = map.computeIfAbsent(
-//                            row.getColumn("id", Integer.class),
-//                            id -> row.getRow(Product.class)
-//                    );
-//
-//                    if (row.getColumn("pi_id", Integer.class) != null) {
-//                        product.addImage(row.getRow(ProductImage.class));
-//                    }
-//
-//                    if (row.getColumn("c_id", Integer.class) != null) {
-//                        product.setCategory(row.getRow(Category.class));
-//                    }
-//
-//                    if (row.getColumn("b_id", Integer.class) != null) {
-//                        product.setBrand(row.getRow(Brand.class));
-//                    }
-//
-//                    if (row.getColumn("s_id", Integer.class) != null) {
-//                        Sale sale = row.getRow(Sale.class);
-//                        ProductSale productSale = new ProductSale();
-//                        productSale.setSale(sale);
-//                        product.setProductSale(productSale);
-//                    }
-//
-//                    return map;
-//                })
-//                .values()
-//                .stream()
-//                .toList());
-//    }
-
     public ProductSale getCurrentSale(int productId) {
         String sql = """
-                    SELECT 
+                    SELECT
                         ps.id AS ps_id,
                         ps.productId AS ps_productId,
                         ps.saleId AS ps_saleId,
@@ -333,7 +363,7 @@ public class ProductRepository extends BaseRepository<Product> {
                         s.endDate AS s_endDate
                     FROM product_sales ps
                     JOIN sales s ON ps.saleId = s.id
-                    WHERE ps.productId = ? 
+                    WHERE ps.productId = ?
                     AND NOW() BETWEEN s.startDate AND s.endDate
                     AND s.discountPercentage = (
                         SELECT MAX(s2.discountPercentage)
@@ -352,7 +382,7 @@ public class ProductRepository extends BaseRepository<Product> {
                         .reduceRows(new LinkedHashMap<Integer, ProductSale>(), (map, row) -> {
                             ProductSale productSale = map.computeIfAbsent(
                                     row.getColumn("ps_id", Integer.class),
-                                    id -> row.getRow(ProductSale.class)
+                                    _ -> row.getRow(ProductSale.class)
                             );
 
                             if (row.getColumn("s_id", Integer.class) != null) {
@@ -491,7 +521,7 @@ public class ProductRepository extends BaseRepository<Product> {
                 query.bind(i, params.get(i));
             }
 
-            return query.map((rs, ctx) -> {
+            return query.map((rs, _) -> {
                 ProductCardDTO dto = new ProductCardDTO();
                 dto.setId(rs.getInt("id"));
                 dto.setName(rs.getString("name"));
@@ -527,7 +557,7 @@ public class ProductRepository extends BaseRepository<Product> {
                 ),
                 MaxDiscount AS (
                     SELECT productId, MAX(s.discountPercentage) as maxDiscount
-                    FROM product_sales ps 
+                    FROM product_sales ps
                     JOIN sales s ON ps.saleId = s.id
                     WHERE NOW() BETWEEN s.startDate AND s.endDate
                     GROUP BY productId
@@ -657,8 +687,8 @@ public class ProductRepository extends BaseRepository<Product> {
                         if (row.getColumn("pv_id", Integer.class) != null) {
                             Integer variantId = row.getColumn("pv_id", Integer.class);
 
-                            // Lấy hoặc tạo mới variant
-                            ProductVariantDTO variant = variantMap.computeIfAbsent(variantId, k -> {
+                            // Chỉ tạo variant mới nếu chưa tồn tại trong map
+                            if (!variantMap.containsKey(variantId)) {
                                 ProductVariantDTO v = row.getRow(ProductVariantDTO.class);
 
                                 // Set color và addon ngay khi tạo variant
@@ -673,9 +703,9 @@ public class ProductRepository extends BaseRepository<Product> {
                                     v.setAddon(addonMap.get(addonId));
                                 }
 
+                                variantMap.put(variantId, v);
                                 dto.getVariants().add(v);
-                                return v;
-                            });
+                            }
                         }
 
                         // Map ProductReview
@@ -706,7 +736,128 @@ public class ProductRepository extends BaseRepository<Product> {
 
     public void incrementViewCount(int id) {
     }
+    public List<ProductDashboardDTO> getProductDashboards(int offset, int limit, String search, String category, String sortColumn, String sortDir) {
+        StringBuilder sql = new StringBuilder("""
+                    SELECT
+                        p.id,
+                        p.name,
+                        p.basePrice,
+                        c.name AS categoryName,
+                        b.name AS brandName,
+                        p.totalViews,
+                        p.isFeatured,
+                        p.status,
+                        COALESCE(pv.total_stock, 0) as stock,
+                        COALESCE(pc.total_colors, 0) as totalColors,
+                        COALESCE(pa.total_addons, 0) as totalAddons,
+                        COALESCE(pv.total_variants, 0) as totalVariants,
+                        COALESCE(pr.total_reviews, 0) as totalReviews,
+                        COALESCE(pr.avg_rating, 0) as avgRating,
+                        (
+                            SELECT image
+                            FROM product_images
+                            WHERE productId = p.id AND isMain = 1
+                            LIMIT 1
+                        ) as mainImage,
+                        p.createdAt
+                    FROM products p
+                    LEFT JOIN categories c ON p.categoryId = c.id
+                    LEFT JOIN brands b ON p.brandId = b.id
+                    LEFT JOIN (
+                        SELECT productId, COUNT(*) as total_colors
+                        FROM product_colors
+                        GROUP BY productId
+                    ) pc ON p.id = pc.productId
+                    LEFT JOIN (
+                        SELECT productId, COUNT(*) as total_addons
+                        FROM product_addons
+                        GROUP BY productId
+                    ) pa ON p.id = pa.productId
+                    LEFT JOIN (
+                        SELECT
+                            productId,
+                            COUNT(*) as total_variants,
+                            SUM(stock) as total_stock
+                        FROM product_variants
+                        WHERE status = 1
+                        GROUP BY productId
+                    ) pv ON p.id = pv.productId
+                    LEFT JOIN (
+                        SELECT
+                            productId,
+                            COUNT(*) as total_reviews,
+                            AVG(rating) as avg_rating
+                        FROM product_reviews
+                        WHERE status = 1
+                        GROUP BY productId
+                    ) pr ON p.id = pr.productId
+                    WHERE 1=1
+                """);
 
+        List<Object> params = new ArrayList<>();
+
+        // Thêm điều kiện tìm kiếm
+        if (search != null && !search.isEmpty()) {
+            sql.append(" AND (p.name LIKE ? OR p.description LIKE ?)");
+            params.add("%" + search + "%");
+            params.add("%" + search + "%");
+        }
+
+        // Thêm điều kiện category
+        if (category != null && !category.isEmpty()) {
+            sql.append(" AND p.categoryId = ?");
+            params.add(Integer.parseInt(category));
+        }
+
+        // Thêm sắp xếp
+        if (sortColumn != null && !sortColumn.isEmpty()) {
+            String sortField = switch (sortColumn) {
+                case "name" -> "p.name";
+                case "basePrice" -> "p.basePrice";
+                case "categoryName" -> "c.name";
+                case "brandName" -> "b.name";
+                case "totalViews" -> "p.totalViews";
+                case "stock" -> "COALESCE(pv.total_stock, 0)";
+                case "totalColors" -> "COALESCE(pc.total_colors, 0)";
+                case "totalAddons" -> "COALESCE(pa.total_addons, 0)";
+                case "totalVariants" -> "COALESCE(pv.total_variants, 0)";
+                case "totalReviews" -> "COALESCE(pr.total_reviews, 0)";
+                case "avgRating" -> "COALESCE(pr.avg_rating, 0)";
+                default -> "p.id";
+            };
+
+            sql.append(" ORDER BY ").append(sortField);
+            if ("desc".equalsIgnoreCase(sortDir)) {
+                sql.append(" DESC");
+            } else {
+                sql.append(" ASC");
+            }
+        } else {
+            sql.append(" ORDER BY p.id DESC");
+        }
+
+        // Thêm phân trang
+        sql.append(" LIMIT ? OFFSET ?");
+        params.add(limit);
+        params.add(offset);
+
+        return jdbi.withHandle(handle -> {
+            var query = handle.createQuery(sql.toString());
+            for (int i = 0; i < params.size(); i++) {
+                query.bind(i, params.get(i));
+            }
+            return query.mapToBean(ProductDashboardDTO.class).list();
+        });
+    }
+
+    public int getTotalProducts() {
+        String sql = "SELECT COUNT(*) FROM products";
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
 
     public CartItemDTO findMainProductVariant(int productVariantId) {
         String sql = """

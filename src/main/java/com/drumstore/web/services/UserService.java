@@ -1,6 +1,7 @@
 package com.drumstore.web.services;
 
 
+import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.models.User;
 import com.drumstore.web.models.UserAddress;
 import com.drumstore.web.repositories.UserRepository;
@@ -48,6 +49,10 @@ public class UserService {
         return userRepository.register(user);
     }
 
+    public boolean register2(User user) {
+        return userRepository.register2(user);
+    }
+
     public boolean isPhoneExists(String phone) {
         return userRepository.isPhoneExists(phone);
     }
@@ -57,13 +62,22 @@ public class UserService {
     }
 
     public User login(String username, String password) {
-       return userRepository.login(username, password);
+        return userRepository.login(username, password);
     }
 
     public int createWithAddresses(User user, List<UserAddress> addresses) {
         return userRepository.createWithAddresses(user, addresses);
     }
+
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public boolean hasPermission(int userId, String permissionName) {
+        return userRepository.hasPermission(userId, permissionName);
+    }
+
+    public UserDTO login2(String username, String password) {
+        return userRepository.login2(username, password);
     }
 }
