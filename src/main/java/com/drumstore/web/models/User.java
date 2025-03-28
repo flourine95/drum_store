@@ -6,12 +6,12 @@ import java.util.List;
 
 public class User {
     private int id;
-    private String email;
-    private String password;
     private String fullname;
+    private String email;
+    private String phone;
+    private String password;
     private int role;
     private int status;
-    private String phone;
     private String avatar;
     private Timestamp createdAt;
 
@@ -21,12 +21,16 @@ public class User {
         userAddresses = new ArrayList<>();
     }
 
-    public User(String fullname, String phone, String hashedPassword, String email) {
+    public User(String fullname, String email, String phone, String password) {
         this.fullname = fullname;
-        this.password = hashedPassword;
         this.email = email;
-        this.userAddresses = new ArrayList<>();
         this.phone = phone;
+        this.password = password;
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 
     public void setPhone(String phone) {
