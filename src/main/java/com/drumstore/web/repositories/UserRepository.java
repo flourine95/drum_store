@@ -156,8 +156,8 @@ public class UserRepository extends BaseRepository<User> {
 
     public void saveResetToken(int userId, String token, LocalDateTime expiryTime) {
         String sql = """
-                INSERT INTO password_resets 
-                (userId, token, expiryTime, used, createdAt) 
+                INSERT INTO password_resets
+                (userId, token, expiryTime, used, createdAt)
                 VALUES (:userId, :token, :expiryTime, 0, CURRENT_TIMESTAMP)
                 """;
         jdbi.useHandle(handle ->
