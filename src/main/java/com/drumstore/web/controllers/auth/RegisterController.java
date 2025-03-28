@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet("/register")
@@ -27,34 +28,68 @@ public class RegisterController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RegisterRequestDTO registerRequest = new RegisterRequestDTO(
-                request.getParameter("fullname"),
-                request.getParameter("phone"),
-                request.getParameter("email"),
-                request.getParameter("password")
-        );
+        request.setCharacterEncoding("UTF-8");
+        Map<String, String> errors = new HashMap<>();
+        Map<String, String> oldInput = new HashMap<>();
 
-        Map<String, String> errors = registerValidator.validate(
+        try {
+            String fullname = request.getParameter("fullname");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String password = request.getParameter("password");
+            String confirmPassword = request.getParameter("confirmPassword");
+            String terms = request.getParameter("terms");
+
+            oldInput.put("fullname", fullname);
+            oldInput.put("email", email);
+            oldInput.put("phone", phone);
+
+            if (terms == null) {
+                errors.put("terms", "Bạn phải đồng ý với điều khoản sử dụng");
+            }
+
+            RegisterRequestDTO registerRequest = new RegisterRequestDTO(
+                    fullname, email, phone, password, confirmPassword
+            );
+
+            errors = registerValidator.validate(
                 registerRequest.getFullname(),
                 registerRequest.getPhone(),
                 registerRequest.getEmail(),
                 registerRequest.getPassword()
-        );
+            );
 
-        if (!errors.isEmpty()) {
+            if (!errors.isEmpty()) {
+                request.setAttribute("errors", errors);
+                request.setAttribute("oldInput", oldInput);
+                request.setAttribute("title", "Đăng ký");
+                request.setAttribute("content", "register.jsp");
+                request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
+                return;
+            }
+
+            String hashedPassword = userService.hashPassword(password);
+            registerRequest.setPassword(hashedPassword);
+            User user = registerRequest.toModel();
+
+            if (userService.register(user)) {
+                request.getSession().setAttribute("successMessage", "Đăng ký thành công! Bạn có thể đăng nhập ngay.");
+                response.sendRedirect(request.getContextPath() + "/login");
+            } else {
+                errors.put("general", "Có lỗi xảy ra khi đăng ký. Vui lòng thử lại sau.");
+                request.setAttribute("errors", errors);
+                request.setAttribute("oldInput", oldInput);
+                request.setAttribute("title", "Đăng ký");
+                request.setAttribute("content", "register.jsp");
+                request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
+            }
+
+        } catch (Exception e) {
+            errors.put("general", "Có lỗi xảy ra. Vui lòng thử lại sau.");
             request.setAttribute("errors", errors);
             request.setAttribute("title", "Đăng ký");
             request.setAttribute("content", "register.jsp");
             request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
-            return;
         }
-
-        String hashedPassword = userService.hashPassword(registerRequest.getPassword());
-        User user = new User(registerRequest.getFullname(), registerRequest.getPhone(), hashedPassword, registerRequest.getEmail());
-        userService.register(user);
-        request.setAttribute("successMessage", "Đăng ký thành công! Bạn có thể đăng nhập ngay.");
-        request.setAttribute("title", "Đăng nhập");
-        request.setAttribute("content", "login.jsp");
-        request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
     }
 }
