@@ -421,6 +421,35 @@
     </div>
 </div>
 
+<c:if test="${vnp_TransactionStatus == true}">
+    <div class="modal fade" id="paymentSuccessModal" tabindex="-1" aria-labelledby="paymentSuccessModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentSuccessModalLabel">Thanh toán thành công</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Cảm ơn bạn đã mua sắm! Đơn hàng của bạn (ID: ${orderId}) đã được thanh toán thành công.</p>
+                    <p>Mã giao dịch: ${transactionId}</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="${pageContext.request.contextPath}/products" class="btn btn-primary">Tiếp tục mua sắm</a>
+                    <a href="${pageContext.request.contextPath}/profile?action=orders" class="btn btn-secondary">Xem lịch sử đơn hàng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script để hiển thị modal khi trang được tải -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var paymentSuccessModal = new bootstrap.Modal(document.getElementById('paymentSuccessModal'));
+            paymentSuccessModal.show();
+        });
+    </script>
+</c:if>
+
 
 <script>
 

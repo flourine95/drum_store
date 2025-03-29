@@ -16,7 +16,7 @@ import java.util.*;
 
 public class VnPayService {
 
-    public String createPaymentUrl( long amount ,HttpServletRequest req) throws UnsupportedEncodingException {
+    public String createPaymentUrl( long amount  ,HttpServletRequest req) throws UnsupportedEncodingException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
@@ -59,6 +59,7 @@ public class VnPayService {
         cld.add(Calendar.MINUTE, 15);
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
+
 
         List fieldNames = new ArrayList(vnp_Params.keySet());
         Collections.sort(fieldNames);

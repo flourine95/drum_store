@@ -3,13 +3,6 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
     <style>
-        :root {
-            --text-white: #fff;
-            --hover-color: #ff4d4f;
-            --bs-primary: #007bff;
-            --bs-secondary: #6c757d;
-        }
-
         .orders-card {
             background: var(--text-white);
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -21,11 +14,13 @@
         .order-item {
             border-bottom: 1px solid #eee;
             padding: 20px;
+            margin-bottom: 20px;
             transition: all 0.3s ease;
         }
 
         .order-item:last-child {
             border-bottom: none;
+            margin-bottom: 0;
         }
 
         .order-item:hover {
@@ -97,7 +92,7 @@
         .product-img {
             width: 80px;
             height: 80px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 8px;
             transition: transform 0.3s ease;
         }
@@ -112,18 +107,6 @@
             font-weight: 500;
             transition: all 0.3s ease;
             border: none;
-        }
-
-        .btn-detail {
-            background-color: var(--bs-primary);
-            color: var(--text-white);
-        }
-
-        .btn-detail:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            background-color: var(--hover-color);
-            color: var(--text-white);
         }
 
         .btn-cancel {
@@ -154,22 +137,53 @@
             margin-top: 15px;
         }
 
-        .order-details {
-            padding: 15px 0;
-            border-top: 1px dashed #eee;
+        .product-list {
+            margin-bottom: 20px;
         }
 
-        .order-details h6 {
-            margin-top: 15px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .order-details .order-item {
+        .product-item {
             padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+            transition: all 0.3s ease;
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .order-footer {
+            padding-top: 15px;
+            border-top: 1px dashed #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-footer .order-info {
+            flex: 1;
+        }
+
+        .order-footer .btn-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .price-base {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-decoration: line-through;
+        }
+
+        .price-final {
+            color: #dc3545;
+            font-size: 1.1rem;
+            font-weight: bold;
         }
     </style>
-
 <div class="col-md-9">
     <div class="orders-card animate__animated animate__fadeInRight">
         <div class="card-header p-4">
@@ -186,119 +200,87 @@
                 </div>
             </c:if>
 
-            <div class="accordion" id="orderAccordion">
-                <c:forEach var="order" items="${orderHistory}" varStatus="loop">
-                    <div class="order-item">
-                        <div class="accordion-item">
-                            <div class="order-header">
-                                <div>
-                                    <span class="text-muted me-3">Mã đơn: #${order.orderId}</span>
-                                    <span class="text-muted">Ngày đặt: <fmt:formatDate value="${order.orderDate}" pattern="dd/MM/yyyy"/></span>
+            <c:forEach var="order" items="${orderHistory}" varStatus="loop">
+                <div class="order-item">
+                    <div class="order-header">
+                        <div>
+                            <span class="text-muted me-3">Mã đơn: #${order.orderId}</span>
+                            <span class="text-muted">Ngày đặt: ${order.orderDate}</span>
+                        </div>
+                        <span class="order-badge badge-${order.orderStatusText.toLowerCase()}">
+                                <c:choose>
+                                    <c:when test="${order.orderStatusText == 'PENDING'}">Đang xử lý</c:when>
+                                    <c:when test="${order.orderStatusText == 'CONFIRMED'}">Đã xác nhận</c:when>
+                                    <c:when test="${order.orderStatusText == 'SHIPPING'}">Đang giao</c:when>
+                                    <c:when test="${order.orderStatusText == 'DELIVERED'}">Đã giao</c:when>
+                                    <c:when test="${order.orderStatusText == 'CANCELLED'}">Đã hủy</c:when>
+                                    <c:otherwise>Không xác định</c:otherwise>
+                                </c:choose>
+                            </span>
+                    </div>
+
+                    <div class="order-content">
+                        <!-- Danh sách sản phẩm -->
+                        <div class="product-list">
+                            <c:forEach var="item" items="${order.items}">
+                                <div class="product-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-2">
+                                            <img src="/assets/images/products/${item.imageUrl}" alt="Product" class="product-img w-100">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h6 class="mb-1 fw-bold">${item.name}</h6>
+                                            <p class="text-muted mb-0">Số lượng: ${item.quantity}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="mb-0"><strong>Giá gốc:</strong> <span class="price-base"><fmt:formatNumber value="${item.basePrice}" type="currency" currencySymbol="đ"/></span></p>
+                                            <p class="mb-0"><strong>Giá bán:</strong> <span class="price-final"><fmt:formatNumber value="${item.finalPrice}" type="currency" currencySymbol="đ"/></span></p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="order-badge badge-${order.orderStatusText.toLowerCase()}">
-                                        <c:choose>
-                                            <c:when test="${order.orderStatusText == 'PENDING'}">Đang xử lý</c:when>
-                                            <c:when test="${order.orderStatusText == 'CONFIRMED'}">Đã xác nhận</c:when>
-                                            <c:when test="${order.orderStatusText == 'SHIPPING'}">Đang giao</c:when>
-                                            <c:when test="${order.orderStatusText == 'DELIVERED'}">Đã giao</c:when>
-                                            <c:when test="${order.orderStatusText == 'CANCELLED'}">Đã hủy</c:when>
-                                            <c:otherwise>Không xác định</c:otherwise>
-                                        </c:choose>
-                                    </span>
+                            </c:forEach>
+                        </div>
+
+                        <!-- Thông tin tổng quan và nút hành động -->
+                        <div class="order-footer">
+                            <div class="order-info">
+                                <p class="mb-0"><strong>Tổng tiền:</strong><span class="price-final"> <fmt:formatNumber value="${order.totalAmount}" type="currency" currencySymbol="đ"/></span></p>
+                                <p><strong>Phương thức thanh toán:</strong> ${order.paymentMethodText}</p>
+                                <p><strong>Trạng thái thanh toán:</strong>
+                                    <span class="payment-badge payment-${order.paymentStatusText.toLowerCase()}">
+                                            <c:choose>
+                                                <c:when test="${order.paymentStatusText == 'PENDING'}">Đang chờ</c:when>
+                                                <c:when test="${order.paymentStatusText == 'COMPLETED'}">Đã thanh toán</c:when>
+                                                <c:when test="${order.paymentStatusText == 'FAILED'}">Thất bại</c:when>
+                                                <c:otherwise>Không xác định</c:otherwise>
+                                            </c:choose>
+                                        </span>
+                                </p>
+                                <c:if test="${not empty order.transactionId}">
+                                    <p><strong>Mã giao dịch:</strong> ${order.transactionId}</p>
+                                </c:if>
+                                <p><strong>Địa chỉ giao hàng:</strong> ${order.shippingAddress.address}</p>
                             </div>
-
-                            <div class="order-content">
-                                <div class="row align-items-center">
-                                    <div class="col-md-2">
-                                        <!-- Hiển thị hình ảnh sản phẩm đầu tiên trong đơn hàng -->
-                                        <c:if test="${not empty order.items}">
-                                            <img src="path_to_image_${order.items[0].variantId}" alt="Product" class="product-img w-100">
-                                        </c:if>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <h6 class="mb-1">
-                                            <c:if test="${not empty order.items}">
-                                                Sản phẩm: Variant #${order.items[0].variantId}
-                                            </c:if>
-                                        </h6>
-                                        <p class="text-muted mb-0">
-                                            Số lượng: <c:if test="${not empty order.items}">${order.items[0].quantity}</c:if>
-                                        </p>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <span class="fw-bold"><fmt:formatNumber value="${order.totalAmount}" type="currency" currencySymbol="đ"/></span>
-                                    </div>
-                                    <div class="col-md-3 text-end">
-                                        <button class="btn btn-order btn-detail" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${order.orderId}" aria-expanded="${loop.first ? 'true' : 'false'}" aria-controls="collapse${order.orderId}">
-                                            <i class="bi bi-eye me-2"></i>Chi tiết
-                                        </button>
-                                        <c:if test="${order.orderStatus == 0}">
-                                            <button class="btn btn-order btn-cancel cancel-order" data-order-id="${order.orderId}">
-                                                <i class="bi bi-x-circle me-2"></i>Hủy đơn
-                                            </button>
-                                        </c:if>
-                                        <c:if test="${order.paymentMethodText == 'VNPAY' && order.paymentStatusText == 'PENDING'}">
-                                            <button class="btn btn-order btn-pay pay-order" data-order-id="${order.orderId}" data-amount="${order.totalAmount}" data-address-id="${order.userAddressId}">
-                                                <i class="bi bi-credit-card me-2"></i>Thanh toán
-                                            </button>
-                                        </c:if>
-                                    </div>
-                                </div>
-
-                                <!-- Chi tiết đơn hàng (khi mở rộng) -->
-                                <div id="collapse${order.orderId}" class="accordion-collapse collapse ${loop.first ? 'show' : ''}" aria-labelledby="heading${order.orderId}" data-bs-parent="#orderAccordion">
-                                    <div class="order-details">
-                                        <p><strong>Phương thức thanh toán:</strong> ${order.paymentMethodText}</p>
-                                        <p><strong>Trạng thái thanh toán:</strong>
-                                            <span class="payment-badge payment-${order.paymentStatusText.toLowerCase()}">
-                                                    <c:choose>
-                                                        <c:when test="${order.paymentStatusText == 'PENDING'}">Đang chờ</c:when>
-                                                        <c:when test="${order.paymentStatusText == 'COMPLETED'}">Đã thanh toán</c:when>
-                                                        <c:when test="${order.paymentStatusText == 'FAILED'}">Thất bại</c:when>
-                                                        <c:otherwise>Không xác định</c:otherwise>
-                                                    </c:choose>
-                                                </span>
-                                        </p>
-                                        <c:if test="${not empty order.transactionId}">
-                                            <p><strong>Mã giao dịch:</strong> ${order.transactionId}</p>
-                                        </c:if>
-
-                                        <!-- Danh sách sản phẩm -->
-                                        <h6>Danh sách sản phẩm</h6>
-                                        <c:forEach var="item" items="${order.items}">
-                                            <div class="order-item">
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-2">
-                                                        <img src="path_to_image_${item.variantId}" alt="Product" class="product-img w-100">
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <h6 class="mb-1">Variant #${item.variantId}</h6>
-                                                        <p class="text-muted mb-0">Số lượng: ${item.quantity}</p>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <p class="mb-0"><strong>Giá gốc:</strong> <fmt:formatNumber value="${item.basePrice}" type="currency" currencySymbol="đ"/></p>
-                                                        <p class="mb-0"><strong>Giá cuối:</strong> <fmt:formatNumber value="${item.finalPrice}" type="currency" currencySymbol="đ"/></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </c:forEach>
-
-                                        <!-- Địa chỉ giao hàng -->
-                                        <h6>Địa chỉ giao hàng</h6>
-                                        <p><strong>Tỉnh/Thành phố:</strong> ${order.shippingProvince}</p>
-                                        <p><strong>Quận/Huyện:</strong> ${order.shippingDistrict}</p>
-                                        <p><strong>Phường/Xã:</strong> ${order.shippingWard}</p>
-                                        <p><strong>Địa chỉ cụ thể:</strong> ${order.shippingFullAddress}</p>
-                                    </div>
-                                </div>
+                            <div class="btn-actions">
+                                <c:if test="${order.orderStatus == 0}">
+                                    <button class="btn btn-order btn-cancel cancel-order" data-order-id="${order.orderId}">
+                                        <i class="bi bi-x-circle me-2"></i>Hủy đơn
+                                    </button>
+                                </c:if>
+                                <c:if test="${order.paymentMethodText == 'BANK_TRANSFER' && order.paymentStatusText == 'PENDING'}">
+                                    <button class="btn btn-order btn-pay pay-order" data-order-id="${order.orderId}" data-amount="${order.totalAmount}" data-address-id="${order.userAddressId}">
+                                        <i class="bi bi-credit-card me-2"></i>Thanh toán
+                                    </button>
+                                </c:if>
                             </div>
                         </div>
                     </div>
-                </c:forEach>
-            </div>
+                </div>
+            </c:forEach>
         </div>
     </div>
 </div>
+
 
 <script>
     $(document).ready(function () {
@@ -348,43 +330,45 @@
         });
 
         // Xử lý thanh toán VNPay
-        $('.pay-order').click(function () {
-            const orderId = $(this).data('order-id');
-            const totalAmount = $(this).data('amount');
-            const addressId = $(this).data('address-id');
+        $(document).ready(function () {
+            $('.pay-order').click(function () {
+                const orderId = $(this).data('order-id');
+                const totalAmount = $(this).data('amount');
 
-            const orderData = {
-                orderId: orderId,
-                totalAmount: totalAmount,
-                addressId: addressId,
-                paymentMethod: 'onepay'
-            };
 
-            $.ajax({
-                url: '/payment/vnpay',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(orderData),
-                success: function (response) {
-                    if (response.paymentUrl) {
-                        window.location.href = response.paymentUrl;
-                    } else {
+
+                $.ajax({
+                    url: '/payment',
+                    type: 'POST',
+                    data: {
+                        orderId: orderId,
+                        amount: totalAmount
+                    },
+                    success: function (response) {
+
+                        if (response.success && response.paymentUrl) {
+                            window.location.href = response.paymentUrl;
+                        } else {
+                            Swal.fire({
+                                title: 'Lỗi thanh toán!',
+                                text: response.message || 'Không thể tạo thanh toán VNPay.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.close(); // Đóng hiệu ứng loading
                         Swal.fire({
-                            title: 'Không thể tạo thanh toán VNPay!',
-                            text: response.message || 'Có lỗi xảy ra.',
+                            title: 'Lỗi kết nối!',
+                            text: `Lỗi: ${xhr.responseText || error}`,
                             icon: 'error',
-                            draggable: true
+                            confirmButtonText: 'OK'
                         });
                     }
-                },
-                error: function () {
-                    Swal.fire({
-                        title: 'Có lỗi xảy ra khi tạo thanh toán VNPay!',
-                        icon: 'error',
-                        draggable: true
-                    });
-                }
+                });
             });
         });
+
     });
 </script>

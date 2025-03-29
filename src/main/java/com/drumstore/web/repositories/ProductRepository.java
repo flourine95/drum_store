@@ -3,6 +3,7 @@ package com.drumstore.web.repositories;
 import com.drumstore.web.dto.*;
 import com.drumstore.web.models.*;
 import com.drumstore.web.utils.DBConnection;
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
@@ -1088,6 +1089,31 @@ public class ProductRepository {
                                 .orElse(null)
         );
     }
+
+    public ProductVariantDTO findProductVariantById(int variantId) {
+        String sql = """
+                SELECT pv.id, pv.stock 
+                FROM product_variants AS pv 
+                WHERE pv.id = :variantId
+            """;
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("variantId", variantId)
+                        .mapToBean(ProductVariantDTO.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
+
+    public int updateStock(Handle handle, int variantId, int quantity) {
+        int updatedRows = handle.createUpdate("UPDATE product_variants SET stock = stock - :quantity WHERE id = :variantId AND stock >= :quantity")
+                .bind("quantity", quantity)
+                .bind("variantId", variantId)
+                .execute();
+        return updatedRows;
+    }
+
 
 
 }

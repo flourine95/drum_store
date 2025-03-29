@@ -1,11 +1,19 @@
 package com.drumstore.web.repositories;
 
+import com.drumstore.web.constants.OrderConstants;
+import com.drumstore.web.constants.PaymentConstants;
+import com.drumstore.web.dto.AddressDTO;
+import com.drumstore.web.dto.OrderHistoryDTO;
+import com.drumstore.web.dto.OrderItemDTO;
 import com.drumstore.web.models.Order;
 import com.drumstore.web.models.OrderItem;
 import com.drumstore.web.utils.DBConnection;
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -85,18 +93,86 @@ public class OrderRepository extends BaseRepository<Order> {
         }
     }
 
-    public Order save(Order order) {
+    public Order save(Handle handle, Order order) {
         String insertQuery = "INSERT INTO orders (userId, userAddressId, totalAmount, orderDate, status, createdAt) " +
                 "VALUES (:userId, :userAddressId, :totalAmount, :orderDate, :status, :createdAt)";
-        int orderId = jdbi.withHandle(handle ->
-                handle.createUpdate(insertQuery)
-                        .bindBean(order)
-                        .executeAndReturnGeneratedKeys("id")
-                        .mapTo(int.class)
-                        .one()
-        );
+
+        int orderId = handle.createUpdate(insertQuery) // Sử dụng handle trực tiếp trong transaction
+                .bindBean(order)
+                .executeAndReturnGeneratedKeys("id")
+                .mapTo(int.class)
+                .one();
+
         order.setId(orderId);
         return order;
     }
+
+    public List<OrderHistoryDTO> orderHistoryList(int userId) {
+        String sql = """
+    SELECT o.id AS orderId, o.orderDate, o.totalAmount, o.status AS orderStatus,
+           o.userAddressId, p.paymentMethod, p.status AS paymentStatus, p.transactionId,
+           oi.variantId, oi.quantity, oi.basePrice, oi.finalPrice,
+           a.id AS addressId, a.userId AS addressUserId, a.fullname, a.address, 
+           a.phone, a.provinceId, a.districtId, a.wardId, a.isDefault,
+           pi.image, ps.name AS product_name
+    FROM orders o
+    LEFT JOIN payments p ON o.id = p.orderId
+    LEFT JOIN order_items oi ON o.id = oi.orderId
+    LEFT JOIN user_addresses a ON o.userAddressId = a.id
+    LEFT JOIN product_variants pv ON oi.variantId = pv.id
+    LEFT JOIN product_images pi ON pv.imageId = pi.id
+    LEFT JOIN products ps ON pv.productId = ps.id
+    WHERE o.userId = :userId
+    ORDER BY o.orderDate DESC
+    """;
+
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind("userId", userId)
+                .reduceRows(new LinkedHashMap<Integer, OrderHistoryDTO>(), (map, row) -> {
+                    int orderId = row.getColumn("orderId", Integer.class);
+                    OrderHistoryDTO order = map.computeIfAbsent(orderId, id -> {
+                        OrderHistoryDTO dto = new OrderHistoryDTO();
+                        dto.setOrderId(id);
+                        dto.setOrderDate(row.getColumn("orderDate", LocalDateTime.class));
+                        dto.setTotalAmount(row.getColumn("totalAmount", Double.class));
+                        dto.setOrderStatus( (row.getColumn("orderStatus", Integer.class)) );
+                        dto.setOrderStatusText(OrderConstants.Status.fromValue(dto.getOrderStatus()).name());
+                        dto.setPaymentMethodText(PaymentConstants.Method.fromValue(row.getColumn("paymentMethod", Integer.class)).name());
+                        dto.setPaymentStatusText(PaymentConstants.Status.fromValue(row.getColumn("paymentStatus", Integer.class)).name());
+                        dto.setTransactionId(row.getColumn("transactionId", String.class));
+
+                        AddressDTO address = new AddressDTO();
+                        address.setId(row.getColumn("addressId", Integer.class));
+                        address.setUserId(row.getColumn("addressUserId", Integer.class));
+                        address.setFullname(row.getColumn("fullname", String.class));
+                        address.setAddress(row.getColumn("address", String.class));
+                        address.setPhone(row.getColumn("phone", String.class));
+                        address.setProvinceId(row.getColumn("provinceId", Integer.class));
+                        address.setDistrictId(row.getColumn("districtId", Integer.class));
+                        address.setWardId(row.getColumn("wardId", Integer.class));
+                        dto.setShippingAddress(address);
+
+                        dto.setItems(new ArrayList<>());
+                        return dto;
+                    });
+
+                    // Thêm sản phẩm nếu có
+                    if (row.getColumn("variantId", Integer.class) != null) {
+                        OrderItemDTO item = new OrderItemDTO();
+                        item.setVariantId(row.getColumn("variantId", Integer.class));
+                        item.setName(row.getColumn("product_name", String.class));
+                        item.setQuantity(row.getColumn("quantity", Integer.class));
+                        item.setBasePrice(row.getColumn("basePrice", Double.class));
+                        item.setFinalPrice(row.getColumn("finalPrice", Double.class));
+                        item.setImageUrl(row.getColumn("image", String.class));
+                        order.getItems().add(item);
+                    }
+                    return map;
+                })
+                .values()
+                .stream()
+                .toList());
+    }
+
 
 }

@@ -3,6 +3,7 @@ package com.drumstore.web.controllers.homepage;
 import com.drumstore.web.dto.CartItemDTO;
 import com.drumstore.web.models.Cart;
 import com.drumstore.web.models.CartItem;
+import com.drumstore.web.services.PaymentService;
 import com.drumstore.web.services.ProductService;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
@@ -15,16 +16,20 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalLong;
 
 @WebServlet("/cart/*")
 public class CartController extends HttpServlet {
     private ProductService productService;
     private Gson gson;
+    private PaymentService paymentService;
 
     @Override
     public void init() throws ServletException {
         this.productService = new ProductService();
         this.gson = new Gson();
+        this.paymentService = new PaymentService();
     }
 
     @Override
@@ -35,6 +40,29 @@ public class CartController extends HttpServlet {
             cart = new Cart();
             session.setAttribute("cart", cart);
         }
+
+        // chỉ dùng khi sử dụng thanh toán
+        String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
+        if (vnp_ResponseCode != null) {
+            if (vnp_ResponseCode.equals("00")) {
+                String transactionId = request.getParameter("vnp_TransactionNo");
+
+                int orderId = Optional.ofNullable(request.getSession().getAttribute("orderId"))
+                        .map(obj -> obj.toString())
+                        .map(Integer::parseInt)
+                        .orElse(0);
+                if(orderId != 0){
+                    // cập nhật lại payment của khách hàng
+                    paymentService.updatePayment(orderId,transactionId);
+                    request.setAttribute("vnp_TransactionStatus", true);
+                    request.setAttribute("orderId", orderId);
+                    request.setAttribute("transactionId",transactionId);
+                }
+            }
+
+        }
+
+
         request.setAttribute("cart", cart);
         request.setAttribute("title", "Giỏ hàng");
         request.setAttribute("content", "cart.jsp");

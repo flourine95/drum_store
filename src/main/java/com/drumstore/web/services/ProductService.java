@@ -1,10 +1,6 @@
 package com.drumstore.web.services;
 
-import com.drumstore.web.dto.CartItemDTO;
-import com.drumstore.web.dto.ProductDashboardDetailDTO;
-import com.drumstore.web.dto.ProductCardDTO;
-import com.drumstore.web.dto.ProductDashboardDTO;
-import com.drumstore.web.dto.ProductDetailDTO;
+import com.drumstore.web.dto.*;
 import com.drumstore.web.models.Product;
 import com.drumstore.web.models.ProductSale;
 import com.drumstore.web.repositories.ProductRepository;
@@ -104,4 +100,6 @@ public class ProductService {
        cartItemDTO.setVariants(productRepository.findAllVariants(productId));
         return cartItemDTO;
     };
+
+
 }
