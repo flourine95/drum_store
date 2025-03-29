@@ -33,6 +33,7 @@ public class OrderRepository extends BaseRepository<Order> {
                         .orElse(null)
         );
     }
+
     public List<Order> all() {
         return jdbi.withHandle(handle ->
                 handle.createQuery("SELECT * FROM orders")
@@ -40,6 +41,7 @@ public class OrderRepository extends BaseRepository<Order> {
                         .list()
         );
     }
+
     public Order findWithDetails(int id) {
         String sql = """
                 SELECT
@@ -77,7 +79,9 @@ public class OrderRepository extends BaseRepository<Order> {
                 .findFirst()
                 .orElse(null)
         );
-    }public boolean deleteOrder(int orderId) {
+    }
+
+    public boolean deleteOrder(int orderId) {
         try {
             // Sử dụng jdbi để thực thi câu lệnh xóa đơn hàng
             jdbi.useHandle(handle ->
@@ -109,22 +113,22 @@ public class OrderRepository extends BaseRepository<Order> {
 
     public List<OrderHistoryDTO> orderHistoryList(int userId) {
         String sql = """
-    SELECT o.id AS orderId, o.orderDate, o.totalAmount, o.status AS orderStatus,
-           o.userAddressId, p.paymentMethod, p.status AS paymentStatus, p.transactionId,
-           oi.variantId, oi.quantity, oi.basePrice, oi.finalPrice,
-           a.id AS addressId, a.userId AS addressUserId, a.fullname, a.address, 
-           a.phone, a.provinceId, a.districtId, a.wardId, a.isDefault,
-           pi.image, ps.name AS product_name
-    FROM orders o
-    LEFT JOIN payments p ON o.id = p.orderId
-    LEFT JOIN order_items oi ON o.id = oi.orderId
-    LEFT JOIN user_addresses a ON o.userAddressId = a.id
-    LEFT JOIN product_variants pv ON oi.variantId = pv.id
-    LEFT JOIN product_images pi ON pv.imageId = pi.id
-    LEFT JOIN products ps ON pv.productId = ps.id
-    WHERE o.userId = :userId
-    ORDER BY o.orderDate DESC
-    """;
+                SELECT o.id AS orderId, o.orderDate, o.totalAmount, o.status AS orderStatus,
+                       o.userAddressId, p.paymentMethod, p.status AS paymentStatus, p.transactionId,
+                       oi.variantId, oi.quantity, oi.basePrice, oi.finalPrice,
+                       a.id AS addressId, a.userId AS addressUserId, a.fullname, a.address, 
+                       a.phone, a.provinceId, a.districtId, a.wardId, a.isDefault,
+                       pi.image, ps.name AS product_name
+                FROM orders o
+                LEFT JOIN payments p ON o.id = p.orderId
+                LEFT JOIN order_items oi ON o.id = oi.orderId
+                LEFT JOIN user_addresses a ON o.userAddressId = a.id
+                LEFT JOIN product_variants pv ON oi.variantId = pv.id
+                LEFT JOIN product_images pi ON pv.imageId = pi.id
+                LEFT JOIN products ps ON pv.productId = ps.id
+                WHERE o.userId = :userId
+                ORDER BY o.orderDate DESC
+                """;
 
         return jdbi.withHandle(handle -> handle.createQuery(sql)
                 .bind("userId", userId)
@@ -135,7 +139,7 @@ public class OrderRepository extends BaseRepository<Order> {
                         dto.setOrderId(id);
                         dto.setOrderDate(row.getColumn("orderDate", LocalDateTime.class));
                         dto.setTotalAmount(row.getColumn("totalAmount", Double.class));
-                        dto.setOrderStatus( (row.getColumn("orderStatus", Integer.class)) );
+                        dto.setOrderStatus((row.getColumn("orderStatus", Integer.class)));
                         dto.setOrderStatusText(OrderConstants.Status.fromValue(dto.getOrderStatus()).name());
                         dto.setPaymentMethodText(PaymentConstants.Method.fromValue(row.getColumn("paymentMethod", Integer.class)).name());
                         dto.setPaymentStatusText(PaymentConstants.Status.fromValue(row.getColumn("paymentStatus", Integer.class)).name());
@@ -172,6 +176,18 @@ public class OrderRepository extends BaseRepository<Order> {
                 .values()
                 .stream()
                 .toList());
+    }
+
+    public boolean deleteOrder(Handle handle, int orderId) {
+        try {
+            handle.createUpdate("DELETE FROM orders WHERE id = :orderId")
+                    .bind("orderId", orderId)
+                    .execute();
+            return true; // Trả về true nếu xóa thành công
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

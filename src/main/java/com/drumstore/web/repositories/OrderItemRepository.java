@@ -5,6 +5,8 @@ import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 
+import java.util.List;
+
 public class OrderItemRepository extends BaseRepository<OrderItem> {
     private final Jdbi jdbi;
 
@@ -23,5 +25,18 @@ public class OrderItemRepository extends BaseRepository<OrderItem> {
                         .one();
         orderItem.setId(orderItemId);
         return orderItem;
+    }
+
+    public List<OrderItem> findByOrderId(Handle handle, int orderId) {
+        return handle.createQuery("SELECT * FROM order_items WHERE orderId = :orderId")
+                .bind("orderId", orderId)
+                .mapToBean(OrderItem.class)
+                .list();
+    }
+
+    public void deleteByOrderId(Handle handle, int orderId) {
+        handle.createUpdate("DELETE FROM order_items WHERE orderId = :orderId")
+                .bind("orderId", orderId)
+                .execute();
     }
 }

@@ -201,7 +201,7 @@
             </c:if>
 
             <c:forEach var="order" items="${orderHistory}" varStatus="loop">
-                <div class="order-item">
+                <div class="order-item" data-order-id = ${order.orderId}>
                     <div class="order-header">
                         <div>
                             <span class="text-muted me-3">Mã đơn: #${order.orderId}</span>
@@ -296,24 +296,41 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '/order/cancel',
+                        url: '/profile',
                         method: 'POST',
-                        data: { orderId: orderId },
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            action: 'cancle_order',
+                            orderId: orderId
+                        }),
                         success: function (response) {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                }
+                            })
                             if (response.success) {
-                                Swal.fire({
-                                    title: 'Hủy đơn hàng thành công!',
+                                Toast.fire({
                                     icon: 'success',
-                                    draggable: true
-                                }).then(() => {
-                                    location.reload();
+                                    title: response.message || 'Đã hủy đơn hàng của bạn !'
                                 });
+
+                                const $orderItemItem = $('.order-item[data-order-id=' + orderId + ']');
+                                $orderItemItem.addClass('animate__animated animate__fadeOutRight');
+                                setTimeout(() => {
+                                    $orderItemItem.remove();
+                                }, 500);
+
                             } else {
-                                Swal.fire({
-                                    title: 'Hủy đơn hàng thất bại!',
-                                    text: response.message,
+                                Toast.fire({
                                     icon: 'error',
-                                    draggable: true
+                                    title: response.message || 'Lỗi hủy đơn hàng bạn!'
                                 });
                             }
                         },

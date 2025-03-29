@@ -121,6 +121,9 @@ public class ProfileController extends HttpServlet {
                     }
                     writeJson(response, resp);
                 }
+
+                case "cancle_order" -> cancleOrder(request, response, jsonObject);
+
                 default -> response.sendRedirect(request.getContextPath() + "/profile");
             }
         } catch (Exception e) {
@@ -131,6 +134,25 @@ public class ProfileController extends HttpServlet {
             );
             writeJson(response, errorResponse);
         }
+    }
+
+    private void cancleOrder(HttpServletRequest request, HttpServletResponse response, JsonObject jsonObject) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        Map<String, Object> resp = new HashMap<>();
+        try {
+            int productId = jsonObject.get("orderId").getAsInt();
+            boolean isDelete = orderService.deleteOrderById(productId);
+            if (isDelete) {
+                resp.put("success", true);
+            } else {
+                resp.put("success", false);
+            }
+        } catch (Exception e) {
+            resp.put("success", false);
+            resp.put("message", "Lỗi server: " + e.getMessage());
+        }
+        writeJson(response, resp);
     }
 
     private void toogleWishtList(HttpServletRequest request, HttpServletResponse response, UserDTO user, JsonObject jsonObject) throws IOException {

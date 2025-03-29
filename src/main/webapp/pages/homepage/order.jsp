@@ -577,9 +577,9 @@
             $('#sameAsShipping').prop('checked', true);
         });
 
-        // Xử lý nút "Thêm địa chỉ mới" (giả lập)
+        // Xử lý nút "Thêm địa chỉ mới"
         $('#addNewAddress').click(function () {
-            alert('Chức năng thêm địa chỉ mới đang được phát triển!');
+           window.location.href = '/profile?action=addresses'
         });
 
         // Hiển thị/ẩn chi tiết thẻ tín dụng

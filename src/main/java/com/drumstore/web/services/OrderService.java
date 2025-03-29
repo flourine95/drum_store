@@ -20,8 +20,8 @@ import java.util.Map;
 public class OrderService {
     private final OrderRepository orderRepository = new OrderRepository();
     private final OrderItemRepository orderItemRepository = new OrderItemRepository();
-    private final PaymentRepository paymentRepository = new PaymentRepository();
     private final ProductRepository productRepository = new ProductRepository();
+    private final PaymentService paymentService = new PaymentService();
     private final Jdbi jdbi = DBConnection.getJdbi();
 
     public List<Order> all() {
@@ -59,7 +59,7 @@ public class OrderService {
         if (productVariantDTO.getStock() < quantity) {
             return false;
         }
-        return  productRepository.updateStock(handle, variantId, quantity) > 0;
+        return productRepository.updateStock(handle, variantId, quantity) > 0;
     }
 
     //  Xử lý đơn hàng
@@ -85,31 +85,6 @@ public class OrderService {
         }
     }
 
-    //  Thanh toán COD
-    public void paymentOrderWithCod(Handle handle, int orderId) {
-        Payment payment = new Payment();
-        payment.setOrderId(orderId);
-        payment.setPaymentMethod(PaymentConstants.Method.COD.getValue());
-        payment.setStatus(PaymentConstants.Status.PENDING.getValue());
-        payment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
-        payment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-
-        paymentRepository.save(handle, payment);
-    }
-
-    //  Thanh toán VNPay
-    public void paymentOrderWithVNPay(Handle handle, int orderId , double totalAmount) {
-        Payment payment = new Payment();
-        payment.setOrderId(orderId);
-        payment.setPaymentMethod(PaymentConstants.Method.BANK_TRANSFER.getValue());
-        payment.setStatus(PaymentConstants.Status.PENDING.getValue());
-        payment.setAmount(totalAmount);
-        payment.setPaymentDate(new Timestamp(System.currentTimeMillis()));
-        payment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-
-        paymentRepository.save(handle, payment);
-    }
-
     //  Đặt hàng với COD (Kiểm tra stock & rollback nếu thiếu hàng)
     public Map<String, Object> orderWithCod(int userId, double totalAmount, int userAddressId, Cart cart) {
         return jdbi.inTransaction(handle -> {
@@ -117,7 +92,7 @@ public class OrderService {
             try {
                 Order order = createOrder(handle, userId, totalAmount, userAddressId);
                 processOrder(handle, order.getId(), cart);
-                paymentOrderWithCod(handle, order.getId());
+                paymentService.paymentOrderWithCod(handle, order.getId());
 
                 response.put("success", true);
                 response.put("orderId", order.getId());
@@ -141,7 +116,7 @@ public class OrderService {
             try {
                 Order order = createOrder(handle, userId, totalAmount, userAddressId);
                 processOrder(handle, order.getId(), cart);
-                paymentOrderWithVNPay(handle, order.getId(), totalAmount);
+                paymentService.paymentOrderWithVNPay(handle, order.getId(), totalAmount);
 
                 response.put("success", true);
                 response.put("orderId", order.getId());
@@ -158,8 +133,37 @@ public class OrderService {
         });
     }
 
-    // ✅ Lịch sử đặt hàng
+    //  Lịch sử đặt hàng
     public List<OrderHistoryDTO> orderHistoryList(int userId) {
         return orderRepository.orderHistoryList(userId);
     }
+
+    // Xóa đơn hàng
+    public boolean deleteOrderById(int orderId) {
+        return jdbi.inTransaction(handle -> {
+            try {
+                List<OrderItem> orderItems = orderItemRepository.findByOrderId(handle, orderId);
+
+                paymentService.deletePayment(handle, orderId);
+                orderItemRepository.deleteByOrderId(handle, orderId);
+                boolean deleted = orderRepository.deleteOrder(handle, orderId);
+
+
+                for (OrderItem item : orderItems) {
+                    productRepository.updateStock(handle, item.getVariantId(), -item.getQuantity());
+                }
+
+                if (!deleted) {
+                    handle.rollback();
+                    return false;
+                }
+                return true;
+            } catch (Exception e) {
+                handle.rollback();
+                throw new RuntimeException("Lỗi khi xóa đơn hàng: " + e.getMessage());
+            }
+        });
+    }
+
+
 }

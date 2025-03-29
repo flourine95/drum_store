@@ -183,8 +183,8 @@
                     <div class="button-row">
                         <span class="stock-badge in-stock">Còn hàng</span>
                         <div class="button-group">
-                            <button class="btn btn-primary btn-sm" onclick="quickAddToCart(${product.id})">
-                                <i class="bi bi-cart-plus me-2"></i>Thêm vào giỏ
+                            <button class="btn btn-primary btn-sm" onclick="goToProduct(${product.id})">
+                                <i class="bi bi-cart-plus me-2"></i>Xem chi tiết
                             </button>
                             <button class="btn btn-danger btn-sm btn-remove" onclick="removeFromWishList(${product.id})">
                                 <i class="bi bi-trash me-2"></i>Xóa
@@ -197,9 +197,6 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></script>
 <script>
     $(document).ready(function() {
         // Animation khi xóa sản phẩm
@@ -232,5 +229,15 @@
         }).catch(function(error) {
             console.error("Lỗi trong removeFromWishList:", error);
         });
+    }
+
+    function goToProduct(productId, event) {
+        const url = '${pageContext.request.contextPath}/product/' + productId;
+
+        if (event.ctrlKey || event.metaKey) { // metaKey cho macOS
+            window.open(url, '_blank');
+        } else {
+            window.location.href = url;
+        }
     }
 </script>

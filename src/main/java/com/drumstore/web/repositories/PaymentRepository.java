@@ -36,4 +36,20 @@ public class PaymentRepository extends BaseRepository<Payment> {
                         .execute()
                 );
     }
+
+
+    public Payment getPaymentByOrderId(int orderId) {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM payments WHERE orderId= :orderId")
+                        .bind("orderId", orderId)
+                        .mapToBean(Payment.class)
+                        .one()
+                );
+    }
+
+    public void deletePayment(Handle handle, int paymentId) {
+        handle.createUpdate("DELETE FROM payments WHERE id = :id")
+                .bind("id", paymentId)
+                .execute();
+    }
 }

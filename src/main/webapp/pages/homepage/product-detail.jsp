@@ -723,9 +723,48 @@
                 return;
             }
 
-            const quantity = parseInt($('#quantity').val());
-            // TODO: Chuyển đến trang thanh toán
-            window.location.href = `/checkout?variantId=${currentVariant.id}&quantity=${quantity}`;
+            $.ajax({
+                url: '/cart/add',
+                method: 'POST',
+                data: {
+                    action: "add",
+                    variantId: currentVariant.id,
+                    productId: ${product.id},
+                    quantity: 1
+                },
+                success: function (response) {
+                    if (response.success) {
+                        const quantityInCart = document.querySelectorAll('.bg-danger.cartCount');
+                        quantityInCart.forEach(element => {
+                            element.textContent = response.cartCount;
+                        });
+
+
+                        if (response.success) {
+                           window.location.href = '/order'
+                        } else {
+                            Toast.fire({
+                                icon: 'error',
+                                title: response.message || 'Có lỗi xảy ra!'
+                            });
+                        }
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: response.message || 'Có lỗi xảy ra, vui lòng thử lại!',
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Có lỗi xảy ra, vui lòng thử lại!',
+                    });
+                }
+            });
         });
 
 
