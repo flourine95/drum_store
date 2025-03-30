@@ -8,9 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 @WebFilter("/dashboard/*")
@@ -23,20 +20,13 @@ public class PermissionFilter implements Filter {
         Pattern.compile("^/dashboard/?$")
     };
 
-    // Map các action đặc biệt sang permission action
-    private static final Map<String, String> ACTION_MAPPING = new HashMap<>();
-    static {
-        ACTION_MAPPING.put("", "list");     // URL kết thúc bằng /
-        ACTION_MAPPING.put("edit", "update");
-        ACTION_MAPPING.put("view", "view");
-    }
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         String requestURI = httpRequest.getRequestURI();
+        String action = httpRequest.getParameter("_action");
 
         // Kiểm tra session
         HttpSession session = httpRequest.getSession(false);
@@ -63,7 +53,7 @@ public class PermissionFilter implements Filter {
         }
 
         // Parse permission từ URL
-        String permission = parsePermissionFromUrl(requestURI);
+        String permission = parsePermissionFromUrl(requestURI, action);
         if (permission != null && !user.hasPermission(permission)) {
             httpResponse.sendError(
                 HttpServletResponse.SC_FORBIDDEN,
@@ -75,7 +65,7 @@ public class PermissionFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private String parsePermissionFromUrl(String requestURI) {
+    private String parsePermissionFromUrl(String requestURI, String formAction) {
         // Bỏ /dashboard/ từ đầu URL
         String path = requestURI.replaceFirst("^/dashboard/", "");
         String[] parts = path.split("/");
@@ -83,21 +73,20 @@ public class PermissionFilter implements Filter {
 
         // Module là phần tử đầu tiên (products, orders, etc.)
         String module = parts[0];
-        
-        // Action mặc định là phần tử thứ hai, nếu không có thì là "list"
-        String action = parts.length > 1 ? parts[1] : "";
-        
-        // Kiểm tra xem action có cần map không
-        action = ACTION_MAPPING.getOrDefault(action, action);
 
-        // Nếu action chứa số (VD: edit/123), lấy action
+        // Nếu form gửi _action thì ưu tiên nó
+        String action = (formAction != null && !formAction.isEmpty()) ? formAction :
+                (parts.length > 1 ? parts[1] : "index");
+
+        // Nếu action chứa số (VD: edit/123), đổi thành "show"
         if (action.matches("\\d+")) {
-            action = "view";
+            action = "show";
         }
 
         // Tạo permission string theo format module:action
         return String.format("%s:%s", module.toLowerCase(), action.toLowerCase());
     }
+
 
     private boolean isAuthenticated(HttpSession session) {
         return session != null && session.getAttribute("user") != null;

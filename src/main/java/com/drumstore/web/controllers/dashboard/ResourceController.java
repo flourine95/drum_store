@@ -1,12 +1,17 @@
 package com.drumstore.web.controllers.dashboard;
 
+import com.drumstore.web.annotations.RequirePermission;
+import com.drumstore.web.dto.UserDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +80,7 @@ public abstract class ResourceController extends HttpServlet implements Abstract
         if (pageTitle != null) {
             request.setAttribute("pageTitle", pageTitle);
         }
-        request.setAttribute("content",  viewPath);
+        request.setAttribute("content", viewPath);
 
         if (viewData != null) {
             request.setAttribute(moduleName, viewData);
@@ -109,27 +114,108 @@ public abstract class ResourceController extends HttpServlet implements Abstract
         return str.matches("\\d+");
     }
 
+    protected boolean checkPermission(HttpServletRequest request, String permission) {
+        HttpSession session = request.getSession(false);
+        if (session == null) return false;
+
+        // Lấy user từ session
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        if (user == null) return false;
+
+        // Kiểm tra quyền
+        return user.hasPermission(permission);
+    }
+
+    protected void requirePermission(HttpServletRequest request, HttpServletResponse response, String permission) throws IOException {
+        if (!checkPermission(request, permission)) {
+            if (request.getSession(false) == null || request.getSession().getAttribute("user") == null) {
+                // Chưa đăng nhập, chuyển đến trang login
+                response.sendRedirect(request.getContextPath() + "/login");
+            } else {
+                // Đã đăng nhập nhưng không có quyền
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Không có quyền truy cập");
+            }
+            throw new SecurityException("Không có quyền truy cập");
+        }
+    }
+
+    protected void invokeAction(String methodName, HttpServletRequest request, HttpServletResponse response, Object... additionalArgs) 
+            throws Exception {
+        // Tạo mảng tham số với request và response là 2 tham số đầu tiên
+        Object[] args = new Object[additionalArgs.length + 2];
+        args[0] = request;
+        args[1] = response;
+        // Copy các tham số bổ sung nếu có
+        if (additionalArgs.length > 0) {
+            System.arraycopy(additionalArgs, 0, args, 2, additionalArgs.length);
+        }
+
+        // Tìm method cần gọi
+        Method method = findMethod(methodName, args);
+        if (method == null) {
+            throw new IllegalArgumentException("Method not found: " + methodName);
+        }
+
+        // Kiểm tra permission từ annotation
+        RequirePermission annotation = method.getAnnotation(RequirePermission.class);
+        String action = "";
+
+        if (annotation != null) {
+            action = annotation.action().isEmpty() ? methodName : annotation.action();
+        } else {
+            action = methodName;
+        }
+
+        // Kiểm tra quyền
+        String permission = String.format("%s:%s", moduleName, action);
+        requirePermission(request, response, permission);
+
+        // Gọi method với các tham số đã chuẩn bị
+        method.invoke(this, args);
+    }
+
+    private Method findMethod(String methodName, Object[] args) {
+        Method[] methods = getClass().getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.getName().equals(methodName)) {
+                Class<?>[] paramTypes = method.getParameterTypes();
+                // Kiểm tra số lượng tham số
+                if (paramTypes.length != args.length) {
+                    continue;
+                }
+                // Kiểm tra kiểu tham số
+                boolean match = true;
+                for (int i = 0; i < paramTypes.length; i++) {
+                    if (args[i] != null && !paramTypes[i].isAssignableFrom(args[i].getClass())) {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match) {
+                    return method;
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         String pathInfo = request.getPathInfo();
         String[] parts = getPathParts(pathInfo);
-
+        System.out.println(Arrays.toString(parts));
         try {
             if (parts.length == 0) {
-                // GET /users - Lấy danh sách tất cả người dùng (hiển thị trang index)
-                index(request, response);
+                invokeAction("index", request, response);
                 renderView(request, response);
             } else if (parts.length == 1 && isNumeric(parts[0])) {
-                // GET /users/5 - Lấy thông tin của một người dùng cụ thể (show user với ID = 5)
-                show(request, response, parts[0]);
+                invokeAction("show", request, response, parts[0]);
                 renderView(request, response);
             } else if (parts.length == 1 && parts[0].equals("create")) {
-                // GET /users/create - Hiển thị form tạo người dùng mới
-                create(request, response);
+                invokeAction("create", request, response);
                 renderView(request, response);
             } else if (parts.length == 2 && isNumeric(parts[0]) && parts[1].equals("edit")) {
-                // GET /users/5/edit - Hiển thị form chỉnh sửa người dùng với ID = 5
-                edit(request, response, parts[0]);
+                invokeAction("edit", request, response, parts[0]);
                 renderView(request, response);
             } else if (parts.length == 2 && isNumeric(parts[0])) {
                 // GET /users/5/posts or /users/5/addresses etc. - Lấy thông tin các tài nguyên con của người dùng (posts hoặc addresses)
@@ -152,10 +238,8 @@ public abstract class ResourceController extends HttpServlet implements Abstract
                 editNested(request, response, parts[0], parts[2], resourceType);
                 renderView(request, response);
             }
-        } catch (IllegalArgumentException e) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND); // Trả về mã lỗi 404 nếu không tìm thấy route phù hợp
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // Trả về mã lỗi 500 nếu có lỗi hệ thống
+            handleException(response, e);
         }
     }
 
@@ -163,42 +247,34 @@ public abstract class ResourceController extends HttpServlet implements Abstract
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String pathInfo = request.getPathInfo();
         String[] parts = getPathParts(pathInfo);
-        String methodOverride = request.getParameter("_method");
+        String action = request.getParameter("_action"); // Thêm parameter _action để xác định hành động
 
         try {
-            if (methodOverride != null && methodOverride.equalsIgnoreCase("PUT")) {
-                // Xử lý PUT request
-                if (parts.length == 1 && isNumeric(parts[0])) {
-                    // PUT /users/5 - Cập nhật người dùng với ID = 5
-                    update(request, response, parts[0]);
-                } else if (parts.length == 3 && isNumeric(parts[0]) && isNumeric(parts[2])) {
-                    // PUT /users/5/posts/1 or /users/5/addresses/1 etc. - Cập nhật tài nguyên con với ID = 1 của người dùng với ID = 5
-                    NestedResourceType resourceType = NestedResourceType.fromPath(parts[1]);
-                    updateNested(request, response, parts[0], parts[2], resourceType);
-                }
-            } else if (methodOverride != null && methodOverride.equalsIgnoreCase("DELETE")) {
-                // Xử lý DELETE request
-                if (parts.length == 1 && isNumeric(parts[0])) {
-                    // DELETE /users/5 - Xóa người dùng với ID = 5
-                    delete(request, response, parts[0]);
-                } else if (parts.length == 3 && isNumeric(parts[0]) && isNumeric(parts[2])) {
-                    // DELETE /users/5/posts/1 or /users/5/addresses/1 etc. - Xóa tài nguyên con với ID = 1 của người dùng với ID = 5
-                    NestedResourceType resourceType = NestedResourceType.fromPath(parts[1]);
-                    deleteNested(request, response, parts[0], parts[2], resourceType);
-                }
+            if (action == null) {
+                // POST mặc định - tạo mới
+                invokeAction("store", request, response);
             } else {
-                // Xử lý POST request thông thường
-                if (parts.length == 0) {
-                    // POST /users - Tạo mới người dùng
-                    store(request, response);
-                } else if (parts.length == 2 && isNumeric(parts[0])) {
-                    // POST /users/5/posts or /users/5/addresses etc. - Tạo mới tài nguyên con (post hoặc address) cho người dùng với ID = 5
-                    NestedResourceType resourceType = NestedResourceType.fromPath(parts[1]);
-                    storeNested(request, response, parts[0], resourceType);
+                switch (action.toLowerCase()) {
+                    case "update":
+                        invokeAction("update", request, response, parts[0]);
+                        break;
+
+                    case "delete":
+                        invokeAction("delete", request, response, parts[0]);
+                        break;
+
+                    default:
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
+                        break;
                 }
             }
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // Trả về mã lỗi 500 nếu có lỗi hệ thống
+            handleException(response, e);
         }
+    }
+
+    private void handleException(HttpServletResponse response, Exception e) {
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        e.printStackTrace();
     }
 }

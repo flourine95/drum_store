@@ -211,6 +211,16 @@ public class ProductRepository {
         ).bindBean(product).execute());
     }
 
+    public void save(ProductCreateDTO product) {
+        jdbi.useHandle(handle -> handle.createUpdate("""
+                INSERT INTO products (name, description, price, stock, total_views, is_feature, status,
+                average_rating, category_id, brand_id, created_at) VALUES (:name, :description,
+                :price, :stock, :total_views, :is_feature, :status, :average_rating, :categoryId,
+                :brandId, CURRENT_TIMESTAMP)
+                """
+        ).bindBean(product).execute());
+    }
+
     public void update(Product product) {
         jdbi.useHandle(handle -> handle.createUpdate("""
                 UPDATE products SET name = :name, description = :description, price = :price, stock = :stock,
@@ -736,6 +746,7 @@ public class ProductRepository {
 
     public void incrementViewCount(int id) {
     }
+
     public List<ProductDashboardDTO> getProductDashboards(int offset, int limit, String search, String category, String sortColumn, String sortDir) {
         StringBuilder sql = new StringBuilder("""
                     SELECT
@@ -1040,54 +1051,61 @@ public class ProductRepository {
                 """;
 
         return jdbi.withHandle(handle ->
-                        handle.createQuery(sql)
-                                .bind("productId", productId)
-                                .bind("colorId", colorId)
-                                .bind("addonId", addonId)
-                                .map((rs, ctx) -> {
-                                    // Tạo CartItemDTO
-                                    CartItemDTO dto = new CartItemDTO();
-                                    dto.setProductId(rs.getInt("p_productId"));
-                                    dto.setName(rs.getString("p_name"));
-                                    dto.setBasePrice(rs.getDouble("p_basePrice"));
-                                    dto.setDiscountPercent(rs.getDouble("p_discountPercent"));
-                                    dto.setMainImage(rs.getString("pi_image"));
+                handle.createQuery(sql)
+                        .bind("productId", productId)
+                        .bind("colorId", colorId)
+                        .bind("addonId", addonId)
+                        .map((rs, ctx) -> {
+                            // Tạo CartItemDTO
+                            CartItemDTO dto = new CartItemDTO();
+                            dto.setProductId(rs.getInt("p_productId"));
+                            dto.setName(rs.getString("p_name"));
+                            dto.setBasePrice(rs.getDouble("p_basePrice"));
+                            dto.setDiscountPercent(rs.getDouble("p_discountPercent"));
+                            dto.setMainImage(rs.getString("pi_image"));
 
-                                    // Tạo ProductVariantDTO
-                                    ProductVariantDTO variant = new ProductVariantDTO();
-                                    variant.setId(rs.getInt("pv_id"));
-                                    variant.setStock(rs.getInt("pv_stock"));
-                                    variant.setStatus(rs.getInt("pv_status"));
-                                    variant.setImageId(rs.getInt("pv_imageId"));
+                            // Tạo ProductVariantDTO
+                            ProductVariantDTO variant = new ProductVariantDTO();
+                            variant.setId(rs.getInt("pv_id"));
+                            variant.setStock(rs.getInt("pv_stock"));
+                            variant.setStatus(rs.getInt("pv_status"));
+                            variant.setImageId(rs.getInt("pv_imageId"));
 
-                                    // Ánh xạ ProductColorDTO
-                                    Integer currentColorId = rs.getObject("pv_colorId", Integer.class);
-                                    if (currentColorId != null) {
-                                        ProductColorDTO color = new ProductColorDTO();
-                                        color.setId(currentColorId);
-                                        color.setName(rs.getString("pc_colorName"));
-                                        color.setAdditionalPrice(rs.getDouble("pc_additionalPrice"));
-                                        variant.setColor(color);
-                                    }
+                            // Ánh xạ ProductColorDTO
+                            Integer currentColorId = rs.getObject("pv_colorId", Integer.class);
+                            if (currentColorId != null) {
+                                ProductColorDTO color = new ProductColorDTO();
+                                color.setId(currentColorId);
+                                color.setName(rs.getString("pc_colorName"));
+                                color.setAdditionalPrice(rs.getDouble("pc_additionalPrice"));
+                                variant.setColor(color);
+                            }
 
-                                    // Ánh xạ ProductAddonDTO
-                                    Integer currentAddonId = rs.getObject("pv_addonId", Integer.class);
-                                    if (currentAddonId != null) {
-                                        ProductAddonDTO addon = new ProductAddonDTO();
-                                        addon.setId(currentAddonId);
-                                        addon.setName(rs.getString("pa_addonName"));
-                                        addon.setAdditionalPrice(rs.getDouble("pa_additionalPrice"));
-                                        variant.setAddon(addon);
-                                    }
+                            // Ánh xạ ProductAddonDTO
+                            Integer currentAddonId = rs.getObject("pv_addonId", Integer.class);
+                            if (currentAddonId != null) {
+                                ProductAddonDTO addon = new ProductAddonDTO();
+                                addon.setId(currentAddonId);
+                                addon.setName(rs.getString("pa_addonName"));
+                                addon.setAdditionalPrice(rs.getDouble("pa_additionalPrice"));
+                                variant.setAddon(addon);
+                            }
 
-                                    // Gán variant vào CartItemDTO
-                                    dto.setProductVariant(variant);
-                                    return dto;
-                                })
-                                .findFirst()
-                                .orElse(null)
+                            // Gán variant vào CartItemDTO
+                            dto.setProductVariant(variant);
+                            return dto;
+                        })
+                        .findFirst()
+                        .orElse(null)
         );
     }
 
 
+    public int store(ProductCreateDTO product) {
+        return jdbi.withHandle(handle -> handle.createUpdate("""
+                INSERT INTO products (name, description, basePrice, categoryId, brandId, stockManagementType, isFeatured, createdAt)
+                VALUES (:name, :description, :basePrice, :categoryId, :brandId, :stockManagementType, :isFeatured, CURRENT_TIMESTAMP)
+                """
+        ).bindBean(product).execute());
+    }
 }

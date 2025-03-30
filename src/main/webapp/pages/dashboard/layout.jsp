@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/custom.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dashboard.css">
     <script src="${pageContext.request.contextPath}/assets/lib/jquery-3.7.1/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/lib/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/lib/sweetalert2-11.17.2/sweetalert2.all.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/lib/DataTables/datatables.min.js"></script>
