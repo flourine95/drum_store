@@ -12916,3 +12916,9 @@ INSERT INTO wards (id, name, districtId) VALUES
                                              (32244, 'Thị trấn Rạch Gốc', 973),
                                              (32245, 'Xã Tân Ân', 973),
                                              (32248, 'Xã Đất Mũi', 973);
+INSERT INTO logs (userId, level, action, oldData, newData) VALUES
+                                                               (1, 1, 'UPDATE_PROFILE', '{"name": "John Doe", "email": "john@example.com"}', '{"name": "John D", "email": "john.d@example.com"}'),
+                                                               (2, 2, 'DELETE_PRODUCT', '{"productId": 101, "name": "Drum Set A"}', NULL),
+                                                               (3, 3, 'ADD_TO_CART', NULL, '{"productId": 202, "quantity": 1}'),
+                                                               (4, 1, 'UPDATE_STOCK', '{"productId": 303, "stock": 10}', '{"productId": 303, "stock": 5}'),
+                                                               (5, 2, 'LOGIN', NULL, '{"status": "success", "ip": "192.168.1.10"}');

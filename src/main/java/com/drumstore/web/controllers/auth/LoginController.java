@@ -3,6 +3,7 @@ package com.drumstore.web.controllers.auth;
 import com.drumstore.web.dto.LoginRequestDTO;
 import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.services.UserService;
+import com.drumstore.web.utils.LogUtils;
 import com.drumstore.web.validators.LoginValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -41,7 +42,6 @@ public class LoginController extends HttpServlet {
             oldInput.put("email", email);
 
             LoginRequestDTO loginRequest = new LoginRequestDTO(email, password);
-
             errors = loginValidator.validate(loginRequest.getEmail(), loginRequest.getPassword());
 
             if (!errors.isEmpty()) {
@@ -59,6 +59,9 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
 
+                // Ghi log đăng nhập thành công
+                LogUtils.logToDatabase(user.getId(), 1, "LOGIN_SUCCESS", null, "{\"userId\":" + user.getId() + "}");
+
                 if (user.getRoles() != null && !user.getRoles().isEmpty()) {
                     response.sendRedirect(request.getContextPath() + "/dashboard");
                 } else {
@@ -75,6 +78,9 @@ public class LoginController extends HttpServlet {
                 request.setAttribute("title", "Đăng nhập");
                 request.setAttribute("content", "login.jsp");
                 request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
+
+                // Ghi log đăng nhập thất bại
+                LogUtils.logToDatabase(0, 2, "LOGIN_FAILED", "{\"email\":\"" + email + "\"}", null);
             }
 
         } catch (Exception e) {
@@ -84,6 +90,9 @@ public class LoginController extends HttpServlet {
             request.setAttribute("title", "Đăng nhập");
             request.setAttribute("content", "login.jsp");
             request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
+
+            // Ghi log lỗi hệ thống
+            LogUtils.logToDatabase(0, 3, "LOGIN_ERROR", null, "{\"error\":\"" + e.getMessage() + "\"}");
         }
     }
 }
