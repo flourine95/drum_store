@@ -560,7 +560,7 @@
                                                 -<fmt:formatNumber value="${product.discountPercent}" type="number" maxFractionDigits="0"/>%
                                             </div>
                                         </c:if>
-                                        <c:if test="${product.isFeatured}">
+                                        <c:if test="${product.featured}">
                                             <div class="featured-badge">
                                                 <i class="bi bi-star-fill"></i> Nổi bật
                                             </div>

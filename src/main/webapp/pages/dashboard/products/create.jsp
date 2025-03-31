@@ -9,7 +9,8 @@
                     <h4 class="card-title">Tạo sản phẩm mới</h4>
                 </div>
                 <div class="card-body">
-                    <form action="${pageContext.request.contextPath}/dashboard/products/create" method="post" enctype="multipart/form-data">
+                    <form action="${pageContext.request.contextPath}/dashboard/products" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="action" value="store">
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">

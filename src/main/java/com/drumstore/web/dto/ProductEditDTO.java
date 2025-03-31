@@ -6,16 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoleDTO implements Serializable {
-    private int id;
+public class ProductEditDTO implements Serializable {
+    private Long id;
     private String name;
     private String description;
-    private List<PermissionDTO> permissions;
+    private Double price;
+    private String imageUrl;
+    private Long categoryId;
+    private Long brandId;
 }
-

@@ -1,6 +1,17 @@
 package com.drumstore.web.dto;
 
-public class AddressDTO {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class AddressDTO implements Serializable {
     private int id;
     private int userId;
     private String fullname;
@@ -9,92 +20,5 @@ public class AddressDTO {
     private int provinceId;
     private int districtId;
     private int wardId;
-    private boolean isDefault;
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public int getProvinceId() {
-        return provinceId;
-    }
-
-    public void setProvinceId(int provinceId) {
-        this.provinceId = provinceId;
-    }
-
-    public int getDistrictId() {
-        return districtId;
-    }
-
-    public void setDistrictId(int districtId) {
-        this.districtId = districtId;
-    }
-
-    public int getWardId() {
-        return wardId;
-    }
-
-    public void setWardId(int wardId) {
-        this.wardId = wardId;
-    }
-
-    public boolean isIsDefault() {
-        return isDefault;
-    }
-
-    public void setIsDefault(boolean aDefault) {
-        isDefault = aDefault;
-    }
-
-    @Override
-    public String toString() {
-        return "AddressDTO{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", fullname='" + fullname + '\'' +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                ", provinceId=" + provinceId +
-                ", districtId=" + districtId +
-                ", wardId=" + wardId +
-                ", isDefault=" + isDefault +
-                '}';
-    }
+    private boolean main;
 }

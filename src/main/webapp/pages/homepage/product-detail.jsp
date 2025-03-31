@@ -40,7 +40,7 @@
             <div class="col-md-7">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <h1 class="product-title">${product.name}</h1>
-                    <c:if test="${product.isFeatured}">
+                    <c:if test="${product.featured}">
                         <span class="badge bg-warning">Sản phẩm nổi bật</span>
                     </c:if>
                 </div>

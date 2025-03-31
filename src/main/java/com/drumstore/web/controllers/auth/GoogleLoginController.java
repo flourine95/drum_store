@@ -67,7 +67,7 @@ public class GoogleLoginController extends HttpServlet {
                 user.setFullname(userInfo.get("name").getAsString());
                 user.setAvatar(userInfo.get("picture").getAsString());
                 user.setStatus(true);
-                userService.create(user);
+                userService.store(user);
             }
 
             HttpSession session = request.getSession();

@@ -4,7 +4,6 @@ import com.drumstore.web.dto.AddressDTO;
 import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.services.AddressService;
-import com.drumstore.web.services.OrderService;
 import com.drumstore.web.services.UserService;
 import com.drumstore.web.services.WishlistService;
 import com.drumstore.web.utils.GsonUtils;
@@ -23,18 +22,9 @@ import java.util.Map;
 
 @WebServlet("/profile")
 public class ProfileController extends HttpServlet {
-    private UserService userService;
-    private AddressService addressService;
-    private WishlistService wishlistService;
-    private OrderService orderService;
-
-    @Override
-    public void init() throws ServletException {
-        this.userService = new UserService();
-        this.addressService = new AddressService();
-        this.wishlistService = new WishlistService();
-        this.orderService = new OrderService();
-    }
+    private final UserService userService = new UserService();
+    private final AddressService addressService = new AddressService();
+    private final WishlistService wishlistService = new WishlistService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -101,10 +91,10 @@ public class ProfileController extends HttpServlet {
 
             switch (action) {
                 case "update-account" -> updateAccount(request, response, user, jsonObject);
-                case "get_address" -> getAddress(request, response, user, jsonObject);
-                case "add_address" -> addAddress(request, response, user, jsonObject);
-                case "delete_address" -> deleteAddress(request, response, user, jsonObject);
-                case "update_address" -> updateAddress(request, response, user, jsonObject);
+                case "get-address" -> getAddress(request, response, user, jsonObject);
+                case "add-address" -> addAddress(request, response, user, jsonObject);
+                case "delete-address" -> deleteAddress(request, response, user, jsonObject);
+                case "update-address" -> updateAddress(request, response, user, jsonObject);
                 case "toggle-wishList" -> toogleWishtList(request, response, user, jsonObject);
                 default -> response.sendRedirect(request.getContextPath() + "/profile");
             }
@@ -196,16 +186,17 @@ public class ProfileController extends HttpServlet {
         try {
             JsonObject data = jsonObject.get("data").getAsJsonObject();
 
-            AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setId(data.get("id").getAsInt());
-            addressDTO.setUserId(user.getId());
-            addressDTO.setFullname(data.get("fullname").getAsString());
-            addressDTO.setPhone(data.get("phone").getAsString());
-            addressDTO.setProvinceId(data.get("provinceId").getAsInt());
-            addressDTO.setDistrictId(data.get("districtId").getAsInt());
-            addressDTO.setWardId(data.get("wardId").getAsInt());
-            addressDTO.setAddress(data.get("addressDetail").getAsString());
-            addressDTO.setIsDefault(data.get("isDefault").getAsBoolean());
+            AddressDTO addressDTO = AddressDTO.builder()
+                    .id(data.get("id").getAsInt())
+                    .userId(user.getId())
+                    .fullname(data.get("fullname").getAsString())
+                    .phone(data.get("phone").getAsString())
+                    .provinceId(data.get("provinceId").getAsInt())
+                    .districtId(data.get("districtId").getAsInt())
+                    .wardId(data.get("wardId").getAsInt())
+                    .address(data.get("addressDetail").getAsString())
+                    .main(data.get("main").getAsBoolean())
+                    .build();
 
             boolean success = addressService.updateAddress(addressDTO);
 
@@ -246,19 +237,19 @@ public class ProfileController extends HttpServlet {
     private void addAddress(HttpServletRequest request, HttpServletResponse response, UserDTO user, JsonObject jsonObject) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
         try {
             JsonObject data = jsonObject.get("data").getAsJsonObject();
 
-            AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setUserId(user.getId());
-            addressDTO.setFullname(data.get("fullname").getAsString());
-            addressDTO.setPhone(data.get("phone").getAsString());
-            addressDTO.setProvinceId(data.get("provinceId").getAsInt());
-            addressDTO.setDistrictId(data.get("districtId").getAsInt());
-            addressDTO.setWardId(data.get("wardId").getAsInt());
-            addressDTO.setAddress(data.get("addressDetail").getAsString());
-            addressDTO.setIsDefault(data.get("isDefault").getAsBoolean());
+            AddressDTO addressDTO = AddressDTO.builder()
+                    .userId(user.getId())
+                    .fullname(data.get("fullname").getAsString())
+                    .phone(data.get("phone").getAsString())
+                    .provinceId(data.get("provinceId").getAsInt())
+                    .districtId(data.get("districtId").getAsInt())
+                    .wardId(data.get("wardId").getAsInt())
+                    .address(data.get("addressDetail").getAsString())
+                    .main(data.get("main").getAsBoolean())
+                    .build();
 
             boolean success = addressService.addAddress(addressDTO);
 
@@ -278,11 +269,6 @@ public class ProfileController extends HttpServlet {
     // Helper method để ghi JSON response
     private void writeJson(HttpServletResponse response, Object data) throws IOException {
         response.getWriter().write(GsonUtils.toJson(data));
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
     }
 
 }
