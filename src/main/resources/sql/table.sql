@@ -275,6 +275,14 @@ CREATE TABLE payments
     paymentDate   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     createdAt     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
+CREATE TABLE logs
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    userId    INT,
+    level     INT,
+    action    VARCHAR(255),
+    oldData   JSON,
+    newData   JSON,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
