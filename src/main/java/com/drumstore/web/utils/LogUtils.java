@@ -25,7 +25,7 @@ public class LogUtils {
             System.err.println("Lỗi khi ghi log vào database: " + e.getMessage());
         }
     }
-
+//
     public static void main(String[] args) {
         System.out.println("Chạy thử LogUtils...");
         logToDatabase(1, 2, "UPDATE_USER", "{\"name\":\"John\"}", "{\"name\":\"John Doe\"}");
