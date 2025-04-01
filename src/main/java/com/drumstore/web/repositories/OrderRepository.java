@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class OrderRepository extends BaseRepository<Order> {
+public class OrderRepository  {
     private final Jdbi jdbi;
 
     public OrderRepository() {
@@ -117,7 +117,7 @@ public class OrderRepository extends BaseRepository<Order> {
                        o.userAddressId, p.paymentMethod, p.status AS paymentStatus, p.transactionId,
                        oi.variantId, oi.quantity, oi.basePrice, oi.finalPrice,
                        a.id AS addressId, a.userId AS addressUserId, a.fullname, a.address, 
-                       a.phone, a.provinceId, a.districtId, a.wardId, a.isDefault,
+                       a.phone, a.provinceId, a.districtId, a.wardId,
                        pi.image, ps.name AS product_name
                 FROM orders o
                 LEFT JOIN payments p ON o.id = p.orderId

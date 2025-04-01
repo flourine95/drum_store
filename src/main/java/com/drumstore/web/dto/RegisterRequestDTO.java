@@ -1,33 +1,27 @@
 package com.drumstore.web.dto;
 
 
-public class RegisterRequestDTO {
+import com.drumstore.web.models.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class RegisterRequestDTO implements Serializable {
     private String fullname;
-    private String phone;
     private String email;
+    private String phone;
     private String password;
+    private String confirmPassword;
 
-    public RegisterRequestDTO(String fullname, String phone, String email, String password) {
-        this.fullname = fullname;
-        this.phone = phone;
-        this.email = email;
-        this.password = password;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
+    public User toModel() {
+        return new User(fullname, email, phone, password);
     }
 }
 

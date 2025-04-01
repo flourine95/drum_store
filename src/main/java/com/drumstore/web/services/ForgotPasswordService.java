@@ -23,7 +23,7 @@ public class ForgotPasswordService {
         }
 
         String resetToken = generateResetToken();
-        LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(15);
+        LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(30);
 
         try {
             userRepository.saveResetToken(user.getId(), resetToken, expiryTime);

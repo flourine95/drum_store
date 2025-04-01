@@ -6,7 +6,7 @@ import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 
-public class PaymentRepository extends BaseRepository<Payment> {
+public class PaymentRepository  {
     private final Jdbi jdbi;
 
     public PaymentRepository() {

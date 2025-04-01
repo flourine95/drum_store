@@ -179,7 +179,7 @@
                         <div class="col-12">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="add_defaultAddress"
-                                       name="add_isDefault">
+                                       name="add_main">
                                 <label class="form-check-label" for="add_defaultAddress">
                                     Đặt làm địa chỉ mặc định
                                 </label>
@@ -239,7 +239,7 @@
                         <div class="col-12">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="edit_defaultAddress"
-                                       name="edit_isDefault">
+                                       name="edit_main">
                                 <label class="form-check-label" for="edit_defaultAddress">
                                     Đặt làm địa chỉ mặc định
                                 </label>
@@ -266,7 +266,7 @@
                             <div class="address-header d-flex justify-content-between align-items-center">
                                 <div>
                                     <span class="fw-bold">${address.fullname}</span>
-                                    <c:if test="${address.isDefault}">
+                                    <c:if test="${address.main}">
                                         <span class="default-badge ms-2">Mặc định</span>
                                     </c:if>
                                 </div>
@@ -410,36 +410,55 @@
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    action: 'get_address',
+                    action: 'get-address',
                     data: {addressId: addressId}
                 }),
-                success: function (data) {
+                success: async function (data) {
+                    console.log(data);
                     // Fill basic info
                     $('#editAddressId').val(data.id);
                     $('input[name="edit_fullname"]').val(data.fullname);
                     $('input[name="edit_phone"]').val(data.phone);
                     $('input[name="edit_addressDetail"]').val(data.address);
-                    $('#edit_defaultAddress').prop('checked', data.isDefault);
+                    $('#edit_defaultAddress').prop('checked', data.main);
 
-                    // Load provinces first
-                    loadProvinces('#edit_provinceSelect');
-                    
-                    // Then load districts for the selected province
-                    loadDistricts(data.provinceId, '#edit_districtSelect')
-                        .then(() => {
+                    // Load provinces và đợi cho đến khi hoàn thành
+                    await new Promise(resolve => {
+                        $.get('${pageContext.request.contextPath}/api/locations/provinces', function (provinces) {
+                            $('#edit_provinceSelect').empty().append('<option value="">Chọn Tỉnh/Thành phố</option>');
+                            provinces.forEach(function (province) {
+                                $('#edit_provinceSelect').append(new Option(province.name, province.id));
+                            });
                             $('#edit_provinceSelect').val(data.provinceId);
-                            $('#edit_districtSelect').val(data.districtId);
-                            
-                            // Finally load wards for the selected district
-                            return loadWards(data.districtId, '#edit_wardSelect');
-                        })
-                        .then(() => {
-                            $('#edit_wardSelect').val(data.wardId);
-                        })
-                        .catch(error => {
-                            console.error('Error loading location data:', error);
-                            alert('Có lỗi xảy ra khi tải dữ liệu địa chỉ');
+                            resolve();
                         });
+                    });
+
+                    // Load districts và đợi cho đến khi hoàn thành
+                    await new Promise(resolve => {
+                        $.get(`${pageContext.request.contextPath}/api/locations/provinces/\${data.provinceId}/districts`, function (districts) {
+                            $('#edit_districtSelect').empty().append('<option value="">Chọn Quận/Huyện</option>');
+                            districts.forEach(function (district) {
+                                $('#edit_districtSelect').append(new Option(district.name, district.id));
+                            });
+                            $('#edit_districtSelect').val(data.districtId);
+                            $('#edit_districtSelect').prop('disabled', false);
+                            resolve();
+                        });
+                    });
+
+                    // Load wards và đợi cho đến khi hoàn thành
+                    await new Promise(resolve => {
+                        $.get(`${pageContext.request.contextPath}/api/locations/districts/\${data.districtId}/wards`, function (wards) {
+                            $('#edit_wardSelect').empty().append('<option value="">Chọn Phường/Xã</option>');
+                            wards.forEach(function (ward) {
+                                $('#edit_wardSelect').append(new Option(ward.name, ward.id));
+                            });
+                            $('#edit_wardSelect').val(data.wardId);
+                            $('#edit_wardSelect').prop('disabled', false);
+                            resolve();
+                        });
+                    });
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
@@ -459,15 +478,15 @@
                 districtId: $('#add_districtSelect').val(),
                 wardId: $('#add_wardSelect').val(),
                 addressDetail: $('input[name="add_addressDetail"]').val(),
-                isDefault: $('#add_defaultAddress').is(':checked')
+                main: $('#add_defaultAddress').is(':checked')
             };
-
+            console.log('Adding address:', formData);
             $.ajax({
                 url: '${pageContext.request.contextPath}/profile',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    action: 'add_address',
+                    action: 'add-address',
                     data: formData
                 }),
                 success: function (response) {
@@ -496,7 +515,7 @@
                 districtId: $('#edit_districtSelect').val(),
                 wardId: $('#edit_wardSelect').val(),
                 addressDetail: $('input[name="edit_addressDetail"]').val(),
-                isDefault: $('#edit_defaultAddress').is(':checked')
+                main: $('#edit_defaultAddress').is(':checked')
             };
 
             $.ajax({
@@ -504,7 +523,7 @@
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    action: 'update_address',
+                    action: 'update-address',
                     data: formData
                 }),
                 success: function (response) {
@@ -536,7 +555,7 @@
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    action: 'delete_address',
+                    action: 'delete-address',
                     addressId: addressId
                 }),
                 success: function (response) {

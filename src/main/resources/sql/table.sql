@@ -31,7 +31,7 @@ CREATE TABLE password_resets
     userId INT NOT NULL,
     token VARCHAR(100) NOT NULL,
     expiryTime TIMESTAMP NOT NULL,
-    used TINYINT DEFAULT 0,
+    used BOOLEAN DEFAULT FALSE,
     usedAt TIMESTAMP NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -43,7 +43,7 @@ CREATE TABLE products
     description         TEXT,
     basePrice           DECIMAL(10, 2),
     totalViews          INT       DEFAULT 0,
-    isFeatured          TINYINT   DEFAULT 0,
+    featured          BOOLEAN   DEFAULT FALSE,
     status              TINYINT   DEFAULT 1,
     stockManagementType TINYINT   DEFAULT 0 COMMENT '0: Simple, 1: Color Only, 2: Addon Only, 3: Color and Addon',
     categoryId          INT,
@@ -55,7 +55,7 @@ CREATE TABLE product_images
     id        INT PRIMARY KEY AUTO_INCREMENT,
     productId INT          NOT NULL,
     image     VARCHAR(255) NOT NULL,
-    isMain    BOOLEAN   DEFAULT FALSE,
+    main    BOOLEAN   DEFAULT FALSE,
     sortOrder INT       DEFAULT 0,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -169,7 +169,7 @@ CREATE TABLE user_addresses
     provinceId INT,
     districtId INT,
     wardId     INT,
-    isDefault  TINYINT
+    main  BOOLEAN DEFAULT FALSE
 );
 CREATE TABLE wishlist
 (
@@ -183,7 +183,7 @@ CREATE TABLE user_vouchers
     id        INT AUTO_INCREMENT PRIMARY KEY,
     userId    INT,
     voucherId INT,
-    used      TINYINT,
+    used      BOOLEAN DEFAULT FALSE,
     usedAt    TIMESTAMP NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -219,22 +219,22 @@ CREATE TABLE posts
     createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-    CREATE TABLE vouchers
-    (
-        id               INT AUTO_INCREMENT PRIMARY KEY,
-        code             VARCHAR(50),
-        description      TEXT,
-        discountType     TINYINT,
-        discountValue    DECIMAL(10, 2),
-        minOrderValue    DECIMAL(10, 2),
-        maxDiscountValue DECIMAL(10, 2),
-        startDate        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        endDate          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        usageLimit       INT,
-        perUserLimit     INT,
-        status           TINYINT,
-        createdAt        TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
+CREATE TABLE vouchers
+(
+    id               INT AUTO_INCREMENT PRIMARY KEY,
+    code             VARCHAR(50),
+    description      TEXT,
+    discountType     TINYINT,
+    discountValue    DECIMAL(10, 2),
+    minOrderValue    DECIMAL(10, 2),
+    maxDiscountValue DECIMAL(10, 2),
+    startDate        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    endDate          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usageLimit       INT,
+    perUserLimit     INT,
+    status           TINYINT,
+    createdAt        TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE provinces
 (
@@ -275,6 +275,14 @@ CREATE TABLE payments
     paymentDate   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     createdAt     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
+CREATE TABLE logs
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    userId    INT,
+    level     INT,
+    action    VARCHAR(255),
+    oldData   JSON,
+    newData   JSON,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 

@@ -1,8 +1,8 @@
 package com.drumstore.web.controllers.homepage;
 
+import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.dto.VoucherDTO;
 import com.drumstore.web.models.Cart;
-import com.drumstore.web.models.User;
 import com.drumstore.web.services.VoucherService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -43,7 +43,7 @@ public class VoucherController extends HttpServlet {
                 req.getSession().setAttribute("cart", cart);
             }
 
-            User user = (User) req.getSession().getAttribute("user");
+            UserDTO user = (UserDTO) req.getSession().getAttribute("user");
 
             String action = req.getParameter("action");
 
@@ -77,17 +77,17 @@ public class VoucherController extends HttpServlet {
                     }
                 }
                 case "remove" -> {
-                   int voucherId = Integer.parseInt(req.getParameter("voucherId"));
-                   if(voucherId == cart.getVoucher().getId()) {
-                       cart.setVoucher(null);
-                       req.getSession().setAttribute("cart", cart);
+                    int voucherId = Integer.parseInt(req.getParameter("voucherId"));
+                    if (voucherId == cart.getVoucher().getId()) {
+                        cart.setVoucher(null);
+                        req.getSession().setAttribute("cart", cart);
 
-                       Map<String, Object> success = new HashMap<>();
-                       success.put("success", true);
-                       success.put("total", cart.getTotal());
-                       success.put("message", "Đã xóa mã voucher thành công!");
-                       resp.getWriter().write(gson.toJson(success));
-                   }
+                        Map<String, Object> success = new HashMap<>();
+                        success.put("success", true);
+                        success.put("total", cart.getTotal());
+                        success.put("message", "Đã xóa mã voucher thành công!");
+                        resp.getWriter().write(gson.toJson(success));
+                    }
 
                 }
                 default -> {

@@ -6,7 +6,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -42,7 +41,7 @@ public class PaymentController extends HttpServlet {
             response.put("message", "Lỗi khi tạo URL thanh toán.");
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        resp.getWriter().write(objectMapper.writeValueAsString(response));
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        resp.getWriter().write(objectMapper.writeValueAsString(response));
     }
 }

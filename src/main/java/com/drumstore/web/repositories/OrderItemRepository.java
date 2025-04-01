@@ -7,7 +7,7 @@ import org.jdbi.v3.core.Jdbi;
 
 import java.util.List;
 
-public class OrderItemRepository extends BaseRepository<OrderItem> {
+public class OrderItemRepository {
     private final Jdbi jdbi;
 
     public OrderItemRepository() {

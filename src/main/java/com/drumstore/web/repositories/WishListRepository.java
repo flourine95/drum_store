@@ -8,18 +8,13 @@ import org.jdbi.v3.core.Jdbi;
 
 import java.util.List;
 
-public class WishListRepository extends BaseRepository<WishList> {
-    private final Jdbi jdbi;
-
-    public WishListRepository() {
-        super();
-        this.jdbi = DBConnection.getJdbi();
-    }
+public class WishListRepository {
+    private final Jdbi jdbi = DBConnection.getJdbi();
 
     public List<WishList> getAll(int userId) {
         String sql = """
-            SELECT * FROM wishlist WHERE userId = :userId
-            """;
+                SELECT * FROM wishlist WHERE userId = :userId
+                """;
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
                         .bind("userId", userId)
@@ -42,8 +37,8 @@ public class WishListRepository extends BaseRepository<WishList> {
 
     public void save(WishList wishList) {
         String sql = """
-            INSERT INTO wishlist (productId, userId, createdAt) VALUES (:productId, :userId, :createdAt)
-            """;
+                INSERT INTO wishlist (productId, userId, createdAt) VALUES (:productId, :userId, :createdAt)
+                """;
         jdbi.useHandle(handle ->
                 handle.createUpdate(sql)
                         .bindBean(wishList)
@@ -53,16 +48,16 @@ public class WishListRepository extends BaseRepository<WishList> {
 
     public void delete(int productId, int userId) {
         jdbi.useHandle(handle -> {
-           handle.createUpdate("DELETE FROM wishlist WHERE productId = :productId AND userId = :userId")
-                   .bind("productId", productId)
-                   .bind("userId", userId).execute();
+            handle.createUpdate("DELETE FROM wishlist WHERE productId = :productId AND userId = :userId")
+                    .bind("productId", productId)
+                    .bind("userId", userId).execute();
         });
     }
 
     public boolean isExists(int productId, int userId) {
         String sql = """
-            SELECT COUNT(*) FROM wishlist WHERE userId = :userId AND productId = :productId
-            """;
+                SELECT COUNT(*) FROM wishlist WHERE userId = :userId AND productId = :productId
+                """;
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
                         .bind("userId", userId)

@@ -1,179 +1,287 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
-
-    body {
-        justify-content: center;
-        align-items: center;
-        margin: 0;
+    :root {
+        --primary-color: #1B2832;
+        --text-color: #4A5568;
+        --link-color: #3182CE;
+        --border-color: #E2E8F0;
+        --input-bg: #F8FAFC;
+        --error-color: #E53E3E;
     }
 
     .login-container {
+        max-width: 1200px;
         margin: 0 auto;
-        align-content: center;
-        width: 800px;
-        background-color: #fff;
-        padding: 30px;
-        text-align: center;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
     }
 
-    .login-container h3 {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 20px;
+    .form-section {
+        padding: 2rem;
     }
 
-    /* Social buttons */
-    .social-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 50px;
-        margin-bottom: 20px;
+    .image-section {
+        padding: 0;
+        background-color: #000;
+        border-radius: 32px;
+        overflow: hidden;
     }
 
-    .btn-social {
-        border: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        background-color: white;
-    }
-
-    .btn-social img {
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
-    }
-
-    /* Form styles */
-    .field {
-        position: relative;
-        margin-bottom: 30px;
-    }
-
-    .field input {
+    .image-section img {
         width: 100%;
-        padding: 0.5rem;
-        border: none;
-        border-bottom: 1px solid #ccc;
-        outline: none;
-        color: #fd0;
-        background: none;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 32px;
     }
 
-    .field label {
-        position: absolute;
-        font-size: 14px;
-        top: 0;
-        left: 0;
-        translate: 0.625rem 0.625rem;
-        color: #fd0;
-        padding-inline-start: 0.25rem;
-        pointer-events: none;
-        transition: translate 250ms;
-        visibility: hidden;
+    .welcome-text {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
     }
 
-    .field:focus-within label,
-    .field:not(:has(:placeholder-shown)),
-    label {
-        translate: 0.5rem -1rem;
-        visibility: visible;
+    .welcome-subtext {
+        color: var(--text-color);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
     }
 
-    .error-message {
-        text-align: left;
-        margin-top: 5px;
-        color: red;
-        font-size: 12px;
+    .form-group {
+        margin-bottom: 1.25rem;
     }
 
-    .btn-login {
-        background-color: #fd0;
-        color: black;
-        padding: 10px;
+    .form-label {
+        font-weight: 500;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        background-color: var(--input-bg);
+        color: var(--text-color);
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: var(--link-color);
+    }
+
+    .btn-register {
         width: 100%;
+        padding: 0.75rem;
+        background-color: var(--bs-primary);
         border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 1rem;
+        border-radius: 0.5rem;
+        color: var(--text-color);
+        font-weight: 600;
+        margin: 1.5rem 0;
+        transition: all 0.2s ease;
     }
 
-    .text-link {
-        color: #fd0;
+    .btn-register:hover {
+        background-color: #fcc419;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 221, 0, 0.3);
+    }
+
+    .terms-text {
+        font-size: 0.875rem;
+        color: var(--text-color);
+        margin: 1rem 0;
+    }
+
+    .terms-text a {
+        color: var(--link-color);
         text-decoration: none;
     }
 
-    .text-link:hover {
-        text-decoration: underline;
+    .login-link {
+        text-align: center;
+        color: var(--text-color);
+        margin-top: 1.5rem;
     }
 
-    .footer-links {
-        margin-top: 20px;
+    .login-link a {
+        color: var(--link-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .required-field::after {
+        content: "*";
+        color: var(--error-color);
+        margin-left: 4px;
+    }
+
+    @media (max-width: 768px) {
+        .image-section {
+            display: none;
+        }
+    }
+
+    .error-message {
+        color: var(--error-color);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .error-message i {
+        font-size: 14px;
+    }
+
+    .form-control.is-invalid {
+        border-color: var(--error-color);
+        background-image: none;
+    }
+
+    .alert {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .alert-danger {
+        background-color: #FEE2E2;
+        border: 1px solid #FCA5A5;
+        color: #DC2626;
     }
 </style>
-<div class="container my-5" style="min-height: 70vh">
-    <div class="row">
-        <div class="login-container col-12 col-md-8">
-            <h3>Đăng ký với</h3>
+<div class="container-fluid">
+    <div class="row login-container">
+        <div class="col-md-5 form-section">
+            <h1 class="welcome-text">Tạo tài khoản mới 🎵</h1>
+            <p class="welcome-subtext">
+                Khám phá âm nhạc truyền thống Việt Nam.<br>
+                Bắt đầu hành trình của bạn với chúng tôi.
+            </p>
 
-            <div class="social-buttons">
-                <button class="btn-social">
-                    <img src="${pageContext.request.contextPath}/assets/images/logos/google-logo.png" alt="Google">
-                    Google
-                </button>
-                <button class="btn-social">
-                    <img src="${pageContext.request.contextPath}/assets/images/logos/Facebook.png" alt="Facebook">
-                    Facebook
-                </button>
-            </div>
+            <c:if test="${not empty errors.general}">
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i>
+                    ${errors.general}
+                </div>
+            </c:if>
 
-            <div class="divider">hoặc</div>
-
-            <form id="register-form" action="${pageContext.request.contextPath}/register" method="post">
-                <div class="field">
-                    <input type="text" name="fullname" id="full-name" placeholder="Nhập họ và tên" required>
-                    <label for="full-name">Họ và tên</label>
-                    <p id="full-name-error" class="error-message">${fullnameError}</p>
+            <form action="${pageContext.request.contextPath}/register" method="POST">
+                <div class="form-group">
+                    <label class="form-label required-field" for="fullName">Họ và tên</label>
+                    <input type="text" 
+                           class="form-control ${not empty errors.fullname ? 'is-invalid' : ''}" 
+                           id="fullName" 
+                           name="fullname"
+                           placeholder="Nhập họ và tên đầy đủ" 
+                           value="${oldInput.fullname}"
+                           required>
+                    <c:if test="${not empty errors.fullname}">
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            ${errors.fullname}
+                        </div>
+                    </c:if>
                 </div>
 
-                <div class="field">
-                    <input type="tel" name="phone" id="phone-number" placeholder="Nhập số điện thoại" required>
-                    <label for="phone-number">Số điện thoại</label>
-                    <p id="phone-number-error" class="error-message">${phoneError}</p>
+                <div class="form-group">
+                    <label class="form-label required-field" for="email">Email</label>
+                    <input type="email" 
+                           class="form-control ${not empty errors.email ? 'is-invalid' : ''}" 
+                           id="email" 
+                           name="email"
+                           placeholder="vidu@email.com" 
+                           value="${oldInput.email}"
+                           required>
+                    <c:if test="${not empty errors.email}">
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            ${errors.email}
+                        </div>
+                    </c:if>
                 </div>
 
-                <div class="field">
-                    <input type="email" name="email" id="email-address" placeholder="Nhập email" required>
-                    <label for="email-address">Email</label>
-                    <p id="email-address-error" class="error-message">${emailError}</p>
+                <div class="form-group">
+                    <label class="form-label required-field" for="phone">Số điện thoại</label>
+                    <input type="tel" 
+                           class="form-control ${not empty errors.phone ? 'is-invalid' : ''}" 
+                           id="phone" 
+                           name="phone"
+                           placeholder="0xxxxxxxxx" 
+                           value="${oldInput.phone}"
+                           required>
+                    <c:if test="${not empty errors.phone}">
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            ${errors.phone}
+                        </div>
+                    </c:if>
                 </div>
 
-                <div class="field">
-                    <input type="password" name="password" id="password" placeholder="Nhập mật khẩu" required>
-                    <label for="password">Mật khẩu</label>
-                    <p id="password-error" class="error-message">${passwordError}</p>
+                <div class="form-group">
+                    <label class="form-label required-field" for="password">Mật khẩu</label>
+                    <input type="password" 
+                           class="form-control ${not empty errors.password ? 'is-invalid' : ''}" 
+                           id="password" 
+                           name="password"
+                           placeholder="Tối thiểu 8 ký tự" 
+                           required>
+                    <c:if test="${not empty errors.password}">
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            ${errors.password}
+                        </div>
+                    </c:if>
                 </div>
 
-                <div class="field">
-                    <input type="password" id="confirm-password" placeholder="Nhập lại mật khẩu" required>
-                    <label for="confirm-password">Nhập lại mật khẩu</label>
-                    <p id="confirm-password-error" class="error-message"></p>
+                <div class="form-group">
+                    <label class="form-label required-field" for="confirmPassword">Xác nhận mật khẩu</label>
+                    <input type="password" 
+                           class="form-control ${not empty errors.confirmPassword ? 'is-invalid' : ''}" 
+                           id="confirmPassword" 
+                           name="confirmPassword"
+                           placeholder="Nhập lại mật khẩu"
+                           required>
+                    <c:if test="${not empty errors.confirmPassword}">
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            ${errors.confirmPassword}
+                        </div>
+                    </c:if>
                 </div>
 
-                <button type="submit" class="btn-login">Đăng ký</button>
+                <div class="terms-text">
+                    <input type="checkbox" 
+                           id="terms" 
+                           name="terms"
+                           class="${not empty errors.terms ? 'is-invalid' : ''}"
+                           required>
+                    <label for="terms">
+                        Tôi đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a>
+                    </label>
+                    <c:if test="${not empty errors.terms}">
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            ${errors.terms}
+                        </div>
+                    </c:if>
+                </div>
+
+                <button type="submit" class="btn btn-register">Đăng ký</button>
+
+                <div class="login-link">
+                    Đã có tài khoản? <a href="${pageContext.request.contextPath}/login">Đăng nhập ngay</a>
+                </div>
             </form>
-            <div class="footer-links">
-                <p>Bạn đã có tài khoản? <a href="${pageContext.request.contextPath}/login" class="text-link">Đăng nhập
-                    ngay</a></p>
-            </div>
+        </div>
+
+        <div class="col-md-7 image-section">
+            <img src="${pageContext.request.contextPath}/assets/images/register.webp"
+                 alt="Hình ảnh trống truyền thống Việt Nam">
         </div>
     </div>
 </div>
-
