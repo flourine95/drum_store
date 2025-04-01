@@ -26,7 +26,7 @@ public class LogUtils {
         }
     }
 
-    public static void main(String[]args) {
+    public static void main(String[] args) {
         System.out.println("Chạy thử LogUtils...");
         logToDatabase(1, 2, "UPDATE_USER", "{\"name\":\"John\"}", "{\"name\":\"John Doe\"}");
     }
