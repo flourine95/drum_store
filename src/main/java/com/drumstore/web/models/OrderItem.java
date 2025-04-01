@@ -5,9 +5,10 @@ import java.sql.Timestamp;
 public class OrderItem {
     private int id;
     private int orderId;
-    private int productId;
+    private int variantId;
     private int quantity;
-    private double price;
+    private double basePrice;
+    private double finalPrice;
     private Timestamp createdAt;
 
     public int getId() {
@@ -26,12 +27,12 @@ public class OrderItem {
         this.orderId = orderId;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getVariantId() {
+        return variantId;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setVariantId(int variantId) {
+        this.variantId = variantId;
     }
 
     public int getQuantity() {
@@ -42,13 +43,7 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
-    }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
 
     public Timestamp getCreatedAt() {
         return createdAt;
@@ -58,15 +53,19 @@ public class OrderItem {
         this.createdAt = createdAt;
     }
 
-    @Override
-    public String toString() {
-        return "OrderItem{" +
-                "id=" + id +
-                ", orderId=" + orderId +
-                ", productId=" + productId +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                ", createdAt=" + createdAt +
-                '}';
+    public double getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(double finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public double getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
     }
 }

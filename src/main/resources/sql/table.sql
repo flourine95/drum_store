@@ -1,5 +1,5 @@
 # drop database drum_store;
-create database drum_store;
+# create database drum_store;
 CREATE TABLE categories
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -266,7 +266,7 @@ CREATE TABLE product_sales
 
 CREATE TABLE payments
 (
-    id            INT PRIMARY KEY,
+    id            INT AUTO_INCREMENT PRIMARY KEY,
     orderId       INT,
     paymentMethod TINYINT,
     status        TINYINT,

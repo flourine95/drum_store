@@ -1,6 +1,8 @@
 package com.drumstore.web.services;
 
 import com.drumstore.web.dto.*;
+import com.drumstore.web.models.Product;
+import com.drumstore.web.models.ProductSale;
 import com.drumstore.web.repositories.ProductRepository;
 
 import java.util.List;

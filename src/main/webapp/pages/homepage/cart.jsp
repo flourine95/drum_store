@@ -388,15 +388,8 @@
                                         <p class="d-flex justify-content-between">
                                             <span>Giảm</span>
                                             <span id="discount">
-                                                <c:choose>
-                                                    <c:when test="${not empty cart.voucher}">
                                                         <fmt:formatNumber value="${cart.discountTotal}"
                                                                           type="currency" currencySymbol="₫"/>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        ₫ 0
-                                                    </c:otherwise>
-                                                </c:choose>
                                             </span>
                                         </p>
                                         <hr>
@@ -408,7 +401,7 @@
                                             </span>
                                         </p>
                                     </div>
-                                    <button class="btn btn-primary checkout-btn w-100 mt-3">Tiếp tục thanh toán</button>
+                                    <button class="btn btn-primary checkout-btn w-100 mt-3" id="payment">Tiếp tục thanh toán</button>
                                 </div>
                             </div>
                         </div>
@@ -427,6 +420,35 @@
         </div>
     </div>
 </div>
+
+<c:if test="${vnp_TransactionStatus == true}">
+    <div class="modal fade" id="paymentSuccessModal" tabindex="-1" aria-labelledby="paymentSuccessModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentSuccessModalLabel">Thanh toán thành công</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Cảm ơn bạn đã mua sắm! Đơn hàng của bạn (ID: ${orderId}) đã được thanh toán thành công.</p>
+                    <p>Mã giao dịch: ${transactionId}</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="${pageContext.request.contextPath}/products" class="btn btn-primary">Tiếp tục mua sắm</a>
+                    <a href="${pageContext.request.contextPath}/profile?action=orders" class="btn btn-secondary">Xem lịch sử đơn hàng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script để hiển thị modal khi trang được tải -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var paymentSuccessModal = new bootstrap.Modal(document.getElementById('paymentSuccessModal'));
+            paymentSuccessModal.show();
+        });
+    </script>
+</c:if>
 
 
 <script>
@@ -548,13 +570,18 @@
                 // Cập nhật tổng tiền trong giỏ hàng
                 const cartTotal = document.querySelector('.cart-total');
                 if (cartTotal) {
-                    cartTotal.innerHTML = formatCurrency(total);
+                    cartTotal.innerHTML = formatCurrency(total-response.discount);
                 }
 
                 // Cập nhật tổng tiền
                 const totalElement = element.querySelector('.item-total');
                 if (totalElement) {
                     totalElement.innerHTML = formatCurrency(priceItem);
+                }
+
+                const subTotal = document.getElementById("subTotal")
+                if(subTotal){
+                    subTotal.textContent = formatCurrency(total)
                 }
 
                 const quantityInCart = document.querySelectorAll('.bg-danger.cartCount');
@@ -570,7 +597,7 @@
     }
 
     // format price
-    function formatCurrency(value) {
+    function   formatCurrency(value) {
         return new Intl.NumberFormat('vi-VN', {
             style: 'currency',
             currency: 'VND'
@@ -625,6 +652,21 @@
                             quantityInCart.forEach(element => {
                                 element.textContent = response.cartCount;
                             });
+
+                            const subTotal = document.getElementById("subTotal")
+                            if(subTotal){
+                                subTotal.textContent = formatCurrency(response.total)
+                            }
+
+                            const cartTotal = document.querySelector('.cart-total');
+                            if (cartTotal) {
+                                if(response.total-response.discount <= 0){
+                                    cartTotal.innerHTML = formatCurrency(0)
+                                }else{
+                                    cartTotal.innerHTML = formatCurrency(response.total-response.discount);
+                                }
+
+                            }
 
                         } else {
                             Toast.fire({
@@ -797,7 +839,13 @@
                         // cập nhật total
                         const cartTotal = document.querySelector('.cart-total');
                         if (cartTotal) {
-                            cartTotal.textContent = formatCurrency(response.total)
+
+                            cartTotal.textContent = formatCurrency(response.total - response.discount)
+                        }
+
+                        const subTotal = document.getElementById("subTotal")
+                        if(subTotal){
+                            subTotal.textContent = formatCurrency(response.total)
                         }
 
                         // cập nhật lại giá trị của max của stock
@@ -923,6 +971,43 @@
             },
             error: function(xhr, status, error) {
                 alert('Đã có lỗi xảy ra: ' + error);
+            }
+        });
+    });
+    $('#payment').click(function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: '/profile',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ action: "count_user_address" }),
+            success: function (response) {
+                if (response.status) {
+                    window.location.href = '/order';
+                } else {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Cập nhật địa chỉ!",
+                        text: "Vui lòng cập nhật địa chỉ trong hồ sơ của bạn trước khi đặt hàng.",
+                        confirmButtonText: "Cập nhật ngay",
+                        showCancelButton: true,
+                        cancelButtonText: "Để sau"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '/profile?action=addresses';
+                        }
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi!",
+                    text: "Không thể kiểm tra địa chỉ. Vui lòng thử lại sau.",
+                    confirmButtonText: "OK"
+                });
+                console.error("Lỗi khi gọi API:", error);
             }
         });
     });
