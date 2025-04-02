@@ -48,7 +48,7 @@ public class CartController extends HttpServlet {
                 String transactionId = request.getParameter("vnp_TransactionNo");
 
                 int orderId = Optional.ofNullable(request.getSession().getAttribute("orderId"))
-                        .map(obj -> obj.toString())
+                        .map(Object::toString)
                         .map(Integer::parseInt)
                         .orElse(0);
                 if(orderId != 0){
@@ -122,7 +122,7 @@ public class CartController extends HttpServlet {
                         result.put("price", cartItem.getTotal());
                         result.put("discount", cart.getDiscountTotal());
                         result.put("total", cart.getTotal());
-                        result.put("cart", cart);
+                        result.put("totalQuantity", cart.getItemCount());
                     }else {
                         result.put("success", false);
                         result.put("message", "Lỗi");

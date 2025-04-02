@@ -720,7 +720,6 @@ public class ProductRepository {
     }
 
     public CartItemDTO findProductWithVariant(int colorId, int addonId, int productId) {
-        System.out.println("colorId = " + colorId + ", addonId = " + addonId + ", productId = " + productId);
         String sql = """
                 WITH MaxDiscount AS (
                     SELECT productId, MAX(s.discountPercentage) as maxDiscount
@@ -746,11 +745,11 @@ public class ProductRepository {
                     pa.name AS pa_addonName,
                     pa.additionalPrice AS pa_additionalPrice
                 FROM products p
-                LEFT JOIN product_images pi ON p.id = pi.productId AND pi.main = 1
                 LEFT JOIN product_variants pv ON p.id = pv.productId AND pv.status = 1
                 LEFT JOIN product_colors pc ON pc.id = pv.colorId
                 LEFT JOIN product_addons pa ON pa.id = pv.addonId
                 LEFT JOIN MaxDiscount md ON md.productId = p.id
+                LEFT JOIN product_images pi ON pi.id = pv.imageId 
                 WHERE p.id = :productId
                     AND p.status = 1
                     AND (pv.colorId = NULLIF(:colorId, 0) OR (pv.colorId IS NULL AND :colorId = 0))

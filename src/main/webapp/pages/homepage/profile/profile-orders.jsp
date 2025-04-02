@@ -351,9 +351,6 @@
             $('.pay-order').click(function () {
                 const orderId = $(this).data('order-id');
                 const totalAmount = $(this).data('amount');
-
-
-
                 $.ajax({
                     url: '/payment',
                     type: 'POST',
@@ -362,7 +359,6 @@
                         amount: totalAmount
                     },
                     success: function (response) {
-
                         if (response.success && response.paymentUrl) {
                             window.location.href = response.paymentUrl;
                         } else {
