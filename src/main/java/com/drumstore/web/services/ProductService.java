@@ -16,6 +16,10 @@ public class ProductService {
         return productRepository.store(product);
     }
 
+    public int createImage(int productId, ProductImageDTO productImage) {
+        return productRepository.storeImage(productId, productImage);
+    }
+
     public ProductDashboardDetailDTO find(int id) {
         return productRepository.findById(id);
     }
@@ -51,5 +55,17 @@ public class ProductService {
 
     public ProductEditDTO findProductEdit(int id) {
         return productRepository.findProductEdit(id);
+    }
+
+    public int createColor(int productId, ProductColorDTO color) {
+        return productRepository.storeColor(productId, color);
+    }
+
+    public int createAddon(int productId, ProductAddonDTO addon) {
+        return productRepository.storeAddon(productId, addon);
+    }
+
+    public int createVariant(int productId, ProductVariantDTO variant) {
+        return productRepository.storeVariant(productId, variant);
     }
 }

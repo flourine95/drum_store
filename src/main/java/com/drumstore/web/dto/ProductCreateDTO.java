@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,4 +21,8 @@ public class ProductCreateDTO implements Serializable {
     private int brandId;
     private int stockManagementType;
     private boolean featured;
+    private List<ProductImageDTO> images;
+    private List<ProductColorDTO> colors;
+    private List<ProductAddonDTO> addons;
+    private List<ProductVariantDTO> variants;
 }

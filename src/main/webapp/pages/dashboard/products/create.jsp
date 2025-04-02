@@ -73,6 +73,14 @@
                             </select>
                         </div>
 
+                        <!-- Stock cho simple type -->
+                        <div id="simpleStockSection" class="mb-3">
+                            <div class="form-group">
+                                <label for="stock">Số lượng tồn kho <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="stock" name="stock" min="0" value="0">
+                            </div>
+                        </div>
+
                         <!-- Upload hình ảnh -->
                         <div class="form-group mb-3">
                             <label for="images">Hình ảnh sản phẩm</label>
@@ -81,6 +89,16 @@
                                 <label class="custom-file-label" for="images">Chọn hình ảnh</label>
                             </div>
                             <small class="form-text text-muted mb-2">Có thể chọn nhiều hình ảnh. Kéo thả để sắp xếp thứ tự.</small>
+                            
+                            <!-- Thêm select box để chọn ảnh chính -->
+                            <div class="form-group mt-2">
+                                <label for="mainImage">Ảnh chính</label>
+                                <select class="form-control" id="mainImage" name="mainImageId" required>
+                                    <option value="">Chọn ảnh chính</option>
+                                </select>
+                                <small class="form-text text-muted">Ảnh chính sẽ được hiển thị đầu tiên trong trang sản phẩm</small>
+                            </div>
+                            
                             <div id="imagePreviewContainer" class="d-flex flex-wrap gap-2 border rounded p-2" style="min-height: 100px;">
                                 <!-- Ảnh sẽ được hiển thị ở đây -->
                             </div>
@@ -182,25 +200,35 @@
     document.getElementById('stockManagementType').addEventListener('change', function() {
         const colorSection = document.getElementById('colorSection');
         const addonSection = document.getElementById('addonSection');
+        const simpleStockSection = document.getElementById('simpleStockSection');
         
         switch(this.value) {
             case '0': // Simple
                 colorSection.style.display = 'none';
                 addonSection.style.display = 'none';
+                simpleStockSection.style.display = 'block';
                 break;
             case '1': // Color Only
                 colorSection.style.display = 'block';
                 addonSection.style.display = 'none';
+                simpleStockSection.style.display = 'none';
                 break;
             case '2': // Addon Only
                 colorSection.style.display = 'none';
                 addonSection.style.display = 'block';
+                simpleStockSection.style.display = 'none';
                 break;
             case '3': // Color and Addon
                 colorSection.style.display = 'block';
                 addonSection.style.display = 'block';
+                simpleStockSection.style.display = 'none';
                 break;
         }
+    });
+
+    // Trigger change event on page load to set initial state
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('stockManagementType').dispatchEvent(new Event('change'));
     });
 
     let colorCount = 1;
@@ -356,6 +384,33 @@
 
     // Thêm xử lý xem ảnh cho các select
     function updateImageOptions() {
+        // Cập nhật select box ảnh chính
+        const mainImageSelect = document.getElementById('mainImage');
+        const currentMainValue = mainImageSelect.value;
+        mainImageSelect.innerHTML = '<option value="">Chọn ảnh chính</option>';
+        uploadedImages.forEach((img, index) => {
+            const option = document.createElement('option');
+            option.value = img.id;
+            option.text = 'Ảnh ' + (index + 1);
+            option.dataset.preview = img.src;
+            mainImageSelect.add(option);
+        });
+        if (uploadedImages.find(img => img.id === currentMainValue)) {
+            mainImageSelect.value = currentMainValue;
+        } else if (uploadedImages.length > 0) {
+            // Tự động chọn ảnh đầu tiên làm ảnh chính nếu chưa có ảnh nào được chọn
+            mainImageSelect.value = uploadedImages[0].id;
+        }
+
+        // Thêm sự kiện double click để xem ảnh cho select box ảnh chính
+        mainImageSelect.ondblclick = function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption.dataset.preview) {
+                showImagePreview(selectedOption.dataset.preview);
+            }
+        };
+
+        // Cập nhật các select box khác cho màu sắc và phụ kiện
         const selects = document.querySelectorAll('select[name$=".imageId"]');
         selects.forEach(select => {
             const currentValue = select.value;
@@ -371,7 +426,6 @@
                 select.value = currentValue;
             }
 
-            // Thêm sự kiện double click để xem ảnh
             select.ondblclick = function() {
                 const selectedOption = this.options[this.selectedIndex];
                 if (selectedOption.dataset.preview) {
@@ -384,6 +438,13 @@
     function removeImage(imageId) {
         // Xóa ảnh khỏi mảng uploadedImages
         uploadedImages = uploadedImages.filter(img => img.id !== imageId);
+        
+        // Kiểm tra nếu ảnh bị xóa là ảnh chính
+        const mainImageSelect = document.getElementById('mainImage');
+        if (mainImageSelect.value === imageId) {
+            mainImageSelect.value = uploadedImages.length > 0 ? uploadedImages[0].id : '';
+        }
+        
         // Cập nhật số lượng ảnh hiển thị
         updateImageCount();
         // Cập nhật các option trong select

@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class LoginRequestDTO implements Serializable {
     private String email;
     private String password;
