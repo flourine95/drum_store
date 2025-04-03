@@ -14,6 +14,8 @@ import java.io.Serializable;
 public class ProductVariantDTO implements Serializable {
     private int id;
     private int imageId;
+    private int colorId;
+    private int addonId;
     private ProductColorDTO color;
     private ProductAddonDTO addon;
     private int stock;
