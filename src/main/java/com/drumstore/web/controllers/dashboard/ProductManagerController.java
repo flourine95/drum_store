@@ -118,90 +118,90 @@ public class ProductManagerController extends HttpServlet {
     }
 
     private void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        for (Part part : request.getParts()) {
-            System.out.println("Part Name: " + part.getName()); // Tên field trong form
-
-            // Nếu là file
-            if (part.getSubmittedFileName() != null) {
-                System.out.println("File Name: " + part.getSubmittedFileName());
-                System.out.println("File Size: " + part.getSize() + " bytes");
-            } else {
-                // Nếu là input text
-                String value = new String(part.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-                System.out.println("Value: " + value);
-            }
-        }
-        // Get basic product info
-        String name = new String(request.getPart("name").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-        String description = new String(request.getPart("description").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-        double basePrice = Double.parseDouble(new String(request.getPart("basePrice").getInputStream().readAllBytes(), StandardCharsets.UTF_8));
-        int categoryId = Integer.parseInt(new String(request.getPart("categoryId").getInputStream().readAllBytes(), StandardCharsets.UTF_8));
-        int brandId = Integer.parseInt(new String(request.getPart("brandId").getInputStream().readAllBytes(), StandardCharsets.UTF_8));
-        String stockManagementType = new String(request.getPart("stockManagementType").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-        boolean isFeatured = request.getPart("isFeatured") != null;
-        String mainImageId = new String(request.getPart("mainImageId").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-
-        // Create product DTO
-        ProductCreateDTO productCreateDTO = ProductCreateDTO.builder()
-                .name(name)
-                .description(description)
-                .basePrice(basePrice)
-                .categoryId(categoryId)
-                .brandId(brandId)
-                .stockManagementType(Integer.parseInt(stockManagementType))
-                .featured(isFeatured)
-                .build();
-
-        // Create product and get ID
-        int productId = productService.create(productCreateDTO);
-
-        // Handle image uploads
-        String uploadPath = getServletContext().getRealPath("/uploads/products/");
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            if (!uploadDir.mkdirs()) {
-                throw new IOException("Không thể tạo thư mục: " + uploadPath);
-            }
-        }
-
-        // Get image order from form
-        List<String> imageOrder = new ArrayList<>();
-        for (Part part : request.getParts()) {
-            if (part.getName().equals("imageOrder[]")) {
-                String value = new String(part.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-                imageOrder.add(value);
-            }
-        }
-
-        System.out.println("Image Order: " + imageOrder);
-        // Process each image
-        Map<String, String> imageFileMap = new HashMap<>();
-        for (Part part : request.getParts()) {
-            if (part.getName().equals("images") && part.getSize() > 0) {
-                String fileName = part.getSubmittedFileName();
-                String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
-                part.write(uploadPath + File.separator + uniqueFileName);
-                imageFileMap.put(fileName, uniqueFileName);
-            }
-        }
-        System.out.println("Image File Map: " + imageFileMap);
-        // Create product images with correct order
-        for (int i = 0; i < imageOrder.size(); i++) {
-            String imageId = imageOrder.get(i);
-            String fileName = imageFileMap.get(imageId);
-            if (fileName != null) {
-                ProductImageDTO productImageDTO = ProductImageDTO.builder()
-                        .image(fileName)
-                        .main(mainImageId.equals(imageId))
-                        .sortOrder(i)
-                        .build();
-                productService.createImage(productId, productImageDTO);
-            }
-        }
-
-        // Handle variants based on stock management type
-        List<ProductVariantDTO> variants = new ArrayList<>();
-        response.sendRedirect(request.getContextPath() + "/dashboard/products");
+//        for (Part part : request.getParts()) {
+//            System.out.println("Part Name: " + part.getName()); // Tên field trong form
+//
+//            // Nếu là file
+//            if (part.getSubmittedFileName() != null) {
+//                System.out.println("File Name: " + part.getSubmittedFileName());
+//                System.out.println("File Size: " + part.getSize() + " bytes");
+//            } else {
+//                // Nếu là input text
+//                String value = new String(part.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+//                System.out.println("Value: " + value);
+//            }
+//        }
+//        // Get basic product info
+//        String name = new String(request.getPart("name").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+//        String description = new String(request.getPart("description").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+//        double basePrice = Double.parseDouble(new String(request.getPart("basePrice").getInputStream().readAllBytes(), StandardCharsets.UTF_8));
+//        int categoryId = Integer.parseInt(new String(request.getPart("categoryId").getInputStream().readAllBytes(), StandardCharsets.UTF_8));
+//        int brandId = Integer.parseInt(new String(request.getPart("brandId").getInputStream().readAllBytes(), StandardCharsets.UTF_8));
+//        String stockManagementType = new String(request.getPart("stockManagementType").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+//        boolean isFeatured = request.getPart("isFeatured") != null;
+//        String mainImageId = new String(request.getPart("mainImageId").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+//
+//        // Create product DTO
+//        ProductCreateDTO productCreateDTO = ProductCreateDTO.builder()
+//                .name(name)
+//                .description(description)
+//                .basePrice(basePrice)
+//                .categoryId(categoryId)
+//                .brandId(brandId)
+//                .stockManagementType(Integer.parseInt(stockManagementType))
+//                .featured(isFeatured)
+//                .build();
+//
+//        // Create product and get ID
+//        int productId = productService.create(productCreateDTO);
+//
+//        // Handle image uploads
+//        String uploadPath = getServletContext().getRealPath("/uploads/products/");
+//        File uploadDir = new File(uploadPath);
+//        if (!uploadDir.exists()) {
+//            if (!uploadDir.mkdirs()) {
+//                throw new IOException("Không thể tạo thư mục: " + uploadPath);
+//            }
+//        }
+//
+//        // Get image order from form
+//        List<String> imageOrder = new ArrayList<>();
+//        for (Part part : request.getParts()) {
+//            if (part.getName().equals("imageOrder[]")) {
+//                String value = new String(part.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+//                imageOrder.add(value);
+//            }
+//        }
+//
+//        System.out.println("Image Order: " + imageOrder);
+//        // Process each image
+//        Map<String, String> imageFileMap = new HashMap<>();
+//        for (Part part : request.getParts()) {
+//            if (part.getName().equals("images") && part.getSize() > 0) {
+//                String fileName = part.getSubmittedFileName();
+//                String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+//                part.write(uploadPath + File.separator + uniqueFileName);
+//                imageFileMap.put(fileName, uniqueFileName);
+//            }
+//        }
+//        System.out.println("Image File Map: " + imageFileMap);
+//        // Create product images with correct order
+//        for (int i = 0; i < imageOrder.size(); i++) {
+//            String imageId = imageOrder.get(i);
+//            String fileName = imageFileMap.get(imageId);
+//            if (fileName != null) {
+//                ProductImageDTO productImageDTO = ProductImageDTO.builder()
+//                        .image(fileName)
+//                        .main(mainImageId.equals(imageId))
+//                        .sortOrder(i)
+//                        .build();
+//                productService.createImage(productId, productImageDTO);
+//            }
+//        }
+//
+//        // Handle variants based on stock management type
+//        List<ProductVariantDTO> variants = new ArrayList<>();
+//        response.sendRedirect(request.getContextPath() + "/dashboard/products");
     }
 
     private Integer getIdParameter(HttpServletRequest request, HttpServletResponse response) throws IOException {
