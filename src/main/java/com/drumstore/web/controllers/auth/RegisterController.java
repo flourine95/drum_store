@@ -2,6 +2,7 @@ package com.drumstore.web.controllers.auth;
 
 import com.drumstore.web.dto.RegisterRequestDTO;
 import com.drumstore.web.models.User;
+import com.drumstore.web.services.MailService;
 import com.drumstore.web.services.UserService;
 import com.drumstore.web.validators.RegisterValidator;
 import jakarta.servlet.ServletException;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ import java.util.Map;
 public class RegisterController extends HttpServlet {
     private final UserService userService = new UserService();
     private final RegisterValidator registerValidator = new RegisterValidator();
+    private final MailService mailService = new MailService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,10 +56,10 @@ public class RegisterController extends HttpServlet {
             );
 
             errors = registerValidator.validate(
-                registerRequest.getFullname(),
-                registerRequest.getPhone(),
-                registerRequest.getEmail(),
-                registerRequest.getPassword()
+                    registerRequest.getFullname(),
+                    registerRequest.getPhone(),
+                    registerRequest.getEmail(),
+                    registerRequest.getPassword()
             );
 
             if (!errors.isEmpty()) {
@@ -72,9 +75,26 @@ public class RegisterController extends HttpServlet {
             registerRequest.setPassword(hashedPassword);
             User user = registerRequest.toModel();
 
+            // Tạo token và thời gian hết hạn, lưu vào session
+            String token =mailService.generateVerificationCode();
+            LocalDateTime expiration = LocalDateTime.now().plusMinutes(5);
+            Map<String, Object> verificationData = new HashMap<>();
+            verificationData.put("token", token);
+            verificationData.put("expiration", expiration);
+//            verificationData.put("user", user);
+
             if (userService.register(user)) {
-                request.getSession().setAttribute("successMessage", "Đăng ký thành công! Bạn có thể đăng nhập ngay.");
-                response.sendRedirect(request.getContextPath() + "/login");
+
+                // Gửi email xác thực
+                mailService.sendVerificationEmail(email,token);
+
+                // Lưu thông tin xác thực vào session
+                request.getSession().setAttribute("verificationData", verificationData);
+                request.getSession().setAttribute("emailToVerify", email);
+                response.sendRedirect(request.getContextPath() + "/verify-token");
+
+//                request.getSession().setAttribute("successMessage", "Đăng ký thành công! Bạn có thể đăng nhập ngay.");
+//                response.sendRedirect(request.getContextPath() + "/login");
             } else {
                 errors.put("general", "Có lỗi xảy ra khi đăng ký. Vui lòng thử lại sau.");
                 request.setAttribute("errors", errors);

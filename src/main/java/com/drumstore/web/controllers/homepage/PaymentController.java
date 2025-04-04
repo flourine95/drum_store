@@ -1,6 +1,7 @@
 package com.drumstore.web.controllers.homepage;
 
 import com.drumstore.web.services.VnPayService;
+import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import java.util.Map;
 @WebServlet("/payment")
 public class PaymentController extends HttpServlet {
     private VnPayService vnPayService;
+    private Gson gson = new Gson();
 
     @Override
     public void init() throws ServletException {
@@ -41,7 +43,9 @@ public class PaymentController extends HttpServlet {
             response.put("message", "Lỗi khi tạo URL thanh toán.");
         }
 
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        resp.getWriter().write(objectMapper.writeValueAsString(response));
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        resp.getWriter().write(gson.toJson(response));
+
     }
 }

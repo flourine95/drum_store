@@ -316,14 +316,14 @@
                         <input class="form-check-input" type="radio" name="shippingType" id="fastShipping" value="fast"
                                checked>
                         <label class="form-check-label" for="fastShipping">
-                            Vận chuyển nhanh <span class="price">30.000 đ</span>
+                            Vận chuyển nhanh <span class="price">50.000 đ</span>
                         </label>
                     </div>
                     <div class="shipping-type">
                         <input class="form-check-input" type="radio" name="shippingType" id="economyShipping"
                                value="economy">
                         <label class="form-check-label" for="economyShipping">
-                            Vận chuyển tiết kiệm <span class="price">50.000 đ</span>
+                            Vận chuyển tiết kiệm <span class="price">30.000 đ</span>
                         </label>
                     </div>
                 </div>
@@ -381,14 +381,12 @@
                         <input class="form-check-input" type="radio" name="paymentMethod" id="onepay" value="onepay">
                         <label class="form-check-label" for="onepay">VNPAY</label>
                     </div>
-                    <div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Visa_Logo.png" alt="VNPay">
-                    </div>
+
                 </div>
                 <div id="cardDetails" class="card-details hidden">
                     <div class="container">
                         <div class="d-flex flex-column justify-content-center align-items-center gap-2 ">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-252.3 356.1 163 80.9" class="zjrzY">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-252.3 356.1 163 80.9" class="zjrzY" style="width: 25%">
                                 <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"
                                       d="M-108.9 404.1v30c0 1.1-.9 2-2 2H-231c-1.1 0-2-.9-2-2v-75c0-1.1.9-2 2-2h120.1c1.1 0 2 .9 2 2v37m-124.1-29h124.1"></path>
                                 <circle cx="-227.8" cy="361.9" r="1.8" fill="currentColor"></circle>
@@ -521,7 +519,7 @@
         $('input[name="shippingMethod"]').change(function () {
             if ($('#shipToAddress').is(':checked')) {
                 $('#shippingOptions').show();
-                shippingFee = $('#fastShipping').is(':checked') ? 30000 : 50000;
+                shippingFee = $('#fastShipping').is(':checked') ? 50000 : 30000;
             } else {
                 $('#shippingOptions').hide();
                 shippingFee = 0; // Nhận hàng tại cửa hàng: phí vận chuyển = 0
