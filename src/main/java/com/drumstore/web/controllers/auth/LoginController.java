@@ -41,7 +41,10 @@ public class LoginController extends HttpServlet {
 
             oldInput.put("email", email);
 
-            LoginRequestDTO loginRequest = new LoginRequestDTO(email, password);
+            LoginRequestDTO loginRequest = LoginRequestDTO.builder()
+                    .email(email)
+                    .password(password)
+                    .build();
             errors = loginValidator.validate(loginRequest.getEmail(), loginRequest.getPassword());
 
             if (!errors.isEmpty()) {

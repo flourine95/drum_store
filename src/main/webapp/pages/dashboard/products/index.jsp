@@ -161,7 +161,7 @@ $(document).ready(function() {
                 text: '<i class="bi bi-plus-circle me-2"></i>Thêm sản phẩm',
                 className: 'btn btn-success me-2',
                 action: function() {
-                    window.location.href = '${pageContext.request.contextPath}/dashboard/products/create';
+                    window.location.href = '${pageContext.request.contextPath}/dashboard/products?action=create';
                 }
             },
             {

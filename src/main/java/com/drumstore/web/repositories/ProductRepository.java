@@ -613,20 +613,20 @@ public class ProductRepository {
                         .map((rs, ctx) -> {
                             // Tạo CartItemDTO
                             CartItemDTO dto = CartItemDTO.builder()
-                                .productId(rs.getInt("p_productId"))
-                                .name(rs.getString("p_name"))
-                                .basePrice(rs.getDouble("p_basePrice"))
-                                .discountPercent(rs.getDouble("p_discountPercent"))
-                                .mainImage(rs.getString("pi_image"))
-                                .build();
+                                    .productId(rs.getInt("p_productId"))
+                                    .name(rs.getString("p_name"))
+                                    .basePrice(rs.getDouble("p_basePrice"))
+                                    .discountPercent(rs.getDouble("p_discountPercent"))
+                                    .mainImage(rs.getString("pi_image"))
+                                    .build();
 
                             // Tạo ProductVariantDTO
                             ProductVariantDTO variant = ProductVariantDTO.builder()
-                                .id(rs.getInt("pv_id"))
-                                .stock(rs.getInt("pv_stock"))
-                                .status(rs.getInt("pv_status"))
-                                .imageId(rs.getInt("pv_imageId"))
-                                .build();
+                                    .id(rs.getInt("pv_id"))
+                                    .stock(rs.getInt("pv_stock"))
+                                    .status(rs.getInt("pv_status"))
+                                    .imageId(rs.getInt("pv_imageId"))
+                                    .build();
 
                             // Ánh xạ ProductColorDTO
                             Integer colorId = rs.getObject("pv_colorId", Integer.class);
@@ -834,14 +834,89 @@ public class ProductRepository {
 
 
     public int store(ProductCreateDTO product) {
-        return jdbi.withHandle(handle -> handle.createUpdate("""
+        String sql = """
                 INSERT INTO products (name, description, basePrice, categoryId, brandId, stockManagementType, featured, createdAt)
                 VALUES (:name, :description, :basePrice, :categoryId, :brandId, :stockManagementType, :featured, CURRENT_TIMESTAMP)
-                """
-        ).bindBean(product).execute());
+                """;
+        return jdbi.withHandle(handle -> handle.createUpdate(sql)
+                .bindBean(product)
+                .executeAndReturnGeneratedKeys("id")
+                .mapTo(int.class)
+                .one());
     }
 
     public ProductEditDTO findProductEdit(int id) {
         return null;
+    }
+
+    public int storeImage(int productId, ProductImageDTO productImage) {
+        String sql = """
+                INSERT INTO product_images (productId, image, main, sortOrder, createdAt)
+                VALUES (:productId, :image, :main, :sortOrder, CURRENT_TIMESTAMP)
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("productId", productId)
+                        .bind("image", productImage.getImage())
+                        .bind("main", productImage.isMain())
+                        .bind("sortOrder", productImage.getSortOrder())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public int storeColor(int productId, ProductColorDTO color) {
+        String sql = """
+                INSERT INTO product_colors (productId, name, additionalPrice, createdAt)
+                VALUES (:productId, :name, :additionalPrice, CURRENT_TIMESTAMP)
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("productId", productId)
+                        .bind("name", color.getName())
+                        .bind("additionalPrice", color.getAdditionalPrice())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public int storeAddon(int productId, ProductAddonDTO addon) {
+        String sql = """
+                INSERT INTO product_addons (productId, name, additionalPrice, createdAt)
+                VALUES (:productId, :name, :additionalPrice, CURRENT_TIMESTAMP)
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("productId", productId)
+                        .bind("name", addon.getName())
+                        .bind("additionalPrice", addon.getAdditionalPrice())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public int storeVariant(int productId, ProductVariantDTO variant) {
+        String sql = """
+                INSERT INTO product_variants (productId, colorId, addonId, imageId, stock, status, createdAt)
+                VALUES (:productId, :colorId, :addonId, :imageId, :stock, 1, CURRENT_TIMESTAMP)
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("productId", productId)
+                        .bind("colorId", variant.getColorId())
+                        .bind("addonId", variant.getAddonId())
+                        .bind("imageId", variant.getImageId())
+                        .bind("stock", variant.getStock())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
     }
 }
