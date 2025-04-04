@@ -59,21 +59,31 @@ public class LoginController extends HttpServlet {
             UserDTO user = userService.login(email, password);
 
             if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
+                // chưa xác thực
+                if(!user.isStatus()){
+                    request.setAttribute("not-verify", true);
+                    request.getSession().setAttribute("emailToVerify", user.getEmail());
+                    request.setAttribute("title", "Đăng nhập");
+                    request.setAttribute("content", "login.jsp");
+                    request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
+                }else {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
 
-                // Ghi log đăng nhập thành công
-                LogUtils.logToDatabase(user.getId(), 1, "LOGIN_SUCCESS", null, "{\"userId\":" + user.getId() + "}");
+                    // Ghi log đăng nhập thành công
+                    LogUtils.logToDatabase(user.getId(), 1, "LOGIN_SUCCESS", null, "{\"userId\":" + user.getId() + "}");
 
-                if (user.getRoles() != null && !user.getRoles().isEmpty()) {
-                    response.sendRedirect(request.getContextPath() + "/dashboard");
-                } else {
-                    if (redirectUrl != null && !redirectUrl.isEmpty()) {
-                        response.sendRedirect(redirectUrl);
+                    if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+                        response.sendRedirect(request.getContextPath() + "/dashboard");
                     } else {
-                        response.sendRedirect(request.getContextPath() + "/");
+                        if (redirectUrl != null && !redirectUrl.isEmpty()) {
+                            response.sendRedirect(redirectUrl);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/");
+                        }
                     }
                 }
+
             } else {
                 errors.put("general", "Email hoặc mật khẩu không chính xác");
                 request.setAttribute("errors", errors);

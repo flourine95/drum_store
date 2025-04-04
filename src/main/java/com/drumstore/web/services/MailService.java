@@ -7,8 +7,8 @@ import java.util.Properties;
 import java.util.UUID;
 
 public class MailService {
-    static final String from = "voxuandong14052004"; // thay đổi
-    static final String password = "ickjolkgqgvlzcqp"; // thay đổi
+    static final String from = "flourinee@gmail.com"; // thay đổi
+    static final String password = "jalaxigukuvlqsct"; // thay đổi
 
     // gửi email
     public boolean sendEmail(String to, String subject, String content) {
@@ -55,11 +55,10 @@ public class MailService {
     }
 
 
-
     public void sendVerificationEmail(String toEmail, String verificationCode) {
         String subject = "Mã OTP xác thực";
         String content = "Mã OTP của bạn là: <strong>" + verificationCode + "</strong>. " +
-                "Mã này có hiệu lực trong 1 phút. Vui lòng sử dụng mã này để xác thực.";
+                "Mã này có hiệu lực trong 5 phút. Vui lòng sử dụng mã này để xác thực.";
 
         // Sử dụng hàm gửi email của bạn để gửi
         sendEmail(toEmail, subject, content);

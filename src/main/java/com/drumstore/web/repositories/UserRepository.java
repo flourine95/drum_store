@@ -49,6 +49,18 @@ public class UserRepository {
         );
     }
 
+    public boolean registerWithNotAuthen(User user) {
+        String query = """
+                INSERT INTO users (email, password, fullname, status, createdAt)
+                VALUES (:email, :password, :fullname, 0, CURRENT_TIMESTAMP)
+                """;
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(query)
+                        .bindBean(user)
+                        .execute() > 0
+        );
+    }
+
     public boolean isPhoneExists(String phone) {
         String query = "SELECT COUNT(*) FROM users WHERE phone = ?";
         return jdbi.withHandle(handle -> handle.createQuery(query).bind(0, phone).mapTo(Integer.class).one()) > 0;
@@ -165,9 +177,10 @@ public class UserRepository {
                 LEFT JOIN roles r ON ur.roleId = r.id
                 LEFT JOIN role_permissions rp ON r.id = rp.roleId
                 LEFT JOIN permissions p ON rp.permissionId = p.id
-                WHERE (u.email = :username) AND u.status = 1
+                WHERE (u.email = :username) 
+                 
                 """;
-
+//        AND u.status = 1
         return jdbi.withHandle(handle -> handle.createQuery(query)
                 .bind("username", username)
                 .registerRowMapper(BeanMapper.factory(UserDTO.class, "u"))
@@ -243,4 +256,13 @@ public class UserRepository {
                 .orElse(null)
         );
     }
+
+    public void updateStatus(String email){
+        String sql = "UPDATE users SET status = 1 WHERE email = :email";
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("email", email)
+                        .execute()
+        );
+    };
 }
