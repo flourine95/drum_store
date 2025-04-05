@@ -30,4 +30,7 @@ public class LogUtils {
         System.out.println("Chạy thử LogUtils...");
         logToDatabase(1, 2, "UPDATE_USER", "{\"name\":\"John\"}", "{\"name\":\"John Doe\"}");
     }
+
+    public static void logInfo(Integer userId, String logout) {
+    }
 }
