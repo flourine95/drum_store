@@ -5,16 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoleDTO implements Serializable {
-    private int id;
-    private String name;
-    private String description;
+public class PermissionMatrixDTO {
+    private int permissionId;
+    private String permissionName;
+    private Map<Integer, Boolean> roleCheckboxMap;
 }
 

@@ -6,15 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoleDTO implements Serializable {
+public class RolePermissionDTO implements Serializable {
     private int id;
-    private String name;
-    private String description;
+    private int roleId;
+    private int permissionId;
 }
-
