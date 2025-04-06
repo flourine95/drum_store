@@ -1,107 +1,67 @@
-//package com.drumstore.web.filters;
-//
-//import com.drumstore.web.dto.UserDTO;
-//import jakarta.servlet.*;
-//import jakarta.servlet.annotation.WebFilter;
-//import jakarta.servlet.http.HttpServletRequest;
-//import jakarta.servlet.http.HttpServletResponse;
-//import jakarta.servlet.http.HttpSession;
-//
-//import java.io.IOException;
-//import java.util.regex.Pattern;
-//
-//@WebFilter("/dashboard/*")
-//public class PermissionFilter implements Filter {
-//
-//    // Các URL không cần kiểm tra quyền
-//    private static final Pattern[] EXCLUDED_URLS = {
-//        Pattern.compile("^/dashboard/profile/?$"),
-//        Pattern.compile("^/dashboard/notifications/?$"),
-//        Pattern.compile("^/dashboard/?$")
-//    };
-//
-//    @Override
-//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//        HttpServletRequest httpRequest = (HttpServletRequest) request;
-//        HttpServletResponse httpResponse = (HttpServletResponse) response;
-//
-//        String requestURI = httpRequest.getRequestURI();
-//        String action = httpRequest.getParameter("_action");
-//
-//        // Kiểm tra session
-//        HttpSession session = httpRequest.getSession(false);
-//        if (!isAuthenticated(session)) {
-//            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
-//            return;
-//        }
-//
-//        // Kiểm tra URL loại trừ
-//        if (isExcludedUrl(requestURI)) {
-//            chain.doFilter(request, response);
-//            return;
-//        }
-//
-//        UserDTO user = (UserDTO) session.getAttribute("user");
-//
-//        // Kiểm tra roles
-//        if (!hasValidRole(user)) {
-//            httpResponse.sendError(
-//                HttpServletResponse.SC_FORBIDDEN,
-//                "Bạn không có quyền truy cập vào trang quản trị!"
-//            );
-//            return;
-//        }
-//
-//        // Parse permission từ URL
-//        String permission = parsePermissionFromUrl(requestURI, action);
-//        if (permission != null && !user.hasPermission(permission)) {
-//            httpResponse.sendError(
-//                HttpServletResponse.SC_FORBIDDEN,
-//                "Bạn không có quyền thực hiện thao tác này!"
-//            );
-//            return;
-//        }
-//
-//        chain.doFilter(request, response);
-//    }
-//
-//    private String parsePermissionFromUrl(String requestURI, String formAction) {
-//        // Bỏ /dashboard/ từ đầu URL
-//        String path = requestURI.replaceFirst("^/dashboard/", "");
-//        String[] parts = path.split("/");
-//        if (parts.length == 0) return null;
-//
-//        // Module là phần tử đầu tiên (products, orders, etc.)
-//        String module = parts[0];
-//
-//        // Nếu form gửi _action thì ưu tiên nó
-//        String action = (formAction != null && !formAction.isEmpty()) ? formAction :
-//                (parts.length > 1 ? parts[1] : "index");
-//
-//        // Nếu action chứa số (VD: edit/123), đổi thành "show"
-//        if (action.matches("\\d+")) {
-//            action = "show";
-//        }
-//
-//        // Tạo permission string theo format module:action
-//        return String.format("%s:%s", module.toLowerCase(), action.toLowerCase());
-//    }
-//
-//
-//    private boolean isAuthenticated(HttpSession session) {
-//        return session != null && session.getAttribute("user") != null;
-//    }
-//
-//    private boolean hasValidRole(UserDTO user) {
-//        return user.getRoles() != null && !user.getRoles().isEmpty();
-//    }
-//
-//    private boolean isExcludedUrl(String requestURI) {
-//        for (Pattern pattern : EXCLUDED_URLS) {
-//            if (pattern.matcher(requestURI).matches()) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//}
+package com.drumstore.web.filters;
+
+import com.drumstore.web.dto.UserDTO;
+import com.drumstore.web.utils.ForceLogoutCache;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.util.List;
+
+@WebFilter("/dashboard/*")
+public class PermissionFilter implements Filter {
+    private static final List<String> skipPermissionRoutes = List.of(
+            "/dashboard/role-permission"
+    );
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        HttpSession session = request.getSession(false);
+
+        String uri = request.getRequestURI();
+        String contextPath = request.getContextPath();
+        String path = uri.substring(contextPath.length());
+
+        if (skipPermissionRoutes.contains(path)) {
+            chain.doFilter(request, response);
+            return;
+        }
+        UserDTO user = (session != null) ? (UserDTO) session.getAttribute("user") : null;
+
+        if (user == null) {
+            response.sendRedirect(contextPath + "/login");
+            return;
+        }
+
+        if (ForceLogoutCache.shouldLogout(user.getId())) {
+            session.invalidate();
+            ForceLogoutCache.removeFromLogout(user.getId());
+            response.sendRedirect(contextPath + "/login?message=banned");
+            return;
+        }
+
+        String[] parts = path.split("/");
+        if (parts.length >= 3) {
+            String module = parts[2];
+            String action = request.getParameter("action");
+
+            if (action == null || action.isEmpty()) {
+                action = "index";
+            }
+
+            String permission = module + ":" + action;
+            System.out.println("Permission: " + permission);
+            if (!user.getPermissions().contains(permission)) {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Bạn không có quyền truy cập chức năng này.");
+                return;
+            }
+        }
+
+        chain.doFilter(request, response);
+    }
+}

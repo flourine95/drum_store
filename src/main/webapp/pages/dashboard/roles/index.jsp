@@ -1,35 +1,24 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Quản lý Vai trò</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
 <div class="container mt-4">
     <h2>Quản lý Vai trò</h2>
 
-    <c:if test="${param.success != null}">
+    <c:if test="${not empty success}">
         <div class="alert alert-success">
-            <c:choose>
-                <c:when test="${param.success == 'created'}">Vai trò đã được tạo thành công.</c:when>
-                <c:when test="${param.success == 'updated'}">Vai trò đã được cập nhật thành công.</c:when>
-                <c:when test="${param.success == 'deleted'}">Vai trò đã được xóa thành công.</c:when>
-            </c:choose>
+                ${success}
         </div>
     </c:if>
-
-    <c:if test="${param.error != null}">
+    <c:if test="${not empty error}">
         <div class="alert alert-danger">
-            <c:choose>
-                <c:when test="${param.error == 'create_failed'}">Không thể tạo vai trò.</c:when>
-                <c:when test="${param.error == 'update_failed'}">Không thể cập nhật vai trò.</c:when>
-                <c:when test="${param.error == 'delete_failed'}">Không thể xóa vai trò.</c:when>
-            </c:choose>
+                ${error}
         </div>
     </c:if>
-
+    <c:if test="${not empty errors.general}">
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i>
+                ${errors.general}
+        </div>
+    </c:if>
     <div class="mb-3">
         <a href="${pageContext.request.contextPath}/dashboard/roles?action=create" class="btn btn-primary">Thêm Vai trò mới</a>
     </div>
@@ -47,6 +36,7 @@
             <tr>
                 <td>${role.id}</td>
                 <td>${role.name}</td>
+                <td>${role.description}</td>
                 <td>
                     <a href="${pageContext.request.contextPath}/dashboard/roles?action=edit&id=${role.id}"
                        class="btn btn-sm btn-primary">Sửa</a>
@@ -71,6 +61,3 @@
         }
     }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>

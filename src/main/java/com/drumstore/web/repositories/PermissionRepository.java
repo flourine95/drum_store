@@ -7,8 +7,6 @@ import org.jdbi.v3.core.Jdbi;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class PermissionRepository {
     private final Jdbi jdbi = DBConnection.getJdbi();
@@ -62,12 +60,12 @@ public class PermissionRepository {
 
     public List<Integer> getUserIdsByPermissionId(int id) {
         String sql = """
-            SELECT DISTINCT u.id
-            FROM users u
-            JOIN user_roles ur ON u.id = ur.userId
-            JOIN role_permissions rp ON ur.roleId = rp.roleId
-            WHERE rp.permissionId = :id
-        """;
+                    SELECT DISTINCT u.id
+                    FROM users u
+                    JOIN user_roles ur ON u.id = ur.userId
+                    JOIN role_permissions rp ON ur.roleId = rp.roleId
+                    WHERE rp.permissionId = :id
+                """;
 
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
@@ -121,5 +119,14 @@ public class PermissionRepository {
         } catch (Exception e) {
             return OperationResult.failure("Đã xảy ra lỗi khi xóa: " + e.getMessage());
         }
+    }
+
+    public boolean createPermission(PermissionDTO permissionRequest) {
+        String sql = "INSERT INTO permissions (name, description) VALUES (:name, :description)";
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(permissionRequest)
+                        .execute() > 0
+        );
     }
 }

@@ -2,8 +2,11 @@ package com.drumstore.web.controllers.dashboard;
 
 import com.drumstore.web.dto.PermissionDTO;
 import com.drumstore.web.repositories.PermissionRepository;
+import com.drumstore.web.utils.FlashManager;
 import com.drumstore.web.utils.ForceLogoutCache;
 import com.drumstore.web.utils.OperationResult;
+import com.drumstore.web.utils.ParseHelper;
+import com.drumstore.web.validators.PermissionValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,11 +14,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/dashboard/permissions/*")
 public class PermissionManagerController extends HttpServlet {
     private final PermissionRepository permissionRepository = new PermissionRepository();
+    private final PermissionValidator permissionValidator = new PermissionValidator();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,36 +37,6 @@ public class PermissionManagerController extends HttpServlet {
             case "edit" -> edit(request, response);
             default -> index(request, response);
         }
-    }
-
-    private void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<PermissionDTO> permissions = permissionRepository.getAllPermissions();
-        request.setAttribute("permissions", permissions);
-        request.setAttribute("title", "Quản lý quyền");
-        request.setAttribute("content", "permissions/index.jsp");
-        request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
-    }
-
-    private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("title", "Tạo quyền mới");
-        request.setAttribute("content", "permissions/create.jsp");
-        request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
-    }
-
-    private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String idStr = request.getParameter("id");
-        if (idStr != null && !idStr.isEmpty()) {
-            int id = Integer.parseInt(idStr);
-            PermissionDTO permission = permissionRepository.getPermissionById(id);
-            if (permission != null) {
-                request.setAttribute("permission", permission);
-                request.setAttribute("title", "Chỉnh sửa quyền");
-                request.setAttribute("content", "permissions/edit.jsp");
-                request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
-                return;
-            }
-        }
-        response.sendRedirect(request.getContextPath() + "/dashboard/permissions");
     }
 
     @Override
@@ -80,25 +56,84 @@ public class PermissionManagerController extends HttpServlet {
         }
     }
 
-    private void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
+    private void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<PermissionDTO> permissions = permissionRepository.getAllPermissions();
+        request.setAttribute("permissions", permissions);
+        request.setAttribute("title", "Quản lý quyền");
+        request.setAttribute("content", "permissions/index.jsp");
+        request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
+    }
 
-        if (name != null && !name.isEmpty()) {
-            OperationResult<Void> result = permissionRepository.createPermission(name, description);
-            if (result.isSuccess()) {
-                response.sendRedirect(request.getContextPath() + "/dashboard/permissions?success=created");
-                return;
-            }
-
-            request.setAttribute("error", result.getMessage());
-        } else {
-            request.setAttribute("error", "Tên quyền không được để trống.");
-        }
-
+    private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("title", "Tạo quyền mới");
         request.setAttribute("content", "permissions/create.jsp");
         request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
+    }
+
+    private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String idStr = request.getParameter("id");
+        Integer id = ParseHelper.tryParseInt(idStr);
+
+        if (id == null) {
+            FlashManager.store(request, "error", "ID quyền không hợp lệ.");
+            response.sendRedirect(request.getContextPath() + "/dashboard/permissions");
+            return;
+        }
+
+        PermissionDTO permission = permissionRepository.getPermissionById(id);
+        if (permission == null) {
+            FlashManager.store(request, "error", "Quyền không tồn tại.");
+            response.sendRedirect(request.getContextPath() + "/dashboard/permissions");
+            return;
+        }
+
+        request.setAttribute("permission", permission);
+        request.setAttribute("title", "Chỉnh sửa quyền");
+        request.setAttribute("content", "permissions/edit.jsp");
+        request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
+    }
+
+    private void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+
+        Map<String, String> errors;
+        Map<String, String> oldInput = new HashMap<>();
+
+        oldInput.put("name", name);
+        oldInput.put("description", description);
+
+        PermissionDTO permissionRequest = PermissionDTO.builder()
+                .name(name != null ? name.trim() : null)
+                .description(description)
+                .build();
+
+        errors = permissionValidator.validate(permissionRequest);
+
+        if (!errors.isEmpty()) {
+            request.setAttribute("errors", errors);
+            request.setAttribute("oldInput", oldInput);
+            request.setAttribute("title", "Tạo quyền mới");
+            request.setAttribute("content", "permissions/create.jsp");
+            request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
+            return;
+        }
+
+        boolean result = permissionRepository.createPermission(permissionRequest);
+
+        if (result) {
+            FlashManager.store(request, "success", "Quyền đã được tạo thành công!");
+            response.sendRedirect(request.getContextPath() + "/dashboard/permissions");
+        } else {
+            FlashManager.store(request, "error", "Không thể tạo quyền.");
+            request.setAttribute("errors", Map.of("general", "Có lỗi xảy ra. Vui lòng thử lại."));
+            request.setAttribute("oldInput", oldInput);
+            request.setAttribute("title", "Tạo quyền mới");
+            request.setAttribute("content", "permissions/create.jsp");
+            request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
+        }
     }
 
 

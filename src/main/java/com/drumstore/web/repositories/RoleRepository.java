@@ -153,4 +153,32 @@ public class RoleRepository {
             return false;
         }
     }
+
+    public boolean roleExists(String name) {
+        String sql = "SELECT COUNT(*) FROM roles WHERE name = :name";
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("name", name)
+                        .mapTo(Integer.class)
+                        .one() > 0
+        );
+    }
+
+    public boolean createRole(RoleDTO roleRequest) {
+        String sql = "INSERT INTO roles (name, description) VALUES (:name, :description)";
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(roleRequest)
+                        .execute() > 0
+        );
+    }
+
+    public boolean updateRole(RoleDTO roleRequest) {
+        String sql = "UPDATE roles SET name = :name, description = :description WHERE id = :id";
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(roleRequest)
+                        .execute() > 0
+        );
+    }
 }
