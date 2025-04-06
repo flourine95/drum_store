@@ -106,7 +106,7 @@ public class RoleManagerController extends HttpServlet {
         oldInput.put("description", description);
 
         RoleDTO roleRequest = RoleDTO.builder()
-                .name(name.trim())
+                .name(name != null ? name.trim() : null)
                 .description(description)
                 .build();
         errors = roleValidator.validate(roleRequest);
