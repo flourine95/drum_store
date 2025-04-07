@@ -86,7 +86,7 @@ public class RolePermissonManagerController extends HttpServlet {
                     int roleId = Integer.parseInt(roleIdStr);
                     boolean hasPermission = rolePermissionRepository.hasRolePermission(roleId, permissionId);
                     if (!hasPermission) {
-                        roleRepository.saveRolePermission(roleId, permissionId);
+                        rolePermissionRepository.saveRolePermission(roleId, permissionId);
                         affectedRoleIds.add(roleId);
                         affectedPermissionIds.add(permissionId);
                     }

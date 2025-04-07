@@ -1,26 +1,37 @@
 package com.drumstore.web.validators;
 
 import com.drumstore.web.dto.PermissionDTO;
+import com.drumstore.web.repositories.PermissionRepository;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class PermissionValidator {
-    public Map<String, String> validate(PermissionDTO permissionRequest) {
+    private final PermissionRepository permissionRepository = new PermissionRepository();
+
+    public Map<String, String> validate(PermissionDTO permission) {
+        return validate(permission, false);
+    }
+
+    public Map<String, String> validate(PermissionDTO permission, boolean checkId) {
         Map<String, String> errors = new HashMap<>();
 
-        if (permissionRequest.getName() == null || permissionRequest.getName().isEmpty()) {
-            errors.put("name", "Permission name is required.");
-        } else if (permissionRequest.getName().length() < 3) {
-            errors.put("name", "Permission name must be at least 3 characters long.");
+        if (checkId) {
+            if (permission.getId() == null || permission.getId() <= 0) {
+                errors.put("id", "ID không hợp lệ.");
+            }
         }
 
-        if (permissionRequest.getDescription() == null || permissionRequest.getDescription().isEmpty()) {
-            errors.put("description", "Permission description is required.");
-        } else if (permissionRequest.getDescription().length() < 5) {
-            errors.put("description", "Permission description must be at least 5 characters long.");
+        if (permission.getName() == null || permission.getName().trim().isEmpty()) {
+            errors.put("name", "Tên quyền không được để trống.");
+        } else if (permission.getName().length() > 50) {
+            errors.put("name", "Tên quyền không được vượt quá 50 ký tự.");
+        } else if (permissionRepository.permissionExists(permission.getName())) {
+            errors.put("name", "Tên quyền đã tồn tại.");
         }
 
         return errors;
     }
+
+
 }

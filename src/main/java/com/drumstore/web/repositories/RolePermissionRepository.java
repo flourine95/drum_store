@@ -35,4 +35,13 @@ public class RolePermissionRepository {
                     .execute();
         });
     }
+
+    public void saveRolePermission(int roleId, int permissionId) {
+        jdbi.useHandle(handle -> {
+            handle.createUpdate("INSERT INTO role_permissions (roleId, permissionId) VALUES (:roleId, :permissionId)")
+                    .bind("roleId", roleId)
+                    .bind("permissionId", permissionId)
+                    .execute();
+        });
+    }
 }

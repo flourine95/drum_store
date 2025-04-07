@@ -1,6 +1,7 @@
 package com.drumstore.web.filters;
 
 import com.drumstore.web.dto.UserDTO;
+import com.drumstore.web.utils.FlashManager;
 import com.drumstore.web.utils.ForceLogoutCache;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -41,7 +42,8 @@ public class PermissionFilter implements Filter {
         if (ForceLogoutCache.shouldLogout(user.getId())) {
             session.invalidate();
             ForceLogoutCache.removeFromLogout(user.getId());
-            response.sendRedirect(contextPath + "/login?message=banned");
+            FlashManager.store(request, "error", "Quyền hoặc vai trò của bạn đã thay đổi. Vui lòng đăng nhập lại.");
+            response.sendRedirect(contextPath + "/login");
             return;
         }
 

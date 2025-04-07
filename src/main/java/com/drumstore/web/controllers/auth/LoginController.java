@@ -3,6 +3,7 @@ package com.drumstore.web.controllers.auth;
 import com.drumstore.web.dto.LoginRequestDTO;
 import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.services.UserService;
+import com.drumstore.web.utils.FlashManager;
 import com.drumstore.web.utils.LogUtils;
 import com.drumstore.web.validators.LoginValidator;
 import jakarta.servlet.ServletException;
@@ -23,6 +24,7 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        FlashManager.exposeToRequest(request);
         request.setAttribute("title", "Đăng nhập");
         request.setAttribute("content", "login.jsp");
         request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);

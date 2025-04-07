@@ -4,7 +4,6 @@ import com.drumstore.web.dto.PermissionDTO;
 import com.drumstore.web.repositories.PermissionRepository;
 import com.drumstore.web.utils.FlashManager;
 import com.drumstore.web.utils.ForceLogoutCache;
-import com.drumstore.web.utils.OperationResult;
 import com.drumstore.web.utils.ParseHelper;
 import com.drumstore.web.validators.PermissionValidator;
 import jakarta.servlet.ServletException;
@@ -57,6 +56,7 @@ public class PermissionManagerController extends HttpServlet {
     }
 
     private void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        FlashManager.exposeToRequest(request);
         List<PermissionDTO> permissions = permissionRepository.getAllPermissions();
         request.setAttribute("permissions", permissions);
         request.setAttribute("title", "Quản lý quyền");
@@ -138,59 +138,82 @@ public class PermissionManagerController extends HttpServlet {
 
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+
         String idStr = request.getParameter("id");
         String name = request.getParameter("name");
         String description = request.getParameter("description");
 
-        if (idStr != null && !idStr.isEmpty() && name != null && !name.isEmpty()) {
-            int id = Integer.parseInt(idStr);
+        Map<String, String> errors;
+        Map<String, String> oldInput = new HashMap<>();
 
-            List<Integer> affectedUsers = permissionRepository.getUserIdsByPermissionId(id);
+        oldInput.put("id", idStr);
+        oldInput.put("name", name);
+        oldInput.put("description", description);
 
-            OperationResult<Void> result = permissionRepository.updatePermission(id, name, description);
-            if (result.isSuccess()) {
-                for (Integer userId : affectedUsers) {
-                    ForceLogoutCache.markForLogout(userId);
-                }
-                response.sendRedirect(request.getContextPath() + "/dashboard/permissions?success=updated");
-                return;
-            }
+        PermissionDTO permissionRequest = PermissionDTO.builder()
+                .id(ParseHelper.tryParseInt(idStr))
+                .name(name != null ? name.trim() : null)
+                .description(description)
+                .build();
 
-            request.setAttribute("error", result.getMessage());
-            PermissionDTO permission = permissionRepository.getPermissionById(id);
-            request.setAttribute("permission", permission);
+        errors = permissionValidator.validate(permissionRequest, true);
+
+        if (!errors.isEmpty()) {
+            request.setAttribute("errors", errors);
+            request.setAttribute("oldInput", oldInput);
             request.setAttribute("title", "Chỉnh sửa quyền");
             request.setAttribute("content", "permissions/edit.jsp");
             request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
             return;
         }
 
-        response.sendRedirect(request.getContextPath() + "/dashboard/permissions?error=update_failed");
+        boolean result = permissionRepository.updatePermission(permissionRequest);
+
+        if (result) {
+            List<Integer> affectedUsers = permissionRepository.getUserIdsByPermissionId(permissionRequest.getId());
+            for (Integer userId : affectedUsers) {
+                ForceLogoutCache.markForLogout(userId);
+            }
+
+            FlashManager.store(request, "success", "Cập nhật quyền thành công!");
+            response.sendRedirect(request.getContextPath() + "/dashboard/permissions");
+        } else {
+            FlashManager.store(request, "error", "Cập nhật quyền thất bại.");
+            request.setAttribute("errors", Map.of("general", "Có lỗi xảy ra. Vui lòng thử lại."));
+            request.setAttribute("oldInput", oldInput);
+            request.setAttribute("title", "Chỉnh sửa quyền");
+            request.setAttribute("content", "permissions/edit.jsp");
+            request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
+        }
     }
 
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String idStr = request.getParameter("id");
+        Integer id = ParseHelper.tryParseInt(idStr);
 
-        if (idStr != null && !idStr.isEmpty()) {
-            int id = Integer.parseInt(idStr);
-
-            List<Integer> affectedUsers = permissionRepository.getUserIdsByPermissionId(id);
-
-            OperationResult<Void> result = permissionRepository.deletePermission(id);
-            if (result.isSuccess()) {
-                for (Integer userId : affectedUsers) {
-                    ForceLogoutCache.markForLogout(userId);
-                }
-                response.sendRedirect(request.getContextPath() + "/dashboard/permissions?success=deleted");
-                return;
-            }
-
-            response.sendRedirect(request.getContextPath() + "/dashboard/permissions?error=" + result.getMessage());
+        if (id == null) {
+            FlashManager.store(request, "error", "ID quyền không hợp lệ.");
+            response.sendRedirect(request.getContextPath() + "/dashboard/permissions");
             return;
         }
 
-        response.sendRedirect(request.getContextPath() + "/dashboard/permissions?error=delete_failed");
+        List<Integer> affectedUsers = permissionRepository.getUserIdsByPermissionId(id);
+        boolean result = permissionRepository.deletePermission(id);
+
+        if (result) {
+            for (Integer userId : affectedUsers) {
+                ForceLogoutCache.markForLogout(userId);
+            }
+
+            FlashManager.store(request, "success", "Xóa quyền thành công!");
+        } else {
+            FlashManager.store(request, "error", "Không thể xóa quyền.");
+        }
+
+        response.sendRedirect(request.getContextPath() + "/dashboard/permissions");
     }
+
 
 }

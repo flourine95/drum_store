@@ -5,57 +5,72 @@
 <head>
   <title>Quản lý Quyền</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container mt-4">
-  <h2>Quản lý Quyền</h2>
-
-  <c:if test="${param.success != null}">
-    <div class="alert alert-success">
-      <c:choose>
-        <c:when test="${param.success == 'created'}">Quyền đã được tạo thành công.</c:when>
-        <c:when test="${param.success == 'updated'}">Quyền đã được cập nhật thành công.</c:when>
-        <c:when test="${param.success == 'deleted'}">Quyền đã được xóa thành công.</c:when>
-      </c:choose>
+  <div class="card">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h4 class="mb-0"><i class="fas fa-key me-2"></i>Quản lý Quyền</h4>
+      <a href="${pageContext.request.contextPath}/dashboard/permissions?action=create" class="btn btn-light">
+        <i class="fas fa-plus-circle me-2"></i>Thêm Quyền mới
+      </a>
     </div>
-  </c:if>
+    <div class="card-body">
+      <c:if test="${not empty success}">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <i class="fas fa-check-circle me-2"></i>${success}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </c:if>
+      <c:if test="${not empty error}">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="fas fa-exclamation-circle me-2"></i>${error}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </c:if>
+      <c:if test="${not empty errors.general}">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="fas fa-exclamation-circle me-2"></i>${errors.general}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </c:if>
 
-  <c:if test="${param.error != null}">
-    <div class="alert alert-danger">
-      <c:choose>
-        <c:when test="${param.error == 'create_failed'}">Không thể tạo quyền.</c:when>
-        <c:when test="${param.error == 'update_failed'}">Không thể cập nhật quyền.</c:when>
-        <c:when test="${param.error == 'delete_failed'}">Không thể xóa quyền.</c:when>
-      </c:choose>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Mô tả</th>
+            <th>Thao tác</th>
+          </tr>
+          </thead>
+          <tbody>
+          <c:forEach var="permission" items="${permissions}">
+            <tr>
+              <td>${permission.id}</td>
+              <td>${permission.name}</td>
+              <td>${permission.description}</td>
+              <td>
+                <div class="btn-group" role="group">
+                  <a href="${pageContext.request.contextPath}/dashboard/permissions?action=edit&id=${permission.id}"
+                     class="btn btn-sm btn-primary" title="Sửa">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <button type="button" onclick="deletePermission(${permission.id})" 
+                          class="btn btn-sm btn-danger" title="Xóa">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </c:forEach>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </c:if>
-
-  <div class="mb-3">
-    <a href="${pageContext.request.contextPath}/dashboard/permissions?action=create" class="btn btn-primary">Thêm Quyền mới</a>
   </div>
-
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Tên</th>
-      <th>Thao tác</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach var="permission" items="${permissions}">
-      <tr>
-        <td>${permission.id}</td>
-        <td>${permission.name}</td>
-        <td>
-          <a href="${pageContext.request.contextPath}/dashboard/permissions?action=edit&id=${permission.id}"
-             class="btn btn-sm btn-primary">Sửa</a>
-          <button onclick="deletePermission(${permission.id})" class="btn btn-sm btn-danger">Xóa</button>
-        </td>
-      </tr>
-    </c:forEach>
-    </tbody>
-  </table>
 </div>
 
 <form id="deleteForm" method="POST" style="display: none;">

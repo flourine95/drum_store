@@ -2,10 +2,8 @@ package com.drumstore.web.repositories;
 
 import com.drumstore.web.dto.PermissionDTO;
 import com.drumstore.web.utils.DBConnection;
-import com.drumstore.web.utils.OperationResult;
 import org.jdbi.v3.core.Jdbi;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 public class PermissionRepository {
@@ -31,33 +29,6 @@ public class PermissionRepository {
         );
     }
 
-    public OperationResult<Void> createPermission(String name, String description) {
-        String sql = "INSERT INTO permissions (name, description) VALUES (:name, :description)";
-        try {
-            boolean success = jdbi.withHandle(handle ->
-                    handle.createUpdate(sql)
-                            .bind("name", name)
-                            .bind("description", description)
-                            .execute() > 0
-            );
-
-            if (success) {
-                return OperationResult.success("Tạo quyền thành công");
-            } else {
-                return OperationResult.failure("Không thể tạo quyền");
-            }
-        } catch (Exception e) {
-            Throwable cause = e.getCause();
-
-            if (cause instanceof SQLIntegrityConstraintViolationException ||
-                    (e.getMessage() != null && e.getMessage().toLowerCase().contains("duplicate"))) {
-                return OperationResult.failure("Tên quyền đã tồn tại trong hệ thống");
-            }
-
-            return OperationResult.failure("Đã xảy ra lỗi: " + e.getMessage());
-        }
-    }
-
     public List<Integer> getUserIdsByPermissionId(int id) {
         String sql = """
                     SELECT DISTINCT u.id
@@ -75,54 +46,31 @@ public class PermissionRepository {
         );
     }
 
-    public OperationResult<Void> updatePermission(int id, String name, String description) {
-        String sql = "UPDATE permissions SET name = :name, description = :description WHERE id = :id";
-        try {
-            boolean success = jdbi.withHandle(handle ->
-                    handle.createUpdate(sql)
-                            .bind("id", id)
-                            .bind("name", name)
-                            .execute() > 0
-            );
-
-            if (success) {
-                return OperationResult.success("Cập nhật quyền thành công");
-            } else {
-                return OperationResult.failure("Không tìm thấy quyền để cập nhật");
-            }
-        } catch (Exception e) {
-            Throwable cause = e.getCause();
-
-            if (cause instanceof SQLIntegrityConstraintViolationException ||
-                    (e.getMessage() != null && e.getMessage().toLowerCase().contains("duplicate"))) {
-                return OperationResult.failure("Tên quyền đã tồn tại trong hệ thống");
-            }
-
-            return OperationResult.failure("Đã xảy ra lỗi khi cập nhật: " + e.getMessage());
-        }
-    }
-
-    public OperationResult<Void> deletePermission(int id) {
-        String sql = "DELETE FROM permissions WHERE id = :id";
-        try {
-            boolean success = jdbi.withHandle(handle ->
-                    handle.createUpdate(sql)
-                            .bind("id", id)
-                            .execute() > 0
-            );
-
-            if (success) {
-                return OperationResult.success("Xóa quyền thành công");
-            } else {
-                return OperationResult.failure("Không tìm thấy quyền để xóa");
-            }
-        } catch (Exception e) {
-            return OperationResult.failure("Đã xảy ra lỗi khi xóa: " + e.getMessage());
-        }
+    public boolean deletePermission(int id) {
+        
     }
 
     public boolean createPermission(PermissionDTO permissionRequest) {
         String sql = "INSERT INTO permissions (name, description) VALUES (:name, :description)";
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(permissionRequest)
+                        .execute() > 0
+        );
+    }
+
+    public boolean permissionExists(String name) {
+        String sql = "SELECT COUNT(*) FROM permissions WHERE name = :name";
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("name", name)
+                        .mapTo(Integer.class)
+                        .one() > 0
+        );
+    }
+
+    public boolean updatePermission(PermissionDTO permissionRequest) {
+        String sql = "UPDATE permissions SET name = :name, description = :description WHERE id = :id";
         return jdbi.withHandle(handle ->
                 handle.createUpdate(sql)
                         .bindBean(permissionRequest)
