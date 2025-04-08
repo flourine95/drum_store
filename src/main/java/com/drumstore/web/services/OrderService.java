@@ -133,10 +133,19 @@ public class OrderService {
         });
     }
 
-    //  Lịch sử đặt hàng
+    //  Lịch sử đặt hàng của khách hàng
     public List<OrderHistoryDTO> orderHistoryList(int userId) {
-        return orderRepository.orderHistoryList(userId);
+        return orderRepository.orderHistoryUserList(userId);
     }
+    //  Lịch sử đặt hàng
+    public List<OrderHistoryDTO> orderHistoryList() {
+        return orderRepository.orderHistoryList();
+    }
+
+    public OrderHistoryDTO getOrderHistory(int orderId) {
+        return orderRepository.getOrderHistoryById(orderId);
+    }
+
 
     // Xóa đơn hàng
     public boolean deleteOrderById(int orderId) {
@@ -165,5 +174,60 @@ public class OrderService {
         });
     }
 
+    public Map<String, String> updateQuantityFromDashboard(int orderItemId, int quantity) {
+        Map<String, String> response = new HashMap<>();
+        ProductVariantDTO productVariantDTO = productRepository.getStockByOrderItemId(orderItemId);
+        if (productVariantDTO == null) {
+            response.put("status", "error");
+            response.put("message", "Không tìm thấy sản phẩm tương ứng với đơn hàng.");
+            return response;
+        }
+
+        if (productVariantDTO.getStock() <= 0) {
+            response.put("status", "error");
+            response.put("message", "Sản phẩm đã hết hàng.");
+            return response;
+        }
+
+        if (productVariantDTO.getStock() < quantity) {
+            response.put("status", "error");
+            response.put("message", "Số lượng tồn kho không đủ.Chỉ còn "+ productVariantDTO.getStock()+" sản phẩm ");
+            return response;
+        }
+
+        jdbi.useTransaction(handle -> {
+            // cập nhật lại stock
+            productRepository.updateStock(handle, productVariantDTO.getId(), productVariantDTO.getStock() - quantity);
+            // cập nhật quantity trong orderItem
+            orderItemRepository.updateQuantity(handle, orderItemId, quantity);
+        });
+
+
+
+        response.put("status", "success");
+        response.put("message", "Cập nhật số lượng thành công.");
+        return response;
+    }
+
+
+    public Map<String, String> removeOrderItem(int orderItemId) {
+
+        boolean isSuccess = orderItemRepository.removerOrderItem(orderItemId);
+
+        Map<String, String> result = new HashMap<>();
+        if (isSuccess) {
+            result.put("status", "success");
+            result.put("message", "Xóa sản phẩm khỏi đơn hàng thành công.");
+        } else {
+            result.put("status", "error");
+            result.put("message", "Có lỗi xảy ra.");
+        }
+
+        return result;
+    }
+
+    public void updateTotalAmount(int orderId, double totalAmount) {
+        orderRepository.updateTotalAmount(orderId,totalAmount);
+    }
 
 }
