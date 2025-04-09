@@ -1,6 +1,7 @@
 package com.drumstore.web.repositories;
 
 import com.drumstore.web.dto.*;
+import com.drumstore.web.models.OrderItem;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
@@ -829,6 +830,28 @@ public class ProductRepository {
                 .bind("variantId", variantId)
                 .execute();
         return updatedRows;
+    }
+
+    // lấy ra số lượng stock dựa trên OrderItem chứa variantId
+    public ProductVariantDTO getStockByOrderItemId(int orderItemId) {
+        String sql = """
+        SELECT pv.id, pv.stock
+        FROM order_items o
+        INNER JOIN product_variants pv ON o.variantId = pv.id
+        WHERE o.id = :id
+    """;
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("id", orderItemId)
+                        .map((rs, ctx) -> {
+                            ProductVariantDTO dto = new ProductVariantDTO();
+                            dto.setId(rs.getInt("id"));
+                            dto.setStock(rs.getInt("stock"));
+                            return dto;
+                        })
+                        .findFirst()
+                        .orElse(null)
+        );
     }
 
 

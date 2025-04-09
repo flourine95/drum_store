@@ -624,7 +624,7 @@
                     userAddressId: addressId
                 },
                 success: function (response) {
-                    if (response.success === "true") {
+                    if (response.success) {
                         Swal.fire({
                             title: 'Đặt hàng thành công!',
                             text: 'Mã đơn hàng: #' + response.orderId,
@@ -665,7 +665,7 @@
                     userAddressId: addressId
                 },
                 success: function (response) {
-                    if (response.success === "true" && response.paymentUrl) {
+                    if (response.success && response.paymentUrl) {
                         Swal.fire({
                             title: 'Đơn hàng đã được tạo!',
                             text: response.orderId ? `Mã đơn hàng: #`+ response.orderId : 'Đang chuyển hướng đến VNPay...',
