@@ -47,7 +47,12 @@ public class PermissionRepository {
     }
 
     public boolean deletePermission(int id) {
-        
+        String sql = "DELETE FROM permissions WHERE id = :id";
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("id", id)
+                        .execute() > 0
+        );
     }
 
     public boolean createPermission(PermissionDTO permissionRequest) {

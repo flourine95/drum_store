@@ -1,13 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sửa Quyền</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
-<body>
+
 <div class="container mt-4">
     <div class="card">
         <div class="card-header bg-primary text-white">
@@ -30,7 +23,7 @@
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Tên quyền <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control ${not empty errors.name ? 'is-invalid' : ''}" 
+                    <input type="text" class="form-control ${not empty errors.name ? 'is-invalid' : ''}"
                            id="name" name="name" value="${permission.name}" required>
                     <c:if test="${not empty errors.name}">
                         <div class="invalid-feedback">${errors.name}</div>
@@ -39,7 +32,7 @@
 
                 <div class="mb-3">
                     <label for="description" class="form-label">Mô tả</label>
-                    <textarea class="form-control ${not empty errors.description ? 'is-invalid' : ''}" 
+                    <textarea class="form-control ${not empty errors.description ? 'is-invalid' : ''}"
                               id="description" name="description" rows="3">${permission.description}</textarea>
                     <c:if test="${not empty errors.description}">
                         <div class="invalid-feedback">${errors.description}</div>
@@ -59,6 +52,3 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>

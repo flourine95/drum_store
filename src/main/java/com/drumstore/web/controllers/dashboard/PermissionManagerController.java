@@ -136,7 +136,6 @@ public class PermissionManagerController extends HttpServlet {
         }
     }
 
-
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
@@ -188,7 +187,6 @@ public class PermissionManagerController extends HttpServlet {
         }
     }
 
-
     private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String idStr = request.getParameter("id");
         Integer id = ParseHelper.tryParseInt(idStr);
@@ -214,6 +212,4 @@ public class PermissionManagerController extends HttpServlet {
 
         response.sendRedirect(request.getContextPath() + "/dashboard/permissions");
     }
-
-
 }

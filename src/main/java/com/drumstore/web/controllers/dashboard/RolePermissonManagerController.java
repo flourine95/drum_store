@@ -7,7 +7,6 @@ import com.drumstore.web.dto.RolePermissionDTO;
 import com.drumstore.web.repositories.PermissionRepository;
 import com.drumstore.web.repositories.RolePermissionRepository;
 import com.drumstore.web.repositories.RoleRepository;
-import com.drumstore.web.repositories.UserRepository;
 import com.drumstore.web.utils.ForceLogoutCache;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,10 +17,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-@WebServlet("/dashboard/role-permission/*")
+@WebServlet("/dashboard/role-permissions/*")
 public class RolePermissonManagerController extends HttpServlet {
     private final RoleRepository roleRepository = new RoleRepository();
-    private final UserRepository userRepository = new UserRepository();
     private final PermissionRepository permissionRepository = new PermissionRepository();
     private final RolePermissionRepository rolePermissionRepository = new RolePermissionRepository();
 
@@ -37,6 +35,7 @@ public class RolePermissonManagerController extends HttpServlet {
             PermissionMatrixDTO dto = new PermissionMatrixDTO();
             dto.setPermissionId(permission.getId());
             dto.setPermissionName(permission.getName());
+            dto.setPermissionDescription(permission.getDescription());
 
             Map<Integer, Boolean> roleMap = new HashMap<>();
 
@@ -52,7 +51,9 @@ public class RolePermissonManagerController extends HttpServlet {
         request.setAttribute("matrixList", matrixList);
         request.setAttribute("roles", roles);
         request.setAttribute("permissions", permissions);
-        request.getRequestDispatcher("/role-permisson.jsp").forward(request, response);
+        request.setAttribute("title", "Quản lý quyền của vai trò");
+        request.setAttribute("content", "role-permissions/index.jsp");
+        request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
     }
 
     @Override
@@ -61,7 +62,6 @@ public class RolePermissonManagerController extends HttpServlet {
         Set<Integer> affectedPermissionIds = new HashSet<>();
         Set<Integer> affectedRoleIds = new HashSet<>();
 
-        // Lưu trạng thái cũ của role permissions
         Map<Integer, Set<Integer>> oldRolePermissions = new HashMap<>();
         for (RoleDTO role : roleRepository.getAllRoles()) {
             Set<Integer> permissions = new HashSet<>();
@@ -73,13 +73,12 @@ public class RolePermissonManagerController extends HttpServlet {
             oldRolePermissions.put(role.getId(), permissions);
         }
 
-        // Xử lý các permission được chọn
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
             String paramName = entry.getKey();
             String[] paramValues = entry.getValue();
 
             if (paramName.startsWith("permissions")) {
-                String permissionIdStr = paramName.replaceAll("permissions\\[(\\d+)\\]\\[]", "$1");
+                String permissionIdStr = paramName.replaceAll("permissions\\[(\\d+)]\\[]", "$1");
                 int permissionId = Integer.parseInt(permissionIdStr);
 
                 for (String roleIdStr : paramValues) {
@@ -94,7 +93,6 @@ public class RolePermissonManagerController extends HttpServlet {
             }
         }
 
-        // Xử lý các permission bị bỏ chọn
         for (RoleDTO role : roleRepository.getAllRoles()) {
             for (PermissionDTO permission : permissionRepository.getAllPermissions()) {
                 String key = "permissions[" + permission.getId() + "][]";
@@ -110,25 +108,21 @@ public class RolePermissonManagerController extends HttpServlet {
             }
         }
 
-        // Lấy danh sách tất cả users bị ảnh hưởng
         Set<Integer> usersToLogout = new HashSet<>();
-        
-        // Thêm users bị ảnh hưởng bởi thay đổi role
+
         for (Integer roleId : affectedRoleIds) {
             usersToLogout.addAll(roleRepository.getUserIdsByRoleId(roleId));
         }
-        
-        // Thêm users bị ảnh hưởng bởi thay đổi permission
+
         for (Integer permissionId : affectedPermissionIds) {
             usersToLogout.addAll(permissionRepository.getUserIdsByPermissionId(permissionId));
         }
 
-        // Force logout tất cả users bị ảnh hưởng
         for (Integer userId : usersToLogout) {
             ForceLogoutCache.markForLogout(userId);
         }
 
-        response.sendRedirect(request.getContextPath() + "/dashboard/role-permission");
+        response.sendRedirect(request.getContextPath() + "/dashboard/role-permissions");
     }
 
     private boolean containsRole(String[] roleIds, String roleId) {

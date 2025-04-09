@@ -15,7 +15,7 @@ import java.util.List;
 @WebFilter("/dashboard/*")
 public class PermissionFilter implements Filter {
     private static final List<String> skipPermissionRoutes = List.of(
-            "/dashboard/role-permission"
+//            "/dashboard/role-permission"
     );
 
     @Override
@@ -35,6 +35,8 @@ public class PermissionFilter implements Filter {
         UserDTO user = (session != null) ? (UserDTO) session.getAttribute("user") : null;
 
         if (user == null) {
+            session = request.getSession(true);
+            session.setAttribute("redirectUrl", uri);
             response.sendRedirect(contextPath + "/login");
             return;
         }
@@ -57,9 +59,8 @@ public class PermissionFilter implements Filter {
             }
 
             String permission = module + ":" + action;
-            System.out.println("Permission: " + permission);
-            if (!user.getPermissions().contains(permission)) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Bạn không có quyền truy cập chức năng này.");
+            if (user.getPermissions() == null || !user.getPermissions().contains(permission)) {
+                response.sendRedirect(contextPath + "/error?code=403");
                 return;
             }
         }

@@ -14,6 +14,7 @@ import java.util.Map;
 public class PermissionMatrixDTO {
     private int permissionId;
     private String permissionName;
+    private String permissionDescription;
     private Map<Integer, Boolean> roleCheckboxMap;
 }
 

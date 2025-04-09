@@ -44,22 +44,12 @@ public class RoleRepository {
     }
 
     public boolean deleteRole(int id) {
-        try {
-            jdbi.useTransaction(handle -> {
-                handle.createUpdate("DELETE FROM role_permissions WHERE roleId = :roleId")
-                        .bind("roleId", id)
-                        .execute();
-                handle.createUpdate("DELETE FROM user_roles WHERE roleId = :roleId")
-                        .bind("roleId", id)
-                        .execute();
-                handle.createUpdate("DELETE FROM roles WHERE id = :id")
+        String sql = "DELETE FROM roles WHERE id = :id";
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
                         .bind("id", id)
-                        .execute();
-            });
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+                        .execute() > 0
+        );
     }
 
     public boolean roleExists(String name) {

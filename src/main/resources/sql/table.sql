@@ -27,13 +27,13 @@ CREATE TABLE sales
 
 CREATE TABLE password_resets
 (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    userId INT NOT NULL,
-    token VARCHAR(100) NOT NULL,
-    expiryTime TIMESTAMP NOT NULL,
-    used BOOLEAN DEFAULT FALSE,
-    usedAt TIMESTAMP NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    userId     INT          NOT NULL,
+    token      VARCHAR(100) NOT NULL,
+    expiryTime TIMESTAMP    NOT NULL,
+    used       BOOLEAN   DEFAULT FALSE,
+    usedAt     TIMESTAMP    NULL,
+    createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE products
@@ -43,7 +43,7 @@ CREATE TABLE products
     description         TEXT,
     basePrice           DECIMAL(10, 2),
     totalViews          INT       DEFAULT 0,
-    featured          BOOLEAN   DEFAULT FALSE,
+    featured            BOOLEAN   DEFAULT FALSE,
     status              TINYINT   DEFAULT 1,
     stockManagementType TINYINT   DEFAULT 0 COMMENT '0: Simple, 1: Color Only, 2: Addon Only, 3: Color and Addon',
     categoryId          INT,
@@ -55,7 +55,7 @@ CREATE TABLE product_images
     id        INT PRIMARY KEY AUTO_INCREMENT,
     productId INT          NOT NULL,
     image     VARCHAR(255) NOT NULL,
-    main    BOOLEAN   DEFAULT FALSE,
+    main      BOOLEAN   DEFAULT FALSE,
     sortOrder INT       DEFAULT 0,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -118,7 +118,6 @@ CREATE TABLE users
     avatar    VARCHAR(255),
     createdAt TIMESTAMP
 );
-
 CREATE TABLE roles
 (
     id          INT PRIMARY KEY AUTO_INCREMENT,
@@ -129,7 +128,9 @@ CREATE TABLE user_roles
 (
     id     INT PRIMARY KEY AUTO_INCREMENT,
     userId INT NOT NULL,
-    roleId INT NOT NULL
+    roleId INT NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (roleId) REFERENCES roles (id) ON DELETE CASCADE
 );
 CREATE TABLE permissions
 (
@@ -141,7 +142,9 @@ CREATE TABLE role_permissions
 (
     id           INT PRIMARY KEY AUTO_INCREMENT,
     roleId       INT NOT NULL,
-    permissionId INT NOT NULL
+    permissionId INT NOT NULL,
+    FOREIGN KEY (roleId) REFERENCES roles(id) ON DELETE CASCADE,
+    FOREIGN KEY (permissionId) REFERENCES permissions(id) ON DELETE CASCADE
 );
 CREATE TABLE audit_logs
 (
@@ -155,8 +158,8 @@ CREATE TABLE two_factor_auth
 (
     userId           INT PRIMARY KEY,
     method           TINYINT, -- 0: SMS, 1: Email
-    verificationCode VARCHAR(10)                      NOT NULL,
-    expiryDate       DATETIME                         NOT NULL
+    verificationCode VARCHAR(10) NOT NULL,
+    expiryDate       DATETIME    NOT NULL
 );
 
 CREATE TABLE user_addresses
@@ -169,7 +172,7 @@ CREATE TABLE user_addresses
     provinceId INT,
     districtId INT,
     wardId     INT,
-    main  BOOLEAN DEFAULT FALSE
+    main       BOOLEAN DEFAULT FALSE
 );
 CREATE TABLE wishlist
 (
@@ -183,7 +186,7 @@ CREATE TABLE user_vouchers
     id        INT AUTO_INCREMENT PRIMARY KEY,
     userId    INT,
     voucherId INT,
-    used      BOOLEAN DEFAULT FALSE,
+    used      BOOLEAN   DEFAULT FALSE,
     usedAt    TIMESTAMP NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -201,7 +204,7 @@ CREATE TABLE order_items
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
     orderId    INT,
-    variantId  INT,          -- Variant bao gồm cả productId
+    variantId  INT,            -- Variant bao gồm cả productId
     quantity   INT NOT NULL,
     basePrice  DECIMAL(10, 2), -- Giá gốc của sản phẩm
     finalPrice DECIMAL(13, 2), -- Giá cuối sau khi tính color/addon và sale

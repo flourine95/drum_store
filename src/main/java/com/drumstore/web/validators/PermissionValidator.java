@@ -30,8 +30,9 @@ public class PermissionValidator {
             errors.put("name", "Tên quyền đã tồn tại.");
         }
 
+        if (permission.getDescription() != null && permission.getDescription().length() > 255) {
+            errors.put("description", "Mô tả không được vượt quá 255 ký tự.");
+        }
         return errors;
     }
-
-
 }
