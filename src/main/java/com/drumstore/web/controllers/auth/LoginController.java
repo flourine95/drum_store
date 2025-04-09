@@ -25,6 +25,8 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FlashManager.exposeToRequest(request);
+        String redirectUrl = request.getParameter("redirectUrl");
+        request.setAttribute("redirectUrl", redirectUrl);
         request.setAttribute("title", "Đăng nhập");
         request.setAttribute("content", "login.jsp");
         request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
@@ -39,7 +41,6 @@ public class LoginController extends HttpServlet {
         try {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-            String redirectUrl = request.getParameter("redirectUrl");
 
             oldInput.put("email", email);
 
@@ -63,15 +64,16 @@ public class LoginController extends HttpServlet {
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-
-                // Ghi log đăng nhập thành công
                 LogUtils.logToDatabase(user.getId(), 1, "LOGIN_SUCCESS", null, "{\"userId\":" + user.getId() + "}");
 
-                if (user.getRoles() != null && !user.getRoles().isEmpty()) {
-                    response.sendRedirect(request.getContextPath() + "/dashboard");
+                String originalURL = (String) session.getAttribute("redirectUrl");
+                session.removeAttribute("redirectUrl");
+
+                if (originalURL != null && !originalURL.isEmpty() && !originalURL.contains("/login")) {
+                    response.sendRedirect(originalURL);
                 } else {
-                    if (redirectUrl != null && !redirectUrl.isEmpty()) {
-                        response.sendRedirect(redirectUrl);
+                    if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+                        response.sendRedirect(request.getContextPath() + "/dashboard");
                     } else {
                         response.sendRedirect(request.getContextPath() + "/");
                     }
@@ -83,20 +85,16 @@ public class LoginController extends HttpServlet {
                 request.setAttribute("title", "Đăng nhập");
                 request.setAttribute("content", "login.jsp");
                 request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
-
-                // Ghi log đăng nhập thất bại
                 LogUtils.logToDatabase(0, 2, "LOGIN_FAILED", "{\"email\":\"" + email + "\"}", null);
             }
-
         } catch (Exception e) {
             errors.put("general", "Có lỗi xảy ra. Vui lòng thử lại sau.");
             request.setAttribute("errors", errors);
             request.setAttribute("oldInput", oldInput);
+            request.setAttribute("redirectUrl", request.getParameter("redirectUrl"));
             request.setAttribute("title", "Đăng nhập");
             request.setAttribute("content", "login.jsp");
             request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
-
-            // Ghi log lỗi hệ thống
             LogUtils.logToDatabase(0, 3, "LOGIN_ERROR", null, "{\"error\":\"" + e.getMessage() + "\"}");
         }
     }

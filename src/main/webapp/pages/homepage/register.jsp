@@ -57,7 +57,7 @@
         margin-bottom: 0.5rem;
     }
 
-    .form-control {
+    .register-form .form-control {
         padding: 0.75rem 1rem;
         border: 1px solid var(--border-color);
         border-radius: 0.5rem;
@@ -65,9 +65,14 @@
         color: var(--text-color);
     }
 
-    .form-control:focus {
+    .register-form .form-control:focus {
         box-shadow: none;
         border-color: var(--link-color);
+    }
+
+    .register-form .form-control.is-invalid {
+        border-color: var(--error-color);
+        background-image: none;
     }
 
     .btn-register {
@@ -136,11 +141,6 @@
         font-size: 14px;
     }
 
-    .form-control.is-invalid {
-        border-color: var(--error-color);
-        background-image: none;
-    }
-
     .alert {
         padding: 1rem;
         border-radius: 0.5rem;
@@ -170,7 +170,7 @@
                 </div>
             </c:if>
 
-            <form action="${pageContext.request.contextPath}/register" method="POST">
+            <form action="${pageContext.request.contextPath}/register" method="POST" class="register-form">
                 <div class="form-group">
                     <label class="form-label required-field" for="fullName">Họ và tên</label>
                     <input type="text" 
