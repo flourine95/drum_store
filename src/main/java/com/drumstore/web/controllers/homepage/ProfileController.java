@@ -1,11 +1,10 @@
 package com.drumstore.web.controllers.homepage;
 
 import com.drumstore.web.dto.AddressDTO;
+import com.drumstore.web.dto.OrderHistoryDTO;
 import com.drumstore.web.dto.ProductDetailDTO;
 import com.drumstore.web.dto.UserDTO;
-import com.drumstore.web.services.AddressService;
-import com.drumstore.web.services.UserService;
-import com.drumstore.web.services.WishlistService;
+import com.drumstore.web.services.*;
 import com.drumstore.web.utils.GsonUtils;
 import com.google.gson.JsonObject;
 import jakarta.servlet.ServletException;
@@ -25,7 +24,8 @@ public class ProfileController extends HttpServlet {
     private final UserService userService = new UserService();
     private final AddressService addressService = new AddressService();
     private final WishlistService wishlistService = new WishlistService();
-
+    private final OrderService orderService = new OrderService();
+    private final UserAddressService userAddressService = new UserAddressService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDTO user = (UserDTO) request.getSession().getAttribute("user");
@@ -46,12 +46,14 @@ public class ProfileController extends HttpServlet {
                 request.setAttribute("activePage", "addresses");
             }
             case "orders" -> {
+                List<OrderHistoryDTO> orderHistory = orderService.orderHistoryList(userId);
+                request.setAttribute("orderHistory", orderHistory);
                 request.setAttribute("title", "Đơn hàng của tôi");
                 request.setAttribute("profileContent", "profile-orders.jsp");
                 request.setAttribute("activePage", "orders");
             }
             case "wishlist" -> {
-                List<ProductDetailDTO> products = wishlistService.getAll(user);
+                List<ProductDetailDTO> products = wishlistService.getAll(user.getId());
                 request.setAttribute("products", products);
                 request.setAttribute("title", "Danh sách yêu thích");
                 request.setAttribute("profileContent", "profile-wishlist.jsp");
@@ -64,6 +66,7 @@ public class ProfileController extends HttpServlet {
                 request.setAttribute("profileContent", "edit-account.jsp");
                 request.setAttribute("activePage", "profile");
             }
+
             default -> {
                 user = userService.findUser("id", userId);
                 request.setAttribute("user", user);
@@ -96,6 +99,21 @@ public class ProfileController extends HttpServlet {
                 case "delete-address" -> deleteAddress(request, response, user, jsonObject);
                 case "update-address" -> updateAddress(request, response, user, jsonObject);
                 case "toggle-wishList" -> toogleWishtList(request, response, user, jsonObject);
+                case "count_user_address" -> {
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    Map<String, Object> resp = new HashMap<>();
+                    int count  = userAddressService.isExitsUserAddress(user.getId());
+                    if(count > 0) {
+                        resp.put("status", true);
+                    }else {
+                        resp.put("status", false);
+                    }
+                    writeJson(response, resp);
+                }
+
+                case "cancle_order" -> cancleOrder(request, response, jsonObject);
+
                 default -> response.sendRedirect(request.getContextPath() + "/profile");
             }
         } catch (Exception e) {
@@ -106,6 +124,25 @@ public class ProfileController extends HttpServlet {
             );
             writeJson(response, errorResponse);
         }
+    }
+
+    private void cancleOrder(HttpServletRequest request, HttpServletResponse response, JsonObject jsonObject) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        Map<String, Object> resp = new HashMap<>();
+        try {
+            int productId = jsonObject.get("orderId").getAsInt();
+            boolean isDelete = orderService.deleteOrderById(productId);
+            if (isDelete) {
+                resp.put("success", true);
+            } else {
+                resp.put("success", false);
+            }
+        } catch (Exception e) {
+            resp.put("success", false);
+            resp.put("message", "Lỗi server: " + e.getMessage());
+        }
+        writeJson(response, resp);
     }
 
     private void toogleWishtList(HttpServletRequest request, HttpServletResponse response, UserDTO user, JsonObject jsonObject) throws IOException {

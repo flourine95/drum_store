@@ -16,11 +16,11 @@ import java.util.*;
 
 public class VnPayService {
 
-    public String createPaymentUrl( long amount ,HttpServletRequest req) throws UnsupportedEncodingException {
+    public String createPaymentUrl( long amount  ,HttpServletRequest req) throws UnsupportedEncodingException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long fakeamount = 10000000L;
+
         String bankCode = req.getParameter("bankCode");
 
         String vnp_TxnRef = VnPayUtils.getRandomNumber(8);
@@ -32,7 +32,7 @@ public class VnPayService {
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-        vnp_Params.put("vnp_Amount", String.valueOf(fakeamount));
+        vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
 
         if (bankCode != null && !bankCode.isEmpty()) {
@@ -59,6 +59,7 @@ public class VnPayService {
         cld.add(Calendar.MINUTE, 15);
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
+
 
         List fieldNames = new ArrayList(vnp_Params.keySet());
         Collections.sort(fieldNames);

@@ -1,7 +1,9 @@
 package com.drumstore.web.repositories;
 
 import com.drumstore.web.dto.*;
+import com.drumstore.web.models.OrderItem;
 import com.drumstore.web.utils.DBConnection;
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
@@ -719,7 +721,6 @@ public class ProductRepository {
     }
 
     public CartItemDTO findProductWithVariant(int colorId, int addonId, int productId) {
-        System.out.println("colorId = " + colorId + ", addonId = " + addonId + ", productId = " + productId);
         String sql = """
                 WITH MaxDiscount AS (
                     SELECT productId, MAX(s.discountPercentage) as maxDiscount
@@ -745,11 +746,11 @@ public class ProductRepository {
                     pa.name AS pa_addonName,
                     pa.additionalPrice AS pa_additionalPrice
                 FROM products p
-                LEFT JOIN product_images pi ON p.id = pi.productId AND pi.main = 1
                 LEFT JOIN product_variants pv ON p.id = pv.productId AND pv.status = 1
                 LEFT JOIN product_colors pc ON pc.id = pv.colorId
                 LEFT JOIN product_addons pa ON pa.id = pv.addonId
                 LEFT JOIN MaxDiscount md ON md.productId = p.id
+                LEFT JOIN product_images pi ON pi.id = pv.imageId 
                 WHERE p.id = :productId
                     AND p.status = 1
                     AND (pv.colorId = NULLIF(:colorId, 0) OR (pv.colorId IS NULL AND :colorId = 0))
@@ -806,6 +807,53 @@ public class ProductRepository {
                         .orElse(null)
         );
     }
+
+    public ProductVariantDTO findProductVariantById(int variantId) {
+        String sql = """
+                SELECT pv.id, pv.stock 
+                FROM product_variants AS pv 
+                WHERE pv.id = :variantId
+            """;
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("variantId", variantId)
+                        .mapToBean(ProductVariantDTO.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
+
+    public int updateStock(Handle handle, int variantId, int quantity) {
+        int updatedRows = handle.createUpdate("UPDATE product_variants SET stock = stock - :quantity WHERE id = :variantId AND stock >= :quantity")
+                .bind("quantity", quantity)
+                .bind("variantId", variantId)
+                .execute();
+        return updatedRows;
+    }
+
+    // lấy ra số lượng stock dựa trên OrderItem chứa variantId
+    public ProductVariantDTO getStockByOrderItemId(int orderItemId) {
+        String sql = """
+        SELECT pv.id, pv.stock
+        FROM order_items o
+        INNER JOIN product_variants pv ON o.variantId = pv.id
+        WHERE o.id = :id
+    """;
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("id", orderItemId)
+                        .map((rs, ctx) -> {
+                            ProductVariantDTO dto = new ProductVariantDTO();
+                            dto.setId(rs.getInt("id"));
+                            dto.setStock(rs.getInt("stock"));
+                            return dto;
+                        })
+                        .findFirst()
+                        .orElse(null)
+        );
+    }
+
 
 
     public int store(ProductCreateDTO product) {

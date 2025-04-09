@@ -292,6 +292,34 @@
     </div>
 </div>
 
+<%--hiển thị thonong báo xác thực --%>
+<div class="modal fade" id="verifyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác thực tài khoản</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tài khoản của bạn chưa được xác thực. Vui lòng kiểm tra email để xác thực.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <a href="${pageContext.request.contextPath}/verify-token" class="btn btn-primary">Xác
+                    thực ngay</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%-- Kiểm tra nếu `notVerify` là `true` thì hiển thị modal --%>
+<script>
+    <% if (request.getAttribute("not-verify") != null) { %>
+    var myModal = new bootstrap.Modal(document.getElementById('verifyModal'));
+    myModal.show();
+    <% } %>
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const alert = document.querySelector('.alert-success');

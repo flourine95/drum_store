@@ -22,7 +22,7 @@ public class UserService {
     }
 
     public boolean register(User user) {
-        return userRepository.register(user);
+        return userRepository.registerWithNotAuthen(user);
     }
 
     public boolean isPhoneExists(String phone) {
@@ -39,6 +39,10 @@ public class UserService {
 
     public UserDTO login(String username, String password) {
         return userRepository.login(username, password);
+    }
+
+    public void updateStatus(String email){
+         userRepository.updateStatus(email);
     }
 
     public UserDTO findUser(String field, Object value) {
