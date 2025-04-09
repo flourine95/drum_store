@@ -218,6 +218,15 @@
             let orderId = $(this).data('order-id');
             let newStatus = $(this).val();
 
+            if (orderStatus === 4) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Không thể thay đổi',
+                    text: 'Đơn hàng này đã được hủy, không được thay đổi trạng thái đơn hàng.',
+                });
+                return;
+            }
+
             $.ajax({
                 url: '${pageContext.request.contextPath}/dashboard/orders',
                 type: 'POST',
