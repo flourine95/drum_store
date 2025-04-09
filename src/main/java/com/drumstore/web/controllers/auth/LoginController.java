@@ -3,6 +3,7 @@ package com.drumstore.web.controllers.auth;
 import com.drumstore.web.dto.LoginRequestDTO;
 import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.services.UserService;
+import com.drumstore.web.utils.FlashManager;
 import com.drumstore.web.utils.LogUtils;
 import com.drumstore.web.validators.LoginValidator;
 import jakarta.servlet.ServletException;
@@ -23,6 +24,9 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        FlashManager.exposeToRequest(request);
+        String redirectUrl = request.getParameter("redirectUrl");
+        request.setAttribute("redirectUrl", redirectUrl);
         request.setAttribute("title", "Đăng nhập");
         request.setAttribute("content", "login.jsp");
         request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
@@ -37,14 +41,10 @@ public class LoginController extends HttpServlet {
         try {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-            String redirectUrl = request.getParameter("redirectUrl");
 
             oldInput.put("email", email);
 
-            LoginRequestDTO loginRequest = LoginRequestDTO.builder()
-                    .email(email)
-                    .password(password)
-                    .build();
+            LoginRequestDTO loginRequest = LoginRequestDTO.builder().email(email).password(password).build();
             errors = loginValidator.validate(loginRequest.getEmail(), loginRequest.getPassword());
 
             if (!errors.isEmpty()) {
@@ -59,31 +59,27 @@ public class LoginController extends HttpServlet {
             UserDTO user = userService.login(email, password);
 
             if (user != null) {
-                // chưa xác thực
-                if(!user.isStatus()){
+                if (!user.isStatus()) {
                     request.setAttribute("not-verify", true);
                     request.getSession().setAttribute("emailToVerify", user.getEmail());
                     request.setAttribute("title", "Đăng nhập");
                     request.setAttribute("content", "login.jsp");
                     request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
-                }else {
+                } else {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-
-                    // Ghi log đăng nhập thành công
                     LogUtils.logToDatabase(user.getId(), 1, "LOGIN_SUCCESS", null, "{\"userId\":" + user.getId() + "}");
+                    String originalURL = (String) session.getAttribute("redirectUrl");
+                    session.removeAttribute("redirectUrl");
 
-                    if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+                    if (originalURL != null && !originalURL.isEmpty() && !originalURL.contains("/login")) {
+                        response.sendRedirect(originalURL);
+                    } else if (user.getRoles() != null && !user.getRoles().isEmpty()) {
                         response.sendRedirect(request.getContextPath() + "/dashboard");
                     } else {
-                        if (redirectUrl != null && !redirectUrl.isEmpty()) {
-                            response.sendRedirect(redirectUrl);
-                        } else {
-                            response.sendRedirect(request.getContextPath() + "/");
-                        }
+                        response.sendRedirect(request.getContextPath() + "/");
                     }
                 }
-
             } else {
                 errors.put("general", "Email hoặc mật khẩu không chính xác");
                 request.setAttribute("errors", errors);
@@ -91,20 +87,16 @@ public class LoginController extends HttpServlet {
                 request.setAttribute("title", "Đăng nhập");
                 request.setAttribute("content", "login.jsp");
                 request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
-
-                // Ghi log đăng nhập thất bại
                 LogUtils.logToDatabase(0, 2, "LOGIN_FAILED", "{\"email\":\"" + email + "\"}", null);
             }
-
         } catch (Exception e) {
             errors.put("general", "Có lỗi xảy ra. Vui lòng thử lại sau.");
             request.setAttribute("errors", errors);
             request.setAttribute("oldInput", oldInput);
+            request.setAttribute("redirectUrl", request.getParameter("redirectUrl"));
             request.setAttribute("title", "Đăng nhập");
             request.setAttribute("content", "login.jsp");
             request.getRequestDispatcher("/pages/homepage/layout.jsp").forward(request, response);
-
-            // Ghi log lỗi hệ thống
             LogUtils.logToDatabase(0, 3, "LOGIN_ERROR", null, "{\"error\":\"" + e.getMessage() + "\"}");
         }
     }

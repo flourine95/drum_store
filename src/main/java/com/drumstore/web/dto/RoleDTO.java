@@ -13,9 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class RoleDTO implements Serializable {
-    private int id;
+    private Integer id;
     private String name;
     private String description;
-    private List<PermissionDTO> permissions;
 }
 

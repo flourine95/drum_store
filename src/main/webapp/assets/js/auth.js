@@ -1,9 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Auth.js loaded');
-
     window.logout = function() {
-        console.log('Logout function called');
-
         if (typeof Swal === 'undefined') {
             console.error('Swal is not defined');
             return false;
@@ -30,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         title: 'Lỗi',
                         text: 'Không tìm thấy biểu mẫu đăng xuất!',
                     });
-                    console.error('Logout form not found');
                 }
             }
         }).catch(error => {
@@ -39,33 +34,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
         return false;
     };
-
-    const loginLink = document.getElementById("loginLink");
-    if (loginLink) {
-        loginLink.href = `${loginLink.href}?redirect=${encodeURIComponent(window.location.href)}`;
-        console.log(`${loginLink.href}?redirect=${encodeURIComponent(window.location.href)}`)
-    } else {
-        console.warn("loginLink not found");
-    }
 });
-
-
-// Xử lí nextStep bên quên mật khẩu
-function nextStep() {
-    document.getElementById('step1').classList.add('hidden');
-    document.getElementById('step2').classList.remove('hidden');
-}
-
-function verifyOtp() {
-    const otp = document.getElementById('otp').value;
-    const result = document.getElementById('passwordResult');
-    // Đây là nơi bạn có thể thêm logic xác thực OTP thực tế
-    // Ví dụ giả lập:
-    if (otp === '123456') { // OTP mẫu
-        result.textContent = 'Mật khẩu mới của bạn là: NewPass123';
-        result.classList.remove('hidden');
-    } else {
-        result.textContent = 'OTP không đúng, vui lòng thử lại!';
-        result.classList.remove('hidden');
-    }
-}

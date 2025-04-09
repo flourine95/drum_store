@@ -12922,3 +12922,91 @@ INSERT INTO logs (userId, level, action, oldData, newData) VALUES
                                                                (3, 3, 'ADD_TO_CART', NULL, '{"productId": 202, "quantity": 1}'),
                                                                (4, 1, 'UPDATE_STOCK', '{"productId": 303, "stock": 10}', '{"productId": 303, "stock": 5}'),
                                                                (5, 2, 'LOGIN', NULL, '{"status": "success", "ip": "192.168.1.10"}');
+INSERT INTO permissions (name, description) VALUES
+-- products
+('products:index', 'Xem danh sách sản phẩm'),
+('products:create', 'Hiển thị form tạo sản phẩm'),
+('products:store', 'Lưu sản phẩm mới'),
+('products:show', 'Xem chi tiết sản phẩm'),
+('products:edit', 'Hiển thị form chỉnh sửa sản phẩm'),
+('products:update', 'Cập nhật sản phẩm'),
+('products:delete', 'Xóa sản phẩm'),
+
+-- categories
+('categories:index', 'Xem danh sách danh mục'),
+('categories:create', 'Hiển thị form tạo danh mục'),
+('categories:store', 'Lưu danh mục mới'),
+('categories:show', 'Xem chi tiết danh mục'),
+('categories:edit', 'Hiển thị form chỉnh sửa danh mục'),
+('categories:update', 'Cập nhật danh mục'),
+('categories:delete', 'Xóa danh mục'),
+
+-- brands
+('brands:index', 'Xem danh sách thương hiệu'),
+('brands:create', 'Hiển thị form tạo thương hiệu'),
+('brands:store', 'Lưu thương hiệu mới'),
+('brands:show', 'Xem chi tiết thương hiệu'),
+('brands:edit', 'Hiển thị form chỉnh sửa thương hiệu'),
+('brands:update', 'Cập nhật thương hiệu'),
+('brands:delete', 'Xóa thương hiệu'),
+
+-- orders
+('orders:index', 'Xem danh sách đơn hàng'),
+('orders:create', 'Hiển thị form tạo đơn hàng'),
+('orders:store', 'Lưu đơn hàng mới'),
+('orders:show', 'Xem chi tiết đơn hàng'),
+('orders:edit', 'Hiển thị form chỉnh sửa đơn hàng'),
+('orders:update', 'Cập nhật đơn hàng'),
+('orders:delete', 'Xóa đơn hàng'),
+
+-- roles
+('roles:index', 'Xem danh sách vai trò'),
+('roles:create', 'Hiển thị form tạo vai trò'),
+('roles:store', 'Lưu vai trò mới'),
+('roles:show', 'Xem chi tiết vai trò'),
+('roles:edit', 'Hiển thị form chỉnh sửa vai trò'),
+('roles:update', 'Cập nhật vai trò'),
+('roles:delete', 'Xóa vai trò'),
+
+-- permissions
+('permissions:index', 'Xem danh sách quyền'),
+('permissions:create', 'Hiển thị form tạo quyền'),
+('permissions:store', 'Lưu quyền mới'),
+('permissions:show', 'Xem chi tiết quyền'),
+('permissions:edit', 'Hiển thị form chỉnh sửa quyền'),
+('permissions:update', 'Cập nhật quyền'),
+('permissions:delete', 'Xóa quyền'),
+
+-- role_permissions
+('role-permissions:index', 'Xem danh sách quyền theo vai trò'),
+('role-permissions:create', 'Hiển thị form gán quyền'),
+('role-permissions:store', 'Lưu quyền gán'),
+('role-permissions:show', 'Xem chi tiết quyền gán'),
+('role-permissions:edit', 'Hiển thị form chỉnh sửa quyền gán'),
+('role-permissions:update', 'Cập nhật quyền gán'),
+('role-permissions:delete', 'Xóa quyền gán');
+
+INSERT INTO roles (name, description) VALUES
+                                          ('ADMIN', 'Toàn quyền hệ thống'),
+                                          ('MANAGER', 'Quản lý các chức năng chính'),
+                                          ('SALES', 'Nhân viên bán hàng, xử lý đơn');
+INSERT INTO role_permissions (roleId, permissionId)
+SELECT 1, id FROM permissions;
+
+INSERT INTO role_permissions (roleId, permissionId)
+SELECT 2, id FROM permissions
+WHERE name LIKE 'products:%'
+   OR name LIKE 'categories:%'
+   OR name LIKE 'brands:%'
+   OR name LIKE 'orders:%';
+
+INSERT INTO role_permissions (roleId, permissionId)
+SELECT 3, id FROM permissions
+WHERE name IN (
+               'orders:index',
+               'orders:show',
+               'orders:update'
+    );
+
+
+

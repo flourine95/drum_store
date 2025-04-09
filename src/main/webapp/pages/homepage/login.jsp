@@ -52,14 +52,14 @@
         margin-bottom: 0.5rem;
     }
 
-    .form-control {
+    .login-form .form-control {
         padding: 0.75rem 1rem;
         border: 1px solid var(--border-color);
         border-radius: 0.5rem;
         background-color: var(--input-bg);
     }
 
-    .form-control:focus {
+    .login-form .form-control:focus {
         box-shadow: none;
         border-color: var(--link-color);
     }
@@ -190,13 +190,25 @@
                     request.getSession().removeAttribute("successMessage");
                 %>
             </c:if>
-            <c:if test="${not empty errors.general}">
-                <div class="alert alert-danger">
-                    <i class="fas fa-exclamation-circle"></i>
-                        ${errors.general}
+            <c:if test="${not empty success}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>${success}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </c:if>
-            <form action="${pageContext.request.contextPath}/login" method="POST">
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>${error}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </c:if>
+            <c:if test="${not empty errors.general}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>${errors.general}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </c:if>
+            <form action="${pageContext.request.contextPath}/login" method="POST" class="login-form">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email"
@@ -322,7 +334,3 @@
         }
     });
 </script>
-
-
-
-

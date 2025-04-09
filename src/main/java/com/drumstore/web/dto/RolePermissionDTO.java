@@ -11,8 +11,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PermissionDTO implements Serializable {
-    private Integer id;
-    private String name;
-    private String description;
+public class RolePermissionDTO implements Serializable {
+    private int id;
+    private int roleId;
+    private int permissionId;
 }
