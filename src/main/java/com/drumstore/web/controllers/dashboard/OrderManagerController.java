@@ -13,10 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @WebServlet("/dashboard/orders")
 public class OrderManagerController extends HttpServlet {
@@ -49,16 +46,11 @@ public class OrderManagerController extends HttpServlet {
     private void get(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<OrderHistoryDTO> list = orderService.orderHistoryList();
-            if (list == null) {
-                sendResponse(response, Collections.emptyList());
-            } else {
-                sendResponse(response, list);
-            }
+            sendResponse(response, Objects.requireNonNullElse(list, Collections.emptyList()));
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("success", false);
             errorResponse.put("message", "Có lỗi xảy ra khi lấy danh sách đơn hàng: " + e.getMessage());
-            System.out.println(e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             sendResponse(response, errorResponse);
         }
@@ -97,7 +89,48 @@ public class OrderManagerController extends HttpServlet {
         switch (action) {
             case "update-quantity" -> updateQuantity(req, resp);
             case "remove-orderItem" -> removeOrderItem(req,resp);
+            case "modify-orderStatus" -> modifyOrderStatus(req,resp);
+            case "remove-order" -> removeOrder(req, resp);
         }
+    }
+
+    private void removeOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String orderIdStr = req.getParameter("orderId");
+        Map<String, String> result = new HashMap<>();
+
+        try {
+            int orderId = Integer.parseInt(orderIdStr);
+            OrderHistoryDTO dto = orderService.getOrderHistory(orderId);
+
+            int orderStatus = dto.getOrderStatus();
+            if (orderStatus == 1 || orderStatus == 2 || orderStatus == 3) {
+                result.put("status", "error");
+                result.put("message", "Đơn hàng đã được xử lý và không thể xóa.");
+            } else {
+                result = orderService.removerOrder(orderId);
+            }
+        } catch (NumberFormatException e) {
+            result.put("status", "error");
+            result.put("message", "Dữ liệu không hợp lệ.");
+        }
+
+        sendResponse(resp, result);
+    }
+
+
+    private void modifyOrderStatus(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String oderIdStr =req.getParameter("orderId");
+        String statusIdStr =req.getParameter("statusId");
+        Map<String, String> result = new HashMap<>();
+        try {
+            int orderId = Integer.parseInt(oderIdStr);
+            int statusId = Integer.parseInt(statusIdStr);
+            result = orderService.modifyStatusOrder(orderId,statusId);
+        } catch (NumberFormatException e) {
+            result.put("status", "error");
+            result.put("message", "Dữ liệu không hợp lệ.");
+        }
+        sendResponse(resp,result);
     }
 
     private void removeOrderItem(HttpServletRequest req, HttpServletResponse resp) throws IOException {

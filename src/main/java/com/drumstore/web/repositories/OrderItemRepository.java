@@ -74,4 +74,21 @@ public class OrderItemRepository {
         );
 
     }
+
+    public boolean modifyStatusOrder(int orderId, int statusId) {
+        return jdbi.withHandle(handle ->
+                handle.createUpdate("UPDATE  orders SET status = :status WHERE id = :id")
+                        .bind("id", orderId)
+                        .bind("status", statusId)
+                        .execute() > 0
+        );
+    }
+
+    public boolean removerOrder(int orderId) {
+        return jdbi.withHandle(handle ->
+                handle.createUpdate("DELETE FROM orders WHERE id = :id")
+                        .bind("id", orderId)
+                        .execute() > 0
+        );
+    }
 }

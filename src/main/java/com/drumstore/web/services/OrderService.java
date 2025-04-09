@@ -1,5 +1,6 @@
 package com.drumstore.web.services;
 
+import com.drumstore.web.constants.OrderConstants;
 import com.drumstore.web.constants.PaymentConstants;
 import com.drumstore.web.dto.OrderHistoryDTO;
 import com.drumstore.web.dto.ProductVariantDTO;
@@ -230,4 +231,33 @@ public class OrderService {
         orderRepository.updateTotalAmount(orderId,totalAmount);
     }
 
+    public Map<String, String> modifyStatusOrder(int orderId, int statusId) {
+        boolean isSuccess = orderItemRepository.modifyStatusOrder(orderId, statusId);
+
+        Map<String, String> result = new HashMap<>();
+        if (isSuccess) {
+            result.put("status", "success");
+            result.put("message", "Cập nhật trạng thái đơn hàng thành công.");
+        } else {
+            result.put("status", "error");
+            result.put("message", "Có lỗi xảy ra khi cập nhật trạng thái đơn hàng.");
+        }
+
+        return result;
+    }
+
+    public Map<String, String> removerOrder(int orderId) {
+        boolean isSuccess = orderItemRepository.removerOrder(orderId);
+
+        Map<String, String> result = new HashMap<>();
+        if (isSuccess) {
+            result.put("status", "success");
+            result.put("message", "Đơn hàng đã được xóa thành công.");
+        } else {
+            result.put("status", "error");
+            result.put("message", "Có lỗi xảy ra khi xóa đơn hàng.");
+        }
+
+        return result;
+    }
 }

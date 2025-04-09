@@ -6,7 +6,7 @@
         <table id="orders" class="table table-striped table-hover table-bordered" style="width:100%">
             <thead>
             <tr>
-<%--                <th>#</th>--%>
+                <%--                <th>#</th>--%>
                 <th>Mã đơn hàng</th>
                 <th>Ngày đặt hàng</th>
                 <th>Tổng tiền</th>
@@ -23,29 +23,29 @@
 </div>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#orders').DataTable({
             processing: true,
             ajax: {
                 url: '${pageContext.request.contextPath}/dashboard/orders?action=get',
-                dataSrc: function(json) {
+                dataSrc: function (json) {
                     if (json.success !== undefined && !json.success) {
                         toastr.error(json.message || 'Có lỗi xảy ra khi lấy dữ liệu đơn hàng');
                         return [];
                     }
                     return json;
                 },
-                error: function(xhr, error, thrown) {
+                error: function (xhr, error, thrown) {
                     toastr.error('Không thể lấy dữ liệu đơn hàng. Vui lòng thử lại sau.');
                     console.error('AJAX Error:', xhr, error, thrown);
                 }
             },
             columns: [
                 // { data: 'orderId' },
-                { data: 'orderId' },
+                {data: 'orderId'},
                 {
                     data: 'orderDate',
-                    render: function(data) {
+                    render: function (data) {
                         return new Date(data).toLocaleString('vi-VN', {
                             day: '2-digit',
                             month: '2-digit',
@@ -57,7 +57,7 @@
                 },
                 {
                     data: 'totalAmount',
-                    render: function(data) {
+                    render: function (data) {
                         return new Intl.NumberFormat('vi-VN', {
                             style: 'currency',
                             currency: 'VND'
@@ -66,7 +66,7 @@
                 },
                 {
                     data: 'paymentMethodText',
-                    render: function(data) {
+                    render: function (data) {
                         let badgeClass = '';
                         switch (data) {
                             case 'COD':
@@ -84,9 +84,9 @@
                 },
                 {
                     data: 'paymentStatusText',
-                    render: function(data) {
+                    render: function (data) {
                         let badgeClass = '';
-                        switch(data) {
+                        switch (data) {
                             case 'PENDING':
                                 badgeClass = 'warning';
                                 break;
@@ -104,9 +104,9 @@
                 },
                 {
                     data: 'orderStatus',
-                    render: function(data) {
+                    render: function (data, type, row) {
                         return `
-                        <select class="form-select order-status" data-order-id="\${data.orderId}" style="width: 150px;">
+                       <select class="form-select order-status" data-order-id="\${row.orderId}" style="width: 150px;">
                             <option value="0" \${data == 0 ? 'selected' : ''}>PENDING</option>
                             <option value="1" \${data == 1 ? 'selected' : ''}>CONFIRMED</option>
                             <option value="2" \${data == 2 ? 'selected' : ''}>SHIPPING</option>
@@ -118,7 +118,7 @@
                 },
                 {
                     data: 'shippingAddress',
-                    render: function(data) {
+                    render: function (data) {
                         return `
                         <div>\${data.fullname}</div>
                         <div>SDT: \${data.phone}</div>
@@ -127,7 +127,7 @@
                 },
                 {
                     data: 'items',
-                    render: function(data) {
+                    render: function (data) {
                         return `<span class="badge bg-info">\${data.length}</span>`;
                     }
                 },
@@ -135,17 +135,17 @@
                     data: 'orderId',
                     orderable: false,
                     className: 'text-center',
-                    render: function(data) {
+                    render: function (data) {
                         return `
                         <div class="btn-group" role="group">
                             <a href="${pageContext.request.contextPath}/dashboard/orders?action=show&orderId=\${data}"
                                class="btn btn-info btn-sm" title="Xem chi tiết">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <a href="${pageContext.request.contextPath}/dashboard/orders/\${data}/edit"
-                               class="btn btn-primary btn-sm" title="Chỉnh sửa">
-                                <i class="bi bi-pencil"></i>
-                            </a>
+                            <%--<a href="${pageContext.request.contextPath}/dashboard/orders/\${data}/edit"--%>
+                            <%--   class="btn btn-primary btn-sm" title="Chỉnh sửa">--%>
+                            <%--    <i class="bi bi-pencil"></i>--%>
+                            <%--</a>--%>
                             <button type="button"
                                     class="btn btn-danger btn-sm"
                                     onclick="deleteOrder(\${data})"
@@ -214,55 +214,106 @@
         });
 
         // Handle order status change
-        $('#orders').on('change', '.order-status', function() {
+        $('#orders').on('change', '.order-status', function () {
             let orderId = $(this).data('order-id');
             let newStatus = $(this).val();
 
-            fetch('${pageContext.request.contextPath}/api/orders/' + orderId + '/status', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
+            $.ajax({
+                url: '${pageContext.request.contextPath}/dashboard/orders',
+                type: 'POST',
+                data: {
+                    action: "modify-orderStatus",
+                    orderId: orderId,
+                    statusId: newStatus
                 },
-                body: JSON.stringify({ status: newStatus })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        toastr.success('Cập nhật trạng thái đơn hàng thành công');
+                success: function (response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: 'Cập nhật trạng thái đơn hàng thành công!',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
                     } else {
-                        toastr.error(data.message || 'Có lỗi xảy ra khi cập nhật trạng thái');
-                        $('#orders').DataTable().ajax.reload(); // Reload table to revert changes
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: response.message || 'Có lỗi xảy ra khi cập nhật trạng thái!'
+                        });
+                        $('#orders').DataTable().ajax.reload();
                     }
-                })
-                .catch(error => {
+                },
+                error: function (xhr, status, error) {
                     console.error('Error:', error);
-                    toastr.error('Có lỗi xảy ra khi cập nhật trạng thái');
-                    $('#orders').DataTable().ajax.reload(); // Reload table to revert changes
-                });
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi kết nối',
+                        text: 'Không thể cập nhật trạng thái đơn hàng!'
+                    });
+                    $('#orders').DataTable().ajax.reload(); //
+                }
+            });
         });
     });
 
     function deleteOrder(orderId) {
-        if (confirm('Bạn có chắc muốn xóa đơn hàng này không?')) {
-            fetch('${pageContext.request.contextPath}/api/orders/' + orderId, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        $('#orders').DataTable().ajax.reload();
-                        toastr.success('Xóa đơn hàng thành công');
-                    } else {
-                        toastr.error(data.message || 'Có lỗi xảy ra khi xóa đơn hàng');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    toastr.error('Có lỗi xảy ra khi xóa đơn hàng');
-                });
+        const row = $('tr[data-order-id="' + orderId + '"]');
+        const orderStatus = parseInt(row.find('.order-status option:selected').val());
+
+        if ([1, 2, 3].includes(orderStatus)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Không thể xóa',
+                text: 'Đơn hàng đã được xử lý và không thể bị xóa.',
+            });
+            return;
         }
+
+        Swal.fire({
+            title: 'Bạn có chắc?',
+            text: "Bạn có chắc muốn xóa đơn hàng này không?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '${pageContext.request.contextPath}/dashboard/orders',
+                    method: 'POST',
+                    data: {
+                        action:'remove-order',
+                        orderId: orderId
+                    },
+                    success: function (data) {
+                        if (data.status === 'success') {
+                            $('#orders').DataTable().ajax.reload();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Đã xóa',
+                                text: 'Xóa đơn hàng thành công.'
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: data.message || 'Có lỗi xảy ra khi xóa đơn hàng.'
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Có lỗi xảy ra khi xóa đơn hàng.'
+                        });
+                    }
+                });
+            }
+        });
     }
+
 </script>
