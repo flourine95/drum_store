@@ -48,16 +48,15 @@ public class RegisterController extends HttpServlet {
                 errors.put("terms", "Bạn phải đồng ý với điều khoản sử dụng");
             }
 
-            RegisterRequestDTO registerRequest = new RegisterRequestDTO(
-                    fullname, email, phone, password, confirmPassword
-            );
+            RegisterRequestDTO registerRequest = RegisterRequestDTO.builder()
+                    .fullname(fullname)
+                    .email(email)
+                    .phone(phone)
+                    .password(password)
+                    .confirmPassword(confirmPassword)
+                    .build();
 
-            errors = registerValidator.validate(
-                registerRequest.getFullname(),
-                registerRequest.getPhone(),
-                registerRequest.getEmail(),
-                registerRequest.getPassword()
-            );
+            errors = registerValidator.validate(registerRequest);
 
             if (!errors.isEmpty()) {
                 request.setAttribute("errors", errors);

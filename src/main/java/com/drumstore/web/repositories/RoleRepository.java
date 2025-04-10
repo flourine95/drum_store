@@ -2,13 +2,9 @@ package com.drumstore.web.repositories;
 
 import com.drumstore.web.dto.RoleDTO;
 import com.drumstore.web.utils.DBConnection;
-import com.drumstore.web.utils.OperationResult;
 import org.jdbi.v3.core.Jdbi;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class RoleRepository {
     private final Jdbi jdbi = DBConnection.getJdbi();
