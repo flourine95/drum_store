@@ -15,6 +15,7 @@ import java.util.List;
 @WebFilter("/dashboard/*")
 public class PermissionFilter implements Filter {
     private static final List<String> skipPermissionRoutes = List.of(
+//            "/dashboard",
 //            "/dashboard/role-permission"
     );
 

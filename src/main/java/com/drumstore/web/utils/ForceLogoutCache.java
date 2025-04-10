@@ -13,7 +13,9 @@ public class ForceLogoutCache {
     public static void removeFromLogout(Integer userId) {
         forceLogoutUserIds.remove(userId);
     }
-
+    public static Set<Integer> all() {
+        return forceLogoutUserIds;
+    }
     public static boolean shouldLogout(Integer userId) {
         return forceLogoutUserIds.contains(userId);
     }

@@ -2,6 +2,7 @@ package com.drumstore.web.validators;
 
 import com.drumstore.web.dto.RoleDTO;
 import com.drumstore.web.repositories.RoleRepository;
+import com.drumstore.web.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,13 +17,11 @@ public class RoleValidator {
     public Map<String, String> validate(RoleDTO role, boolean checkId) {
         Map<String, String> errors = new HashMap<>();
 
-        if (checkId) {
-            if (role.getId() == null || role.getId() <= 0) {
-                errors.put("id", "ID không hợp lệ.");
-            }
+        if (checkId && (role.getId() == null || role.getId() <= 0)) {
+            errors.put("id", "ID không hợp lệ.");
         }
 
-        if (role.getName() == null || role.getName().trim().isEmpty()) {
+        if (StringUtils.isBlank(role.getName())) {
             errors.put("name", "Tên vai trò không được để trống.");
         } else if (role.getName().length() > 50) {
             errors.put("name", "Tên vai trò không được vượt quá 50 ký tự.");

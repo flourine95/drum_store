@@ -16,7 +16,7 @@ public class LogUtils {
                             .bind("userId", userId)
                             .bind("level", level)
                             .bind("action", action)
-                            .bind("oldData", oldData != null ? oldData : "{}") // Nếu null, lưu JSON rỗng
+                            .bind("oldData", oldData != null ? oldData : "{}")
                             .bind("newData", newData != null ? newData : "{}")
                             .bind("timestamp", new Timestamp(System.currentTimeMillis()))
                             .execute()
@@ -24,10 +24,5 @@ public class LogUtils {
         } catch (UnableToExecuteStatementException e) {
             System.err.println("Lỗi khi ghi log vào database: " + e.getMessage());
         }
-    }
-//
-    public static void main(String[] args) {
-        System.out.println("Chạy thử LogUtils...");
-        logToDatabase(1, 2, "UPDATE_USER", "{\"name\":\"John\"}", "{\"name\":\"John Doe\"}");
     }
 }

@@ -1,19 +1,26 @@
 package com.drumstore.web.validators;
 
+import com.drumstore.web.constants.ValidationPatterns;
+import com.drumstore.web.dto.LoginRequestDTO;
+import com.drumstore.web.utils.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoginValidator {
-    public Map<String, String> validate(String email, String password) {
+    public Map<String, String> validate(LoginRequestDTO loginRequest) {
         Map<String, String> errors = new HashMap<>();
 
-        if (email == null || email.trim().isEmpty()) {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+
+        if (StringUtils.isBlank(email)) {
             errors.put("email", "Vui lòng nhập email");
-        } else if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+        } else if (!ValidationPatterns.EMAIL.matcher(email).matches()) {
             errors.put("email", "Email không hợp lệ");
         }
 
-        if (password == null || password.trim().isEmpty()) {
+        if (StringUtils.isBlank(password)) {
             errors.put("password", "Vui lòng nhập mật khẩu");
         }
 
