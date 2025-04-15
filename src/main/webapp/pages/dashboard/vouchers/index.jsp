@@ -130,7 +130,7 @@
                     data: 'id',
                     orderable: false,
                     className: 'text-center',
-                    render: function (data) {
+                    render: function (data,type, row) {
                         return `
                         <div class="btn-group" role="group">
                             <a href="${pageContext.request.contextPath}/dashboard/vouchers?action=show&voucherId=\${data}"
@@ -144,7 +144,7 @@
 
                             <button type="button"
                                     class="btn btn-danger btn-sm"
-                                    onclick="deleteVoucher(\${data})"
+                                    onclick="deleteVoucher(\${data},\${row.status})"
                                     title="Xóa">
                                 <i class="bi bi-trash"></i>
                             </button>
@@ -217,7 +217,14 @@
         });
     });
 
-    function deleteVoucher(voucherId) {
+    function deleteVoucher(voucherId, status) {
+        if (status === 1) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Không thể xóa',
+                text: 'Voucher này không thể xóa vì nó đã được kích hoạt hoặc đã hết hạn.'
+            });
+        }
         Swal.fire({
             title: 'Bạn có chắc?',
             text: "Bạn có chắc muốn xóa voucher này không?",
