@@ -36,23 +36,9 @@ public class OrderManagerController extends HttpServlet {
         }
 
         switch (action) {
-            case "get" -> get(req, resp);
             case "show" -> show(req, resp);
             case "edit" -> edit(req, resp);
             default -> index(req, resp);
-        }
-    }
-
-    private void get(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            List<OrderHistoryDTO> list = orderService.orderHistoryList();
-            sendResponse(response, Objects.requireNonNullElse(list, Collections.emptyList()));
-        } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("success", false);
-            errorResponse.put("message", "Có lỗi xảy ra khi lấy danh sách đơn hàng: " + e.getMessage());
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            sendResponse(response, errorResponse);
         }
     }
 

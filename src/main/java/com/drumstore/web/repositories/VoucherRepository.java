@@ -1,13 +1,14 @@
 package com.drumstore.web.repositories;
 
 import com.drumstore.web.dto.VoucherDTO;
-import com.drumstore.web.models.Product;
+import com.drumstore.web.models.Voucher;
 import com.drumstore.web.models.VoucherUser;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 
 public class VoucherRepository{
@@ -140,5 +141,99 @@ public class VoucherRepository{
                 .execute());
     }
 
+    public List<VoucherDTO> getAllVouchers() {
+        String sql = """
+            SELECT
+                id, code, description, discountType, discountValue, minOrderValue,
+                maxDiscountValue, startDate, endDate, status, perUserLimit,
+                usageLimit
+            FROM vouchers
+            """;
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .registerRowMapper(BeanMapper.factory(VoucherDTO.class))
+                .mapTo(VoucherDTO.class)
+                .list());
+    }
 
+    public Optional<Voucher> findVoucherById(int voucherId) {
+        String sql = """
+            SELECT
+                v.id, v.code, v.description, v.discountType,
+                v.discountValue, v.minOrderValue, v.maxDiscountValue,
+                v.startDate, v.endDate, v.usageLimit, v.perUserLimit,
+                v.status
+            FROM vouchers v
+            WHERE v.id = :voucherId
+            """;
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind("voucherId", voucherId)
+                .registerRowMapper(BeanMapper.factory(Voucher.class))
+                .mapTo(Voucher.class)
+                .findFirst());
+    }
+
+    public boolean updateVoucher(Voucher voucher) {
+        String sql = """
+        UPDATE vouchers
+        SET code = :code,
+            description = :description,
+            discountType = :discountType,
+            discountValue = :discountValue,
+            minOrderValue = :minOrderValue,
+            maxDiscountValue = :maxDiscountValue,
+            startDate = :startDate,
+            endDate = :endDate,
+            usageLimit = :usageLimit,
+            perUserLimit = :perUserLimit,
+            status = :status
+        WHERE id = :id
+        """;
+
+        return jdbi.withHandle(handle -> handle.createUpdate(sql)
+                .bindBean(voucher)
+                .execute() > 0);
+    }
+
+    public boolean addVoucher(Voucher voucher) {
+        String sql = """
+        INSERT INTO vouchers (
+            code,
+            description,
+            discountType,
+            discountValue,
+            minOrderValue,
+            maxDiscountValue,
+            startDate,
+            endDate,
+            usageLimit,
+            perUserLimit,
+            status
+        ) VALUES (
+            :code,
+            :description,
+            :discountType,
+            :discountValue,
+            :minOrderValue,
+            :maxDiscountValue,
+            :startDate,
+            :endDate,
+            :usageLimit,
+            :perUserLimit,
+            :status
+        )
+        """;
+
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(voucher)
+                        .execute() > 0
+        );
+    }
+
+    public boolean deleteVoucherById(int voucherId) {
+        return jdbi.withHandle(handle -> handle.createUpdate("DELETE FROM vouchers WHERE id= :voucherId")
+                .bind("voucherId", voucherId)
+                .execute() > 0
+        );
+    }
 }

@@ -27,7 +27,7 @@
         $('#orders').DataTable({
             processing: true,
             ajax: {
-                url: '${pageContext.request.contextPath}/dashboard/orders?action=get',
+                url: '${pageContext.request.contextPath}/api/orders',
                 dataSrc: function (json) {
                     if (json.success !== undefined && !json.success) {
                         toastr.error(json.message || 'Có lỗi xảy ra khi lấy dữ liệu đơn hàng');

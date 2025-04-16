@@ -1,10 +1,12 @@
 package com.drumstore.web.services;
 
 import com.drumstore.web.dto.VoucherDTO;
+import com.drumstore.web.models.Voucher;
 import com.drumstore.web.models.VoucherUser;
 import com.drumstore.web.repositories.VoucherRepository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -79,9 +81,27 @@ public class VoucherService {
     private boolean getTotalUsageCount(VoucherDTO voucher, int userId) {
         // Kiểm tra người dùng đã sử dụng chưa
         Optional<VoucherUser> optVoucherUser = voucherRepository.findVoucherUser(voucher.getId(), userId);
-        if (optVoucherUser.isEmpty()) {
-            return true;
-        }
-        return optVoucherUser.get().getUsed() < voucher.getPerUserLimit();
+        return optVoucherUser.map(voucherUser -> voucherUser.getUsed() < voucher.getPerUserLimit()).orElse(true);
+    }
+
+    public List<VoucherDTO> getAllVouchers(){
+        return voucherRepository.getAllVouchers();
+    }
+
+    public Voucher getVoucherById(int voucherId) {
+        return voucherRepository.findVoucherById(voucherId)
+                .orElse(null);
+    }
+
+    public boolean updateVoucher(Voucher voucher) {
+        return voucherRepository.updateVoucher(voucher);
+    }
+
+    public boolean addVoucher(Voucher voucher) {
+        return voucherRepository.addVoucher(voucher);
+    }
+
+    public boolean deleteVoucher(int voucherId) {
+        return voucherRepository.deleteVoucherById(voucherId);
     }
 }

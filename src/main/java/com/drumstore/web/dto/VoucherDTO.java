@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 public class VoucherDTO implements Serializable {
     private int id;
     private String code;
+    private String description;
     private byte discountType;
     private double discountValue;
     private double minOrderValue;
