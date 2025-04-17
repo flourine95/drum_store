@@ -18,6 +18,7 @@ public class ProductVariantDTO implements Serializable {
     private int addonId;
     private ProductColorDTO color;
     private ProductAddonDTO addon;
+    private int productId;
     private int stock;
     private int status;
 

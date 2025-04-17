@@ -1,33 +1,26 @@
 package com.drumstore.web.controllers.dashboard;
 
 import com.drumstore.web.constants.ProductConstants;
-import com.drumstore.web.dto.*;
+import com.drumstore.web.dto.ProductCreateDTO;
+import com.drumstore.web.dto.ProductEditDTO;
+import com.drumstore.web.dto.ProductImageDTO;
+import com.drumstore.web.dto.ProductColorDTO;
+import com.drumstore.web.dto.ProductAddonDTO;
+import com.drumstore.web.dto.ProductVariantDTO;
 import com.drumstore.web.services.BrandService;
 import com.drumstore.web.services.CategoryService;
 import com.drumstore.web.services.ProductService;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 @WebServlet("/dashboard/products/*")
-@MultipartConfig(
-        fileSizeThreshold   = 1024 * 1024,
-        maxFileSize         = 1024 * 1024 * 10,
-        maxRequestSize      = 1024 * 1024 * 15
-)
 public class ProductManagerController extends HttpServlet {
     private final ProductService productService = new ProductService();
     private final BrandService brandService = new BrandService();
@@ -58,6 +51,9 @@ public class ProductManagerController extends HttpServlet {
         request.setAttribute("content", "products/edit.jsp");
         ProductEditDTO product = productService.findProductEdit(id);
         request.setAttribute("product", product);
+        request.setAttribute("stockManagementTypes", ProductConstants.StockManagementType.values());
+        request.setAttribute("categories", categoryService.all());
+        request.setAttribute("brands", brandService.all());
         request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
     }
 
@@ -78,12 +74,7 @@ public class ProductManagerController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Đọc action từ Part thay vì getParameter
-        Part actionPart = request.getPart("action");
-        String action = null;
-        if (actionPart != null) {
-            action = new String(actionPart.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-        }
+        String action = request.getParameter("action");
 
         if (action == null || action.isEmpty()) {
             index(request, response);
@@ -107,101 +98,166 @@ public class ProductManagerController extends HttpServlet {
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Integer id = getIdParameter(request, response);
-        if (id == null) return;
+        System.out.println(request.getParameter("id"));
+        try {
+            Integer id = getIdParameter(request, response);
+            if (id == null) return;
 
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        double price = Double.parseDouble(request.getParameter("price"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
-        String image = request.getParameter("image");
+            String updateType = request.getParameter("updateType");
+
+            switch (updateType) {
+                case "basic-info" -> {
+                    String name = request.getParameter("name");
+                    String description = request.getParameter("description");
+                    double basePrice = Double.parseDouble(request.getParameter("basePrice"));
+                    int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+                    int brandId = Integer.parseInt(request.getParameter("brandId"));
+                    int stockManagementType = Integer.parseInt(request.getParameter("stockManagementType"));
+                    boolean isFeatured = request.getParameter("isFeatured") != null;
+
+                    ProductEditDTO productEditDTO = ProductEditDTO.builder()
+                            .id(id)
+                            .name(name)
+                            .description(description)
+                            .basePrice(basePrice)
+                            .categoryId(categoryId)
+                            .brandId(brandId)
+                            .stockManagementType(stockManagementType)
+                            .featured(isFeatured)
+                            .build();
+
+                    productService.update(productEditDTO);
+                }
+                case "images" -> {
+                    String mainImageUrl = request.getParameter("mainImageUrl");
+                    if (!mainImageUrl.isEmpty()) {
+                        ProductImageDTO imageDTO = ProductImageDTO.builder()
+                                .productId(id)
+                                .image(mainImageUrl)
+                                .main(true)
+                                .sortOrder(0)
+                                .build();
+                        productService.updateMainImage(imageDTO);
+                    }
+                }
+                case "colors" -> {
+                    String[] colorNames = request.getParameterValues("colorNames[]");
+                    String[] colorPrices = request.getParameterValues("colorPrices[]");
+                    String[] colorIds = request.getParameterValues("colorIds[]");
+
+                    List<ProductColorDTO> colors = new ArrayList<>();
+                    if (colorNames != null) {
+                        for (int i = 0; i < colorNames.length; i++) {
+                            colors.add(ProductColorDTO.builder()
+                                    .id(colorIds != null && colorIds[i] != null && !colorIds[i].isEmpty()
+                                            ? Integer.parseInt(colorIds[i]) : null)
+                                    .productId(id)
+                                    .name(colorNames[i])
+                                    .additionalPrice(Double.parseDouble(colorPrices[i]))
+                                    .build());
+                        }
+                    }
+                    productService.updateColors(colors);
+                }
+                case "addons" -> {
+                    String[] addonNames = request.getParameterValues("addonNames[]");
+                    String[] addonPrices = request.getParameterValues("addonPrices[]");
+                    String[] addonIds = request.getParameterValues("addonIds[]");
+
+                    List<ProductAddonDTO> addons = new ArrayList<>();
+                    if (addonNames != null) {
+                        for (int i = 0; i < addonNames.length; i++) {
+                            addons.add(ProductAddonDTO.builder()
+                                    .id(addonIds != null && addonIds[i] != null && !addonIds[i].isEmpty()
+                                            ? Integer.parseInt(addonIds[i]) : null)
+                                    .productId(id)
+                                    .name(addonNames[i])
+                                    .additionalPrice(Double.parseDouble(addonPrices[i]))
+                                    .build());
+                        }
+                    }
+                    productService.updateAddons(addons);
+                }
+                case "variants" -> {
+                    String[] variantIds = request.getParameterValues("variantIds[]");
+                    String[] colorIds = request.getParameterValues("variantColorIds[]");
+                    String[] addonIds = request.getParameterValues("variantAddonIds[]");
+                    String[] stocks = request.getParameterValues("variantStocks[]");
+                    String[] statuses = request.getParameterValues("variantStatuses[]");
+
+                    List<ProductVariantDTO> variants = new ArrayList<>();
+                    if (stocks != null) {
+                        for (int i = 0; i < stocks.length; i++) {
+                            variants.add(ProductVariantDTO.builder()
+                                    .id(variantIds != null && variantIds[i] != null && !variantIds[i].isEmpty()
+                                            ? Integer.parseInt(variantIds[i]) : null)
+                                    .productId(id)
+                                    .colorId(colorIds != null && colorIds[i] != null && !colorIds[i].isEmpty()
+                                            ? Integer.parseInt(colorIds[i]) : null)
+                                    .addonId(addonIds != null && addonIds[i] != null && !addonIds[i].isEmpty()
+                                            ? Integer.parseInt(addonIds[i]) : null)
+                                    .stock(Integer.parseInt(stocks[i]))
+                                    .status(Integer.parseInt(statuses[i]))
+                                    .build());
+                        }
+                    }
+                    productService.updateVariants(variants);
+                }
+            }
+
+            response.setContentType("application/json");
+            response.getWriter().write("{\"success\": true, \"message\": \"Cập nhật thành công\"}");
+
+        } catch (Exception e) {
+            response.setContentType("application/json");
+            response.getWriter().write("{\"success\": false, \"message\": \"" + e.getMessage() + "\"}");
+        }
     }
 
     private void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        for (Part part : request.getParts()) {
-//            System.out.println("Part Name: " + part.getName()); // Tên field trong form
-//
-//            // Nếu là file
-//            if (part.getSubmittedFileName() != null) {
-//                System.out.println("File Name: " + part.getSubmittedFileName());
-//                System.out.println("File Size: " + part.getSize() + " bytes");
-//            } else {
-//                // Nếu là input text
-//                String value = new String(part.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-//                System.out.println("Value: " + value);
-//            }
-//        }
-//        // Get basic product info
-//        String name = new String(request.getPart("name").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-//        String description = new String(request.getPart("description").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-//        double basePrice = Double.parseDouble(new String(request.getPart("basePrice").getInputStream().readAllBytes(), StandardCharsets.UTF_8));
-//        int categoryId = Integer.parseInt(new String(request.getPart("categoryId").getInputStream().readAllBytes(), StandardCharsets.UTF_8));
-//        int brandId = Integer.parseInt(new String(request.getPart("brandId").getInputStream().readAllBytes(), StandardCharsets.UTF_8));
-//        String stockManagementType = new String(request.getPart("stockManagementType").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-//        boolean isFeatured = request.getPart("isFeatured") != null;
-//        String mainImageId = new String(request.getPart("mainImageId").getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-//
-//        // Create product DTO
-//        ProductCreateDTO productCreateDTO = ProductCreateDTO.builder()
-//                .name(name)
-//                .description(description)
-//                .basePrice(basePrice)
-//                .categoryId(categoryId)
-//                .brandId(brandId)
-//                .stockManagementType(Integer.parseInt(stockManagementType))
-//                .featured(isFeatured)
-//                .build();
-//
-//        // Create product and get ID
-//        int productId = productService.create(productCreateDTO);
-//
-//        // Handle image uploads
-//        String uploadPath = getServletContext().getRealPath("/uploads/products/");
-//        File uploadDir = new File(uploadPath);
-//        if (!uploadDir.exists()) {
-//            if (!uploadDir.mkdirs()) {
-//                throw new IOException("Không thể tạo thư mục: " + uploadPath);
-//            }
-//        }
-//
-//        // Get image order from form
-//        List<String> imageOrder = new ArrayList<>();
-//        for (Part part : request.getParts()) {
-//            if (part.getName().equals("imageOrder[]")) {
-//                String value = new String(part.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-//                imageOrder.add(value);
-//            }
-//        }
-//
-//        System.out.println("Image Order: " + imageOrder);
-//        // Process each image
-//        Map<String, String> imageFileMap = new HashMap<>();
-//        for (Part part : request.getParts()) {
-//            if (part.getName().equals("images") && part.getSize() > 0) {
-//                String fileName = part.getSubmittedFileName();
-//                String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
-//                part.write(uploadPath + File.separator + uniqueFileName);
-//                imageFileMap.put(fileName, uniqueFileName);
-//            }
-//        }
-//        System.out.println("Image File Map: " + imageFileMap);
-//        // Create product images with correct order
-//        for (int i = 0; i < imageOrder.size(); i++) {
-//            String imageId = imageOrder.get(i);
-//            String fileName = imageFileMap.get(imageId);
-//            if (fileName != null) {
-//                ProductImageDTO productImageDTO = ProductImageDTO.builder()
-//                        .image(fileName)
-//                        .main(mainImageId.equals(imageId))
-//                        .sortOrder(i)
-//                        .build();
-//                productService.createImage(productId, productImageDTO);
-//            }
-//        }
-//
-//        // Handle variants based on stock management type
-//        List<ProductVariantDTO> variants = new ArrayList<>();
-//        response.sendRedirect(request.getContextPath() + "/dashboard/products");
+        try {
+            // Get basic product info
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            double basePrice = Double.parseDouble(request.getParameter("basePrice"));
+            int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+            int brandId = Integer.parseInt(request.getParameter("brandId"));
+            int stockManagementType = Integer.parseInt(request.getParameter("stockManagementType"));
+            boolean isFeatured = request.getParameter("isFeatured") != null;
+            String mainImageUrl = request.getParameter("mainImageUrl");
+
+            // Create product DTO
+            ProductCreateDTO productCreateDTO = ProductCreateDTO.builder()
+                    .name(name)
+                    .description(description)
+                    .basePrice(basePrice)
+                    .categoryId(categoryId)
+                    .brandId(brandId)
+                    .stockManagementType(stockManagementType)
+                    .featured(isFeatured)
+                    .build();
+
+            // Create product and get ID
+            int productId = productService.create(productCreateDTO);
+
+            // Create main image record using the CKBox URL
+            if (!mainImageUrl.isEmpty()) {
+                ProductImageDTO mainImageDTO = ProductImageDTO.builder()
+                        .image(mainImageUrl)
+                        .main(true)
+                        .sortOrder(0)
+                        .build();
+
+                productService.createImage(productId, mainImageDTO);
+            }
+
+            // Redirect to product detail page for adding colors, addons, and variants
+            response.sendRedirect(request.getContextPath() + "/dashboard/products?action=edit&id=" + productId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Có lỗi xảy ra: " + e.getMessage());
+            create(request, response);
+        }
     }
 
     private Integer getIdParameter(HttpServletRequest request, HttpServletResponse response) throws IOException {
