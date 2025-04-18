@@ -224,7 +224,6 @@ public class ProductManagerController extends HttpServlet {
             int brandId = Integer.parseInt(request.getParameter("brandId"));
             int stockManagementType = Integer.parseInt(request.getParameter("stockManagementType"));
             boolean isFeatured = request.getParameter("isFeatured") != null;
-            String mainImageUrl = request.getParameter("mainImageUrl");
 
             // Create product DTO
             ProductCreateDTO productCreateDTO = ProductCreateDTO.builder()
@@ -239,17 +238,6 @@ public class ProductManagerController extends HttpServlet {
 
             // Create product and get ID
             int productId = productService.create(productCreateDTO);
-
-            // Create main image record using the CKBox URL
-            if (!mainImageUrl.isEmpty()) {
-                ProductImageDTO mainImageDTO = ProductImageDTO.builder()
-                        .image(mainImageUrl)
-                        .main(true)
-                        .sortOrder(0)
-                        .build();
-
-                productService.createImage(productId, mainImageDTO);
-            }
 
             // Redirect to product detail page for adding colors, addons, and variants
             response.sendRedirect(request.getContextPath() + "/dashboard/products?action=edit&id=" + productId);
