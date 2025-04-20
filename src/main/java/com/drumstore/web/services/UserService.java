@@ -1,10 +1,11 @@
 package com.drumstore.web.services;
 
-
+import com.drumstore.web.dto.RoleDTO;
 import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.models.User;
 import com.drumstore.web.repositories.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
+import java.util.List;
 
 public class UserService {
     private final UserRepository userRepository = new UserRepository();
@@ -49,4 +50,23 @@ public class UserService {
         return userRepository.findUser(field, value);
     }
 
+    public List<UserDTO> getAllUsers() {
+        return userRepository.getAllUsers();
+    }
+
+    public UserDTO findById(int id) {
+        return userRepository.findById(id);
+    }
+
+    public List<RoleDTO> getUserRoles(int userId) {
+        return userRepository.getUserRoles(userId);
+    }
+
+    public void addUserRole(int userId, int roleId) {
+        userRepository.addUserRole(userId, roleId);
+    }
+
+    public void removeUserRole(int userId, int roleId) {
+        userRepository.removeUserRole(userId, roleId);
+    }
 }

@@ -1,6 +1,7 @@
 package com.drumstore.web.repositories;
 
 import com.drumstore.web.dto.UserDTO;
+import com.drumstore.web.dto.RoleDTO;
 import com.drumstore.web.models.User;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
@@ -8,7 +9,10 @@ import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserRepository {
     private final Jdbi jdbi = DBConnection.getJdbi();
@@ -264,5 +268,79 @@ public class UserRepository {
                         .bind("email", email)
                         .execute()
         );
-    };
+    }
+
+    public List<UserDTO> getAllUsers() {
+        String sql = """
+                SELECT
+                    u.id AS u_id, u.email AS u_email, u.fullname AS u_fullname,
+                    u.phone AS u_phone, u.status AS u_status, u.avatar AS u_avatar,
+                    r.name AS r_name, p.name AS p_name
+                FROM users u
+                LEFT JOIN user_roles ur ON u.id = ur.userId
+                LEFT JOIN roles r ON ur.roleId = r.id
+                LEFT JOIN role_permissions rp ON r.id = rp.roleId
+                LEFT JOIN permissions p ON rp.permissionId = p.id
+                """;
+        return jdbi.withHandle(handle -> new ArrayList<>(handle.createQuery(sql)
+                .registerRowMapper(BeanMapper.factory(UserDTO.class, "u"))
+                .reduceRows(new LinkedHashMap<Integer, UserDTO>(), (map, row) -> {
+                    UserDTO user = map.computeIfAbsent(
+                            row.getColumn("u_id", Integer.class),
+                            _ -> row.getRow(UserDTO.class)
+                    );
+
+                    String role = row.getColumn("r_name", String.class);
+                    if (role != null) {
+                        user.addRole(role);
+                    }
+
+                    String permission = row.getColumn("p_name", String.class);
+                    if (permission != null) {
+                        user.addPermission(permission);
+                    }
+
+                    return map;
+                })
+                .values())
+        );
+    }
+
+    public UserDTO findById(int id) {
+        return findUser("id", id);
+    }
+
+    public List<RoleDTO> getUserRoles(int userId) {
+        String sql = """
+                SELECT r.*
+                FROM roles r
+                JOIN user_roles ur ON r.id = ur.roleId
+                WHERE ur.userId = :userId
+                """;
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind("userId", userId)
+                .mapToBean(RoleDTO.class)
+                .list()
+        );
+    }
+
+    public void addUserRole(int userId, int roleId) {
+        String sql = "INSERT INTO user_roles (userId, roleId) VALUES (:userId, :roleId)";
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("userId", userId)
+                        .bind("roleId", roleId)
+                        .execute()
+        );
+    }
+
+    public void removeUserRole(int userId, int roleId) {
+        String sql = "DELETE FROM user_roles WHERE userId = :userId AND roleId = :roleId";
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("userId", userId)
+                        .bind("roleId", roleId)
+                        .execute()
+        );
+    }
 }
