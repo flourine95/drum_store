@@ -1,8 +1,6 @@
 package com.drumstore.web.services;
 
 import com.drumstore.web.dto.*;
-import com.drumstore.web.models.Product;
-import com.drumstore.web.models.ProductSale;
 import com.drumstore.web.repositories.ProductRepository;
 
 import java.util.List;
@@ -69,5 +67,51 @@ public class ProductService {
 
     public int createVariant(int productId, ProductVariantDTO variant) {
         return productRepository.storeVariant(productId, variant);
+    }
+
+    public void update(ProductEditDTO productEditDTO) {
+        productRepository.update(productEditDTO);
+    }
+
+    public void updateColors(Integer id, String[] colorIds, String[] colorNames, String[] colorPrices) {
+        
+    }
+
+    public void updateColors(List<ProductColorDTO> colors) {
+        for (ProductColorDTO color : colors) {
+            productRepository.updateColor(color);
+        }
+    }
+
+    public void updateAddons(List<ProductAddonDTO> addons) {
+        for (ProductAddonDTO addon : addons) {
+            productRepository.updateAddon(addon);
+        }
+    }
+
+    public void updateVariants(List<ProductVariantDTO> variants) {
+        for (ProductVariantDTO variant : variants) {
+            productRepository.updateVariant(variant);
+        }
+    }
+
+    public void updateMainImage(ProductImageDTO imageDTO) {
+        productRepository.updateMainImage(imageDTO);
+    }
+    
+    public List<ProductImageDTO> getProductImages(int productId) {
+        return productRepository.getProductImages(productId);
+    }
+    
+    public void deleteImage(int imageId) {
+        productRepository.deleteImage(imageId);
+    }
+    
+    public void addImage(ProductImageDTO imageDTO) {
+        productRepository.storeImage(imageDTO.getProductId(), imageDTO);
+    }
+    
+    public void updateImage(ProductImageDTO imageDTO) {
+        productRepository.updateImage(imageDTO);
     }
 }

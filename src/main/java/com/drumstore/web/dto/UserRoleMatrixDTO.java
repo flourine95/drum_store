@@ -5,15 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductColorDTO implements Serializable {
-    private int id;
-    private String name;
-    private double additionalPrice;
-    private int productId;
+public class UserRoleMatrixDTO {
+    private Integer userId;
+    private String userEmail;
+    private String userFullName;
+    private Map<Integer, Boolean> roleCheckboxMap;
 }

@@ -15,4 +15,5 @@ public class ProductAddonDTO implements Serializable {
     private int id;
     private String name;
     private double additionalPrice;
+    private int productId;
 }

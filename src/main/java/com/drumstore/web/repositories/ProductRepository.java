@@ -1,7 +1,6 @@
 package com.drumstore.web.repositories;
 
 import com.drumstore.web.dto.*;
-import com.drumstore.web.models.OrderItem;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
@@ -571,6 +570,196 @@ public class ProductRepository {
         });
     }
 
+    public int store(ProductCreateDTO product) {
+        String sql = """
+                INSERT INTO products (name, description, basePrice, categoryId, brandId, stockManagementType, status, createdAt)
+                VALUES (:name, :description, :basePrice, :categoryId, :brandId, :stockManagementType, 1, CURRENT_TIMESTAMP)
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(product)
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public ProductEditDTO findProductEdit(int id) {
+        String sql = """
+                SELECT
+                    p.id AS p_id,
+                    p.name AS p_name,
+                    p.description AS p_description,
+                    p.basePrice AS p_basePrice,
+                    p.categoryId AS p_categoryId,
+                    p.brandId AS p_brandId,
+                    p.stockManagementType AS p_stockManagementType,
+                    p.featured AS p_featured,
+                    p.status AS p_status,
+                    p.createdAt AS p_createdAt,
+                
+                    pi.id AS pi_id,
+                    pi.productId AS pi_productId,
+                    pi.image AS pi_image,
+                    pi.main AS pi_main,
+                    pi.sortOrder AS pi_sortOrder,
+                
+                    pc.id AS pc_id,
+                    pc.productId AS pc_productId,
+                    pc.name AS pc_name,
+                    pc.additionalPrice AS pc_additionalPrice,
+                
+                    pa.id AS pa_id,
+                    pa.productId AS pa_productId,
+                    pa.name AS pa_name,
+                    pa.additionalPrice AS pa_additionalPrice,
+                
+                    pv.id AS pv_id,
+                    pv.productId AS pv_productId,
+                    pv.colorId AS pv_colorId,
+                    pv.addonId AS pv_addonId,
+                    pv.stock AS pv_stock,
+                    pv.status AS pv_status
+                FROM products p
+                LEFT JOIN product_images pi ON p.id = pi.productId
+                LEFT JOIN product_colors pc ON p.id = pc.productId
+                LEFT JOIN product_addons pa ON p.id = pa.productId
+                LEFT JOIN product_variants pv ON p.id = pv.productId
+                WHERE p.id = :id
+                """;
+
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind("id", id)
+                .registerRowMapper(BeanMapper.factory(ProductEditDTO.class, "p"))
+                .registerRowMapper(BeanMapper.factory(ProductImageDTO.class, "pi"))
+                .registerRowMapper(BeanMapper.factory(ProductColorDTO.class, "pc"))
+                .registerRowMapper(BeanMapper.factory(ProductAddonDTO.class, "pa"))
+                .registerRowMapper(BeanMapper.factory(ProductVariantDTO.class, "pv"))
+                .reduceRows(new LinkedHashMap<Integer, ProductEditDTO>(), (map, row) -> {
+                    ProductEditDTO dto = map.computeIfAbsent(
+                            row.getColumn("p_id", Integer.class),
+                            _ -> {
+                                ProductEditDTO newDto = row.getRow(ProductEditDTO.class);
+                                newDto.setImages(new ArrayList<>());
+                                newDto.setColors(new ArrayList<>());
+                                newDto.setAddons(new ArrayList<>());
+                                newDto.setVariants(new ArrayList<>());
+                                return newDto;
+                            }
+                    );
+
+                    // Map ProductImage
+                    if (row.getColumn("pi_id", Integer.class) != null) {
+                        ProductImageDTO image = row.getRow(ProductImageDTO.class);
+                        if (dto.getImages().stream().noneMatch(img -> img.getId() == image.getId())) {
+                            dto.getImages().add(image);
+                        }
+                    }
+
+                    // Map ProductColor
+                    if (row.getColumn("pc_id", Integer.class) != null) {
+                        ProductColorDTO color = row.getRow(ProductColorDTO.class);
+                        if (dto.getColors().stream().noneMatch(c -> c.getId() == color.getId())) {
+                            dto.getColors().add(color);
+                        }
+                    }
+
+                    // Map ProductAddon
+                    if (row.getColumn("pa_id", Integer.class) != null) {
+                        ProductAddonDTO addon = row.getRow(ProductAddonDTO.class);
+                        if (dto.getAddons().stream().noneMatch(a -> a.getId() == addon.getId())) {
+                            dto.getAddons().add(addon);
+                        }
+                    }
+
+                    // Map ProductVariant
+                    if (row.getColumn("pv_id", Integer.class) != null) {
+                        ProductVariantDTO variant = row.getRow(ProductVariantDTO.class);
+                        if (dto.getVariants().stream().noneMatch(v -> v.getId() == variant.getId())) {
+                            dto.getVariants().add(variant);
+                        }
+                    }
+
+                    return map;
+                })
+                .values()
+                .stream()
+                .findFirst()
+                .orElse(null));
+    }
+
+    public int storeImage(int productId, ProductImageDTO productImage) {
+        String sql = """
+                INSERT INTO product_images (productId, image, main, sortOrder, createdAt)
+                VALUES (:productId, :image, :main, :sortOrder, CURRENT_TIMESTAMP)
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("productId", productId)
+                        .bind("image", productImage.getImage())
+                        .bind("main", productImage.isMain())
+                        .bind("sortOrder", productImage.getSortOrder())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public int storeColor(int productId, ProductColorDTO color) {
+        String sql = """
+                INSERT INTO product_colors (productId, name, additionalPrice, createdAt)
+                VALUES (:productId, :name, :additionalPrice, CURRENT_TIMESTAMP)
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("productId", productId)
+                        .bind("name", color.getName())
+                        .bind("additionalPrice", color.getAdditionalPrice())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public int storeAddon(int productId, ProductAddonDTO addon) {
+        String sql = """
+                INSERT INTO product_addons (productId, name, additionalPrice, createdAt)
+                VALUES (:productId, :name, :additionalPrice, CURRENT_TIMESTAMP)
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("productId", productId)
+                        .bind("name", addon.getName())
+                        .bind("additionalPrice", addon.getAdditionalPrice())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    public int storeVariant(int productId, ProductVariantDTO variant) {
+        String sql = """
+                INSERT INTO product_variants (productId, colorId, addonId, imageId, stock, status, createdAt)
+                VALUES (:productId, :colorId, :addonId, :imageId, :stock, 1, CURRENT_TIMESTAMP)
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("productId", productId)
+                        .bind("colorId", variant.getColorId())
+                        .bind("addonId", variant.getAddonId())
+                        .bind("imageId", variant.getImageId())
+                        .bind("stock", variant.getStock())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
     public void incrementViewCount(int id) {
     }
 
@@ -810,10 +999,10 @@ public class ProductRepository {
 
     public ProductVariantDTO findProductVariantById(int variantId) {
         String sql = """
-                SELECT pv.id, pv.stock 
-                FROM product_variants AS pv 
-                WHERE pv.id = :variantId
-            """;
+                    SELECT pv.id, pv.stock 
+                    FROM product_variants AS pv 
+                    WHERE pv.id = :variantId
+                """;
 
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
@@ -835,11 +1024,11 @@ public class ProductRepository {
     // lấy ra số lượng stock dựa trên OrderItem chứa variantId
     public ProductVariantDTO getStockByOrderItemId(int orderItemId) {
         String sql = """
-        SELECT pv.id, pv.stock
-        FROM order_items o
-        INNER JOIN product_variants pv ON o.variantId = pv.id
-        WHERE o.id = :id
-    """;
+                    SELECT pv.id, pv.stock
+                    FROM order_items o
+                    INNER JOIN product_variants pv ON o.variantId = pv.id
+                    WHERE o.id = :id
+                """;
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
                         .bind("id", orderItemId)
@@ -854,92 +1043,126 @@ public class ProductRepository {
         );
     }
 
-
-
-    public int store(ProductCreateDTO product) {
+    public void update(ProductEditDTO productEditDTO) {
         String sql = """
-                INSERT INTO products (name, description, basePrice, categoryId, brandId, stockManagementType, featured, createdAt)
-                VALUES (:name, :description, :basePrice, :categoryId, :brandId, :stockManagementType, :featured, CURRENT_TIMESTAMP)
-                """;
-        return jdbi.withHandle(handle -> handle.createUpdate(sql)
-                .bindBean(product)
-                .executeAndReturnGeneratedKeys("id")
-                .mapTo(int.class)
-                .one());
-    }
-
-    public ProductEditDTO findProductEdit(int id) {
-        return null;
-    }
-
-    public int storeImage(int productId, ProductImageDTO productImage) {
-        String sql = """
-                INSERT INTO product_images (productId, image, main, sortOrder, createdAt)
-                VALUES (:productId, :image, :main, :sortOrder, CURRENT_TIMESTAMP)
+                UPDATE products
+                SET name = :name,
+                    description = :description,
+                    basePrice = :basePrice,
+                    categoryId = :categoryId,
+                    brandId = :brandId,
+                    stockManagementType = :stockManagementType,
+                    featured = :featured
+                WHERE id = :id
                 """;
 
-        return jdbi.withHandle(handle ->
+        jdbi.useHandle(handle ->
                 handle.createUpdate(sql)
-                        .bind("productId", productId)
-                        .bind("image", productImage.getImage())
-                        .bind("main", productImage.isMain())
-                        .bind("sortOrder", productImage.getSortOrder())
-                        .executeAndReturnGeneratedKeys("id")
-                        .mapTo(Integer.class)
-                        .one()
+                        .bindBean(productEditDTO)
+                        .execute()
         );
     }
 
-    public int storeColor(int productId, ProductColorDTO color) {
+    public void updateColor(ProductColorDTO color) {
         String sql = """
-                INSERT INTO product_colors (productId, name, additionalPrice, createdAt)
-                VALUES (:productId, :name, :additionalPrice, CURRENT_TIMESTAMP)
+                UPDATE product_colors
+                SET name = :name,
+                    additionalPrice = :additionalPrice
+                WHERE id = :id
                 """;
 
-        return jdbi.withHandle(handle ->
+        jdbi.useHandle(handle ->
                 handle.createUpdate(sql)
-                        .bind("productId", productId)
-                        .bind("name", color.getName())
-                        .bind("additionalPrice", color.getAdditionalPrice())
-                        .executeAndReturnGeneratedKeys("id")
-                        .mapTo(Integer.class)
-                        .one()
+                        .bindBean(color)
+                        .execute()
         );
     }
 
-    public int storeAddon(int productId, ProductAddonDTO addon) {
+    public void updateAddon(ProductAddonDTO addon) {
         String sql = """
-                INSERT INTO product_addons (productId, name, additionalPrice, createdAt)
-                VALUES (:productId, :name, :additionalPrice, CURRENT_TIMESTAMP)
+                UPDATE product_addons
+                SET name = :name,
+                    additionalPrice = :additionalPrice
+                WHERE id = :id
                 """;
 
-        return jdbi.withHandle(handle ->
+        jdbi.useHandle(handle ->
                 handle.createUpdate(sql)
-                        .bind("productId", productId)
-                        .bind("name", addon.getName())
-                        .bind("additionalPrice", addon.getAdditionalPrice())
-                        .executeAndReturnGeneratedKeys("id")
-                        .mapTo(Integer.class)
-                        .one()
+                        .bindBean(addon)
+                        .execute()
         );
     }
 
-    public int storeVariant(int productId, ProductVariantDTO variant) {
+    public void updateVariant(ProductVariantDTO variant) {
         String sql = """
-                INSERT INTO product_variants (productId, colorId, addonId, imageId, stock, status, createdAt)
-                VALUES (:productId, :colorId, :addonId, :imageId, :stock, 1, CURRENT_TIMESTAMP)
+                UPDATE product_variants
+                SET stock = :stock,
+                    status = :status
+                WHERE id = :id
+                """;
+
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(variant)
+                        .execute()
+        );
+    }
+
+    public void updateMainImage(ProductImageDTO imageDTO) {
+        String sql = """
+                UPDATE product_images
+                SET main = :main
+                WHERE id = :id
+                """;
+
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(imageDTO)
+                        .execute()
+        );
+    }
+
+    public List<ProductImageDTO> getProductImages(int productId) {
+        String sql = """
+                SELECT * FROM product_images
+                WHERE productId = :productId
+                ORDER BY sortOrder
                 """;
 
         return jdbi.withHandle(handle ->
-                handle.createUpdate(sql)
+                handle.createQuery(sql)
                         .bind("productId", productId)
-                        .bind("colorId", variant.getColorId())
-                        .bind("addonId", variant.getAddonId())
-                        .bind("imageId", variant.getImageId())
-                        .bind("stock", variant.getStock())
-                        .executeAndReturnGeneratedKeys("id")
-                        .mapTo(Integer.class)
-                        .one()
+                        .mapToBean(ProductImageDTO.class)
+                        .list()
+        );
+    }
+
+    public void deleteImage(int imageId) {
+        String sql = """
+                DELETE FROM product_images
+                WHERE id = :id
+                """;
+
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("id", imageId)
+                        .execute()
+        );
+    }
+
+    public void updateImage(ProductImageDTO imageDTO) {
+        String sql = """
+                UPDATE product_images
+                SET image = :image,
+                    main = :main,
+                    sortOrder = :sortOrder
+                WHERE id = :id
+                """;
+
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(imageDTO)
+                        .execute()
         );
     }
 }
