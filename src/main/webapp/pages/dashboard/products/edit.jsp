@@ -122,6 +122,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="stockManagementType" class="form-label">Kiểu quản lý tồn kho</label>
+
                                         <select class="form-select" id="stockManagementType" name="stockManagementType"
                                                 required>
                                             <c:forEach items="${stockManagementTypes}" var="type">
@@ -155,9 +156,9 @@
 
                         <!-- Images Tab -->
                         <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
-                            <form id="imagesForm" class="needs-validation" novalidate method="post"
-                                  action="${pageContext.request.contextPath}/dashboard/products">
+                            <div id="imagesContainer">
                                 <input type="hidden" name="action" value="update">
+                                <input type="hidden" name="id" value="${product.id}">
                                 <input type="hidden" name="updateType" value="images">
                                 <input type="hidden" name="imageOrder" id="imageOrder" value="">
 
@@ -203,8 +204,9 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-                            </form>
+                                <button type="button" id="saveImagesBtn" class="btn btn-primary">Lưu thay đổi</button>
+                                <div id="imagesUpdateStatus" class="mt-3"></div>
+                            </div>
                         </div>
 
                         <!-- Colors Tab -->
@@ -212,6 +214,7 @@
                             <form id="colorsForm" class="needs-validation" novalidate method="post"
                                   action="${pageContext.request.contextPath}/dashboard/products">
                                 <input type="hidden" name="action" value="update">
+                                <input type="hidden" name="id" value="${product.id}">
                                 <input type="hidden" name="updateType" value="colors">
                                 <div id="colorsList">
                                     <c:forEach items="${product.colors}" var="color" varStatus="status">
@@ -243,6 +246,7 @@
                             <form id="addonsForm" class="needs-validation" novalidate method="post"
                                   action="${pageContext.request.contextPath}/dashboard/products">
                                 <input type="hidden" name="action" value="update">
+                                <input type="hidden" name="id" value="${product.id}">
                                 <input type="hidden" name="updateType" value="addons">
                                 <div id="addonsList">
                                     <c:forEach items="${product.addons}" var="addon" varStatus="status">
@@ -275,6 +279,7 @@
                             <form id="variantsForm" class="needs-validation" novalidate method="post"
                                   action="${pageContext.request.contextPath}/dashboard/products">
                                 <input type="hidden" name="action" value="update">
+                                <input type="hidden" name="id" value="${product.id}">
                                 <input type="hidden" name="updateType" value="variants">
                                 <div id="variantsList">
                                     <c:forEach items="${product.variants}" var="variant" varStatus="status">
@@ -401,7 +406,7 @@
             
             Swal.fire({
                 title: `Đang tải \${totalFiles} ảnh lên...`,
-                html: `Đã xử lý: <b>0</b}/\${totalFiles}`,
+                html: `Đã xử lý: <b>0</b>/\${totalFiles}`,
                 allowOutsideClick: false,
                 showConfirmButton: false,
                 didOpen: () => {
@@ -426,7 +431,7 @@
                     try {
                         // Cập nhật thông tin xử lý
                         Swal.update({
-                            html: `Đã xử lý: <b>\${i}</b}/\${totalFiles}`
+                            html: `Đã xử lý: <b>\${i}</b>/\${totalFiles}`
                         });
                         
                         // Tạo FormData cho từng ảnh
@@ -510,23 +515,85 @@
             }
         }
 
-        // Xóa ảnh
         $(document).on('click', '.remove-image-btn', function() {
             $(this).closest('.image-item').remove();
             updateImageOrder();
         });
 
-        // Chọn ảnh chính
-        $(document).on('change', '.main-image-radio', function () {
-            const selectedId = $(this).val();
-            $('#sortableImageGrid .image-item').each(function () {
-                const itemId = $(this).data('id');
-                if (itemId === selectedId) {
-                    $(this).find('input.main-image-radio').prop('checked', true);
-                } else {
-                    $(this).find('input.main-image-radio').prop('checked', false);
+        $(document).on('click', '.form-check-label, .main-image-radio', function(e) {
+            const radio = $(this).is('.main-image-radio') ? $(this) : $(this).prev('.main-image-radio');
+            radio.prop('checked', true);
+            $('.main-image-radio').not(radio).prop('checked', false);
+        });
+
+        // Save images button click handler
+        $('#saveImagesBtn').on('click', async function() {
+            try {
+                const images = [];
+                let mainImageId = $('input[name="mainImageId"]:checked').val();
+                $('#sortableImageGrid .image-item').each(function(index) {
+                    const imageId = $(this).data('id');
+                    const imageUrl = $(this).find('img.image-preview').attr('src');
+                    images.push({
+                        id: imageId,
+                        image: imageUrl,
+                        main: imageId == mainImageId,
+                        sortOrder: index,
+                    });
+                });
+                console.log('Images to save:', images);
+                // Show loading state
+                Swal.fire({
+                    title: 'Đang lưu...',
+                    html: 'Vui lòng đợi trong giây lát',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Send AJAX request to save images
+                const response = await fetch('${pageContext.request.contextPath}/dashboard/products?action=update&id=${product.id}&updateType=images', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        images: images
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save images');
                 }
-            });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Lưu thành công!',
+                        text: 'Các thay đổi đã được lưu',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    
+                    // Refresh the page after success
+                    // setTimeout(() => {
+                    //     window.location.reload();
+                    // }, 1500);
+                } else {
+                    throw new Error(result.message || 'Failed to save images');
+                }
+                
+            } catch (error) {
+                console.error('Error saving images:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Không thể lưu thay đổi. Vui lòng thử lại.',
+                });
+            }
         });
     });
 

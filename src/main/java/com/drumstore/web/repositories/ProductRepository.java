@@ -1121,4 +1121,48 @@ public class ProductRepository {
                         .execute()
         );
     }
+
+    public List<ProductImageDTO> getProductImages(int productId) {
+        String sql = """
+                SELECT * FROM product_images
+                WHERE productId = :productId
+                ORDER BY sortOrder
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("productId", productId)
+                        .mapToBean(ProductImageDTO.class)
+                        .list()
+        );
+    }
+
+    public void deleteImage(int imageId) {
+        String sql = """
+                DELETE FROM product_images
+                WHERE id = :id
+                """;
+
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("id", imageId)
+                        .execute()
+        );
+    }
+
+    public void updateImage(ProductImageDTO imageDTO) {
+        String sql = """
+                UPDATE product_images
+                SET image = :image,
+                    main = :main,
+                    sortOrder = :sortOrder
+                WHERE id = :id
+                """;
+
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(imageDTO)
+                        .execute()
+        );
+    }
 }

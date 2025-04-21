@@ -98,4 +98,20 @@ public class ProductService {
     public void updateMainImage(ProductImageDTO imageDTO) {
         productRepository.updateMainImage(imageDTO);
     }
+    
+    public List<ProductImageDTO> getProductImages(int productId) {
+        return productRepository.getProductImages(productId);
+    }
+    
+    public void deleteImage(int imageId) {
+        productRepository.deleteImage(imageId);
+    }
+    
+    public void addImage(ProductImageDTO imageDTO) {
+        productRepository.storeImage(imageDTO.getProductId(), imageDTO);
+    }
+    
+    public void updateImage(ProductImageDTO imageDTO) {
+        productRepository.updateImage(imageDTO);
+    }
 }
