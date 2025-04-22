@@ -6,8 +6,8 @@ import jakarta.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class EmailSender {
-    private static final String FROM_EMAIL = "flourinee@gmail.com";
-    private static final String PASSWORD = "jala xigu kuvl qsct";
+    private static final String FROM_EMAIL = ConfigUtils.get("email.sender");
+    private static final String PASSWORD = ConfigUtils.get("email.password");
 
     public static void sendPasswordResetEmail(String toEmail, String resetToken) {
         Properties props = new Properties();

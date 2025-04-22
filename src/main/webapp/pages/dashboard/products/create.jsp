@@ -170,116 +170,98 @@
         FontFamily
     } = CKEDITOR;
 
-    ClassicEditor
-        .create(document.querySelector('#editor'), {
-            licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDU1MzkxOTksImp0aSI6IjRkODNiZGUwLWE5ODQtNDU0NS1hNmNkLTRkMTNmMzUzZDkzMiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjE3OWYwNjAyIn0.0HgAOPduVKPRmCPI92FJ4q5pKtHhrYnfAdc39ioLrJBemxSr7XCa6jozWQlkVag2zb_k-OHAu6gmKbvYjVVmPg',
+    async function initEditor() {
+        try {
+            const [licenseKey, ckboxToken] = await Promise.all([
+                fetch('/api/keys?service=ckeditor').then(res => res.text()),
+                fetch('/api/keys?service=ckbox-dev').then(res => res.text())
+            ]);
 
-            plugins: [
-                Autoformat,
-                BlockQuote,
-                Bold,
-                CloudServices,
-                Essentials,
-                Heading,
-                Image,
-                ImageCaption,
-                ImageResize,
-                ImageStyle,
-                ImageToolbar,
-                ImageUpload,
-                Base64UploadAdapter,
-                Indent,
-                IndentBlock,
-                Italic,
-                Link,
-                List,
-                MediaEmbed,
-                Mention,
-                Paragraph,
-                PasteFromOffice,
-                PictureEditing,
-                Table,
-                TableColumnResize,
-                TableToolbar,
-                TextTransformation,
-                Underline,
-                CKBox,
-                CKBoxImageEdit,
-                ImageInsertUI,
-                FontColor,
-                FontBackgroundColor,
-                FontSize,
-                FontFamily
-            ],
+            await ClassicEditor.create(document.querySelector('#editor'), {
+                licenseKey: licenseKey.trim(),
 
-            toolbar: [
-                'undo', 'redo', '|',
-                'heading', '|',
-                'bold', 'italic', 'underline', '|',
-                'fontColor', 'fontBackgroundColor', 'fontSize', 'fontFamily', '|',
-                'link', 'uploadImage', 'ckbox', '|',
-                'insertTable', 'blockQuote', 'mediaEmbed', '|',
-                'bulletedList', 'numberedList', '|',
-                'outdent', 'indent'
-            ],
-
-            ckbox: {
-                tokenUrl: 'https://0b3fzh0zey0a.cke-cs.com/token/dev/741526849e2bf96724c0892afe4ffbb7b23cf23733b2a74cc5d845d3af16?limit=10',
-                theme: 'lark'
-            },
-
-            image: {
-                resizeOptions: [
-                    {
-                        name: 'resizeImage:original',
-                        label: 'Default image width',
-                        value: null
-                    },
-                    {
-                        name: 'resizeImage:50',
-                        label: '50% page width',
-                        value: '50'
-                    },
-                    {
-                        name: 'resizeImage:75',
-                        label: '75% page width',
-                        value: '75'
-                    }
+                plugins: [
+                    Autoformat, BlockQuote, Bold, CloudServices, Essentials, Heading,
+                    Image, ImageCaption, ImageResize, ImageStyle, ImageToolbar, ImageUpload,
+                    Base64UploadAdapter, Indent, IndentBlock, Italic, Link, List, MediaEmbed,
+                    Mention, Paragraph, PasteFromOffice, PictureEditing, Table, TableColumnResize,
+                    TableToolbar, TextTransformation, Underline, CKBox, CKBoxImageEdit,
+                    ImageInsertUI, FontColor, FontBackgroundColor, FontSize, FontFamily
                 ],
+
                 toolbar: [
-                    'imageTextAlternative',
-                    'toggleImageCaption',
-                    '|',
-                    'imageStyle:inline',
-                    'imageStyle:wrapText',
-                    'imageStyle:breakText',
-                    '|',
-                    'resizeImage'
-                ]
-            },
+                    'undo', 'redo', '|',
+                    'heading', '|',
+                    'bold', 'italic', 'underline', '|',
+                    'fontColor', 'fontBackgroundColor', 'fontSize', 'fontFamily', '|',
+                    'link', 'uploadImage', 'ckbox', '|',
+                    'insertTable', 'blockQuote', 'mediaEmbed', '|',
+                    'bulletedList', 'numberedList', '|',
+                    'outdent', 'indent'
+                ],
 
-            link: {
-                addTargetToExternalLinks: true,
-                defaultProtocol: 'https://'
-            },
+                ckbox: {
+                    tokenUrl: ckboxToken.trim(),
+                    theme: 'lark'
+                },
 
-            table: {
-                contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
-            },
+                image: {
+                    resizeOptions: [
+                        {
+                            name: 'resizeImage:original',
+                            label: 'Default image width',
+                            value: null
+                        },
+                        {
+                            name: 'resizeImage:50',
+                            label: '50% page width',
+                            value: '50'
+                        },
+                        {
+                            name: 'resizeImage:75',
+                            label: '75% page width',
+                            value: '75'
+                        }
+                    ],
+                    toolbar: [
+                        'imageTextAlternative',
+                        'toggleImageCaption',
+                        '|',
+                        'imageStyle:inline',
+                        'imageStyle:wrapText',
+                        'imageStyle:breakText',
+                        '|',
+                        'resizeImage'
+                    ]
+                },
 
-            heading: {
-                options: [
-                    {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
-                    {model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1'},
-                    {model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2'},
-                    {model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3'},
-                    {model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4'}
-                ]
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
+                link: {
+                    addTargetToExternalLinks: true,
+                    defaultProtocol: 'https://'
+                },
+
+                table: {
+                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                },
+
+                heading: {
+                    options: [
+                        {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
+                        {model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1'},
+                        {model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2'},
+                        {model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3'},
+                        {model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4'}
+                    ]
+                }
+            });
+
+        } catch (error) {
+            console.error('Error initializing editor:', error);
+        }
+    }
+
+    initEditor();
 </script>
+
 
 

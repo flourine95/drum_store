@@ -420,7 +420,7 @@
             
             try {
                 // Lấy token mật để upload ảnh
-                const tokenRes = await fetch('https://0b3fzh0zey0a.cke-cs.com/token/dev/741526849e2bf96724c0892afe4ffbb7b23cf23733b2a74cc5d845d3af16?limit=10');
+                const tokenRes = await fetch('/api/keys?service=ckbox-dev');
                 if (!tokenRes.ok) throw new Error('Không thể lấy token');
                 authHeader = await tokenRes.text();
                 
