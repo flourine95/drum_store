@@ -16,10 +16,6 @@ public class ProductService {
         return productRepository.store(product);
     }
 
-    public int createImage(int productId, ProductImageDTO productImage) {
-        return productRepository.storeImage(productId, productImage);
-    }
-
     public ProductDashboardDetailDTO find(int id) {
         return productRepository.findById(id);
     }
@@ -61,32 +57,8 @@ public class ProductService {
         return productRepository.storeColor(productId, color);
     }
 
-    public int createAddon(int productId, ProductAddonDTO addon) {
-        return productRepository.storeAddon(productId, addon);
-    }
-
-    public int createVariant(int productId, ProductVariantDTO variant) {
-        return productRepository.storeVariant(productId, variant);
-    }
-
     public void update(ProductEditDTO productEditDTO) {
         productRepository.update(productEditDTO);
-    }
-
-    public void updateColors(Integer id, String[] colorIds, String[] colorNames, String[] colorPrices) {
-        
-    }
-
-    public void updateColors(List<ProductColorDTO> colors) {
-        for (ProductColorDTO color : colors) {
-            productRepository.updateColor(color);
-        }
-    }
-
-    public void updateAddons(List<ProductAddonDTO> addons) {
-        for (ProductAddonDTO addon : addons) {
-            productRepository.updateAddon(addon);
-        }
     }
 
     public void updateVariants(List<ProductVariantDTO> variants) {
@@ -95,23 +67,79 @@ public class ProductService {
         }
     }
 
-    public void updateMainImage(ProductImageDTO imageDTO) {
-        productRepository.updateMainImage(imageDTO);
-    }
-    
     public List<ProductImageDTO> getProductImages(int productId) {
         return productRepository.getProductImages(productId);
     }
-    
+
     public void deleteImage(int imageId) {
         productRepository.deleteImage(imageId);
     }
-    
+
     public void addImage(ProductImageDTO imageDTO) {
         productRepository.storeImage(imageDTO.getProductId(), imageDTO);
     }
-    
+
     public void updateImage(ProductImageDTO imageDTO) {
         productRepository.updateImage(imageDTO);
+    }
+
+    public void syncColors(Integer productId, List<ProductColorDTO> colors, List<Integer> currentColorIds) {
+        List<Integer> existingIds = productRepository.getColorIdsByProductId(productId);
+
+        List<Integer> toDelete = existingIds.stream()
+                .filter(id -> !currentColorIds.contains(id))
+                .toList();
+
+        for (Integer id : toDelete) {
+            productRepository.deleteColorById(id);
+        }
+
+        for (ProductColorDTO color : colors) {
+            if (color.getId() == null) {
+                productRepository.addColor(color);
+            } else {
+                productRepository.updateColor(color);
+            }
+        }
+    }
+
+    public void syncAddons(Integer productId, List<ProductAddonDTO> addons, List<Integer> currentAddonIds) {
+        List<Integer> existingIds = productRepository.getAddonIdsByProductId(productId);
+
+        List<Integer> toDelete = existingIds.stream()
+                .filter(id -> !currentAddonIds.contains(id))
+                .toList();
+
+        for (Integer id : toDelete) {
+            productRepository.deleteAddonById(id);
+        }
+
+        for (ProductAddonDTO addon : addons) {
+            if (addon.getId() == null) {
+                productRepository.addAddon(addon);
+            } else {
+                productRepository.updateAddon(addon);
+            }
+        }
+    }
+
+    public void syncVariants(Integer productId, List<ProductVariantDTO> variants, List<Integer> currentVariantIds) {
+        List<Integer> existingIds = productRepository.getVariantIdsByProductId(productId);
+
+        List<Integer> toDelete = existingIds.stream()
+                .filter(id -> !currentVariantIds.contains(id))
+                .toList();
+
+        for (Integer id : toDelete) {
+            productRepository.deleteVariantById(id);
+        }
+
+        for (ProductVariantDTO variant : variants) {
+            if (variant.getId() == null) {
+                productRepository.addVariant(variant);
+            } else {
+                productRepository.updateVariant(variant);
+            }
+        }
     }
 }

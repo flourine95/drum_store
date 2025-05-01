@@ -17,6 +17,12 @@ public abstract class BaseApiController extends HttpServlet {
         response.getWriter().write(GsonUtils.toJson(data));
     }
 
+    protected void sendPlainText(HttpServletResponse response, String text) throws IOException {
+        response.setContentType("text/plain;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(text);
+    }
+
     protected void sendError(HttpServletResponse response, int status, String message) throws IOException {
         Map<String, Object> error = new HashMap<>();
         error.put("error", message);

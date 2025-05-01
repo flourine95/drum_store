@@ -12,7 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class ProductAddonDTO implements Serializable {
-    private int id;
+    private Integer id;
     private String name;
     private double additionalPrice;
     private int productId;
