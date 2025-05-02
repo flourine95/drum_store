@@ -12,13 +12,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class ProductVariantDTO implements Serializable {
-    private int id;
-    private int imageId;
-    private int colorId;
-    private int addonId;
+    private Integer id;
+    private Integer imageId;
+    private Integer colorId;
+    private Integer addonId;
     private ProductColorDTO color;
     private ProductAddonDTO addon;
-    private int productId;
+    private Integer productId;
     private int stock;
     private int status;
 

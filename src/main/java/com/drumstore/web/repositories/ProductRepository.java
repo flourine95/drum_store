@@ -351,7 +351,7 @@ public class ProductRepository {
                     p.max_discount AS discountPercent,
                     CASE
                         WHEN p.max_discount IS NOT NULL
-                            THEN p.lowest_variant_price * (1 - p.max_discount/100)
+                        THEN p.lowest_variant_price * (1 - p.max_discount/100)
                         ELSE p.lowest_variant_price
                         END AS lowestSalePrice
                 FROM FilteredProducts p
@@ -619,6 +619,7 @@ public class ProductRepository {
                     pv.productId AS pv_productId,
                     pv.colorId AS pv_colorId,
                     pv.addonId AS pv_addonId,
+                    pv.imageId AS pv_imageId,
                     pv.stock AS pv_stock,
                     pv.status AS pv_status
                 FROM products p
@@ -673,10 +674,15 @@ public class ProductRepository {
                         }
                     }
 
-                    // Map ProductVariant
+                    // Map ProductVariant - Use a map in the dto to track variants by ID
                     if (row.getColumn("pv_id", Integer.class) != null) {
-                        ProductVariantDTO variant = row.getRow(ProductVariantDTO.class);
-                        if (dto.getVariants().stream().noneMatch(v -> v.getId() == variant.getId())) {
+                        Integer variantId = row.getColumn("pv_id", Integer.class);
+                        // Check if we've already seen this variant
+                        boolean variantExists = dto.getVariants().stream()
+                                .anyMatch(v -> v.getId().equals(variantId));
+                        
+                        if (!variantExists) {
+                            ProductVariantDTO variant = row.getRow(ProductVariantDTO.class);
                             dto.getVariants().add(variant);
                         }
                     }
@@ -735,25 +741,6 @@ public class ProductRepository {
                         .bind("productId", productId)
                         .bind("name", addon.getName())
                         .bind("additionalPrice", addon.getAdditionalPrice())
-                        .executeAndReturnGeneratedKeys("id")
-                        .mapTo(Integer.class)
-                        .one()
-        );
-    }
-
-    public int storeVariant(int productId, ProductVariantDTO variant) {
-        String sql = """
-                INSERT INTO product_variants (productId, colorId, addonId, imageId, stock, status, createdAt)
-                VALUES (:productId, :colorId, :addonId, :imageId, :stock, 1, CURRENT_TIMESTAMP)
-                """;
-
-        return jdbi.withHandle(handle ->
-                handle.createUpdate(sql)
-                        .bind("productId", productId)
-                        .bind("colorId", variant.getColorId())
-                        .bind("addonId", variant.getAddonId())
-                        .bind("imageId", variant.getImageId())
-                        .bind("stock", variant.getStock())
                         .executeAndReturnGeneratedKeys("id")
                         .mapTo(Integer.class)
                         .one()
@@ -1065,18 +1052,30 @@ public class ProductRepository {
 
     public void updateColor(ProductColorDTO color) {
         String sql = """
-                UPDATE product_colors
-                SET name = :name,
-                    additionalPrice = :additionalPrice
-                WHERE id = :id
-                """;
-
+            UPDATE product_colors
+            SET name = :name,
+                additionalPrice = :additionalPrice
+            WHERE id = :id
+        """;
         jdbi.useHandle(handle ->
                 handle.createUpdate(sql)
                         .bindBean(color)
                         .execute()
         );
     }
+
+    public void addColor(ProductColorDTO color) {
+        String sql = """
+            INSERT INTO product_colors (productId, name, additionalPrice)
+            VALUES (:productId, :name, :additionalPrice)
+        """;
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(color)
+                        .execute()
+        );
+    }
+
 
     public void updateAddon(ProductAddonDTO addon) {
         String sql = """
@@ -1093,10 +1092,13 @@ public class ProductRepository {
         );
     }
 
-    public void updateVariant(ProductVariantDTO variant) {
+   public void updateVariant(ProductVariantDTO variant) {
         String sql = """
                 UPDATE product_variants
-                SET stock = :stock,
+                SET colorId = :colorId,
+                    addonId = :addonId,
+                    imageId = :imageId,
+                    stock = :stock,
                     status = :status
                 WHERE id = :id
                 """;
@@ -1162,6 +1164,87 @@ public class ProductRepository {
         jdbi.useHandle(handle ->
                 handle.createUpdate(sql)
                         .bindBean(imageDTO)
+                        .execute()
+        );
+    }
+
+    public List<Integer> getColorIdsByProductId(Integer productId) {
+        String sql = "SELECT id FROM product_colors WHERE productId = :productId";
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("productId", productId)
+                        .mapTo(Integer.class)
+                        .list()
+        );
+    }
+
+    public void deleteColorById(Integer id) {
+        String sql = "DELETE FROM product_colors WHERE id = :id";
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("id", id)
+                        .execute()
+        );
+    }
+
+    public List<Integer> getAddonIdsByProductId(Integer productId) {
+        String sql = "SELECT id FROM product_addons WHERE productId = :productId";
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("productId", productId)
+                        .mapTo(Integer.class)
+                        .list()
+        );
+    }
+
+    public void deleteAddonById(Integer id) {
+        String sql = "DELETE FROM product_addons WHERE id = :id";
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("id", id)
+                        .execute()
+        );
+    }
+
+    public void addAddon(ProductAddonDTO addon) {
+        String sql = """
+            INSERT INTO product_addons (productId, name, additionalPrice)
+            VALUES (:productId, :name, :additionalPrice)
+        """;
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(addon)
+                        .execute()
+        );
+    }
+
+    public List<Integer> getVariantIdsByProductId(Integer productId) {
+        String sql = "SELECT id FROM product_variants WHERE productId = :productId";
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("productId", productId)
+                        .mapTo(Integer.class)
+                        .list()
+        );
+    }
+
+    public void deleteVariantById(Integer id) {
+        String sql = "DELETE FROM product_variants WHERE id = :id";
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("id", id)
+                        .execute()
+        );
+    }
+
+    public void addVariant(ProductVariantDTO variant) {
+        String sql = """
+                    INSERT INTO product_variants (productId, colorId, addonId, imageId, stock, status)
+                    VALUES (:productId, :colorId, :addonId, :imageId, :stock, :status)
+                """;
+        jdbi.useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bindBean(variant)
                         .execute()
         );
     }

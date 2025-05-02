@@ -22,7 +22,7 @@ public class ApiKeyController extends BaseApiController {
         switch (service) {
             case "ckeditor" -> sendResponse(response, ConfigUtils.get("api.ckeditor.licenseKey"));
             case "ckbox" -> handleCKBoxToken(request, response);
-            case "ckbox-dev" -> sendResponse(response, ConfigUtils.get("api.ckbox.tokenUrl"));
+            case "ckbox-dev" -> sendPlainText(response, ConfigUtils.get("api.ckbox.tokenUrl"));
             default -> sendError(response, HttpServletResponse.SC_BAD_REQUEST, "Invalid or restricted service");
         }
     }

@@ -17,10 +17,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @WebServlet("/dashboard/products/*")
 public class ProductManagerController extends HttpServlet {
@@ -101,23 +99,21 @@ public class ProductManagerController extends HttpServlet {
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         try {
             Integer id = getIdParameter(request, response);
             if (id == null) return;
 
             String updateType = request.getParameter("updateType");
-
             switch (updateType) {
-                case "basic-info" -> updateBasicInfo(request, id);
+                case "basic-info" -> updateBasicInfo(request, response, id);
                 case "images" -> updateImages(request, response, id);
-                case "colors" -> updateColors(request, id);
-                case "addons" -> updateAddons(request, id);
-                case "variants" -> updateVariants(request, id);
+                case "colors" -> updateColors(request, response, id);
+                case "addons" -> updateAddons(request, response, id);
+                case "variants" -> updateVariants(request, response, id);
                 default -> throw new IllegalArgumentException("Invalid update type: " + updateType);
             }
-
-            response.setContentType("application/json");
-            response.getWriter().write("{\"success\": true, \"message\": \"Cập nhật thành công\"}");
 
         } catch (Exception e) {
             response.setContentType("application/json");
@@ -125,76 +121,122 @@ public class ProductManagerController extends HttpServlet {
         }
     }
 
-    private void updateVariants(HttpServletRequest request, Integer id) {
-        String[] variantIds = request.getParameterValues("variantIds[]");
-        String[] colorIds = request.getParameterValues("variantColorIds[]");
-        String[] addonIds = request.getParameterValues("variantAddonIds[]");
-        String[] stocks = request.getParameterValues("variantStocks[]");
-        String[] statuses = request.getParameterValues("variantStatuses[]");
+    private void updateVariants(HttpServletRequest request, HttpServletResponse response, Integer id) throws IOException {
+        try {
+            String[] variantIds = request.getParameterValues("variantIds[]");
+            String[] colorIds = request.getParameterValues("variantColorIds[]");
+            String[] addonIds = request.getParameterValues("variantAddonIds[]");
+            String[] imageIds = request.getParameterValues("variantImageIds[]");
+            String[] stocks = request.getParameterValues("variantStocks[]");
+            String[] statuses = request.getParameterValues("variantStatuses[]");
 
-        List<ProductVariantDTO> variants = new ArrayList<>();
-        if (stocks != null) {
-            for (int i = 0; i < stocks.length; i++) {
-                variants.add(ProductVariantDTO.builder()
-                        .id(variantIds != null && variantIds[i] != null && !variantIds[i].isEmpty()
-                                ? Integer.parseInt(variantIds[i]) : null)
-                        .productId(id)
-                        .colorId(colorIds != null && colorIds[i] != null && !colorIds[i].isEmpty()
-                                ? Integer.parseInt(colorIds[i]) : null)
-                        .addonId(addonIds != null && addonIds[i] != null && !addonIds[i].isEmpty()
-                                ? Integer.parseInt(addonIds[i]) : null)
-                        .stock(Integer.parseInt(stocks[i]))
-                        .status(Integer.parseInt(statuses[i]))
-                        .build());
+            List<ProductVariantDTO> variants = new ArrayList<>();
+            List<Integer> currentVariantIds = new ArrayList<>();
+
+            if (stocks != null) {
+                for (int i = 0; i < stocks.length; i++) {
+                    Integer variantId = variantIds != null && variantIds[i] != null && !variantIds[i].isEmpty()
+                            ? Integer.parseInt(variantIds[i]) : null;
+
+                    if (variantId != null) {
+                        currentVariantIds.add(variantId);
+                    }
+
+                    variants.add(ProductVariantDTO.builder()
+                            .id(variantId)
+                            .productId(id)
+                            .colorId(colorIds != null && colorIds[i] != null && !colorIds[i].isEmpty()
+                                    ? Integer.parseInt(colorIds[i]) : null)
+                            .addonId(addonIds != null && addonIds[i] != null && !addonIds[i].isEmpty()
+                                    ? Integer.parseInt(addonIds[i]) : null)
+                            .imageId(imageIds != null && imageIds[i] != null && !imageIds[i].isEmpty()
+                                    ? Integer.parseInt(imageIds[i]) : null)
+                            .stock(Integer.parseInt(stocks[i]))
+                            .status(Integer.parseInt(statuses[i]))
+                            .build());
+                }
             }
+            productService.syncVariants(id, variants, currentVariantIds);
+
+            response.getWriter().write("{\"success\": true, \"message\": \"Cập nhật biến thể thành công\"}");
+        } catch (Exception e) {
+            response.getWriter().write("{\"success\": false, \"message\": \"Có lỗi xảy ra: " + e.getMessage() + "\"}");
         }
-        productService.updateVariants(variants);
     }
 
-    private void updateAddons(HttpServletRequest request, Integer id) {
-        String[] addonNames = request.getParameterValues("addonNames[]");
-        String[] addonPrices = request.getParameterValues("addonPrices[]");
-        String[] addonIds = request.getParameterValues("addonIds[]");
+    private void updateAddons(HttpServletRequest request, HttpServletResponse response, Integer productId) throws IOException {
+        try {
+            String[] addonNames = request.getParameterValues("addonNames[]");
+            String[] addonPrices = request.getParameterValues("addonPrices[]");
+            String[] addonIds = request.getParameterValues("addonIds[]");
 
-        List<ProductAddonDTO> addons = new ArrayList<>();
-        if (addonNames != null) {
-            for (int i = 0; i < addonNames.length; i++) {
-                addons.add(ProductAddonDTO.builder()
-                        .id(addonIds != null && addonIds[i] != null && !addonIds[i].isEmpty()
-                                ? Integer.parseInt(addonIds[i]) : null)
-                        .productId(id)
-                        .name(addonNames[i])
-                        .additionalPrice(Double.parseDouble(addonPrices[i]))
-                        .build());
+            List<ProductAddonDTO> addons = new ArrayList<>();
+            List<Integer> currentAddonIds = new ArrayList<>();
+
+            if (addonNames != null) {
+                for (int i = 0; i < addonNames.length; i++) {
+                    Integer addonId = (addonIds != null && addonIds[i] != null && !addonIds[i].isEmpty())
+                            ? Integer.parseInt(addonIds[i]) : null;
+
+                    if (addonId != null) {
+                        currentAddonIds.add(addonId);
+                    }
+
+                    addons.add(ProductAddonDTO.builder()
+                            .id(addonId)
+                            .productId(productId)
+                            .name(addonNames[i])
+                            .additionalPrice(Double.parseDouble(addonPrices[i]))
+                            .build());
+                }
             }
+
+            productService.syncAddons(productId, addons, currentAddonIds);
+
+            response.getWriter().write("{\"success\": true, \"message\": \"Cập nhật phụ kiện thành công\"}");
+        } catch (Exception e) {
+            response.getWriter().write("{\"success\": false, \"message\": \"Có lỗi xảy ra: " + e.getMessage() + "\"}");
         }
-        productService.updateAddons(addons);
     }
 
-    private void updateColors(HttpServletRequest request, Integer id) {
-        String[] colorNames = request.getParameterValues("colorNames[]");
-        String[] colorPrices = request.getParameterValues("colorPrices[]");
-        String[] colorIds = request.getParameterValues("colorIds[]");
+    private void updateColors(HttpServletRequest request, HttpServletResponse response, Integer productId) throws IOException {
+        try {
+            String[] colorNames = request.getParameterValues("colorNames[]");
+            String[] colorPrices = request.getParameterValues("colorPrices[]");
+            String[] colorIds = request.getParameterValues("colorIds[]");
 
-        List<ProductColorDTO> colors = new ArrayList<>();
-        if (colorNames != null) {
-            for (int i = 0; i < colorNames.length; i++) {
-                colors.add(ProductColorDTO.builder()
-                        .id(colorIds != null && colorIds[i] != null && !colorIds[i].isEmpty()
-                                ? Integer.parseInt(colorIds[i]) : null)
-                        .productId(id)
-                        .name(colorNames[i])
-                        .additionalPrice(Double.parseDouble(colorPrices[i]))
-                        .build());
+            List<ProductColorDTO> colors = new ArrayList<>();
+            List<Integer> currentColorIds = new ArrayList<>();
+
+            if (colorNames != null) {
+                for (int i = 0; i < colorNames.length; i++) {
+                    Integer colorId = (colorIds != null && colorIds[i] != null && !colorIds[i].isEmpty())
+                            ? Integer.parseInt(colorIds[i]) : null;
+
+                    if (colorId != null) {
+                        currentColorIds.add(colorId);
+                    }
+
+                    colors.add(ProductColorDTO.builder()
+                            .id(colorId)
+                            .productId(productId)
+                            .name(colorNames[i])
+                            .additionalPrice(Double.parseDouble(colorPrices[i]))
+                            .build());
+                }
             }
+
+            productService.syncColors(productId, colors, currentColorIds);
+
+            response.getWriter().write("{\"success\": true, \"message\": \"Cập nhật màu sắc thành công\"}");
+        } catch (Exception e) {
+            response.getWriter().write("{\"success\": false, \"message\": \"Có lỗi xảy ra: " + e.getMessage() + "\"}");
         }
-        productService.updateColors(colors);
     }
+
 
     private void updateImages(HttpServletRequest request, HttpServletResponse response, Integer id) throws IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        
+
         try {
             StringBuilder requestBody = new StringBuilder();
             String line;
@@ -203,10 +245,10 @@ public class ProductManagerController extends HttpServlet {
                     requestBody.append(line);
                 }
             }
-            System.out.println(requestBody);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(requestBody.toString());
-            List<Map<String, Object>> images = mapper.convertValue(rootNode.get("images"), new TypeReference<>() {});
+            List<Map<String, Object>> images = mapper.convertValue(rootNode.get("images"), new TypeReference<>() {
+            });
 
             if (images == null || images.isEmpty()) {
                 throw new IllegalArgumentException("No image data provided");
@@ -217,10 +259,8 @@ public class ProductManagerController extends HttpServlet {
                     .map(ProductImageDTO::getId)
                     .toList();
 
-            // Track which IDs we're keeping
             List<Integer> keepIds = new ArrayList<>();
 
-            // Process each image from the request
             for (int i = 0; i < images.size(); i++) {
                 Map<String, Object> imageData = images.get(i);
                 String imageId = String.valueOf(imageData.get("id"));
@@ -236,29 +276,24 @@ public class ProductManagerController extends HttpServlet {
                         .build();
 
                 if (imageId.startsWith("new_")) {
-                    // Add new image
                     productService.addImage(imageDTO);
                 } else {
                     try {
-                        // Update existing image
                         int numericId = Integer.parseInt(imageId);
                         keepIds.add(numericId);
                         imageDTO.setId(numericId);
                         productService.updateImage(imageDTO);
                     } catch (NumberFormatException ignored) {
-                        // Skip invalid IDs
                     }
                 }
             }
 
-            // Delete images that weren't included in the update
             existingIds.stream()
                     .filter(existingId -> !keepIds.contains(existingId))
                     .forEach(productService::deleteImage);
 
-            // Send success response
             response.getWriter().write("{\"success\":true,\"message\":\"Images updated successfully\"}");
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -266,32 +301,10 @@ public class ProductManagerController extends HttpServlet {
         }
     }
 
-    private void updateBasicInfo(HttpServletRequest request, Integer id) {
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        double basePrice = Double.parseDouble(request.getParameter("basePrice"));
-        int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-        int brandId = Integer.parseInt(request.getParameter("brandId"));
-        int stockManagementType = Integer.parseInt(request.getParameter("stockManagementType"));
-        boolean isFeatured = request.getParameter("isFeatured") != null;
-
-        ProductEditDTO productEditDTO = ProductEditDTO.builder()
-                .id(id)
-                .name(name)
-                .description(description)
-                .basePrice(basePrice)
-                .categoryId(categoryId)
-                .brandId(brandId)
-                .stockManagementType(stockManagementType)
-                .featured(isFeatured)
-                .build();
-
-        productService.update(productEditDTO);
-    }
-
-    private void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void updateBasicInfo(HttpServletRequest request, HttpServletResponse response, Integer id) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         try {
-            // Get basic product info
             String name = request.getParameter("name");
             String description = request.getParameter("description");
             double basePrice = Double.parseDouble(request.getParameter("basePrice"));
@@ -300,7 +313,35 @@ public class ProductManagerController extends HttpServlet {
             int stockManagementType = Integer.parseInt(request.getParameter("stockManagementType"));
             boolean isFeatured = request.getParameter("isFeatured") != null;
 
-            // Create product DTO
+            ProductEditDTO productEditDTO = ProductEditDTO.builder()
+                    .id(id)
+                    .name(name)
+                    .description(description)
+                    .basePrice(basePrice)
+                    .categoryId(categoryId)
+                    .brandId(brandId)
+                    .stockManagementType(stockManagementType)
+                    .featured(isFeatured)
+                    .build();
+            productService.update(productEditDTO);
+            response.getWriter().write("{\"success\": true, \"message\": \"Cập nhật sản phẩm thành công\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("{\"success\": false, \"message\": \"Có lỗi xảy ra: " + e.getMessage() + "\"}");
+        }
+    }
+
+
+    private void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            double basePrice = Double.parseDouble(request.getParameter("basePrice"));
+            int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+            int brandId = Integer.parseInt(request.getParameter("brandId"));
+            int stockManagementType = Integer.parseInt(request.getParameter("stockManagementType"));
+            boolean isFeatured = request.getParameter("isFeatured") != null;
+
             ProductCreateDTO productCreateDTO = ProductCreateDTO.builder()
                     .name(name)
                     .description(description)
@@ -311,10 +352,8 @@ public class ProductManagerController extends HttpServlet {
                     .featured(isFeatured)
                     .build();
 
-            // Create product and get ID
             int productId = productService.create(productCreateDTO);
 
-            // Redirect to product detail page for adding colors, addons, and variants
             response.sendRedirect(request.getContextPath() + "/dashboard/products?action=edit&id=" + productId);
         } catch (Exception e) {
             e.printStackTrace();
