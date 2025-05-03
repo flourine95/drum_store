@@ -106,7 +106,6 @@ public class ProductManagerController extends HttpServlet {
             if (id == null) return;
 
             String updateType = request.getParameter("updateType");
-            System.out.println("updateType: " + updateType + " id: " + id);
             switch (updateType) {
                 case "basic-info" -> updateBasicInfo(request, response, id);
                 case "images" -> updateImages(request, response, id);
@@ -157,7 +156,6 @@ public class ProductManagerController extends HttpServlet {
                             .build());
                 }
             }
-            variants.forEach(System.out::println);
             productService.syncVariants(id, variants, currentVariantIds);
 
             response.getWriter().write("{\"success\": true, \"message\": \"Cập nhật biến thể thành công\"}");
@@ -247,7 +245,6 @@ public class ProductManagerController extends HttpServlet {
                     requestBody.append(line);
                 }
             }
-            System.out.println(requestBody);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(requestBody.toString());
             List<Map<String, Object>> images = mapper.convertValue(rootNode.get("images"), new TypeReference<>() {
@@ -326,7 +323,6 @@ public class ProductManagerController extends HttpServlet {
                     .stockManagementType(stockManagementType)
                     .featured(isFeatured)
                     .build();
-            System.out.println(productEditDTO);
             productService.update(productEditDTO);
             response.getWriter().write("{\"success\": true, \"message\": \"Cập nhật sản phẩm thành công\"}");
         } catch (Exception e) {
@@ -338,7 +334,6 @@ public class ProductManagerController extends HttpServlet {
 
     private void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            // Get basic product info
             String name = request.getParameter("name");
             String description = request.getParameter("description");
             double basePrice = Double.parseDouble(request.getParameter("basePrice"));
@@ -347,7 +342,6 @@ public class ProductManagerController extends HttpServlet {
             int stockManagementType = Integer.parseInt(request.getParameter("stockManagementType"));
             boolean isFeatured = request.getParameter("isFeatured") != null;
 
-            // Create product DTO
             ProductCreateDTO productCreateDTO = ProductCreateDTO.builder()
                     .name(name)
                     .description(description)
@@ -358,10 +352,8 @@ public class ProductManagerController extends HttpServlet {
                     .featured(isFeatured)
                     .build();
 
-            // Create product and get ID
             int productId = productService.create(productCreateDTO);
 
-            // Redirect to product detail page for adding colors, addons, and variants
             response.sendRedirect(request.getContextPath() + "/dashboard/products?action=edit&id=" + productId);
         } catch (Exception e) {
             e.printStackTrace();
