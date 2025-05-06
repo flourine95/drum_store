@@ -46,6 +46,9 @@ public class AnalyticsRepository {
 
     public Map<String, Object> getCustomerStats() {
         return jdbi.withHandle(handle -> {
+            /**
+             * Hard code real time, refactor when update database
+             */
             String currentMonth = "2024-06-01";
             String previousMonth = "2024-05-01";
 
@@ -80,6 +83,9 @@ public class AnalyticsRepository {
 
     public Map<String, Object> getRevenueStats() {
         return jdbi.withHandle(handle -> {
+            /**
+             * Hard code real time, refactor when update database
+             */
             String currentMonth = "2024-06-01";
             String previousMonth = "2024-05-01";
 
@@ -116,6 +122,9 @@ public class AnalyticsRepository {
 
     public Map<String, Object> getOrderStats() {
         return jdbi.withHandle(handle -> {
+            /**
+             * Hard code real time, refactor when update database
+             */
             String currentMonth = "2024-06-01";
             String previousMonth = "2024-05-01";
 
