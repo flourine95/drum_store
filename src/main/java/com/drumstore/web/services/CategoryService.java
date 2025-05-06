@@ -1,5 +1,6 @@
 package com.drumstore.web.services;
 
+import com.drumstore.web.dto.CategoryDTO;
 import com.drumstore.web.models.Category;
 import com.drumstore.web.repositories.CategoryRepository;
 
@@ -12,4 +13,23 @@ public class CategoryService {
         return categoryRepository.all();
     }
 
+    public void create(CategoryDTO category) {
+        categoryRepository.create(category);
+    }
+
+    public CategoryDTO findById(Integer id) {
+        return categoryRepository.findById(id);
+    }
+
+    public void update(CategoryDTO category) {
+        categoryRepository.update(category);
+    }
+
+    public boolean hasAssociatedProducts(Integer id) {
+        return categoryRepository.hasAssociatedProducts(id);
+    }
+
+    public void delete(Integer id) {
+        categoryRepository.delete(id);
+    }
 }

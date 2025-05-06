@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -16,4 +17,5 @@ public class CategoryDTO implements Serializable {
     private String name;
     private String description;
     private String image;
+    private LocalDateTime createdAt;
 }

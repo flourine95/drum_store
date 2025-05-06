@@ -177,72 +177,58 @@
     </div>
     <ul class="sidebar-nav">
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class="bi bi-person"></i>
-                <span>Profile</span>
+            <a href="${pageContext.request.contextPath}/dashboard" class="sidebar-link" title="Trang Chủ">
+                <i class="bi bi-speedometer2"></i>
+                <span>Trang Chủ</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class="bi bi-list-check"></i>
-                <span>Task</span>
+            <a href="${pageContext.request.contextPath}/dashboard/products" class="sidebar-link" title="Sản Phẩm">
+                <i class="bi bi-box-seam"></i>
+                <span>Sản Phẩm</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-               data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
-                <i class="bi bi-shield-lock"></i>
-                <span>Auth</span>
-            </a>
-            <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">Login</a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">Register</a>
-                </li>
-            </ul>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-               data-bs-target="#multi" aria-expanded="false" aria-controls="multi">
-                <i class="bi bi-layout-text-sidebar"></i>
-                <span>Multi Level</span>
-            </a>
-            <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
-                       data-bs-target="#multi-two" aria-expanded="false" aria-controls="multi-two">
-                        Two Links
-                    </a>
-                    <ul id="multi-two" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Link 1</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Link 2</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class="bi bi-bell"></i>
-                <span>Notification</span>
+            <a href="${pageContext.request.contextPath}/dashboard/categories" class="sidebar-link" title="Danh Mục">
+                <i class="bi bi-bookmark"></i>
+                <span>Danh Mục</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="${pageContext.request.contextPath}/dashboard/orders" class="sidebar-link" title="Đơn Hàng">
+                <i class="bi bi-cart3"></i>
+                <span>Đơn Hàng</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/users" class="sidebar-link" title="Khách Hàng">
+                <i class="bi bi-people"></i>
+                <span>Khách Hàng</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/inventory" class="sidebar-link" title="Kho Hàng">
+                <i class="bi bi-clipboard-data"></i>
+                <span>Kho Hàng</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/reports" class="sidebar-link" title="Báo Cáo">
+                <i class="bi bi-bar-chart"></i>
+                <span>Báo Cáo</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/settings" class="sidebar-link" title="Cài Đặt">
                 <i class="bi bi-gear"></i>
-                <span>Setting</span>
+                <span>Cài Đặt</span>
             </a>
         </li>
     </ul>
     <div class="sidebar-footer">
-        <a href="#" class="sidebar-link">
+        <a href="${pageContext.request.contextPath}/logout" class="sidebar-link" title="Đăng Xuất">
             <i class="bi bi-box-arrow-right"></i>
-            <span>Logout</span>
+            <span>Đăng Xuất</span>
         </a>
     </div>
 </aside>
