@@ -53,10 +53,15 @@
                                             </div>
                                             <div class="form-text mt-2">Khuyến nghị: ảnh vuông kích thước 300x300 pixels.</div>
                                             <div id="imageNameDisplay" class="text-success small mt-2">
-                                                <i class="bi bi-check-circle-fill me-2"></i> Ảnh hiện tại: ${category.image.substring(category.image.lastIndexOf('/') + 1)}
+                                                <i class="bi bi-check-circle-fill me-2"></i> 
+                                                Ảnh hiện tại: 
+                                                ${category.image != null 
+                                                    ? (category.image.contains('/') 
+                                                        ? category.image.substring(category.image.lastIndexOf('/') + 1) 
+                                                        : category.image) 
+                                                    : 'Không có ảnh'}
                                             </div>
                                         </div>
-                                        
                                         <div class="col-md-4 mb-3">
                                             <div class="image-preview-wrapper">
                                                 <div class="image-preview-container">
