@@ -61,12 +61,12 @@
                         <table id="categories" class="table table-striped table-hover table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th width="5%">#</th>
-                                    <th width="20%">Tên</th>
-                                    <th width="20%">Ảnh</th>
-                                    <th width="35%">Mô tả</th>
-                                    <th width="10%">Ngày tạo</th>
-                                    <th width="10%">Thao tác</th>
+                                    <th>#</th>
+                                    <th>Tên</th>
+                                    <th>Ảnh</th>
+                                    <th>Mô tả</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
