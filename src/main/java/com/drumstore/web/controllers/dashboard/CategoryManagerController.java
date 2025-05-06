@@ -172,7 +172,7 @@ public class CategoryManagerController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"success\": false, \"message\": \"Lỗi khi cập nhật danh mục: " + e.getMessage() + "\"}");
+            response.getWriter().write("{\"success\": false, \"message\": \"Đã xảy ra lỗi khi cập nhật danh mục. Vui lòng thử lại sau.\"}");
         }
     }
 
