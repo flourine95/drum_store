@@ -115,7 +115,7 @@
                             </div>
 
                             <div class="table-responsive ">
-                                <table class="table table-hover table-striped">
+                                <table class="table table-hover table-striped" id="best-selling-products-table">
                                     <thead class="table-light">
                                     <tr>
                                         <th>Sản phẩm</th>
@@ -125,51 +125,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>
-                                            <h6 class="mb-0">Alesis Turbo Mesh Kit</h6>
-                                            <small class="text-muted">07 Tháng 4, 2018</small>
-                                        </td>
-                                        <td>1.987.250đ</td>
-                                        <td>82</td>
-                                        <td>162.954.500đ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="mb-0">Alesis Crimson II SE</h6>
-                                            <small class="text-muted">25 Tháng 3, 2018</small>
-                                        </td>
-                                        <td>3.212.500đ</td>
-                                        <td>37</td>
-                                        <td>118.862.500đ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="mb-0">ROLAND TD-02KV</h6>
-                                            <small class="text-muted">17 Tháng 3, 2018</small>
-                                        </td>
-                                        <td>999.750đ</td>
-                                        <td>64</td>
-                                        <td>63.984.000đ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="mb-0">Combo EXX725SP/C760</h6>
-                                            <small class="text-muted">12 Tháng 3, 2018</small>
-                                        </td>
-                                        <td>500.000đ</td>
-                                        <td>184</td>
-                                        <td>92.000.000đ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="mb-0">PEARL EXPORT EXX725SP/C777</h6>
-                                            <small class="text-muted">05 Tháng 3, 2018</small>
-                                        </td>
-                                        <td>712.250đ</td>
-                                        <td>69</td>
-                                        <td>49.145.250đ</td>
-                                    </tr>
+                                    <%--render--%>
                                     </tbody>
                                 </table>
                             </div>
@@ -195,22 +151,7 @@
                             <div id="revenue-chart" class="apex-charts mb-4 mt-4"></div>
 
                             <div class="chart-widget-list">
-                                <p class="text-muted mb-1">
-                                    <i class="bi bi-square-fill text-primary me-2"></i> Trống acoustic
-                                    <span class="float-end">4.250.000đ</span>
-                                </p>
-                                <p class="text-muted mb-1">
-                                    <i class="bi bi-square-fill text-danger me-2"></i> Trống điện tử
-                                    <span class="float-end">3.800.000đ</span>
-                                </p>
-                                <p class="text-muted mb-1">
-                                    <i class="bi bi-square-fill text-success me-2"></i> Phụ kiện
-                                    <span class="float-end">1.950.000đ</span>
-                                </p>
-                                <p class="text-muted mb-0">
-                                    <i class="bi bi-square-fill text-warning me-2"></i> Dịch vụ
-                                    <span class="float-end">980.000đ</span>
-                                </p>
+                            <%--render--%>
                             </div>
                         </div>
                     </div>
@@ -488,12 +429,117 @@
         });
     }
 
+    // sản phẩm bán chạy
+    function updateBestSellingProducts() {
+        $.ajax({
+            url: '/api/analytics/best-selling-products',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                const tbody = $('#best-selling-products-table tbody');
+                tbody.empty(); // Xóa dữ liệu cũ
+
+                data.slice(0, 5).forEach(product => {
+                    const productName = product.productname || 'Không rõ';
+                    const createdat = product.createdat
+                        ? new Date(product.lastOrderDate).toLocaleDateString('vi-VN')
+                        : 'N/A';
+                    const price = formatCurrency(product.price);
+                    const quantity = product.totalquantity || 0;
+                    const totalAmount = formatCurrency(product.totalamount);
+
+                    const row =
+                        '<tr>' +
+                        '<td>' +
+                        '<h6 class="mb-0">' + productName + '</h6>' +
+                        '<small class="text-muted">' + createdat + '</small>' +
+                        '</td>' +
+                        '<td>' + price + '</td>' +
+                        '<td>' + quantity + '</td>' +
+                        '<td>' + totalAmount + '</td>' +
+                        '</tr>';
+
+
+                    tbody.append(row);
+                });
+            },
+            error: function(error) {
+                console.error('Lỗi khi tải sản phẩm bán chạy:', error);
+            }
+        });
+    }
+
+    // doanh thu ban duoc theo category và brand
+    function updateRevenueByCategoryAndBrand() {
+        $.ajax({
+            url: '/api/analytics/revenue-category-brand',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                const chartWidgetList = $('.chart-widget-list');
+                chartWidgetList.empty();
+
+                const categories = data.categories || [];
+                const brands = data.brands || [];
+
+
+                if (categories.length > 0) {
+                    chartWidgetList.append('<p class="text-muted mt-4 mb-2"><strong>Danh mục</strong></p>');
+                    categories.forEach(item => {
+                        const category = item.categoryname || 'Không rõ';
+                        const amount = formatCurrency(item.revenue);
+
+                        const row =
+                            '<p class="text-muted mb-1">' +
+                            '<i class="bi bi-square-fill text-primary me-2"></i> ' + category +
+                            '<span class="float-end">' + amount + '</span>' +
+                            '</p>';
+
+                        chartWidgetList.append(row);
+                    });
+                }
+
+                if (brands.length > 0) {
+                    chartWidgetList.append('<p class="text-muted mt-4 mb-2"><strong>Thương hiệu</strong></p>');
+                    brands.forEach(item => {
+                        const category = item.brandname || 'Không rõ';
+                        const amount = formatCurrency(item.revenue);
+
+                        const row =
+                            '<p class="text-muted mb-1">' +
+                            '<i class="bi bi-square-fill text-primary me-2"></i> ' + category +
+                            '<span class="float-end">' + amount + '</span>' +
+                            '</p>';
+
+                        chartWidgetList.append(row);
+                    });
+                }
+            },
+            error: function(error) {
+                console.error('Lỗi khi tải doanh thu theo danh mục và thương hiệu:', error);
+            }
+        });
+    }
+
+    function formatCurrency(amount) {
+        if (!amount || isNaN(amount)) return '0đ';
+        return parseFloat(amount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+
+
+    function formatCurrency(amount) {
+        if (!amount || isNaN(amount)) return '0đ';
+        return parseFloat(amount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+
+
     updateCustomerStats();
     updateOrderStats();
     updateRevenueStats();
     updateGrowthStats();
     fetchRevenueData();
-
+    updateBestSellingProducts();
+    updateRevenueByCategoryAndBrand();
 
     // Biểu đồ phân bổ doanh thu
     const ctx2 = document.getElementById('revenuePieChart').getContext('2d');

@@ -51,6 +51,18 @@ public class AnalyticsApiController extends BaseApiController {
                     sendResponse(response, growthStats);
                     break;
 
+                case "/best-selling-products":
+                    List<Map<String, Object>> sellingProducts = analyticsService.getBestSellingProducts();
+                    sendResponse(response, sellingProducts);
+                    break;
+
+                case "/revenue-category-brand":
+                    Map<String, List<Map<String, Object>>> revenue = analyticsService.getRevenueByCategoryAndBrand();
+                    sendResponse(response, revenue);
+                    break;
+
+
+
                 default:
                     sendError(response, HttpServletResponse.SC_NOT_FOUND, "Endpoint not found.");
                     break;

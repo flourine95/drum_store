@@ -8,10 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Repository class responsible for querying analytics-related data
- * such as revenue, profit, order statistics, product sales, etc.
- */
 public class AnalyticsRepository {
     private final Jdbi jdbi;
 
@@ -29,7 +25,7 @@ public class AnalyticsRepository {
                 orders o
             WHERE 
                 YEAR(o.orderDate) = :year
-                AND o.status IN (1, 2)
+                AND o.status = 3
             GROUP BY 
                 MONTH(o.orderDate)
             ORDER BY 
@@ -50,9 +46,6 @@ public class AnalyticsRepository {
 
     public Map<String, Object> getCustomerStats() {
         return jdbi.withHandle(handle -> {
-            /**
-             * hard code real time, refactor when update database
-             */
             String currentMonth = "2024-06-01";
             String previousMonth = "2024-05-01";
 
@@ -87,30 +80,24 @@ public class AnalyticsRepository {
 
     public Map<String, Object> getRevenueStats() {
         return jdbi.withHandle(handle -> {
-
-            /**
-             * hard code real time, refactor when update database
-             */
             String currentMonth = "2024-06-01";
             String previousMonth = "2024-05-01";
 
             double currentMonthRevenue = handle.createQuery(
-                            "SELECT SUM(totalAmount) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :currentMonth"
+                            "SELECT SUM(totalAmount) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :currentMonth AND status = 3"
                     )
                     .bind("currentMonth", currentMonth)
                     .mapTo(Double.class)
                     .findOne()
                     .orElse(0.0);
 
-
             double previousMonthRevenue = handle.createQuery(
-                            "SELECT SUM(totalAmount) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :previousMonth"
+                            "SELECT SUM(totalAmount) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :previousMonth AND status = 3"
                     )
                     .bind("previousMonth", previousMonth)
                     .mapTo(Double.class)
                     .findOne()
                     .orElse(0.0);
-
 
             double growthRate = 0.0;
             if (previousMonthRevenue == 0) {
@@ -129,26 +116,22 @@ public class AnalyticsRepository {
 
     public Map<String, Object> getOrderStats() {
         return jdbi.withHandle(handle -> {
-            /**
-             * Hard code real time, refactor when update database
-             */
             String currentMonth = "2024-06-01";
             String previousMonth = "2024-05-01";
 
             int currentMonthOrders = handle.createQuery(
-                            "SELECT COUNT(*) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :currentMonth"
+                            "SELECT COUNT(*) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :currentMonth AND status = 3"
                     )
                     .bind("currentMonth", currentMonth)
                     .mapTo(Integer.class)
                     .findOnly();
 
             int previousMonthOrders = handle.createQuery(
-                            "SELECT COUNT(*) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :previousMonth"
+                            "SELECT COUNT(*) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :previousMonth AND status = 3"
                     )
                     .bind("previousMonth", previousMonth)
                     .mapTo(Integer.class)
                     .findOnly();
-
 
             double growthRate = 0.0;
             if (previousMonthOrders == 0) {
@@ -156,7 +139,6 @@ public class AnalyticsRepository {
             } else {
                 growthRate = ((double) (currentMonthOrders - previousMonthOrders) / previousMonthOrders) * 100;
             }
-
 
             Map<String, Object> stats = new HashMap<>();
             stats.put("currentMonthOrders", currentMonthOrders);
@@ -175,7 +157,6 @@ public class AnalyticsRepository {
         double growthRateRevenue = (double) revenueStats.get("growthRate");
         double growthRateOrders = (double) orderStats.get("growthRate");
 
-        // Tính tăng trưởng tổng hợp (trung bình các tỷ lệ tăng trưởng)
         double currentMonthGrowth = (growthRateCustomers + growthRateRevenue + growthRateOrders) / 3.0;
 
         double previousMonthGrowth = 0.0;
@@ -188,4 +169,51 @@ public class AnalyticsRepository {
         return stats;
     }
 
+    public List<Map<String, Object>> getBestSellingProducts() {
+        return jdbi.withHandle(handle -> handle.createQuery(
+                "SELECT p.name AS productName, " +
+                        "p.createdAt AS createdAt, " +
+                        "oi.finalPrice AS price, " +
+                        "SUM(oi.quantity) AS totalQuantity, " +
+                        "SUM(oi.quantity * oi.finalPrice) AS totalAmount " +
+                        "FROM products p " +
+                        "JOIN product_variants pv ON p.id = pv.productId " +
+                        "JOIN order_items oi ON pv.id = oi.variantId " +
+                        "JOIN orders o ON oi.orderId = o.id " +
+                        "WHERE o.status = 3 " +
+                        "GROUP BY p.id, p.name, oi.finalPrice " +
+                        "ORDER BY totalQuantity DESC " +
+                        "LIMIT 5"
+        ).mapToMap().list());
+    }
+
+    public List<Map<String, Object>> getRevenueByCategory() {
+        return jdbi.withHandle(handle -> handle.createQuery(
+                "SELECT c.name AS categoryName, " +
+                        "SUM(oi.quantity * oi.finalPrice) AS revenue " +
+                        "FROM categories c " +
+                        "JOIN products p ON c.id = p.categoryId " +
+                        "JOIN product_variants pv ON p.id = pv.productId " +
+                        "JOIN order_items oi ON pv.id = oi.variantId " +
+                        "JOIN orders o ON oi.orderId = o.id " +
+                        "WHERE o.status = 3 " +
+                        "GROUP BY c.id, c.name " +
+                        "ORDER BY revenue DESC"
+        ).mapToMap().list());
+    }
+
+    public List<Map<String, Object>> getRevenueByBrand() {
+        return jdbi.withHandle(handle -> handle.createQuery(
+                "SELECT b.name AS brandName, " +
+                        "SUM(oi.quantity * oi.finalPrice) AS revenue " +
+                        "FROM brands b " +
+                        "JOIN products p ON b.id = p.brandId " +
+                        "JOIN product_variants pv ON p.id = pv.productId " +
+                        "JOIN order_items oi ON pv.id = oi.variantId " +
+                        "JOIN orders o ON oi.orderId = o.id " +
+                        "WHERE o.status = 3 " +
+                        "GROUP BY b.id, b.name " +
+                        "ORDER BY revenue DESC"
+        ).mapToMap().list());
+    }
 }
