@@ -521,11 +521,6 @@
         });
     }
 
-    function formatCurrency(amount) {
-        if (!amount || isNaN(amount)) return '0đ';
-        return parseFloat(amount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-    }
-
 
     function formatCurrency(amount) {
         if (!amount || isNaN(amount)) return '0đ';
