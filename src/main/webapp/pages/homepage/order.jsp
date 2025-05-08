@@ -3,23 +3,7 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <style>
-    /* Reset và style chung */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
 
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-    }
-
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
 
     /* Section chung */
     .section {
@@ -74,63 +58,61 @@
         color: #003087;
     }
 
-    /* Shipping options */
-    .shipping-options {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin: 10px 0;
+    /* Shipping method selection */
+    .shipping-method-selection {
+        margin-bottom: 20px;
     }
 
-    .shipping-options h6 {
+    .shipping-method-selection h6 {
         font-weight: bold;
         color: #333;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
-    .shipping-type {
+    .shipping-method-option {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        padding: 15px;
         border: 2px solid #ddd;
-        padding: 10px 15px;
         border-radius: 8px;
+        margin-bottom: 10px;
         cursor: pointer;
-        transition: border-color 0.3s ease;
+        transition: all 0.3s ease;
     }
 
-    .shipping-type input {
+    .shipping-method-option:hover {
+        border-color: #007bff;
+        background-color: #f8f9fa;
+    }
+
+    .shipping-method-option input {
         display: none;
     }
 
-    .shipping-type label {
+    .shipping-method-option label {
         cursor: pointer;
         font-weight: 500;
         color: #333;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
+        flex-grow: 1;
+        margin: 0;
     }
 
-    .shipping-type .price {
-        font-weight: bold;
-        color: #333;
-    }
-
-    .shipping-type:hover {
-        border-color: #007bff;
-    }
-
-    .shipping-type input:checked + label {
+    .shipping-method-option input:checked + label {
         color: #007bff;
     }
 
-    .shipping-type input:checked + label .price {
+    .shipping-method-option input:checked + label + .shipping-details {
         color: #007bff;
     }
 
-    .shipping-type input:checked + .shipping-type {
+    .shipping-method-option input:checked + .shipping-method-option {
         border-color: #007bff;
+        background-color: #f0f4ff;
+    }
+
+    .shipping-details {
+        font-size: 14px;
+        color: #6c757d;
     }
 
     /* Payment methods */
@@ -237,7 +219,7 @@
         z-index: 1000;
     }
 
-    #addressPopup .modal-content {
+    .modal-content {
         background-color: white;
         margin: 15% auto;
         padding: 20px;
@@ -282,6 +264,41 @@
     .hidden {
         display: none;
     }
+
+    .shipping-rate {
+        transition: all 0.3s ease;
+    }
+
+    .shipping-rate:hover {
+        background-color: #f8f9fa;
+        border-color: #007bff;
+        cursor: pointer;
+    }
+
+    .carrier-info {
+        line-height: 1.4;
+    }
+
+    .carrier-name {
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .expected {
+        font-size: 0.9rem;
+    }
+
+    .price {
+        font-size: 1.1rem;
+    }
+
+    .form-check-input:checked + .form-check-label .price {
+        color: #28a745;
+    }
+
+    .form-check-input:checked + .form-check-label .carrier-name {
+        color: #007bff;
+    }
 </style>
 
 <div class="container my-5">
@@ -300,34 +317,6 @@
             <!-- Giao hàng -->
             <div class="section">
                 <h5>GIAO HÀNG</h5>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="radio" name="shippingMethod" id="shipToAddress"
-                           value="shipToAddress" checked>
-                    <label class="form-check-label" for="shipToAddress">Vận chuyển</label>
-                </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="radio" name="shippingMethod" id="pickup" value="pickup">
-                    <label class="form-check-label" for="pickup">Nhận hàng tại cửa hàng</label>
-                </div>
-
-                <div id="shippingOptions" class="shipping-options">
-                    <h6>Phương thức vận chuyển</h6>
-                    <div class="shipping-type">
-                        <input class="form-check-input" type="radio" name="shippingType" id="fastShipping" value="fast"
-                               checked>
-                        <label class="form-check-label" for="fastShipping">
-                            Vận chuyển nhanh <span class="price">50.000 đ</span>
-                        </label>
-                    </div>
-                    <div class="shipping-type">
-                        <input class="form-check-input" type="radio" name="shippingType" id="economyShipping"
-                               value="economy">
-                        <label class="form-check-label" for="economyShipping">
-                            Vận chuyển tiết kiệm <span class="price">30.000 đ</span>
-                        </label>
-                    </div>
-                </div>
-
                 <c:set var="mainAddress" value="${address['mainAddress']}"/>
                 <div class="row address-section"
                      data-address-id="${not empty mainAddress[0].id ? mainAddress[0].id : ''}">
@@ -369,8 +358,26 @@
 
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" id="saveInfo">
-                    <label class="form-check-label" for="saveInfo">Gửi chi tiết tài khoản và địa chỉ tới tin
-                        nhắn</label>
+                    <label class="form-check-label" for="saveInfo">Gửi chi tiết tài khoản và địa chỉ tới tin nhắn</label>
+                </div>
+
+                <%-- Vận chuyển --%>
+                <div class="shipping-method-selection">
+                    <h6>Phương thức nhận hàng</h6>
+                    <div class="shipping-method-option">
+                        <input class="form-check-input" type="radio" name="shippingMethod" id="shipToAddress" value="shipToAddress">
+                        <label class="form-check-label" for="shipToAddress">Vận chuyển đến địa chỉ</label>
+                        <span class="shipping-details">Giao hàng tận nơi</span>
+                    </div>
+                    <div id="shippingRates" class="shipping-rates">
+
+                        <!-- Shipping rates will be dynamically inserted here -->
+                    </div>
+                    <div class="shipping-method-option">
+                        <input class="form-check-input" type="radio" name="shippingMethod" id="pickup" value="pickup">
+                        <label class="form-check-label" for="pickup">Nhận hàng tại cửa hàng</label>
+                        <span class="shipping-details">Đến lấy tại cửa hàng </span>
+                    </div>
                 </div>
 
                 <!-- Thanh toán -->
@@ -381,11 +388,10 @@
                         <input class="form-check-input" type="radio" name="paymentMethod" id="onepay" value="onepay">
                         <label class="form-check-label" for="onepay">VNPAY</label>
                     </div>
-
                 </div>
                 <div id="cardDetails" class="card-details hidden">
                     <div class="container">
-                        <div class="d-flex flex-column justify-content-center align-items-center gap-2 ">
+                        <div class="d-flex flex-column justify-content-center align-items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="-252.3 356.1 163 80.9" class="zjrzY" style="width: 25%">
                                 <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"
                                       d="M-108.9 404.1v30c0 1.1-.9 2-2 2H-231c-1.1 0-2-.9-2-2v-75c0-1.1.9-2 2-2h120.1c1.1 0 2 .9 2 2v37m-124.1-29h124.1"></path>
@@ -395,8 +401,7 @@
                                 <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"
                                       d="M-128.7 400.1H-92m-3.6-4.1 4 4.1-4 4.1"></path>
                             </svg>
-                            <p>Sau khi nhấp vào "Hoàn tất đơn hàng", bạn sẽ được chuyển hướng đến ONEPAY để hoàn tất mua
-                                hàng an toàn.</p>
+                            <p>Sau khi nhấp vào "Hoàn tất đơn hàng", bạn sẽ được chuyển hướng đến VNPAY để hoàn tất mua hàng an toàn.</p>
                         </div>
                     </div>
                 </div>
@@ -458,13 +463,13 @@
 
                 <div class="d-flex justify-content-between mb-2">
                     <span>Vận chuyển</span>
-                    <span id="shippingFee">30.000 đ</span>
+                    <span id="shippingFee">0 đ</span>
                 </div>
 
                 <hr>
                 <div class="d-flex justify-content-between order-total">
                     <span>TỔNG</span>
-                    <span id="totalAmount"><fmt:formatNumber value="${cart.total + 30000}" type="currency"
+                    <span id="totalAmount"><fmt:formatNumber value="${cart.total}" type="currency"
                                                              currencySymbol="đ"/></span>
                 </div>
                 <button class="btn btn-primary mt-3" id="submitPayment">HOÀN TẤT ĐƠN HÀNG</button>
@@ -500,39 +505,147 @@
 
 <script>
     $(document).ready(function () {
-        // Khởi tạo giá trị ban đầu
         const baseTotal = ${cart.total}; // Tổng tiền ban đầu từ server
-        let shippingFee = 30000; // Phí vận chuyển mặc định (Vận chuyển nhanh)
-        let totalAmount = baseTotal + shippingFee;
+        let shippingFee = 0;
+        let totalAmount = baseTotal;
 
         // Cập nhật giao diện ban đầu
-        $('#shipToAddress').prop('checked', true);
-        $('#fastShipping').prop('checked', true);
+        $('input[name="shippingMethod"]').prop('checked', false);
         $('#cod').prop('checked', true);
         $('#sameAsShipping').prop('checked', true);
-        $('#shippingOptions').show();
         $('#cardDetails').hide();
         $('#addressPopup').hide();
+        $('#shippingRates').removeClass('active');
         updateTotal();
 
-        // Hiển thị/ẩn tùy chọn vận chuyển và cập nhật phí vận chuyển
-        $('input[name="shippingMethod"]').change(function () {
-            if ($('#shipToAddress').is(':checked')) {
-                $('#shippingOptions').show();
-                shippingFee = $('#fastShipping').is(':checked') ? 50000 : 30000;
-            } else {
-                $('#shippingOptions').hide();
-                shippingFee = 0; // Nhận hàng tại cửa hàng: phí vận chuyển = 0
+        // Hàm kiểm tra địa chỉ và lấy biểu phí vận chuyển
+        function handleShipToAddress() {
+            const addressId = $('.address-section').data('address-id');
+            if (!addressId || !$('#shippingProvince').val() || !$('#shippingDistrict').val()) {
+                // Không có địa chỉ, focus vào "Sử dụng địa chỉ thanh toán khác"
+                $('#differentAddress').prop('checked', true).focus();
+                $('#addressPopup').show();
+                Swal.fire({
+                    title: 'Vui lòng chọn hoặc thêm địa chỉ giao hàng!',
+                    icon: 'warning',
+                    draggable: true
+                });
+                $('#shippingRates').removeClass('active').empty().append('<h6>Loại hình vận chuyển</h6>');
+                shippingFee = 0;
+                updateTotal();
+                return;
             }
-            updateTotal();
-        });
 
-        // Cập nhật phí vận chuyển khi thay đổi loại vận chuyển
-        $('input[name="shippingType"]').change(function () {
-            shippingFee = $(this).val() === 'fast' ? 30000 : 50000;
+            fetchShippingRates();
+        }
+
+        // Hàm gọi API để lấy cityId, districtId và biểu phí vận chuyển
+        function fetchShippingRates() {
+            const city = $('#shippingProvince').val();
+            const district = $('#shippingDistrict').val();
+
+            $.ajax({
+                url: '/api/location',
+                method: 'GET',
+                data: {
+                    city: city,
+                    district: district
+                },
+                success: function (response) {
+                    const { cityId, districtId } = response;
+
+                    $.ajax({
+                        url: '/api/location',
+                        method: 'POST',
+                        data: {
+                            cityId: cityId,
+                            districtId: districtId
+                        },
+                        success: function (response) {
+                            if (response.rates && response.rates.length > 0) {
+                                renderShippingRates(response.rates);
+                                $('#shippingRates').addClass('active');
+                            } else {
+                                Swal.fire({
+                                    title: 'Không tìm thấy biểu phí vận chuyển!',
+                                    text: 'Vui lòng kiểm tra lại địa chỉ hoặc thử lại sau.',
+                                    icon: 'error',
+                                    draggable: true
+                                });
+                                $('#shippingRates').removeClass('active').empty().append('<h6>Loại hình vận chuyển</h6>');
+                                shippingFee = 0;
+                                updateTotal();
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                title: 'Lỗi khi lấy biểu phí vận chuyển!',
+                                text: xhr.responseJSON?.message || 'Có lỗi xảy ra, vui lòng thử lại.',
+                                icon: 'error',
+                                draggable: true
+                            });
+                            $('#shippingRates').removeClass('active').empty().append('<h6>Loại hình vận chuyển</h6>');
+                            shippingFee = 0;
+                            updateTotal();
+                        }
+                    });
+                },
+                error: function (xhr) {
+                    Swal.fire({
+                        title: 'Lỗi khi lấy thông tin địa chỉ!',
+                        text: xhr.responseJSON?.message || 'Không thể xác định thành phố hoặc quận.',
+                        icon: 'error',
+                        draggable: true
+                    });
+                    $('#shippingRates').removeClass('active').empty().append('<h6>Loại hình vận chuyển</h6>');
+                    shippingFee = 0;
+                    updateTotal();
+                }
+            });
+        }
+
+        // Hàm render biểu phí vận chuyển
+        function renderShippingRates(rates) {
+            const $shippingRates = $('#shippingRates').empty().append('<h6>Loại hình vận chuyển</h6>');
+            rates.forEach((rate, index) => {
+                const { carrier_name, carrier_logo, expected, total_fee } = rate;
+                const rateHtml =
+                    '<div class="shipping-rate d-flex align-items-center border rounded p-3 mb-2 shadow-sm">' +
+                    '<input class="form-check-input me-3" type="radio" name="shippingRate" id="shippingRate' + index + '" value="' + total_fee + '">' +
+                    '<label class="form-check-label d-flex align-items-center w-100" for="shippingRate' + index + '">' +
+                    '<img src="' + carrier_logo + '" alt="' + carrier_name + '" class="carrier-logo me-3" style="width: 40px; height: 40px;">' +
+                    '<div class="carrier-info flex-grow-1">' +
+                    '<div class="carrier-name fw-bold">' + carrier_name + '</div>' +
+                    '<div class="expected text-muted">' + expected + '</div>' +
+                    '</div>' +
+                    '<span class="price text-success fw-bold">' + formatCurrency(total_fee) + '</span>' +
+                    '</label>' +
+                    '</div>';
+
+                $shippingRates.append(rateHtml);
+            });
+
+            // Xử lý chọn biểu phí vận chuyển
+            $('input[name="shippingRate"]').change(function () {
+                shippingFee = parseInt($(this).val());
+                updateTotal();
+                $('.shipping-rate').css('border-color', '#ddd');
+                $(this).closest('.shipping-rate').css('border-color', '#007bff');
+            });
+        }
+
+        // Xử lý chọn phương thức nhận hàng
+        $('input[name="shippingMethod"]').change(function () {
+            $('#shippingRates').removeClass('active').empty().append('<h6>Loại hình vận chuyển</h6>');
+            shippingFee = 0;
             updateTotal();
-            $('.shipping-type').css('border-color', '#ddd');
-            $(this).closest('.shipping-type').css('border-color', '#007bff');
+
+            if ($('#shipToAddress').is(':checked')) {
+                handleShipToAddress();
+            } else if ($('#pickup').is(':checked')) {
+                shippingFee = 0;
+                updateTotal();
+            }
         });
 
         // Hiển thị/ẩn popup địa chỉ thanh toán
