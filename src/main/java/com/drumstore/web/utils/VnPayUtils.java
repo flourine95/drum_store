@@ -15,7 +15,7 @@ public class VnPayUtils {
     public static String vnp_ReturnUrl = ConfigUtils.get("api.vnpay.returnUrl");
     public static String vnp_TmnCode = ConfigUtils.get("api.vnpay.tmnCode");
     public static String secretKey = ConfigUtils.get("api.vnpay.secretKey");
-    public static String vnp_ApiUrl = ConfigUtils.get("https://sandbox.vnpayment.vn/merchant_webapi/api/transaction");
+    public static String vnp_ApiUrl = ConfigUtils.get("api.vnpay.apiUrl");
 
     public static String md5(String message) {
         String digest = null;
