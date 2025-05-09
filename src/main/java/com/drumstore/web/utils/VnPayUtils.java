@@ -11,11 +11,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class VnPayUtils {
-    public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:8080/cart";
-    public static String vnp_TmnCode = "4YUP19I4";
-    public static String secretKey = "MDUIFDCRAKLNBPOFIAFNEKFRNMFBYEPX";
-    public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
+    public static String vnp_PayUrl = ConfigUtils.get("api.vnpay.url");
+    public static String vnp_ReturnUrl = ConfigUtils.get("api.vnpay.returnUrl");
+    public static String vnp_TmnCode = ConfigUtils.get("api.vnpay.tmnCode");
+    public static String secretKey = ConfigUtils.get("api.vnpay.secretKey");
+    public static String vnp_ApiUrl = ConfigUtils.get("api.vnpay.apiUrl");
 
     public static String md5(String message) {
         String digest = null;
