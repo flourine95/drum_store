@@ -459,9 +459,9 @@
                     if (modal) modal.hide();
                 }else if(!res.success) {
                     Swal.fire({
-                        title: 'Cảm ơn bạn!',
+                        title: 'Thông báo!',
                         text:  res.message|| 'Bạn đã đánh giá sản phẩm này rồi!',
-                        icon: 'success',
+                        icon: 'info',
                         confirmButtonText: 'Đóng'
                     });
                     const modal = bootstrap.Modal.getInstance(document.getElementById("reviewModal"));

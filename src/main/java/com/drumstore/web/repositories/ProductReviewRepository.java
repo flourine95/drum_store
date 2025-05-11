@@ -13,8 +13,8 @@ public class ProductReviewRepository {
 
     public boolean insertReview(int userId, int productId, int orderId, double rating, String content) {
         String sql = """
-            INSERT INTO product_reviews (userId, productId, orderId, rating, content)
-            VALUES (:userId, :productId, :orderId, :rating, :content)
+            INSERT INTO product_reviews (userId, productId, orderId, rating, content, status)
+            VALUES (:userId, :productId, :orderId, :rating, :content,0)
         """;
 
         return jdbi.withHandle(handle ->
