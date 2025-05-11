@@ -129,11 +129,7 @@ $(document).ready(function() {
                 render: function(data) {
                     return `
                         <div class="btn-group" role="group">
-                            <a href="${pageContext.request.contextPath}/dashboard/products/\${data}"
-                               class="btn btn-info btn-sm" title="Xem chi tiết">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="${pageContext.request.contextPath}/dashboard/products/\${data}/edit"
+                            <a href="${pageContext.request.contextPath}/dashboard/products?action=edit&id=\${data}"
                                class="btn btn-primary btn-sm" title="Chỉnh sửa">
                                 <i class="bi bi-pencil"></i>
                             </a>

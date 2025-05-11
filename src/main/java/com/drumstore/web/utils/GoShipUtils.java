@@ -77,8 +77,10 @@ public class GoShipUtils {
 
     public static Optional<String> findDistrictIdByName(String cityId, String districtName) {
         List<Map<String, String>> districts = getDistrictsByCityId(cityId);
+        String normalizedDistrictName = districtName.toLowerCase()
+                .replaceAll("(quận|huyện|thị xã|thành phố)", "").trim();
         return districts.stream()
-                .filter(district -> district.get("name").toLowerCase().contains(districtName.toLowerCase()))
+                .filter(district -> district.get("name").toLowerCase().contains(normalizedDistrictName))
                 .map(district -> district.get("id"))
                 .findFirst();
     }

@@ -6,16 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CategoryDTO implements Serializable {
+public class LogDTO implements Serializable {
     private int id;
-    private String name;
-    private String description;
-    private String image;
-    private LocalDateTime createdAt;
+    private int userId;
+    private String action;
+    private String oldData;
+    private String newData;
+    private Timestamp timestamp;
 }
