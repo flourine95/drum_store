@@ -112,7 +112,7 @@ public class ProfileController extends HttpServlet {
                     writeJson(response, resp);
                 }
 
-                case "cancle_order" -> cancleOrder(request, response, jsonObject);
+                case "cancel_order" -> cancleOrder(request, response, jsonObject);
 
                 default -> response.sendRedirect(request.getContextPath() + "/profile");
             }
