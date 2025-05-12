@@ -24,6 +24,10 @@ public class ProductService {
         return productRepository.countFilteredProducts(search, category, brand, priceRange);
     }
 
+    public int findProductIdByVariantId(int variantId) {
+        return productRepository.findProductIdByVariantId(variantId);
+    }
+
     public List<ProductCardDTO> getProductCards(int page, int limit, String search, String category, String brand, String priceRange, String sortBy) {
         int offset = (page - 1) * limit;
         return productRepository.getFilteredProductCards(offset, limit, search, category, brand, priceRange, sortBy);
