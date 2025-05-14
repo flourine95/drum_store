@@ -7,7 +7,6 @@ import com.drumstore.web.services.UserService;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class RegisterValidator {
     private final UserService userService = new UserService();
 
