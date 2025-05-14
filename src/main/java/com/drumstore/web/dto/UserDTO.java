@@ -24,7 +24,6 @@ public class UserDTO implements Serializable {
     private Set<String> roles;
     private Set<String> permissions;
 
-
     public void addRole(String role) {
         if (roles == null) {
             roles = new HashSet<>();
