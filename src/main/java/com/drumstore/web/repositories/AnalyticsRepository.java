@@ -4,6 +4,8 @@ import com.drumstore.web.dto.MonthlyRevenueDTO;
 import com.drumstore.web.utils.DBConnection;
 import org.jdbi.v3.core.Jdbi;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,23 +48,26 @@ public class AnalyticsRepository {
 
     public Map<String, Object> getCustomerStats() {
         return jdbi.withHandle(handle -> {
-            /**
-             * Hard code real time, refactor when update database
-             */
-            String currentMonth = "2024-06-01";
-            String previousMonth = "2024-05-01";
+            LocalDate now = LocalDate.now();
+            LocalDate currentMonth = now.withDayOfMonth(1);
+
+            LocalDate previousMonth = currentMonth.minusMonths(1);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            String currentMonthStr = currentMonth.format(formatter);
+            String previousMonthStr = previousMonth.format(formatter);
 
             int currentMonthCustomers = handle.createQuery(
                             "SELECT COUNT(*) FROM users WHERE DATE_FORMAT(createdAt, '%Y-%m-01') =:currentMonth "
                     )
-                    .bind("currentMonth", currentMonth)
+                    .bind("currentMonth", currentMonthStr)
                     .mapTo(Integer.class)
                     .findOnly();
 
             int previousMonthCustomers = handle.createQuery(
                             "SELECT COUNT(*) FROM users WHERE DATE_FORMAT(createdAt, '%Y-%m-01') = :previousMonth "
                     )
-                    .bind("previousMonth", previousMonth)
+                    .bind("previousMonth", previousMonthStr)
                     .mapTo(Integer.class)
                     .findOnly();
 
@@ -83,16 +88,20 @@ public class AnalyticsRepository {
 
     public Map<String, Object> getRevenueStats() {
         return jdbi.withHandle(handle -> {
-            /**
-             * Hard code real time, refactor when update database
-             */
-            String currentMonth = "2024-06-01";
-            String previousMonth = "2024-05-01";
+            LocalDate now = LocalDate.now();
+            LocalDate currentMonth = now.withDayOfMonth(1);
+
+            LocalDate previousMonth = currentMonth.minusMonths(1);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            String currentMonthStr = currentMonth.format(formatter);
+            String previousMonthStr = previousMonth.format(formatter);
+
 
             double currentMonthRevenue = handle.createQuery(
                             "SELECT SUM(totalAmount) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :currentMonth AND status = 3"
                     )
-                    .bind("currentMonth", currentMonth)
+                    .bind("currentMonth", currentMonthStr)
                     .mapTo(Double.class)
                     .findOne()
                     .orElse(0.0);
@@ -100,7 +109,7 @@ public class AnalyticsRepository {
             double previousMonthRevenue = handle.createQuery(
                             "SELECT SUM(totalAmount) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :previousMonth AND status = 3"
                     )
-                    .bind("previousMonth", previousMonth)
+                    .bind("previousMonth", previousMonthStr)
                     .mapTo(Double.class)
                     .findOne()
                     .orElse(0.0);
@@ -122,23 +131,27 @@ public class AnalyticsRepository {
 
     public Map<String, Object> getOrderStats() {
         return jdbi.withHandle(handle -> {
-            /**
-             * Hard code real time, refactor when update database
-             */
-            String currentMonth = "2024-06-01";
-            String previousMonth = "2024-05-01";
+            LocalDate now = LocalDate.now();
+            LocalDate currentMonth = now.withDayOfMonth(1);
+
+            LocalDate previousMonth = currentMonth.minusMonths(1);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            String currentMonthStr = currentMonth.format(formatter);
+            String previousMonthStr = previousMonth.format(formatter);
+
 
             int currentMonthOrders = handle.createQuery(
                             "SELECT COUNT(*) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :currentMonth AND status = 3"
                     )
-                    .bind("currentMonth", currentMonth)
+                    .bind("currentMonth", currentMonthStr)
                     .mapTo(Integer.class)
                     .findOnly();
 
             int previousMonthOrders = handle.createQuery(
                             "SELECT COUNT(*) FROM orders WHERE DATE_FORMAT(orderDate, '%Y-%m-01') = :previousMonth AND status = 3"
                     )
-                    .bind("previousMonth", previousMonth)
+                    .bind("previousMonth", previousMonthStr)
                     .mapTo(Integer.class)
                     .findOnly();
 
