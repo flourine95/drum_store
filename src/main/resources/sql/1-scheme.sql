@@ -116,17 +116,21 @@ CREATE TABLE users
     email     VARCHAR(100) UNIQUE,
     password  VARCHAR(255),
     fullname  VARCHAR(100),
+    provider     VARCHAR(50),
+    provider_id  VARCHAR(100),
     phone     VARCHAR(25),
     status    TINYINT DEFAULT 1,
     avatar    VARCHAR(255),
     createdAt TIMESTAMP
 );
+
 CREATE TABLE roles
 (
     id          INT PRIMARY KEY AUTO_INCREMENT,
     name        VARCHAR(50) NOT NULL UNIQUE,
     description TEXT        NULL
 );
+
 CREATE TABLE user_roles
 (
     id     INT PRIMARY KEY AUTO_INCREMENT,
