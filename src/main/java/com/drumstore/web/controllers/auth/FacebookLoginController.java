@@ -53,27 +53,31 @@ public class FacebookLoginController extends HttpServlet {
 
             URL url = new URL(tokenUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            try {
+                conn.setRequestMethod("GET");
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder tokenResponseStr = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                tokenResponseStr.append(line);
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                    StringBuilder tokenResponseStr = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        tokenResponseStr.append(line);
+                    }
+
+                    JsonObject tokenResponse = GsonUtils.fromJson(tokenResponseStr.toString(), JsonObject.class);
+                    String accessToken = tokenResponse.get("access_token").getAsString();
+
+                    String userInfoUrl = ConfigUtils.get("api.facebook.userinfoEndpoint")
+                            + "?fields=id,name,email,picture&access_token=" + accessToken;
+                    conn = (HttpURLConnection) URI.create(userInfoUrl).toURL().openConnection();
+                    conn.setRequestMethod("GET");
+
+                    JsonObject userInfo = GsonUtils.fromJson(
+                            new InputStreamReader(conn.getInputStream())
+                    );
+                }
+            } finally {
+                conn.disconnect();
             }
-            reader.close();
-
-            JsonObject tokenResponse = GsonUtils.fromJson(tokenResponseStr.toString(), JsonObject.class);
-            String accessToken = tokenResponse.get("access_token").getAsString();
-
-            String userInfoUrl = ConfigUtils.get("api.facebook.userinfoEndpoint")
-                    + "?fields=id,name,email,picture&access_token=" + accessToken;
-            conn = (HttpURLConnection) URI.create(userInfoUrl).toURL().openConnection();
-            conn.setRequestMethod("GET");
-
-            JsonObject userInfo = GsonUtils.fromJson(
-                    new InputStreamReader(conn.getInputStream())
-            );
 
             String facebookId = userInfo.get("id").getAsString();
             String email = userInfo.has("email") ? userInfo.get("email").getAsString() : null;
