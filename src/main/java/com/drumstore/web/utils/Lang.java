@@ -8,7 +8,8 @@ import java.util.Random;
 
 @UtilityClass
 public class Lang {
-
+    private static final Random RANDOM = new Random();
+    
     public static <T> T coalesce(T value, T fallback) {
         return value != null ? value : fallback;
     }
