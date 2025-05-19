@@ -2,7 +2,7 @@ services:
   mysql:
     image: mysql:8.0.29
     environment:
-      MYSQL_ROOT_PASSWORD: datungratyeu1cogai
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: drum_store
     ports:
       - "3306:3306"
@@ -23,10 +23,6 @@ services:
       mysql:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/drum_store
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: datungratyeu1cogai
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
       JAVA_OPTS: "--enable-preview"
     volumes:
       - /etc/letsencrypt/live/drumstore.id.vn/keystore.p12:/usr/local/tomcat/keystore.p12:ro
@@ -39,7 +35,7 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: datungratyeu1cogai
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     depends_on:
       - mysql
 
