@@ -3,6 +3,7 @@ package com.drumstore.web.controllers.auth;
 import com.drumstore.web.services.MailService;
 import com.drumstore.web.services.UserService;
 import com.google.gson.Gson;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -41,7 +42,11 @@ public class VerifyTokenController extends HttpServlet {
         }
 
         if ("resend".equals(action)) {
-            resendToken(request, email, result);
+            try {
+                resendToken(request, email, result);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             verifyToken(request, result);
         }
@@ -78,7 +83,7 @@ public class VerifyTokenController extends HttpServlet {
         }
     }
 
-    private void resendToken(HttpServletRequest request, String email, Map<String, Object> result) {
+    private void resendToken(HttpServletRequest request, String email, Map<String, Object> result) throws MessagingException {
         String newToken = emailService.generateVerificationCode();
 
         LocalDateTime expiration = LocalDateTime.now().plusMinutes(5);
@@ -93,7 +98,6 @@ public class VerifyTokenController extends HttpServlet {
         result.put("success", true);
         result.put("message", "Mã xác thực mới đã được gửi.");
     }
-
 
 
     private void sendResponse(HttpServletResponse response, Map<String, Object> result) throws IOException {
