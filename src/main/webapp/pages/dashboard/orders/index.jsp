@@ -6,7 +6,6 @@
         <table id="orders" class="table table-striped table-hover table-bordered" style="width:100%">
             <thead>
             <tr>
-                <%--                <th>#</th>--%>
                 <th>Mã đơn hàng</th>
                 <th>Ngày đặt hàng</th>
                 <th>Tổng tiền</th>
