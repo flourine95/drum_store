@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 public class LogDTO implements Serializable {
     private int id;
     private int userId;
+    private String userName;
     private String action;
     private String oldData;
     private String newData;
