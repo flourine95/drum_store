@@ -6,7 +6,6 @@
         <table id="orders" class="table table-striped table-hover table-bordered" style="width:100%">
             <thead>
             <tr>
-                <%--                <th>#</th>--%>
                 <th>Mã đơn hàng</th>
                 <th>Ngày đặt hàng</th>
                 <th>Tổng tiền</th>
@@ -225,11 +224,22 @@
                     title: 'Không thể thay đổi',
                     text: 'Đơn hàng này đã được hủy, không được thay đổi trạng thái đơn hàng.',
                 }).then(() => {
-                    // Reset về giá trị cũ
                     $select.val(originalStatus);
                 });
                 return;
             }
+
+            if (newStatus < originalStatus) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Không thể quay lại trạng thái trước',
+                    text: 'Bạn không được phép quay lại trạng thái trước đó của đơn hàng.',
+                }).then(() => {
+                    $select.val(originalStatus);
+                });
+                return;
+            }
+
 
             $.ajax({
                 url: '${pageContext.request.contextPath}/dashboard/orders',

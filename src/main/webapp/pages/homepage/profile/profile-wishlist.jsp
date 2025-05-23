@@ -153,11 +153,9 @@
                                     -<fmt:formatNumber value="${product.discountPercent}" type="number" maxFractionDigits="0"/>%
                                 </div>
                             </c:if>
-                            <c:if test="${product.isFeatured}">
                                 <div class="featured-badge">
                                     <i class="bi bi-star-fill"></i> Nổi bật
                                 </div>
-                            </c:if>
                         </div>
                     </div>
                     <div class="product-info">
@@ -233,11 +231,6 @@
 
     function goToProduct(productId, event) {
         const url = '${pageContext.request.contextPath}/product/' + productId;
-
-        if (event.ctrlKey || event.metaKey) { // metaKey cho macOS
-            window.open(url, '_blank');
-        } else {
             window.location.href = url;
-        }
     }
 </script>

@@ -78,7 +78,7 @@ public class GoShipUtils {
     public static Optional<String> findDistrictIdByName(String cityId, String districtName) {
         List<Map<String, String>> districts = getDistrictsByCityId(cityId);
         return districts.stream()
-                .filter(district -> district.get("name").toLowerCase().contains(districtName))
+                .filter(district -> district.get("name").toLowerCase().contains(districtName.toLowerCase()))
                 .map(district -> district.get("id"))
                 .findFirst();
     }

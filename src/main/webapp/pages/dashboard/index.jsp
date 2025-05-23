@@ -229,11 +229,15 @@
 <script>
     // Biểu đồ doanh thu
     const ctx = document.getElementById('revenueChart').getContext('2d');
+    const currentYear = new Date().getFullYear();
     // Hàm gọi API và cập nhật biểu đồ
     function fetchRevenueData() {
         $.ajax({
             url: '/api/analytics/monthly-revenue',
             type: 'GET',
+            data: {
+                year:currentYear
+            },
             success: function (data) {
                 // Xử lý dữ liệu từ API
                 const revenueData = data.map(item => item.revenue);
@@ -278,7 +282,7 @@
                             },
                             title: {
                                 display: true,
-                                text: 'Biểu Đồ Doanh Thu và Lợi Nhuận Năm 2024'
+                                text: 'Biểu Đồ Doanh Thu và Lợi Nhuận Năm '+ currentYear
                             },
                             tooltip: {
                                 mode: 'index',
