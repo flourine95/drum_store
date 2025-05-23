@@ -13,7 +13,6 @@ public class MailService {
     private static final String PASSWORD = ConfigUtils.get("email.password");
     private static final String BASE_URL = ConfigUtils.get("app.baseUrl");
 
-
     private Session createSession() {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
