@@ -9,7 +9,7 @@ import java.util.List;
 public class LogService {
     private final LogRepository logRepository = new LogRepository();
 
-    public List<Log> all() {
+    public List<LogDTO> all() {
         return logRepository.all();
     }
     public void create(LogDTO log) {
