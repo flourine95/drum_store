@@ -8,7 +8,7 @@
     <div class="col-12">
       <div class="d-sm-flex align-items-center justify-content-between">
         <h1 class="h3 mb-0 text-gray-800">Quản lý lịch sử hoạt động</h1>
-<%--        <a href="${pageContext.request.contextPath}/dashboard/categories?action=create"--%>
+<%--        <a href="${pageContext.request.contextPath}/dashboard/logs?action=create"--%>
 <%--           class="btn btn-primary">--%>
 <%--          <i class="bi bi-plus-circle me-1"></i> Thêm danh mục--%>
 <%--        </a>--%>
@@ -58,7 +58,7 @@
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <table id="categories" class="table table-striped table-hover table-bordered" style="width:100%">
+            <table id="logs" class="table table-striped table-hover table-bordered" style="width:100%">
               <thead>
               <tr>
                 <th>ID</th>
@@ -73,7 +73,7 @@
                 <tr>
                   <td>${logs.id}</td>
                   <td>
-                    <span class="fw-bold"> ${logs.userId}</span>
+                    <span class="fw-bold"> ${logs.userName}</span>
                   </td>
                   <td>
                     <span class="fw-bold">${logs.action}</span>
@@ -83,7 +83,7 @@
                   </td>
                   <td>
                     <div class="btn-group" role="group">
-                      <a href="${pageContext.request.contextPath}/dashboard/categories?action=edit&id=${logs.id}"
+                      <a href="${pageContext.request.contextPath}/dashboard/history?action=edit&id=${logs.id}"
                          class="btn btn-sm btn-primary me-1" title="Sửa">
                         <i class="bi bi-pencil-fill"></i>
                       </a>
@@ -113,8 +113,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <input type="hidden" id="categoryId" />
-        <p>Bạn có chắc chắn muốn xóa danh mục <span id="categoryName" class="fw-bold"></span>?</p>
+        <input type="hidden" id="logId" />
+        <p>Bạn có chắc chắn muốn xóa log có mã <span id="logName" class="fw-bold"></span>?</p>
         <p class="text-danger">Lưu ý: Hành động này không thể hoàn tác.</p>
       </div>
       <div class="modal-footer">
@@ -126,7 +126,7 @@
 </div>
 
 <style>
-  .category-image {
+  .log-image {
     width: 100px;
     height: 100px;
     object-fit: contain;
@@ -144,7 +144,7 @@
 <script>
   $(document).ready(function() {
     // Initialize DataTable
-    var table = $('#categories').DataTable({
+    var table = $('#logs').DataTable({
       pageLength: 10,
       language: {
         url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json'
@@ -204,74 +204,58 @@
     });
 
     // Delete confirmation
-    // $('.delete-btn').click(function() {
-    //   var id = $(this).data('id');
-    //   var name = $(this).data('name');
-    //   console.log('id: ' + id )
-    //   $('#categoryId').val(id);
-    //   $('#categoryName').text(name);
-    //   $('#deleteModal').modal('show');
-    // });
+    $('.delete-btn').click(function() {
+      var id = $(this).data('id');
+      $('#logId').val(id);
+      $('#logName').text(id); // hiện tên hoặc id ra để người dùng biết
+      $('#deleteModal').modal('show');
+    });
 
-    // Handle delete confirmation with AJAX
-    <%--$('#confirmDeleteBtn').click(function() {--%>
-    <%--  var categoryId = $('#categoryId').val();--%>
-    <%--  console.log(categoryId)--%>
-    <%--  // Show loading state--%>
-    <%--  $(this).prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...');--%>
+    $('#confirmDeleteBtn').click(function() {
+      var logId = $('#logId').val();
 
-    <%--  $.ajax({--%>
-    <%--    url: '${pageContext.request.contextPath}/dashboard/history',--%>
-    <%--    method: 'POST',--%>
-    <%--    data: {--%>
-    <%--      action: 'delete',--%>
-    <%--      id: id--%>
-    <%--    },--%>
-    <%--    success: function(response) {--%>
-    <%--      $('#deleteModal').modal('hide');--%>
+      $(this).prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...');
 
-    <%--      if (response.success) {--%>
-    <%--        Swal.fire({--%>
-    <%--          icon: 'success',--%>
-    <%--          title: 'Thành công!',--%>
-    <%--          text: response.message,--%>
-    <%--          confirmButtonText: 'OK'--%>
-    <%--        }).then(() => {--%>
-    <%--          // Reload the page to refresh the category list--%>
-    <%--          location.reload();--%>
-    <%--        });--%>
-    <%--      } else {--%>
-    <%--        Swal.fire({--%>
-    <%--          icon: 'error',--%>
-    <%--          title: 'Lỗi',--%>
-    <%--          text: response.message || 'Không thể xóa danh mục'--%>
-    <%--        });--%>
-    <%--      }--%>
-    <%--    },--%>
-    <%--    error: function(xhr) {--%>
-    <%--      $('#deleteModal').modal('hide');--%>
+      $.ajax({
+        url: '${pageContext.request.contextPath}/dashboard/history',
+        method: 'POST',
+        data: {
+          action: 'delete',
+          id: logId
+        },
+        success: function(response) {
+          $('#deleteModal').modal('hide');
+          if (response.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Thành công!',
+              text: response.message,
+              confirmButtonText: 'OK'
+            }).then(() => {
+              location.reload();
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Lỗi',
+              text: response.message || 'Không thể xóa log'
+            });
+          }
+        },
+        error: function(xhr) {
+          $('#deleteModal').modal('hide');
+          let errorMessage = 'Không thể xóa log';
+          try {
+            const response = JSON.parse(xhr.responseText);
+            if (response.message) errorMessage = response.message;
+          } catch (e) {}
+          Swal.fire({ icon: 'error', title: 'Lỗi', text: errorMessage });
+        },
+        complete: function() {
+          $('#confirmDeleteBtn').prop('disabled', false).html('Xóa');
+        }
+      });
+    });
 
-    <%--      let errorMessage = 'Không thể xóa danh mục';--%>
-    <%--      try {--%>
-    <%--        const response = JSON.parse(xhr.responseText);--%>
-    <%--        if (response.message) {--%>
-    <%--          errorMessage = response.message;--%>
-    <%--        }--%>
-    <%--      } catch (e) {--%>
-    <%--        console.error('Error parsing error response:', e);--%>
-    <%--      }--%>
-
-    <%--      Swal.fire({--%>
-    <%--        icon: 'error',--%>
-    <%--        title: 'Lỗi',--%>
-    <%--        text: errorMessage--%>
-    <%--      });--%>
-    <%--    },--%>
-    <%--    complete: function() {--%>
-    <%--      // Reset button state--%>
-    <%--      $('#confirmDeleteBtn').prop('disabled', false).html('Xóa');--%>
-    <%--    }--%>
-    <%--  });--%>
-    <%--});--%>
   });
 </script>

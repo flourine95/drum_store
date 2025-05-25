@@ -11,11 +11,19 @@ import java.util.List;
 public class LogRepository {
     private final Jdbi jdbi = DBConnection.getJdbi();
 
-    public List<Log> all() {
+    public List<LogDTO> all() {
         System.out.println();
         return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM logs order by id desc")
-                        .mapToBean(Log.class)
+                handle.createQuery("SELECT l.id, " +
+                                "l.userId," +
+                                "concat(l.userId, '_', u.fullname) as userName, " +
+                                "l.level, " +
+                                "l.action, " +
+                                "l.oldData, " +
+                                "l.newData, " +
+                                "l.timestamp FROM logs l left join users u on l.userId = u.id  " +
+                                "order by l.id desc")
+                        .mapToBean(LogDTO.class)
                         .list()
         );
     }
@@ -30,7 +38,15 @@ public class LogRepository {
 
     public LogDTO findById(Integer id) {
         return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM logs WHERE id = :id")
+                handle.createQuery("SELECT l.id, " +
+                                "l.userId," +
+                                "concat(l.userId, '_', u.fullname) as userName, " +
+                                "l.level, " +
+                                "l.action, " +
+                                "l.oldData, " +
+                                "l.newData, " +
+                                "l.timestamp FROM logs l left join users u on l.userId = u.id  " +
+                                " WHERE l.id = :id")
                         .bind("id", id)
                         .mapToBean(LogDTO.class)
                         .findFirst()
