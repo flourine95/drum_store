@@ -166,97 +166,97 @@
             <c:if test="${not empty errors.general}">
                 <div class="alert alert-danger">
                     <i class="fas fa-exclamation-circle"></i>
-                    ${errors.general}
+                        ${errors.general}
                 </div>
             </c:if>
 
             <form action="${pageContext.request.contextPath}/register" method="POST" class="register-form">
                 <div class="form-group">
                     <label class="form-label required-field" for="fullName">Họ và tên</label>
-                    <input type="text" 
-                           class="form-control ${not empty errors.fullname ? 'is-invalid' : ''}" 
-                           id="fullName" 
+                    <input type="text"
+                           class="form-control ${not empty errors.fullname ? 'is-invalid' : ''}"
+                           id="fullName"
                            name="fullname"
-                           placeholder="Nhập họ và tên đầy đủ" 
+                           placeholder="Nhập họ và tên đầy đủ"
                            value="${oldInput.fullname}"
                            required>
                     <c:if test="${not empty errors.fullname}">
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            ${errors.fullname}
+                                ${errors.fullname}
                         </div>
                     </c:if>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label required-field" for="email">Email</label>
-                    <input type="email" 
-                           class="form-control ${not empty errors.email ? 'is-invalid' : ''}" 
-                           id="email" 
+                    <input type="email"
+                           class="form-control ${not empty errors.email ? 'is-invalid' : ''}"
+                           id="email"
                            name="email"
-                           placeholder="vidu@email.com" 
+                           placeholder="vidu@email.com"
                            value="${oldInput.email}"
                            required>
                     <c:if test="${not empty errors.email}">
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            ${errors.email}
+                                ${errors.email}
                         </div>
                     </c:if>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label required-field" for="phone">Số điện thoại</label>
-                    <input type="tel" 
-                           class="form-control ${not empty errors.phone ? 'is-invalid' : ''}" 
-                           id="phone" 
+                    <input type="tel"
+                           class="form-control ${not empty errors.phone ? 'is-invalid' : ''}"
+                           id="phone"
                            name="phone"
-                           placeholder="0xxxxxxxxx" 
+                           placeholder="0xxxxxxxxx"
                            value="${oldInput.phone}"
                            required>
                     <c:if test="${not empty errors.phone}">
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            ${errors.phone}
+                                ${errors.phone}
                         </div>
                     </c:if>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label required-field" for="password">Mật khẩu</label>
-                    <input type="password" 
-                           class="form-control ${not empty errors.password ? 'is-invalid' : ''}" 
-                           id="password" 
+                    <input type="password"
+                           class="form-control ${not empty errors.password ? 'is-invalid' : ''}"
+                           id="password"
                            name="password"
-                           placeholder="Tối thiểu 8 ký tự" 
+                           placeholder="Tối thiểu 8 ký tự"
                            required>
                     <c:if test="${not empty errors.password}">
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            ${errors.password}
+                                ${errors.password}
                         </div>
                     </c:if>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label required-field" for="confirmPassword">Xác nhận mật khẩu</label>
-                    <input type="password" 
-                           class="form-control ${not empty errors.confirmPassword ? 'is-invalid' : ''}" 
-                           id="confirmPassword" 
+                    <input type="password"
+                           class="form-control ${not empty errors.confirmPassword ? 'is-invalid' : ''}"
+                           id="confirmPassword"
                            name="confirmPassword"
                            placeholder="Nhập lại mật khẩu"
                            required>
                     <c:if test="${not empty errors.confirmPassword}">
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            ${errors.confirmPassword}
+                                ${errors.confirmPassword}
                         </div>
                     </c:if>
                 </div>
 
                 <div class="terms-text">
-                    <input type="checkbox" 
-                           id="terms" 
+                    <input type="checkbox"
+                           id="terms"
                            name="terms"
                            class="${not empty errors.terms ? 'is-invalid' : ''}"
                            required>
@@ -266,7 +266,7 @@
                     <c:if test="${not empty errors.terms}">
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            ${errors.terms}
+                                ${errors.terms}
                         </div>
                     </c:if>
                 </div>

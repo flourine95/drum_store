@@ -11,6 +11,24 @@
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
+
+    .custom-box {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        text-decoration: none;
+        background: linear-gradient(145deg, var(--bs-primary), #f1dc4f);
+        border-radius: 8px;
+        border: none;
+        padding: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .custom-box:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
 </style>
 <div id="carouselExampleIndicators" class="carousel slide">
     <div class="carousel-indicators" id="carouselIndicators"></div>
@@ -109,12 +127,14 @@
                                 <c:choose>
                                     <c:when test="${product.discountPercent > 0}">
                                         <span class="text-danger fw-bold">
-                                            <fmt:formatNumber value="${product.salePrice}" type="number" pattern="#,##0 ₫"/>
+                                            <fmt:formatNumber value="${product.salePrice}" type="number"
+                                                              pattern="#,##0 ₫"/>
                                         </span>
                                     </c:when>
                                     <c:otherwise>
                                         <span class="text-danger fw-bold">
-                                            <fmt:formatNumber value="${product.originalPrice}" type="number" pattern="#,##0 ₫"/>
+                                            <fmt:formatNumber value="${product.originalPrice}" type="number"
+                                                              pattern="#,##0 ₫"/>
                                         </span>
                                     </c:otherwise>
                                 </c:choose>
