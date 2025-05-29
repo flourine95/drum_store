@@ -1,41 +1,18 @@
 package com.drumstore.web.models;
 
 import com.drumstore.web.dto.CartItemDTO;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CartItem {
-    private int cartId;
+    private int cartItemId;
     private CartItemDTO cartItem;
     private int quantity;
 
-    public CartItem(int cartId, int quantity, CartItemDTO cartItem) {
-        this.cartId = cartId;
-        this.quantity = quantity;
-        this.cartItem = cartItem;
-    }
-
-    public int getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(int cartId) {
-        this.cartId = cartId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public CartItemDTO getCartItem() {
-        return cartItem;
-    }
-
-    public void setCartItem(CartItemDTO cartItem) {
-        this.cartItem = cartItem;
-    }
 
     public double getTotal() {
         return cartItem.getLowestSalePrice()*quantity;
@@ -49,7 +26,7 @@ public class CartItem {
     @Override
     public String toString() {
         return "CartItem{" +
-                "cartId=" + cartId +
+                "cartId=" + cartItemId +
                 ", cartItem=" + cartItem +
                 ", quantity=" + quantity +
                 '}';

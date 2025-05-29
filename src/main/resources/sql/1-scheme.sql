@@ -453,3 +453,21 @@ CREATE TABLE stock_audits
     FOREIGN KEY (variantId) REFERENCES product_variants (id),
     FOREIGN KEY (auditorId) REFERENCES users (id)
 );
+
+CREATE TABLE carts
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    userId    INT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES users(id)
+);
+
+CREATE TABLE cartItems
+(
+    id  INT AUTO_INCREMENT PRIMARY KEY,
+    cartId INT NOT NULL,
+    productVariantId INT NOT NULL,
+    quantity INT,
+    FOREIGN KEY (cartId) REFERENCES carts(id) ON DELETE CASCADE,
+    FOREIGN KEY (productVariantId) REFERENCES product_variants(id) ON DELETE CASCADE
+)

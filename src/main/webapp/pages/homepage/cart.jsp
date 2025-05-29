@@ -205,7 +205,7 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <c:forEach items="${cart.items}" var="item">
-                                    <div class="cart-item" data-cart-id="${item.cartId}">
+                                    <div class="cart-item" data-cart-id="${item.cartItemId}">
                                         <div class="row align-items-center">
                                             <div class="col-2">
                                                 <img src="${pageContext.request.contextPath}/assets/images/products/${item.cartItem.mainImage}"
@@ -255,7 +255,7 @@
                                                                                         type="button"
                                                                                         data-type="${variantEntry.key}"
                                                                                         data-id="${variant.id}"
-                                                                                        onclick="selectVariant(event, '${variantEntry.key}', ${variant.id}, '${variant.name}', '${item.cartId}')">
+                                                                                        onclick="selectVariant(event, '${variantEntry.key}', ${variant.id}, '${variant.name}', '${item.cartItemId}')">
                                                                                         ${variant.name}
                                                                                 </button>
                                                                             </c:forEach>
@@ -265,11 +265,11 @@
                                                                 <div class="d-flex flex-row gap-2 justify-content-end p-2 ">
                                                                     <button class="btn btn-outline-secondary reset"
                                                                             id="resetButton"
-                                                                            onclick="resetVariants(event, '${item.cartId}')">
+                                                                            onclick="resetVariants(event, '${item.cartItemId}')">
                                                                         Trở lại
                                                                     </button>
                                                                     <button class="btn confirm" id="confirmButton"
-                                                                            data-cart-id="${item.cartId}"
+                                                                            data-cart-id="${item.cartItemId}"
                                                                             data-product-id="${item.cartItem.productId}"
                                                                             data-color="${not empty item.cartItem.productVariant.color ? item.cartItem.productVariant.color.id : 0}"
                                                                             data-addon="${not empty item.cartItem.productVariant.addon ? item.cartItem.productVariant.addon.id : 0}"
@@ -312,17 +312,17 @@
                                                 <div class="input-group" style="width: 130px;">
                                                     <button class="btn btn-outline-secondary decrease" type="button"
                                                             aria-label="Giảm số lượng"
-                                                            data-cart-id="${item.cartId}">
+                                                            data-cart-id="${item.cartItemId}">
                                                         <i class="bi bi-dash"></i>
                                                     </button>
                                                     <input type="text" class="form-control text-center"
-                                                           id="quantity-${item.cartId}"
+                                                           id="quantity-${item.cartItemId}"
                                                            value="${item.quantity}"
-                                                           data-cart-quantity-id="${item.cartId}"
+                                                           data-cart-quantity-id="${item.cartItemId}"
                                                            max="${item.cartItem.productVariant.stock}"
                                                            readonly>
                                                     <button class="btn btn-outline-secondary increase" type="button"
-                                                            data-cart-id="${item.cartId}"
+                                                            data-cart-id="${item.cartItemId}"
                                                             aria-label="Tăng số lượng">
                                                         <i class="bi bi-plus"></i>
                                                     </button>
@@ -336,7 +336,7 @@
                                             </div>
                                             <div class="col-1">
                                                 <button class="btn btn-danger btn-sm"
-                                                        onclick="removeItem(${item.cartId})">
+                                                        onclick="removeItem(${item.cartItemId})">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>
@@ -467,19 +467,19 @@
     $('.decrease').click(function (event) {
         event.stopPropagation();
 
-        const cartId = $(this).data('cart-id');
-        const quantityInput = $("#quantity-" + cartId);
+        const cartItemId = $(this).data('cart-id');
+        const quantityInput = $("#quantity-" + cartItemId);
         let currentQty = parseInt(quantityInput.val());
         quantityInput.val(currentQty - 1);
-        updateQuantity(cartId, currentQty - 1);
+        updateQuantity(cartItemId, currentQty - 1);
     });
 
     // Xử lý nút tăng số lượng
     $('.increase').click(function (event) {
         event.stopPropagation();
 
-        const cartId = $(this).data('cart-id');
-        const quantityInput = $("#quantity-" + cartId);
+        const cartItemId = $(this).data('cart-id');
+        const quantityInput = $("#quantity-" + cartItemId);
         let currentQty = parseInt(quantityInput.val());
         const maxQty = parseInt(quantityInput.attr('max'));
 
@@ -501,7 +501,7 @@
 
         const newQty = currentQty + 1;
         quantityInput.val(newQty);
-        updateQuantity(cartId, newQty);
+        updateQuantity(cartItemId, newQty);
     });
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -509,21 +509,21 @@
         confirmButtons.forEach(button => {
             button.addEventListener('click', function (event) {
                 event.stopPropagation();
-                const cartId = this.dataset.cartId;
+                const cartItemId = this.dataset.cartId;
                 const productId = this.dataset.productId;
-                changeVariants(cartId, productId);
+                changeVariants(cartItemId, productId);
             });
         });
     })
 
-    function resetVariants(event, cartId) {
+    function resetVariants(event, cartItemId) {
         event.stopPropagation();
         const variantButtons = document.querySelectorAll('.variant-button');
         variantButtons.forEach(button => {
             button.classList.remove('active');
         });
         // Xóa các data-attribute trong nút "Xác nhận"
-        const confirmButton = document.querySelector('#confirmButton[data-cart-id="' + cartId + '"]');
+        const confirmButton = document.querySelector('#confirmButton[data-cart-id="' + cartItemId + '"]');
         if (confirmButton) {
             delete confirmButton.dataset.color;
             delete confirmButton.dataset.addon;
@@ -532,7 +532,7 @@
         }
     }
 
-    function selectVariant(event, type, id, name, cartId) {
+    function selectVariant(event, type, id, name, cartItemId) {
         event.stopPropagation();
         const buttons = document.querySelectorAll('.variant-button[data-type="' + type + '"]');
         buttons.forEach(button => {
@@ -542,7 +542,7 @@
             }
         });
 
-        const confirmButton = document.querySelector('#confirmButton[data-cart-id="' + cartId + '"]');
+        const confirmButton = document.querySelector('#confirmButton[data-cart-id="' + cartItemId + '"]');
         if (confirmButton) {
             confirmButton.dataset[type] = id;
             confirmButton.dataset[type + 'Name'] = name;
@@ -550,19 +550,19 @@
     }
 
 
-    function updateQuantity(cartId, newQuantity) {
-        if (newQuantity === 0) return removeItem(cartId);
+    function updateQuantity(cartItemId, newQuantity) {
+        if (newQuantity === 0) return removeItem(cartItemId);
 
         $.ajax({
             url: "/cart",
             method: "POST",
             data: {
                 action: "update",
-                cartId: cartId,
+                cartId: cartItemId,
                 quantity: newQuantity
             },
             success: function (response) {
-                const element = document.querySelector('.cart-item[data-cart-id="' + cartId + '"]');
+                const element = document.querySelector('.cart-item[data-cart-id="' + cartItemId + '"]');
                 const inputGroup = element.querySelector('.input-group');
                 const decreaseButton = inputGroup.querySelector('.decrease');
                 const increaseButton = inputGroup.querySelector('.increase');
@@ -570,7 +570,7 @@
                 const total = response.total;
 
                 // Cập nhật số lượng
-                const quantityInput = document.querySelector('input[data-cart-quantity-id="' + cartId + '"]');
+                const quantityInput = document.querySelector('input[data-cart-quantity-id="' + cartItemId + '"]');
                 quantityInput.value = newQuantity;
 
                 // // Cập nhật onclick cho các nút
@@ -614,7 +614,7 @@
         }).format(value);
     }
 
-    function removeItem(cartId) {
+    function removeItem(cartItemId) {
         Swal.fire({
             title: 'Bạn có chắc muốn xóa sản phẩm này?',
             text: "Hành động này sẽ không thể hoàn tác!",
@@ -631,7 +631,7 @@
                     method: 'POST',
                     data: {
                         action: "remove",
-                        cartId: cartId
+                        cartId: cartItemId
                     },
                     success: function (response) {
                         const Toast = Swal.mixin({
@@ -651,7 +651,7 @@
                                 icon: "success"
                             });
                             // xóa đối tượng
-                            const element = document.querySelector('.cart-item[data-cart-id="' + cartId + '"]');
+                            const element = document.querySelector('.cart-item[data-cart-id="' + cartItemId + '"]');
                             element.classList.add('animate__animated', 'animate__fadeOutLeft');
                             setTimeout(() => {
                                 element.remove();
@@ -697,9 +697,9 @@
         });
     }
 
-    function changeVariants(cartId, productId) {
-        const element = document.querySelector('.cart-item[data-cart-id="' + cartId + '"]');
-        const confirmButton = document.querySelector('#confirmButton[data-cart-id="' + cartId + '"]');
+    function changeVariants(cartItemId, productId) {
+        const element = document.querySelector('.cart-item[data-cart-id="' + cartItemId + '"]');
+        const confirmButton = document.querySelector('#confirmButton[data-cart-id="' + cartItemId + '"]');
         const colorId = confirmButton.dataset?.color || 0;
         const addonId = confirmButton.dataset?.addon || 0;
 
@@ -745,7 +745,7 @@
             method: 'POST',
             data: {
                 action: 'change-variant',
-                cartId: cartId,
+                cartId: cartItemId,
                 productId: productId,
                 colorId: colorId,
                 addonId: addonId
@@ -809,7 +809,7 @@
                                 const basePriceElement = priceElement.querySelector('.cart-item-base-price');
                                 const discountElement = priceElement.querySelector('.cart-item-discount');
                                 if (salePriceElement) salePriceElement.style.display = 'none';
-                                if (basePriceElement) basePriceElement.style.display = 'none';
+                                // if (basePriceElement) basePriceElement.style.display = 'none';
                                 if (discountElement) discountElement.style.display = 'none';
                             }
                         }
@@ -853,7 +853,7 @@
                         }
 
                         // cập nhật lại giá trị của max của stock
-                        const quantityInput = document.querySelector("#quantity-" + item.cartId);
+                        const quantityInput = document.querySelector("#quantity-" + item.cartItemId);
                         if (quantityInput) {
                             quantityInput.setAttribute("max", item.cartItem.productVariant.stock);
                             quantityInput.value = 1;

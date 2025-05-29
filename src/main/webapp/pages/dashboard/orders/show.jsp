@@ -265,7 +265,7 @@
                 </tr>
 
                 <!-- Modal chỉnh sửa số lượng -->
-                <div class="modal fade" id="editQuantityModal-${item.id}" tabindex="-1" aria-labelledby="editQuantityModalLabel-${item.variantId}" aria-hidden="true">
+                <div class="modal fade" id="editQuantityModal-${item.variantId}" tabindex="-1" aria-labelledby="editQuantityModalLabel-${item.variantId}" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">

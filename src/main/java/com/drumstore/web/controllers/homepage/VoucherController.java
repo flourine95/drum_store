@@ -2,7 +2,8 @@ package com.drumstore.web.controllers.homepage;
 
 import com.drumstore.web.dto.UserDTO;
 import com.drumstore.web.dto.VoucherDTO;
-import com.drumstore.web.models.Cart;
+import com.drumstore.web.models.CartContext;
+import com.drumstore.web.services.CartService;
 import com.drumstore.web.services.VoucherService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,11 +20,13 @@ import java.util.Map;
 public class VoucherController extends HttpServlet {
     private VoucherService voucherService;
     private Gson gson;
+    private CartService cartService;
 
     @Override
     public void init() throws ServletException {
         voucherService = new VoucherService();
         gson = new Gson();
+        cartService = new CartService();
     }
 
     @Override
@@ -37,13 +40,13 @@ public class VoucherController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
 
         try {
-            Cart cart = (Cart) req.getSession().getAttribute("cart");
+            UserDTO user = (UserDTO) req.getSession().getAttribute("user");
+            CartContext cart = (CartContext) req.getSession().getAttribute("cart");
+
             if (cart == null) {
-                cart = new Cart();
+                cart =  cartService.getCartContext(user.getId());
                 req.getSession().setAttribute("cart", cart);
             }
-
-            UserDTO user = (UserDTO) req.getSession().getAttribute("user");
 
             String action = req.getParameter("action");
 
@@ -101,7 +104,6 @@ public class VoucherController extends HttpServlet {
             Map<String, Object> error = new HashMap<>();
             error.put("success", false);
             error.put("message", "Lỗi hệ thống: " + e.getMessage());
-            System.out.println("Lỗi: " + e.getMessage());
             resp.getWriter().write(gson.toJson(error));
         }
     }
