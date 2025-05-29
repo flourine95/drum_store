@@ -64,7 +64,7 @@ public class OrderService {
     }
 
     //  Xử lý đơn hàng
-    public void processOrder(Handle handle, int orderId, Cart cart) {
+    public void processOrder(Handle handle, int orderId, CartContext cart) {
         for (CartItem cartItem : cart.getItems()) {
             int variantId = cartItem.getCartItem().getProductVariant().getId();
             int quantity = cartItem.getQuantity();
@@ -87,7 +87,7 @@ public class OrderService {
     }
 
     //  Đặt hàng với COD (Kiểm tra stock & rollback nếu thiếu hàng)
-    public Map<String, Object> orderWithCod(int userId, double totalAmount, int userAddressId, Cart cart) {
+    public Map<String, Object> orderWithCod(int userId, double totalAmount, int userAddressId, CartContext cart) {
         return jdbi.inTransaction(handle -> {
             Map<String, Object> response = new HashMap<>();
             try {
@@ -111,7 +111,7 @@ public class OrderService {
     }
 
     //  Đặt hàng với VNPay (Kiểm tra stock & rollback nếu thiếu hàng)
-    public Map<String, Object> orderWithVNPay(int userId, double totalAmount, int userAddressId, Cart cart) {
+    public Map<String, Object> orderWithVNPay(int userId, double totalAmount, int userAddressId, CartContext cart) {
         return jdbi.inTransaction(handle -> {
             Map<String, Object> response = new HashMap<>();
             try {

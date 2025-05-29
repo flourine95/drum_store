@@ -2,7 +2,8 @@ package com.drumstore.web.controllers.homepage;
 
 import com.drumstore.web.dto.UserAddressDTO;
 import com.drumstore.web.dto.UserDTO;
-import com.drumstore.web.models.Cart;
+import com.drumstore.web.models.CartContext;
+import com.drumstore.web.services.CartService;
 import com.drumstore.web.services.OrderService;
 import com.drumstore.web.services.UserAddressService;
 import com.drumstore.web.services.VnPayService;
@@ -23,17 +24,19 @@ public class OrderController extends HttpServlet {
     private final Gson gson;
     private final UserAddressService userAddressService;
     private final VnPayService vnPayService;
+    private final CartService cartService;
 
     public OrderController() {
         this.orderService = new OrderService();
         this.gson = new Gson();
         this.userAddressService = new UserAddressService();
         this.vnPayService = new VnPayService();
+        this.cartService = new CartService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Cart cart = (Cart) req.getSession().getAttribute("cart");
+        CartContext cart = (CartContext) req.getSession().getAttribute("cart");
         UserDTO user = (UserDTO) req.getSession().getAttribute("user");
 
         Map<String, List<UserAddressDTO>> addressMap = userAddressService.getMainAddressAndSubAddress(user.getId());
@@ -49,7 +52,7 @@ public class OrderController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, Object> result = new HashMap<>();
 
-        Cart cart = (Cart) req.getSession().getAttribute("cart");
+        CartContext cart = (CartContext) req.getSession().getAttribute("cart");
         UserDTO user = (UserDTO) req.getSession().getAttribute("user");
 
 
@@ -94,20 +97,22 @@ public class OrderController extends HttpServlet {
         }
     }
 
-    private void handleCodPayment(UserDTO user, double amount, int userAddressId, Cart cart, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void handleCodPayment(UserDTO user, double amount, int userAddressId, CartContext cart, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<String, Object> result = orderService.orderWithCod(user.getId(), amount, userAddressId, cart);
         if ("true".equalsIgnoreCase(String.valueOf(result.get("success")).trim())) {
-            req.getSession().setAttribute("cart", new Cart());
+            cartService.removeAllItems(cart.getCartId());
+            req.getSession().setAttribute("cart",cartService.getCartContext(user.getId()));
         }
         sendResponse(resp, result);
     }
 
-    private void handleVNPayPayment(UserDTO user, double amount, int userAddressId, Cart cart, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void handleVNPayPayment(UserDTO user, double amount, int userAddressId, CartContext cart, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<String, Object> orderResult = orderService.orderWithVNPay(user.getId(), amount, userAddressId, cart);
         Map<String, Object> result = new HashMap<>();
 
         if ("true".equalsIgnoreCase(String.valueOf(orderResult.get("success")).trim())) {
-            req.getSession().setAttribute("cart", new Cart());
+            cartService.removeAllItems(cart.getCartId());
+            req.getSession().setAttribute("cart",cartService.getCartContext(user.getId()));
             long vnpayAmount = (long) (amount * 100L);
             String paymentUrl = vnPayService.createPaymentUrl(vnpayAmount, req);
             if (paymentUrl != null && !paymentUrl.isEmpty()) {
