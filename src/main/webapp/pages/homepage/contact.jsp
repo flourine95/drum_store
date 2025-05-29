@@ -1,38 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<style>
+    .contact-info i {
+        font-size: 2rem;
+        color: var(--bs-primary);
+        margin-bottom: 1rem;
+    }
 
-    <style>
-        /* Thêm CSS cho trang contact */
-        .contact-info i {
-            font-size: 2rem;
-            color: var(--bs-primary);
-            margin-bottom: 1rem;
-        }
-
-        .contact-form {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        }
-
-        .map-container {
-            height: 400px;
-            width: 100%;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-    </style>
-
-
-<main>
-    <!-- Banner -->
-    <div class="container-fluid  py-5 mb-5" style="margin-top: 100px;">
+    .map-container {
+        height: 400px;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+</style>
+<div>
+    <div class="container-fluid py-5 mb-5">
         <div class="container">
             <h1 class="text-center">LIÊN HỆ VỚI CHÚNG TÔI</h1>
         </div>
     </div>
 
-    <!-- Contact Section -->
     <div class="container my-5">
         <div class="row">
             <div class="contact-info">
@@ -62,7 +49,6 @@
 
         </div>
 
-        <!-- Bản đồ -->
         <div class="row mt-5">
             <div class="col-12">
                 <h3 class="text-center mb-4">BẢN ĐỒ CỬA HÀNG</h3>
@@ -79,4 +65,4 @@
             </div>
         </div>
     </div>
-</main>
+</div>

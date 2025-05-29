@@ -114,7 +114,8 @@
         padding: 0;
     }
 
-    .dropdown-menu {
+    /* Make selector more specific to target only variant dropdowns */
+    .cart-item .dropdown-menu {
         width: 30rem;
     }
 
