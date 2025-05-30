@@ -1076,6 +1076,23 @@ public class ProductRepository {
         );
     }
 
+    public int findProductIdByVariantId(int variantId) {
+        String sql = """
+                SELECT pv.productId
+                FROM product_variants AS pv
+                WHERE pv.id = :variantId
+            """;
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("variantId", variantId)
+                        .mapTo(int.class)
+                        .findOne()
+                        .orElse(0)
+        );
+    }
+
+
     public int updateStock(Handle handle, int variantId, int quantity) {
         int updatedRows = handle.createUpdate("UPDATE product_variants SET stock = stock - :quantity WHERE id = :variantId AND stock >= :quantity")
                 .bind("quantity", quantity)

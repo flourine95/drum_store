@@ -1,5 +1,6 @@
 package com.drumstore.web.controllers.auth;
 
+import com.drumstore.web.services.CartService;
 import com.drumstore.web.services.MailService;
 import com.drumstore.web.services.UserService;
 import com.google.gson.Gson;
@@ -20,6 +21,7 @@ public class VerifyTokenController extends HttpServlet {
     private final Gson gson = new Gson();
     private final UserService userService = new UserService();
     private final MailService emailService = new MailService();
+    private final CartService cartService = new CartService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -76,6 +78,9 @@ public class VerifyTokenController extends HttpServlet {
             result.put("error", "Token không đúng.");
         } else {
             userService.updateStatus((String) request.getSession().getAttribute("emailToVerify"));
+            // tao cart cho nguoi dung
+            cartService.createCart((String) request.getSession().getAttribute("emailToVerify"));
+
             request.getSession().removeAttribute("verificationData");
             request.getSession().removeAttribute("emailToVerify");
             request.getSession().setAttribute("successMessage", "Tài khoản đã được xác thực! Bạn có thể đăng nhập.");

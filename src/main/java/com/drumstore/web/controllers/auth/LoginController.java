@@ -2,6 +2,8 @@ package com.drumstore.web.controllers.auth;
 
 import com.drumstore.web.dto.LoginRequestDTO;
 import com.drumstore.web.dto.UserDTO;
+import com.drumstore.web.models.CartContext;
+import com.drumstore.web.services.CartService;
 import com.drumstore.web.services.UserService;
 import com.drumstore.web.utils.FlashManager;
 import com.drumstore.web.utils.LogUtils;
@@ -21,6 +23,8 @@ import java.util.Map;
 public class LoginController extends HttpServlet {
     private final UserService userService = new UserService();
     private final LoginValidator loginValidator = new LoginValidator();
+    private final CartService cartService = new CartService();
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -71,6 +75,9 @@ public class LoginController extends HttpServlet {
                     LogUtils.logToDatabase(user.getId(), 1, "LOGIN_SUCCESS", null, "{\"userId\":" + user.getId() + "}");
                     String originalURL = (String) session.getAttribute("redirectUrl");
                     session.removeAttribute("redirectUrl");
+
+                    CartContext cartContext = cartService.getCartContext(user.getId());
+                    session.setAttribute("cart", cartContext);
 
                     if (originalURL != null && !originalURL.isEmpty() && !originalURL.contains("/login")) {
                         response.sendRedirect(originalURL);

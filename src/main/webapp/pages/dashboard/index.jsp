@@ -9,7 +9,7 @@
             </div>
             <div class="row">
                 <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card widget-flat">
+                    <div class="card widget-flat" id="customer-card">
                         <div class="card-body">
                             <div class="float-end">
                                 <i class="bi bi-people-fill widget-icon bg-success-lighten text-success"></i>
@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card widget-flat">
+                    <div class="card widget-flat" id="order-card">
                         <div class="card-body">
                             <div class="float-end">
                                 <i class="bi bi-cart-plus widget-icon bg-danger-lighten text-danger"></i>
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card widget-flat">
+                    <div class="card widget-flat" id="revenue-card">
                         <div class="card-body">
                             <div class="float-end">
                                 <i class="bi bi-currency-dollar widget-icon bg-info-lighten text-info"></i>
@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card widget-flat">
+                    <div class="card widget-flat" id="growth-card">
                         <div class="card-body">
                             <div class="float-end">
                                 <i class="bi bi-graph-up widget-icon bg-warning-lighten text-warning"></i>
@@ -115,7 +115,7 @@
                             </div>
 
                             <div class="table-responsive ">
-                                <table class="table table-hover table-striped">
+                                <table class="table table-hover table-striped" id="best-selling-products-table">
                                     <thead class="table-light">
                                     <tr>
                                         <th>Sản phẩm</th>
@@ -125,51 +125,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>
-                                            <h6 class="mb-0">Alesis Turbo Mesh Kit</h6>
-                                            <small class="text-muted">07 Tháng 4, 2018</small>
-                                        </td>
-                                        <td>1.987.250đ</td>
-                                        <td>82</td>
-                                        <td>162.954.500đ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="mb-0">Alesis Crimson II SE</h6>
-                                            <small class="text-muted">25 Tháng 3, 2018</small>
-                                        </td>
-                                        <td>3.212.500đ</td>
-                                        <td>37</td>
-                                        <td>118.862.500đ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="mb-0">ROLAND TD-02KV</h6>
-                                            <small class="text-muted">17 Tháng 3, 2018</small>
-                                        </td>
-                                        <td>999.750đ</td>
-                                        <td>64</td>
-                                        <td>63.984.000đ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="mb-0">Combo EXX725SP/C760</h6>
-                                            <small class="text-muted">12 Tháng 3, 2018</small>
-                                        </td>
-                                        <td>500.000đ</td>
-                                        <td>184</td>
-                                        <td>92.000.000đ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="mb-0">PEARL EXPORT EXX725SP/C777</h6>
-                                            <small class="text-muted">05 Tháng 3, 2018</small>
-                                        </td>
-                                        <td>712.250đ</td>
-                                        <td>69</td>
-                                        <td>49.145.250đ</td>
-                                    </tr>
+                                    <%--render--%>
                                     </tbody>
                                 </table>
                             </div>
@@ -195,22 +151,7 @@
                             <div id="revenue-chart" class="apex-charts mb-4 mt-4"></div>
 
                             <div class="chart-widget-list">
-                                <p class="text-muted mb-1">
-                                    <i class="bi bi-square-fill text-primary me-2"></i> Trống acoustic
-                                    <span class="float-end">4.250.000đ</span>
-                                </p>
-                                <p class="text-muted mb-1">
-                                    <i class="bi bi-square-fill text-danger me-2"></i> Trống điện tử
-                                    <span class="float-end">3.800.000đ</span>
-                                </p>
-                                <p class="text-muted mb-1">
-                                    <i class="bi bi-square-fill text-success me-2"></i> Phụ kiện
-                                    <span class="float-end">1.950.000đ</span>
-                                </p>
-                                <p class="text-muted mb-0">
-                                    <i class="bi bi-square-fill text-warning me-2"></i> Dịch vụ
-                                    <span class="float-end">980.000đ</span>
-                                </p>
+                            <%--render--%>
                             </div>
                         </div>
                     </div>
@@ -288,89 +229,316 @@
 <script>
     // Biểu đồ doanh thu
     const ctx = document.getElementById('revenueChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
-            datasets: [{
-                label: 'Doanh Thu (triệu đồng)',
-                data: [28, 45, 71, 118, 59, 71, 236, 307, 401, 260, 142, 189],
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.1,
-                pointBackgroundColor: 'rgb(75, 192, 192)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgb(75, 192, 192)'
-            }, {
-                label: 'Lợi Nhuận (triệu đồng)',
-                data: [10, 20, 35, 60, 25, 30, 120, 150, 200, 130, 70, 95],
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.1,
-                pointBackgroundColor: 'rgb(255, 99, 132)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgb(255, 99, 132)'
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Biểu Đồ Doanh Thu và Lợi Nhuận Năm 2024'
-                },
-                tooltip: {
-                    mode: 'index',
-                    intersect: false,
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.dataset.label || '';
-                            if (label) {
-                                label += ': ';
-                            }
-                            if (context.parsed.y !== null) {
-                                label += new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(context.parsed.y * 1000000);
-                            }
-                            return label;
-                        }
-                    }
-                }
+    const currentYear = new Date().getFullYear();
+    // Hàm gọi API và cập nhật biểu đồ
+    function fetchRevenueData() {
+        $.ajax({
+            url: '/api/analytics/monthly-revenue',
+            type: 'GET',
+            data: {
+                year:currentYear
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Giá Trị (triệu đồng)'
+            success: function (data) {
+                // Xử lý dữ liệu từ API
+                const revenueData = data.map(item => item.revenue);
+                const profitData = data.map(item => item.profit);
+
+                // Cập nhật biểu đồ với dữ liệu mới
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                        datasets: [{
+                            label: 'Doanh Thu (triệu đồng)',
+                            data: revenueData,
+                            borderColor: 'rgb(75, 192, 192)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.1,
+                            pointBackgroundColor: 'rgb(75, 192, 192)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgb(75, 192, 192)'
+                        }, {
+                            label: 'Lợi Nhuận (triệu đồng)',
+                            data: profitData,
+                            borderColor: 'rgb(255, 99, 132)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.1,
+                            pointBackgroundColor: 'rgb(255, 99, 132)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgb(255, 99, 132)'
+                        }]
                     },
-                    ticks: {
-                        callback: function(value, index, values) {
-                            return value + ' triệu';
-                        }
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Biểu Đồ Doanh Thu và Lợi Nhuận Năm '+ currentYear
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                callbacks: {
+                                    label: function (context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(context.parsed.y * 1000000);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Giá Trị (triệu đồng)'
+                                },
+                                ticks: {
+                                    callback: function (value, index, values) {
+                                        return value + ' triệu';
+                                    }
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Tháng'
+                                }
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index',
+                        },
                     }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Tháng'
-                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi tải dữ liệu: " + error);
+            }
+        });
+    }
+
+    function updateCustomerStats() {
+        $.ajax({
+            url: '/api/analytics/customer-stats',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                const currentValue = data.currentMonthCustomers || 0;
+                const growthRate = data.growthRate || 0;
+
+                const card = $('#customer-card');
+                card.find('h3').text(currentValue.toLocaleString());
+                const growthSpan = card.find('span.text-success, span.text-danger');
+                growthSpan.text((growthRate >= 0 ? '+' : '') + growthRate.toFixed(2) + '%');
+                growthSpan.removeClass('text-success text-danger');
+                growthSpan.addClass(growthRate >= 0 ? 'text-success' : 'text-danger');
+                growthSpan.find('i').removeClass('bi-arrow-up bi-arrow-down');
+                growthSpan.find('i').addClass('bi bi-arrow-' + (growthRate >= 0 ? 'up' : 'down'));
+            },
+            error: function(error) {
+                console.error('Error fetching customer stats:', error);
+            }
+        });
+    }
+
+    // Hàm cập nhật số lượng đơn hàng
+    function updateOrderStats() {
+        $.ajax({
+            url: '/api/analytics/order-stats',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                const currentValue = data.currentMonthOrders || 0;
+                const growthRate = data.growthRate || 0;
+
+                const card = $('#order-card');
+                card.find('h3').text(currentValue.toLocaleString());
+                const growthSpan = card.find('span.text-success, span.text-danger');
+                growthSpan.text((growthRate >= 0 ? '+' : '') + growthRate.toFixed(2) + '%');
+                growthSpan.removeClass('text-success text-danger');
+                growthSpan.addClass(growthRate >= 0 ? 'text-success' : 'text-danger');
+                growthSpan.find('i').removeClass('bi-arrow-up bi-arrow-down');
+                growthSpan.find('i').addClass('bi bi-arrow-' + (growthRate >= 0 ? 'up' : 'down'));
+            },
+            error: function(error) {
+                console.error('Error fetching order stats:', error);
+            }
+        });
+    }
+
+    // Hàm cập nhật doanh thu
+    function updateRevenueStats() {
+        $.ajax({
+            url: '/api/analytics/revenue-stats',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                const currentValue = data.currentMonthRevenue || 0;
+                const growthRate = data.growthRate || 0;
+
+                const card = $('#revenue-card');
+                card.find('h3').text(currentValue.toLocaleString() + 'đ');
+                const growthSpan = card.find('span.text-success, span.text-danger');
+                growthSpan.text((growthRate >= 0 ? '+' : '') + growthRate.toFixed(2) + '%');
+                growthSpan.removeClass('text-success text-danger');
+                growthSpan.addClass(growthRate >= 0 ? 'text-success' : 'text-danger');
+                growthSpan.find('i').removeClass('bi-arrow-up bi-arrow-down');
+                growthSpan.find('i').addClass('bi bi-arrow-' + (growthRate >= 0 ? 'up' : 'down'));
+            },
+            error: function(error) {
+                console.error('Error fetching revenue stats:', error);
+            }
+        });
+    }
+
+    // Hàm cập nhật tăng trưởng
+    function updateGrowthStats() {
+        $.ajax({
+            url: '/api/analytics/growth-stats',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                const currentValue = data.currentMonthGrowth || 0;
+                const growthRate = data.growthRate || 0;
+
+                const card = $('#growth-card');
+                card.find('h3').text('+ ' + currentValue.toFixed(2) + '%');
+                const growthSpan = card.find('span.text-success, span.text-danger');
+                growthSpan.text((growthRate >= 0 ? '+' : '') + growthRate.toFixed(2) + '%');
+                growthSpan.removeClass('text-success text-danger');
+                growthSpan.addClass(growthRate >= 0 ? 'text-success' : 'text-danger');
+                growthSpan.find('i').removeClass('bi-arrow-up bi-arrow-down');
+                growthSpan.find('i').addClass('bi bi-arrow-' + (growthRate >= 0 ? 'up' : 'down'));
+            },
+            error: function(error) {
+                console.error('Error fetching growth stats:', error);
+            }
+        });
+    }
+
+    // sản phẩm bán chạy
+    function updateBestSellingProducts() {
+        $.ajax({
+            url: '/api/analytics/best-selling-products',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                const tbody = $('#best-selling-products-table tbody');
+                tbody.empty(); // Xóa dữ liệu cũ
+
+                data.slice(0, 5).forEach(product => {
+                    const productName = product.productname || 'Không rõ';
+                    const createdat = product.createdat
+                        ? new Date(product.lastOrderDate).toLocaleDateString('vi-VN')
+                        : 'N/A';
+                    const price = formatCurrency(product.price);
+                    const quantity = product.totalquantity || 0;
+                    const totalAmount = formatCurrency(product.totalamount);
+
+                    const row =
+                        '<tr>' +
+                        '<td>' +
+                        '<h6 class="mb-0">' + productName + '</h6>' +
+                        '<small class="text-muted">' + createdat + '</small>' +
+                        '</td>' +
+                        '<td>' + price + '</td>' +
+                        '<td>' + quantity + '</td>' +
+                        '<td>' + totalAmount + '</td>' +
+                        '</tr>';
+
+
+                    tbody.append(row);
+                });
+            },
+            error: function(error) {
+                console.error('Lỗi khi tải sản phẩm bán chạy:', error);
+            }
+        });
+    }
+
+    // doanh thu ban duoc theo category và brand
+    function updateRevenueByCategoryAndBrand() {
+        $.ajax({
+            url: '/api/analytics/revenue-category-brand',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                const chartWidgetList = $('.chart-widget-list');
+                chartWidgetList.empty();
+
+                const categories = data.categories || [];
+                const brands = data.brands || [];
+
+
+                if (categories.length > 0) {
+                    chartWidgetList.append('<p class="text-muted mt-4 mb-2"><strong>Danh mục</strong></p>');
+                    categories.forEach(item => {
+                        const category = item.categoryname || 'Không rõ';
+                        const amount = formatCurrency(item.revenue);
+
+                        const row =
+                            '<p class="text-muted mb-1">' +
+                            '<i class="bi bi-square-fill text-primary me-2"></i> ' + category +
+                            '<span class="float-end">' + amount + '</span>' +
+                            '</p>';
+
+                        chartWidgetList.append(row);
+                    });
+                }
+
+                if (brands.length > 0) {
+                    chartWidgetList.append('<p class="text-muted mt-4 mb-2"><strong>Thương hiệu</strong></p>');
+                    brands.forEach(item => {
+                        const category = item.brandname || 'Không rõ';
+                        const amount = formatCurrency(item.revenue);
+
+                        const row =
+                            '<p class="text-muted mb-1">' +
+                            '<i class="bi bi-square-fill text-primary me-2"></i> ' + category +
+                            '<span class="float-end">' + amount + '</span>' +
+                            '</p>';
+
+                        chartWidgetList.append(row);
+                    });
                 }
             },
-            interaction: {
-                intersect: false,
-                mode: 'index',
-            },
-        }
-    });
+            error: function(error) {
+                console.error('Lỗi khi tải doanh thu theo danh mục và thương hiệu:', error);
+            }
+        });
+    }
+
+
+    function formatCurrency(amount) {
+        if (!amount || isNaN(amount)) return '0đ';
+        return parseFloat(amount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+
+
+    updateCustomerStats();
+    updateOrderStats();
+    updateRevenueStats();
+    updateGrowthStats();
+    fetchRevenueData();
+    updateBestSellingProducts();
+    updateRevenueByCategoryAndBrand();
 
     // Biểu đồ phân bổ doanh thu
     const ctx2 = document.getElementById('revenuePieChart').getContext('2d');
