@@ -39,6 +39,12 @@ public class CartController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         UserDTO user = (UserDTO) session.getAttribute("user");
+
+        if(user == null){
+            response.sendRedirect("login");
+            return;
+        }
+
         CartContext cart = (CartContext) session.getAttribute("cart");
         if (cart == null) {
             cart = cartService.getCartContext(user.getId());
@@ -79,6 +85,12 @@ public class CartController extends HttpServlet {
             String action = request.getParameter("action");
             HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("user");
+
+            if(user == null){
+                response.sendRedirect("login");
+                return;
+            }
+
             CartContext cart = (CartContext) session.getAttribute("cart");
             if (cart == null) {
                 session.setAttribute("cart", cartService.getCartContext(user.getId()));
