@@ -701,6 +701,17 @@
         // Xử lý nút "Hoàn tất đơn hàng"
         $('#submitPayment').click(function (e) {
             e.preventDefault();
+
+            const selectedShippingMethod = $('input[name="shippingMethod"]:checked').val();
+            if (!selectedShippingMethod) {
+                Swal.fire({
+                    title: 'Vui lòng chọn phương thức nhận hàng!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
             const addressId = $('.address-section').data('address-id');
             if (!addressId) {
                 Swal.fire({
@@ -710,6 +721,7 @@
                 });
                 return;
             }
+
 
             const paymentMethod = $('input[name="paymentMethod"]:checked').val();
             if (paymentMethod === 'cod') {

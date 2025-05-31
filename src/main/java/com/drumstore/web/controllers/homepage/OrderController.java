@@ -39,6 +39,11 @@ public class OrderController extends HttpServlet {
         CartContext cart = (CartContext) req.getSession().getAttribute("cart");
         UserDTO user = (UserDTO) req.getSession().getAttribute("user");
 
+        if(user == null){
+            resp.sendRedirect("login");
+            return;
+        }
+
         Map<String, List<UserAddressDTO>> addressMap = userAddressService.getMainAddressAndSubAddress(user.getId());
         req.setAttribute("title", "Thanh toán");
         req.setAttribute("cart", cart);
@@ -54,6 +59,11 @@ public class OrderController extends HttpServlet {
 
         CartContext cart = (CartContext) req.getSession().getAttribute("cart");
         UserDTO user = (UserDTO) req.getSession().getAttribute("user");
+
+        if(user == null){
+            resp.sendRedirect("login");
+            return;
+        }
 
 
         Map<String, Object> requestData = validateRequestData(req, result);
