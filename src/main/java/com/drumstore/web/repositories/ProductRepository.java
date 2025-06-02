@@ -359,42 +359,28 @@ public class ProductRepository {
             params.add(Integer.parseInt(category));
         }
 
-    if (brand != null && !brand.isEmpty()) {
-        sql.append(" AND p.brandId = ?");
-        params.add(Integer.parseInt(brand));
-    }
-
-    if (priceRange != null && !priceRange.isEmpty()) {
-        String[] prices = priceRange.split("-");
-        if (prices.length == 2) {
-            double minPrice = Double.parseDouble(prices[0]);
-            double maxPrice = Double.parseDouble(prices[1]);
-            sql.append(" AND ("
-                + "CASE "
-                + "WHEN p.max_discount IS NOT NULL THEN p.lowest_variant_price * (1 - p.max_discount/100) "
-                + "ELSE p.lowest_variant_price "
-                + "END) BETWEEN ? AND ?");
-            params.add(minPrice);
-            params.add(maxPrice);
+        if (brand != null && !brand.isEmpty()) {
+            sql.append(" AND p.brandId = ?");
+            params.add(Integer.parseInt(brand));
         }
-    }
 
-    // Thêm ORDER BY và LIMIT
-    if (sortBy != null && !sortBy.isEmpty()) {
-        switch (sortBy) {
-            case "name_asc" -> sql.append(" ORDER BY p.name ASC");
-            case "name_desc" -> sql.append(" ORDER BY p.name DESC");
-            case "price_asc" -> sql.append(" ORDER BY ("
-                + "CASE "
-                + "WHEN p.max_discount IS NOT NULL THEN p.lowest_variant_price * (1 - p.max_discount/100) "
-                + "ELSE p.lowest_variant_price "
-                + "END) ASC");
-            case "price_desc" -> sql.append(" ORDER BY ("
-                + "CASE "
-                + "WHEN p.max_discount IS NOT NULL THEN p.lowest_variant_price * (1 - p.max_discount/100) "
-                + "ELSE p.lowest_variant_price "
-                + "END) DESC");
-            default -> sql.append(" ORDER BY p.createdAt DESC");
+        if (priceRange != null && !priceRange.isEmpty()) {
+            String[] prices = priceRange.split("-");
+            if (prices.length == 2) {
+                sql.append(" AND p.basePrice BETWEEN ? AND ?");
+                params.add(Double.parseDouble(prices[0]));
+                params.add(Double.parseDouble(prices[1]));
+            }
+        }
+
+        // Thêm ORDER BY và LIMIT
+        if (sortBy != null && !sortBy.isEmpty()) {
+            switch (sortBy) {
+                case "name_asc" -> sql.append(" ORDER BY p.name ASC");
+                case "name_desc" -> sql.append(" ORDER BY p.name DESC");
+                case "price_asc" -> sql.append(" ORDER BY p.price ASC");
+                case "price_desc" -> sql.append(" ORDER BY p.price DESC");
+                default -> sql.append(" ORDER BY p.createdAt DESC");
             }
         } else {
             sql.append(" ORDER BY p.createdAt DESC");
@@ -433,6 +419,7 @@ public class ProductRepository {
                 FROM FilteredProducts p
                          LEFT JOIN categories c ON p.p_categoryId = c.id
                          LEFT JOIN brands b ON p.p_brandId = b.id""");
+        System.out.println(sql);
         return jdbi.withHandle(handle -> {
             var query = handle.createQuery(sql.toString());
 

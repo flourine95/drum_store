@@ -14,7 +14,7 @@
     }
 </style>
 <div>
-    <div class="container-fluid py-5 mb-5">
+    <div class="container-fluid py-5 my-5">
         <div class="container">
             <h1 class="text-center">LIÊN HỆ VỚI CHÚNG TÔI</h1>
         </div>
