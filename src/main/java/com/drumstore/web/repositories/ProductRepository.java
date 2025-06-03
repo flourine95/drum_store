@@ -199,8 +199,68 @@ public class ProductRepository {
 
     public int countFilteredProducts(String search, String category, String brand, String priceRange) {
         StringBuilder sql = new StringBuilder("""
-                    SELECT COUNT(*) FROM products p
-                    WHERE 1=1
+                WITH ProductWithSalePrice AS (
+                    SELECT
+                        p.id,
+                        p.name,
+                        p.description,
+                        p.categoryId,
+                        p.brandId,
+                        p.status,
+                        (SELECT MAX(s.discountPercentage)
+                         FROM product_sales ps
+                         JOIN sales s ON ps.saleId = s.id
+                         WHERE ps.productId = p.id
+                         AND NOW() BETWEEN s.startDate AND s.endDate) AS max_discount,
+                        (SELECT MIN(
+                            CASE
+                                WHEN p.stockManagementType = 0 THEN p.basePrice
+                                WHEN p.stockManagementType = 1 THEN p.basePrice + COALESCE(pc.additionalPrice, 0)
+                                WHEN p.stockManagementType = 2 THEN p.basePrice + COALESCE(pa.additionalPrice, 0)
+                                ELSE p.basePrice + COALESCE(pc.additionalPrice, 0) + COALESCE(pa.additionalPrice, 0)
+                            END)
+                         FROM product_variants pv
+                         LEFT JOIN product_colors pc ON pv.colorId = pc.id
+                         LEFT JOIN product_addons pa ON pv.addonId = pa.id
+                         WHERE pv.productId = p.id AND pv.status = 1) AS lowest_variant_price,
+                        CASE
+                            WHEN (SELECT MAX(s.discountPercentage)
+                                 FROM product_sales ps
+                                 JOIN sales s ON ps.saleId = s.id
+                                 WHERE ps.productId = p.id
+                                 AND NOW() BETWEEN s.startDate AND s.endDate) IS NOT NULL
+                            THEN (SELECT MIN(
+                                    CASE
+                                        WHEN p.stockManagementType = 0 THEN p.basePrice
+                                        WHEN p.stockManagementType = 1 THEN p.basePrice + COALESCE(pc.additionalPrice, 0)
+                                        WHEN p.stockManagementType = 2 THEN p.basePrice + COALESCE(pa.additionalPrice, 0)
+                                        ELSE p.basePrice + COALESCE(pc.additionalPrice, 0) + COALESCE(pa.additionalPrice, 0)
+                                    END)
+                                 FROM product_variants pv
+                                 LEFT JOIN product_colors pc ON pv.colorId = pc.id
+                                 LEFT JOIN product_addons pa ON pv.addonId = pa.id
+                                 WHERE pv.productId = p.id AND pv.status = 1) * (1 - (SELECT MAX(s.discountPercentage) / 100
+                                                                                    FROM product_sales ps
+                                                                                    JOIN sales s ON ps.saleId = s.id
+                                                                                    WHERE ps.productId = p.id
+                                                                                    AND NOW() BETWEEN s.startDate AND s.endDate))
+                            ELSE (SELECT MIN(
+                                    CASE
+                                        WHEN p.stockManagementType = 0 THEN p.basePrice
+                                        WHEN p.stockManagementType = 1 THEN p.basePrice + COALESCE(pc.additionalPrice, 0)
+                                        WHEN p.stockManagementType = 2 THEN p.basePrice + COALESCE(pa.additionalPrice, 0)
+                                        ELSE p.basePrice + COALESCE(pc.additionalPrice, 0) + COALESCE(pa.additionalPrice, 0)
+                                    END)
+                                 FROM product_variants pv
+                                 LEFT JOIN product_colors pc ON pv.colorId = pc.id
+                                 LEFT JOIN product_addons pa ON pv.addonId = pa.id
+                                 WHERE pv.productId = p.id AND pv.status = 1)
+                        END AS lowest_sale_price
+                    FROM products p
+                    WHERE p.status = 1
+                )
+                SELECT COUNT(*) FROM ProductWithSalePrice p
+                WHERE 1=1
                 """);
         List<Object> params = new ArrayList<>();
 
@@ -223,13 +283,15 @@ public class ProductRepository {
             params.add(Integer.parseInt(brand));
         }
 
-        // Thêm điều kiện khoảng giá
+        // Thêm điều kiện khoảng giá (dựa trên giá sau khi giảm)
         if (priceRange != null && !priceRange.isEmpty()) {
             String[] prices = priceRange.split("-");
             if (prices.length == 2) {
-                sql.append(" AND p.price BETWEEN ? AND ?");
-                params.add(Double.parseDouble(prices[0]));
-                params.add(Double.parseDouble(prices[1]));
+                double minPrice = Double.parseDouble(prices[0]);
+                double maxPrice = Double.parseDouble(prices[1]);
+                sql.append(" AND p.lowest_sale_price BETWEEN ? AND ?");
+                params.add(minPrice);
+                params.add(maxPrice);
             }
         }
 
@@ -357,6 +419,7 @@ public class ProductRepository {
                 FROM FilteredProducts p
                          LEFT JOIN categories c ON p.p_categoryId = c.id
                          LEFT JOIN brands b ON p.p_brandId = b.id""");
+        System.out.println(sql);
         return jdbi.withHandle(handle -> {
             var query = handle.createQuery(sql.toString());
 
@@ -680,7 +743,7 @@ public class ProductRepository {
                         // Check if we've already seen this variant
                         boolean variantExists = dto.getVariants().stream()
                                 .anyMatch(v -> v.getId().equals(variantId));
-                        
+
                         if (!variantExists) {
                             ProductVariantDTO variant = row.getRow(ProductVariantDTO.class);
                             dto.getVariants().add(variant);
@@ -1069,11 +1132,11 @@ public class ProductRepository {
 
     public void updateColor(ProductColorDTO color) {
         String sql = """
-            UPDATE product_colors
-            SET name = :name,
-                additionalPrice = :additionalPrice
-            WHERE id = :id
-        """;
+                    UPDATE product_colors
+                    SET name = :name,
+                        additionalPrice = :additionalPrice
+                    WHERE id = :id
+                """;
         jdbi.useHandle(handle ->
                 handle.createUpdate(sql)
                         .bindBean(color)
@@ -1083,9 +1146,9 @@ public class ProductRepository {
 
     public void addColor(ProductColorDTO color) {
         String sql = """
-            INSERT INTO product_colors (productId, name, additionalPrice)
-            VALUES (:productId, :name, :additionalPrice)
-        """;
+                    INSERT INTO product_colors (productId, name, additionalPrice)
+                    VALUES (:productId, :name, :additionalPrice)
+                """;
         jdbi.useHandle(handle ->
                 handle.createUpdate(sql)
                         .bindBean(color)
@@ -1109,7 +1172,7 @@ public class ProductRepository {
         );
     }
 
-   public void updateVariant(ProductVariantDTO variant) {
+    public void updateVariant(ProductVariantDTO variant) {
         String sql = """
                 UPDATE product_variants
                 SET colorId = :colorId,
@@ -1225,9 +1288,9 @@ public class ProductRepository {
 
     public void addAddon(ProductAddonDTO addon) {
         String sql = """
-            INSERT INTO product_addons (productId, name, additionalPrice)
-            VALUES (:productId, :name, :additionalPrice)
-        """;
+                    INSERT INTO product_addons (productId, name, additionalPrice)
+                    VALUES (:productId, :name, :additionalPrice)
+                """;
         jdbi.useHandle(handle ->
                 handle.createUpdate(sql)
                         .bindBean(addon)

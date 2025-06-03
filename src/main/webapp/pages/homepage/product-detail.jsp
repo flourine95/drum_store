@@ -7,8 +7,12 @@
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                <li class="breadcrumb-item"><a href="/category/${product.categoryId}">${product.categoryName}</a></li>
+                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/">Trang chủ</a></li>
+                <li class="breadcrumb-item">
+                    <a href="${pageContext.request.contextPath}/products?search=&category=${product.categoryId}&brand=&priceRange=&sortBy=">
+                        ${product.categoryName}
+                    </a>
+                </li>
                 <li class="breadcrumb-item active">${product.name}</li>
             </ol>
         </nav>
@@ -49,14 +53,21 @@
                 <div class="product-meta mb-4">
                     <div class="d-flex gap-3 mb-2">
                         <span class="brand">
-                            <i class="fas fa-industry"></i> 
-                            Thương hiệu: <a href="/brand/${product.brandId}">${product.brandName}</a>
+                            <i class="fas fa-industry"></i>
+                            Thương hiệu:
+                            <a href="${pageContext.request.contextPath}/products?search=&category=&brand=${product.brandId}&priceRange=&sortBy=">
+                                ${product.brandName}
+                            </a>
                         </span>
                         <span class="category">
                             <i class="fas fa-tags"></i>
-                            Danh mục: <a href="/category/${product.categoryId}">${product.categoryName}</a>
+                            Danh mục:
+                            <a href="${pageContext.request.contextPath}/products?search=&category=${product.categoryId}&brand=&priceRange=&sortBy=">
+                                ${product.categoryName}
+                            </a>
                         </span>
                     </div>
+
                     <div class="d-flex gap-3">
                         <span class="views">
                             <i class="fas fa-eye"></i> ${product.totalViews} lượt xem
@@ -155,10 +166,10 @@
                                 </button>
                             </c:when>
                             <c:otherwise>
-                                <button  class="btn btn-primary flex-grow-1"  onclick="redirectToLogin()">
+                                <button class="btn btn-primary flex-grow-1" onclick="redirectToLogin()">
                                     <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
                                 </button>
-                                <button class="btn btn-danger flex-grow-1"  onclick="redirectToLogin()">
+                                <button class="btn btn-danger flex-grow-1" onclick="redirectToLogin()">
                                     <i class="fas fa-bolt"></i> Mua ngay
                                 </button>
                                 <button class="btn btn-outline-danger" onclick="redirectToLogin()">
@@ -657,8 +668,8 @@
                 return;
             }
             const quantity = parseInt($('#quantity').val());
-            if(quantity ===0) {
-             return  $('#quantity').focus();
+            if (quantity === 0) {
+                return $('#quantity').focus();
             }
             $.ajax({
                 url: '/cart/add',
@@ -741,7 +752,7 @@
 
 
                         if (response.success) {
-                           window.location.href = '/order'
+                            window.location.href = '/order'
                         } else {
                             Toast.fire({
                                 icon: 'error',
