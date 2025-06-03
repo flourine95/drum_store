@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script src="https://cdn.ckbox.io/ckbox/2.6.1/ckbox.js"></script>
-<div id="ckbox"></div>
+<div id="ckbox" style="min-height: 100vh"></div>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         initCKBox();
