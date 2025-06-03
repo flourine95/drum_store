@@ -1,33 +1,39 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<div class="container-fluid">
+<div class="container-fluid px-4">
+    <!-- Breadcrumb -->
     <div class="row mb-4">
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/dashboard/categories">Danh mục</a></li>
+                    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/dashboard" class="text-decoration-none">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/dashboard/categories" class="text-decoration-none">Danh mục</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa</li>
                 </ol>
             </nav>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row g-4">
+        <!-- Main Form Card -->
         <div class="col-lg-8 col-md-12">
             <div class="card shadow-sm border-0 rounded-lg mb-4">
-                <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">
-                        <i class="bi bi-pencil-square me-2"></i>${title}
-                    </h6>
+                <div class="card-header bg-white py-3">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-primary-subtle p-2 me-3">
+                            <i class="bi bi-pencil-square fs-4 text-primary"></i>
+                        </div>
+                        <h5 class="mb-0">${title}</h5>
+                    </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <form id="categoryForm">
                         <input type="hidden" name="action" value="update">
                         <input type="hidden" name="id" value="${category.id}">
                         <input type="hidden" name="image" id="uploadedImageField" value="${category.image}">
 
                         <div class="row g-4">
+                            <!-- Name Field -->
                             <div class="col-md-12">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên danh mục" value="${category.name}" required>
@@ -35,39 +41,62 @@
                                 </div>
                             </div>
 
+                            <!-- Description Field -->
                             <div class="col-md-12">
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" id="description" name="description" 
-                                              placeholder="Nhập mô tả" style="height: 100px">${category.description}</textarea>
+                                              placeholder="Nhập mô tả" style="height: 120px">${category.description}</textarea>
                                     <label for="description">Mô tả</label>
                                 </div>
                             </div>
 
+                            <!-- Image Upload Section -->
                             <div class="col-md-12">
-                                <label class="form-label">Hình ảnh danh mục <span class="text-danger">*</span></label>
-                                <div class="image-upload-container">
-                                    <div class="row g-3">
-                                        <div class="col-md-8 mb-3">
-                                            <div class="input-group">
-                                                <input type="file" class="form-control" id="fileInput" accept="image/*">
+                                <div class="card bg-light border-0 mb-4">
+                                    <div class="card-header bg-light py-3">
+                                        <h6 class="mb-0 fw-semibold">
+                                            <i class="bi bi-image me-2"></i>Hình ảnh danh mục <span class="text-danger">*</span>
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row g-4 align-items-center">
+                                            <div class="col-md-8">
+                                                <div class="mb-3">
+                                                    <label for="fileInput" class="form-label">Chọn ảnh mới (nếu muốn thay đổi)</label>
+                                                    <input type="file" class="form-control" id="fileInput" accept="image/*">
+                                                </div>
+                                                <div class="form-text mb-2">Khuyến nghị: ảnh vuông kích thước 300x300 pixels.</div>
+                                                <div class="alert alert-success py-2 d-flex align-items-center" role="alert">
+                                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                                    <div>
+                                                        Ảnh hiện tại: 
+                                                        <strong>
+                                                            ${category.image != null 
+                                                                ? (category.image.contains('/') 
+                                                                    ? category.image.substring(category.image.lastIndexOf('/') + 1) 
+                                                                    : category.image) 
+                                                                : 'Không có ảnh'}
+                                                        </strong>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-text mt-2">Khuyến nghị: ảnh vuông kích thước 300x300 pixels.</div>
-                                            <div id="imageNameDisplay" class="text-success small mt-2">
-                                                <i class="bi bi-check-circle-fill me-2"></i> 
-                                                Ảnh hiện tại: 
-                                                ${category.image != null 
-                                                    ? (category.image.contains('/') 
-                                                        ? category.image.substring(category.image.lastIndexOf('/') + 1) 
-                                                        : category.image) 
-                                                    : 'Không có ảnh'}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <div class="image-preview-wrapper">
-                                                <div class="image-preview-container">
-                                                    <img src="${category.image}" id="previewImage" class="preview-image">
-                                                    <div class="image-overlay">
-                                                        <span class="overlay-text">Xem trước</span>
+                                            
+                                            <div class="col-md-4">
+                                                <div class="image-preview-wrapper">
+                                                    <div class="image-preview-container">
+                                                        <c:choose>
+                                                            <c:when test="${not empty category.image}">
+                                                                <img src="${pageContext.request.contextPath}/uploads/categories/${category.image}" 
+                                                                     alt="${category.name}" id="previewImage" class="preview-image">
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="https://placehold.co/400" alt="No Image" 
+                                                                     id="previewImage" class="preview-image">
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                        <div class="image-overlay">
+                                                            <span class="overlay-text">Xem trước</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -76,13 +105,14 @@
                                 </div>
                             </div>
 
+                            <!-- Form Actions -->
                             <div class="col-12 d-flex justify-content-between mt-4">
                                 <a href="${pageContext.request.contextPath}/dashboard/categories"
                                    class="btn btn-outline-secondary">
-                                    <i class="bi bi-arrow-left me-1"></i> Quay lại
+                                    <i class="bi bi-arrow-left me-2"></i> Quay lại
                                 </a>
-                                <button type="button" id="saveCategoryBtn" class="btn btn-primary">
-                                    <i class="bi bi-save me-1"></i> Lưu thay đổi
+                                <button type="button" id="saveCategoryBtn" class="btn btn-success px-4 py-2">
+                                    <i class="bi bi-save me-2"></i> Lưu thay đổi
                                 </button>
                             </div>
                         </div>
@@ -91,20 +121,54 @@
             </div>
         </div>
 
+        <!-- Info Card -->
         <div class="col-lg-4 col-md-12">
             <div class="card shadow-sm border-0 rounded-lg mb-4">
                 <div class="card-header bg-white py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">
-                        <i class="bi bi-info-circle me-2"></i>Thông tin
-                    </h6>
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-info-subtle p-2 me-3">
+                            <i class="bi bi-info-circle fs-4 text-info"></i>
+                        </div>
+                        <h5 class="mb-0">Thông tin danh mục</h5>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="alert alert-info mb-0">
-                        <h6 class="alert-heading">Chỉnh sửa danh mục</h6>
+                <div class="card-body p-4">
+                    <!-- Category Details Card -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-3 text-muted">Thông tin cơ bản</h6>
+                            <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
+                                <div class="rounded-circle bg-primary-subtle p-2 me-3">
+                                    <i class="bi bi-hash fs-5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="small text-muted">ID danh mục</div>
+                                    <div class="fw-medium">${category.id}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle bg-success-subtle p-2 me-3">
+                                    <i class="bi bi-calendar-check fs-5 text-success"></i>
+                                </div>
+                                <div>
+                                    <div class="small text-muted">Ngày tạo</div>
+                                    <div class="fw-medium">${category.createdAt}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Help Info -->
+                    <div class="alert alert-info border-0 shadow-sm mb-0">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-lightbulb-fill fs-4 me-2"></i>
+                            <h6 class="alert-heading mb-0">Lưu ý khi chỉnh sửa</h6>
+                        </div>
                         <hr>
                         <ul class="mb-0 ps-3">
-                            <li>ID danh mục: <strong>${category.id}</strong></li>
-                            <li>Thời gian tạo: <strong>${category.createdAt}</strong></li>
+                            <li class="mb-2">Tên danh mục không được để trống</li>
+                            <li class="mb-2">Nếu không tải ảnh mới, hệ thống sẽ giữ lại ảnh hiện tại</li>
+                            <li>Bấm nút Lưu thay đổi để cập nhật danh mục</li>
                         </ul>
                     </div>
                 </div>
