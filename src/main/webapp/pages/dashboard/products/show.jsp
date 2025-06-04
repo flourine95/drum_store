@@ -153,7 +153,7 @@
                 <c:forEach items="${product.images}" var="image">
                     <div class="col-md-3 mb-4">
                         <div class="card">
-                            <img src="${pageContext.request.contextPath}/assets/images/products/${image.image}"
+                            <img src="${image.image}"
                                  class="card-img-top" alt="Product image"
                                  style="height: 200px; object-fit: cover;">
                             <div class="card-body">
@@ -200,7 +200,7 @@
                             </td>
                             <td>
                                 <c:if test="${not empty variant.variantImage}">
-                                    <img src="${pageContext.request.contextPath}/assets/images/data/${variant.variantImage}" 
+                                    <img src="${variant.variantImage}"
                                          style="width: 50px; height: 50px; object-fit: cover;">
                                 </c:if>
                             </td>
@@ -242,7 +242,7 @@
                                         <c:if test="${not empty review.reviewImages}">
                                             <div class="review-images">
                                                 <c:forEach items="${review.reviewImages}" var="image">
-                                                    <img src="${pageContext.request.contextPath}/assets/images/data/${image}" 
+                                                    <img src="${image}"
                                                          class="img-thumbnail" 
                                                          style="width: 80px; height: 80px; object-fit: cover;">
                                                 </c:forEach>

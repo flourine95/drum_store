@@ -183,39 +183,93 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="${pageContext.request.contextPath}/dashboard/products" class="sidebar-link" title="Sản Phẩm">
+            <a href="${pageContext.request.contextPath}/dashboard/products" class="sidebar-link" title="Quản lý Sản Phẩm">
                 <i class="bi bi-box-seam"></i>
-                <span>Sản Phẩm</span>
+                <span>Q.L Sản Phẩm</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="${pageContext.request.contextPath}/dashboard/categories" class="sidebar-link" title="Danh Mục">
+            <a href="${pageContext.request.contextPath}/dashboard/product-sales" class="sidebar-link" title="Quản lý Giảm Giá Sản Phẩm">
+                <i class="bi bi-currency-dollar"></i>
+                <span>Q.L Giảm Giá Sản Phẩm</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/categories" class="sidebar-link" title="Quản lý Danh Mục">
                 <i class="bi bi-bookmark"></i>
-                <span>Danh Mục</span>
+                <span>Q.L Danh Mục</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="${pageContext.request.contextPath}/dashboard/brands" class="sidebar-link" title="Thương Hiệu">
-                <i class="bi bi-bookmark"></i>
-                <span>Thương Hiệu</span>
+            <a href="${pageContext.request.contextPath}/dashboard/brands" class="sidebar-link" title="Quản lý Thương Hiệu">
+                <i class="bi bi-tags"></i>
+                <span>Q.L Thương Hiệu</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="${pageContext.request.contextPath}/dashboard/orders" class="sidebar-link" title="Đơn Hàng">
+            <a href="${pageContext.request.contextPath}/dashboard/orders" class="sidebar-link" title="Quản lý Đơn Hàng">
                 <i class="bi bi-cart3"></i>
-                <span>Đơn Hàng</span>
+                <span>Q.L Đơn Hàng</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="${pageContext.request.contextPath}/dashboard/users" class="sidebar-link" title="Khách Hàng">
+            <a href="${pageContext.request.contextPath}/dashboard/users" class="sidebar-link" title="Quản lý Khách Hàng">
                 <i class="bi bi-people"></i>
-                <span>Khách Hàng</span>
+                <span>Q.L Khách Hàng</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="${pageContext.request.contextPath}/dashboard/inventory" class="sidebar-link" title="Kho Hàng">
+            <a href="${pageContext.request.contextPath}/dashboard/sales" class="sidebar-link" title="Quản lý Chương Trình Khuyến Mãi">
+                <i class="bi bi-gift"></i>
+                <span>Q.L Khuyến Mãi</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/vouchers" class="sidebar-link" title="Quản lý Mã Giảm Giá">
+                <i class="bi bi-ticket-perforated"></i>
+                <span>Q.L Mã Giảm Giá</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/feedbacks" class="sidebar-link" title="Phản Hồi Khách Hàng">
+                <i class="bi bi-chat-dots"></i>
+                <span>Q.L Phản Hồi</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/histories" class="sidebar-link" title="Lịch Sử Hệ Thống">
+                <i class="bi bi-clock-history"></i>
+                <span>Q.L Lịch Sử</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/permissions" class="sidebar-link" title="Quản lý Quyền">
+                <i class="bi bi-shield-lock"></i>
+                <span>Q.L Quyền</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/roles" class="sidebar-link" title="Quản lý Vai Trò">
+                <i class="bi bi-person-badge"></i>
+                <span>Q.L Vai Trò</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/role-permissions" class="sidebar-link" title="Quản lý Quyền - Vai Trò">
+                <i class="bi bi-link-45deg"></i>
+                <span>Q.L Quyền - Vai Trò</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/user-roles" class="sidebar-link" title="Quản lý Người Dùng - Vai Trò">
+                <i class="bi bi-person-lines-fill"></i>
+                <span>Q.L Người Dùng - Vai Trò</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/inventory" class="sidebar-link" title="Quản lý Kho Hàng">
                 <i class="bi bi-clipboard-data"></i>
-                <span>Kho Hàng</span>
+                <span>Q.L Kho Hàng</span>
             </a>
         </li>
         <li class="sidebar-item">
@@ -231,6 +285,7 @@
             </a>
         </li>
     </ul>
+
     <div class="sidebar-footer">
         <a href="${pageContext.request.contextPath}/logout" class="sidebar-link" title="Đăng Xuất">
             <i class="bi bi-box-arrow-right"></i>

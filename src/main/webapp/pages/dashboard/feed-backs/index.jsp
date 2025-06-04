@@ -54,7 +54,7 @@
           data: 'imageUrl',
           render: function (data) {
             return data
-                    ? `<img src="${pageContext.request.contextPath}/assets/images/products/\${data}" alt="image" width="100" height="100" class="img-thumbnail">`
+                    ? `<img src="\${data}" alt="image" width="100" height="100" class="img-thumbnail">`
                     : 'Không có';
           }
         },

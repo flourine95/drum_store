@@ -149,12 +149,11 @@ public class SaleManagerController extends HttpServlet {
 
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        String discountPercentage = request.getParameter("discountPercentage");
+        Double discountPercentage = Double.parseDouble(request.getParameter("discountPercentage"));
         String startDateStr = request.getParameter("startDate");
         String endDateStr = request.getParameter("endDate");
 
-        if (name == null || name.isEmpty() || discountPercentage == null || discountPercentage.isEmpty() ||
-            startDateStr == null || startDateStr.isEmpty() || endDateStr == null || endDateStr.isEmpty()) {
+        if (name == null || name.isEmpty() || startDateStr == null || startDateStr.isEmpty() || endDateStr == null || endDateStr.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"success\": false, \"message\": \"Vui lòng điền đầy đủ thông tin\"}");
             return;
@@ -200,12 +199,11 @@ public class SaleManagerController extends HttpServlet {
         String saleId = request.getParameter("id");
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        String discountPercentage = request.getParameter("discountPercentage");
+        double discountPercentage = Double.parseDouble(request.getParameter("discountPercentage"));
         String startDateStr = request.getParameter("startDate");
         String endDateStr = request.getParameter("endDate");
 
         if (saleId == null || saleId.isEmpty() || name == null || name.isEmpty() ||
-            discountPercentage == null || discountPercentage.isEmpty() ||
             startDateStr == null || startDateStr.isEmpty() || endDateStr == null || endDateStr.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"success\": false, \"message\": \"Thiếu thông tin cần thiết\"}");

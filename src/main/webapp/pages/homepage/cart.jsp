@@ -208,7 +208,7 @@
                                     <div class="cart-item" data-cart-id="${item.cartItemId}">
                                         <div class="row align-items-center">
                                             <div class="col-2">
-                                                <img src="${pageContext.request.contextPath}/assets/images/products/${item.cartItem.mainImage}"
+                                                <img src="${item.cartItem.mainImage}"
                                                      class="img-fluid cart-item-image" alt="${item.cartItem.name}">
                                             </div>
                                             <div class="col">
@@ -771,7 +771,7 @@
                         const imageElement = element.querySelector('.cart-item-image');
                         if (imageElement) {
                             if (item.cartItem.mainImage && item.cartItem.mainImage.trim() !== "") {
-                                imageElement.src = "http://localhost:8080/assets/images/products/" + item.cartItem.mainImage;
+                                imageElement.src =  item.cartItem.mainImage;
                             }
                         }
 

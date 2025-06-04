@@ -64,7 +64,7 @@
 
                     <h5 class="text-uppercase mt-4">Phương thức thanh toán</h5>
                     <ul class="list-unstyled">
-                        <li><img src="${pageContext.request.contextPath}/assets/images/helpers/visa.png"
+                        <li><img src="https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/-Hr2dGCDyk26/file"
                                  alt="Phương thức thanh toán"
                                  class="img-fluid"/>
                         </li>
@@ -72,9 +72,9 @@
 
                     <h5 class="text-uppercase mt-4">Chứng nhận</h5>
                     <ul class="list-unstyled">
-                        <li><img src="${pageContext.request.contextPath}/assets/images/dcma/chungnhan.png"
+                        <li><img src="https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/9hDtGDr7zBIF/file"
                                  alt="Chứng nhận" class="img-fluid"/></li>
-                        <li><img src="${pageContext.request.contextPath}/assets/images/dcma/dmca.png" alt="Chứng nhận"
+                        <li><img src="https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/3Y7gFlDjDLn4/file" alt="Chứng nhận"
                                  class="img-fluid"/></li>
                     </ul>
                 </div>

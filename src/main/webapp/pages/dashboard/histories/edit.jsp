@@ -7,7 +7,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/dashboard/history">Logs</a></li>
+                    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/dashboard/histories">Logs</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa Log</li>
                 </ol>
             </nav>
@@ -64,7 +64,7 @@
                             </div>
 
                             <div class="col-12 d-flex justify-content-between mt-4">
-                                <a href="${pageContext.request.contextPath}/dashboard/history" class="btn btn-outline-secondary">
+                                <a href="${pageContext.request.contextPath}/dashboard/histories" class="btn btn-outline-secondary">
                                     <i class="bi bi-arrow-left me-1"></i> Quay lại
                                 </a>
 <%--                                <button type="button" id="saveLogBtn" class="btn btn-primary">--%>
@@ -131,7 +131,7 @@
         });
 
         $.ajax({
-            url: '${pageContext.request.contextPath}/dashboard/history',
+            url: '${pageContext.request.contextPath}/dashboard/histories',
             method: 'POST',
             data: data,
             success: function (response) {
@@ -142,7 +142,7 @@
                         text: response.message,
                         confirmButtonText: "OK"
                     }).then(() => {
-                        window.location.href = response.redirectUrl || '${pageContext.request.contextPath}/dashboard/history';
+                        window.location.href = response.redirectUrl || '${pageContext.request.contextPath}/dashboard/histories';
                     });
                 } else {
                     Swal.fire({

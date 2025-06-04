@@ -11,10 +11,10 @@ import java.util.List;
 public class CategoryRepository {
     private final Jdbi jdbi = DBConnection.getJdbi();
 
-    public List<Category> all() {
+    public List<CategoryDTO> all() {
         return jdbi.withHandle(handle ->
                 handle.createQuery("SELECT * FROM categories")
-                        .mapToBean(Category.class)
+                        .mapToBean(CategoryDTO.class)
                         .list()
         );
     }

@@ -83,7 +83,7 @@
                   </td>
                   <td>
                     <div class="btn-group" role="group">
-                      <a href="${pageContext.request.contextPath}/dashboard/history?action=edit&id=${logs.id}"
+                      <a href="${pageContext.request.contextPath}/dashboard/histories?action=edit&id=${logs.id}"
                          class="btn btn-sm btn-primary me-1" title="Sửa">
                         <i class="bi bi-pencil-fill"></i>
                       </a>
@@ -217,7 +217,7 @@
       $(this).prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...');
 
       $.ajax({
-        url: '${pageContext.request.contextPath}/dashboard/history',
+        url: '${pageContext.request.contextPath}/dashboard/histories',
         method: 'POST',
         data: {
           action: 'delete',

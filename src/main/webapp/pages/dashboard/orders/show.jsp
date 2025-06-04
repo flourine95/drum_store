@@ -238,7 +238,7 @@
                             <td class="text-center">${loop.count}</td>
                             <td>
                                 <c:if test="${not empty item.imageUrl}">
-                                    <img src="${pageContext.request.contextPath}/assets/images/products/${item.imageUrl}"
+                                    <img src="${item.imageUrl}"
                                          alt="${item.name}" class="rounded" width="60" height="60"
                                          style="object-fit: cover;">
                                 </c:if>
@@ -306,7 +306,7 @@
                         <div class="mb-4">
                             <div class="d-flex align-items-center mb-3">
                                 <c:if test="${not empty item.imageUrl}">
-                                    <img src="${pageContext.request.contextPath}/assets/images/products/${item.imageUrl}"
+                                    <img src="${item.imageUrl}"
                                          alt="${item.name}" class="rounded me-3" width="60" height="60"
                                          style="object-fit: cover;">
                                 </c:if>
@@ -386,12 +386,6 @@
             });
             return;
         }
-
-        // Hiển thị loading spinner
-        const saveBtn = document.querySelector(`#editQuantityModal-${orderItemId} .btn-primary`);
-        const originalBtnHtml = saveBtn.innerHTML;
-        saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang lưu...';
-        saveBtn.disabled = true;
 
         $.ajax({
             url: '${pageContext.request.contextPath}/dashboard/orders',

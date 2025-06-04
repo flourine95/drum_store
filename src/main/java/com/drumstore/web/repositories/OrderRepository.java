@@ -212,8 +212,14 @@ public class OrderRepository {
                         dto.setTotalAmount(row.getColumn("totalAmount", Double.class));
                         dto.setOrderStatus((row.getColumn("orderStatus", Integer.class)));
                         dto.setOrderStatusText(OrderConstants.Status.fromValue(dto.getOrderStatus()).name());
-                        dto.setPaymentMethodText(PaymentConstants.Method.fromValue(row.getColumn("paymentMethod", Integer.class)).name());
-                        dto.setPaymentStatusText(PaymentConstants.Status.fromValue(row.getColumn("paymentStatus", Integer.class)).name());
+                        Integer paymentStatus = row.getColumn("paymentStatus", Integer.class);
+                        if (paymentStatus != null) {
+                            dto.setPaymentStatusText(PaymentConstants.Status.fromValue(row.getColumn("paymentStatus", Integer.class)).name());
+                        }
+                        Integer paymentMethod = row.getColumn("paymentMethod", Integer.class);
+                        if (paymentMethod != null) {
+                            dto.setPaymentMethodText(PaymentConstants.Method.fromValue(row.getColumn("paymentMethod", Integer.class)).name());
+                        }
                         dto.setTransactionId(row.getColumn("transactionId", String.class));
 
                         AddressDTO address = new AddressDTO();
@@ -293,8 +299,14 @@ public class OrderRepository {
                             dto.setTotalAmount(row.getColumn("totalAmount", Double.class));
                             dto.setOrderStatus((row.getColumn("orderStatus", Integer.class)));
                             dto.setOrderStatusText(OrderConstants.Status.fromValue(dto.getOrderStatus()).name());
-                            dto.setPaymentMethodText(PaymentConstants.Method.fromValue(row.getColumn("paymentMethod", Integer.class)).name());
-                            dto.setPaymentStatusText(PaymentConstants.Status.fromValue(row.getColumn("paymentStatus", Integer.class)).name());
+                            Integer paymentStatus = row.getColumn("paymentStatus", Integer.class);
+                            if (paymentStatus != null) {
+                                dto.setPaymentStatusText(PaymentConstants.Status.fromValue(row.getColumn("paymentStatus", Integer.class)).name());
+                            }
+                            Integer paymentMethod = row.getColumn("paymentMethod", Integer.class);
+                            if (paymentMethod != null) {
+                                dto.setPaymentMethodText(PaymentConstants.Method.fromValue(row.getColumn("paymentMethod", Integer.class)).name());
+                            }
                             dto.setTransactionId(row.getColumn("transactionId", String.class));
 
                             AddressDTO address = new AddressDTO();

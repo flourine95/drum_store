@@ -7,7 +7,7 @@
         <div class="col-md-4">
             <div class="text-center">
                 <img id="avatarPreview" 
-                     src="${pageContext.request.contextPath}/assets/images/data/${user.avatar != null ? user.avatar : 'default-avatar.jpg'}"
+                     src="${user.avatar != null ? user.avatar : 'https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/7PtLIEIJ5D2O/file'}"
                      alt="Avatar Preview"
                      class="img-fluid rounded-circle user-avatar mb-2">
                 <div class="mb-3">

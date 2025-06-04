@@ -5,6 +5,7 @@ import com.drumstore.web.dto.*;
 import com.drumstore.web.services.BrandService;
 import com.drumstore.web.services.CategoryService;
 import com.drumstore.web.services.ProductService;
+import com.drumstore.web.utils.ParseHelper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -91,11 +92,42 @@ public class ProductManagerController extends HttpServlet {
 
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Integer id = getIdParameter(request, response);
-        if (id == null) return;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-//        productService.delete(id);
-        response.sendRedirect(request.getContextPath() + "/dashboard/products");
+        String productId = request.getParameter("id");
+
+        if (productId == null || productId.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"success\": false, \"message\": \"ID sản phẩm không được cung cấp\"}");
+            return;
+        }
+
+        try {
+            Integer id = ParseHelper.tryParseInt(productId);
+
+            if (!productService.isExists(id)) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("{\"success\": false, \"message\": \"Không tìm thấy sản phẩm\"}");
+                return;
+            }
+
+            if (productService.hasOrderDetailsOrCartItems(id)) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+                response.getWriter().write("{\"success\": false, \"message\": \"Không thể xóa sản phẩm vì đang có đơn hàng hoặc giỏ hàng chứa sản phẩm này\"}");
+                return;
+            }
+
+            productService.delete(id);
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write("{\"success\": true, \"message\": \"Xóa sản phẩm thành công\"}");
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"success\": false, \"message\": \"ID không hợp lệ\"}");
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"success\": false, \"message\": \"Lỗi khi xóa sản phẩm: " + e.getMessage() + "\"}");
+        }
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -292,7 +324,7 @@ public class ProductManagerController extends HttpServlet {
                     .filter(existingId -> !keepIds.contains(existingId))
                     .forEach(productService::deleteImage);
 
-            response.getWriter().write("{\"success\":true,\"message\":\"Images updated successfully\"}");
+            response.getWriter().write("{\"success\":true,\"message\":\"Cập nhật ảnh thành công\"}");
 
         } catch (Exception e) {
             e.printStackTrace();

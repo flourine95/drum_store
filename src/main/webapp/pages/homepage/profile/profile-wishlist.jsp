@@ -146,7 +146,7 @@
             <c:forEach items="${products}" var="product">
                 <div class="wishlist-item" data-product-id="${product.id}">
                     <div class="product-img-container">
-                        <img src="${pageContext.request.contextPath}/assets/images/products/${product.mainImage}" alt="Product" class="product-img">
+                        <img src="${product.mainImage}" alt="Product" class="product-img">
                         <div class="badges">
                             <c:if test="${product.discountPercent > 0}">
                                 <div class="discount-badge">

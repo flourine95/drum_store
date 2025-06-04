@@ -150,4 +150,16 @@ public class ProductService {
     public List<ProductCardDTO> getFeaturedProductCards(int limit) {
         return productRepository.getFeaturedProductCards(limit);
     }
+
+    public boolean isExists(Integer id) {
+        return productRepository.isExists(id);
+    }
+
+    public void delete(Integer id) {
+        productRepository.delete(id);
+    }
+
+    public boolean hasOrderDetailsOrCartItems(Integer id) {
+        return productRepository.hasOrderDetailsOrCartItems(id);
+    }
 }

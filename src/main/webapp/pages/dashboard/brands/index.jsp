@@ -200,7 +200,7 @@
             pageLength: 10,
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Tất cả"]],
             language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json'
+                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json'
             },
             dom: '<"row mb-3"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
                 '<"row"<"col-sm-12"tr>>' +

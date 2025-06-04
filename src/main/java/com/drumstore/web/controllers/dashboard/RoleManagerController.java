@@ -171,7 +171,7 @@ public class RoleManagerController extends HttpServlet {
         if (result) {
             List<Integer> affectedUsers = roleRepository.getUserIdsByRoleId(roleRequest.getId());
             for (Integer userId : affectedUsers) {
-                ForceLogoutCache.markForLogout(userId);
+                ForceLogoutCache.markForLogout(userId, ForceLogoutCache.REASON_ROLE_UPDATE);
             }
 
             FlashManager.store(request, "success", "Cập nhật vai trò thành công!");
@@ -201,7 +201,7 @@ public class RoleManagerController extends HttpServlet {
 
         if (result) {
             for (Integer userId : affectedUsers) {
-                ForceLogoutCache.markForLogout(userId);
+                ForceLogoutCache.markForLogout(userId, ForceLogoutCache.REASON_ROLE_DELETE);
             }
 
             FlashManager.store(request, "success", "Xóa vai trò thành công!");

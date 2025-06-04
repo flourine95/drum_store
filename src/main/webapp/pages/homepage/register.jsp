@@ -280,7 +280,7 @@
         </div>
 
         <div class="col-md-7 image-section">
-            <img src="${pageContext.request.contextPath}/assets/images/register.webp"
+            <img src="https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/tKN-wSfOkmkp/file"
                  alt="Hình ảnh trống truyền thống Việt Nam">
         </div>
     </div>

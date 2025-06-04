@@ -13,10 +13,10 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 public class SaleDTO implements Serializable {
-    private int id;
+    private Integer id;
     private String name;
     private String description;
-    private String discountPercentage;
+    private double discountPercentage;
     private Timestamp startDate;
     private Timestamp endDate;
 }
