@@ -77,7 +77,7 @@
                                                     <div class="image-preview-container">
                                                         <c:choose>
                                                             <c:when test="${not empty brand.image}">
-                                                                <img src="${pageContext.request.contextPath}/uploads/brands/${brand.image}" 
+                                                                <img src="${brand.image}"
                                                                      alt="${brand.name}" id="previewImage" class="preview-image">
                                                             </c:when>
                                                             <c:otherwise>

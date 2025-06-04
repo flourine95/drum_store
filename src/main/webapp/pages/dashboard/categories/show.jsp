@@ -35,7 +35,7 @@
                                 <div class="card-body p-0 d-flex align-items-center justify-content-center">
                                     <c:choose>
                                         <c:when test="${not empty category.image}">
-                                            <img src="${pageContext.request.contextPath}/uploads/categories/${category.image}"
+                                            <img src="${category.image}"
                                                  alt="${category.name}"
                                                  class="img-fluid rounded category-image">
                                         </c:when>

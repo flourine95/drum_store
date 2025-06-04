@@ -46,7 +46,7 @@
                             <div class="brand-image-container mb-3">
                                 <c:choose>
                                     <c:when test="${not empty brand.image}">
-                                        <img src="${pageContext.request.contextPath}/uploads/brands/${brand.image}" 
+                                        <img src="${brand.image}"
                                              alt="${brand.name}" class="img-fluid rounded shadow-sm brand-image">
                                     </c:when>
                                     <c:otherwise>
@@ -355,7 +355,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 border-0 shadow-sm product-card">
                             <div class="card-body p-3 text-center">
-                                <img src="${pageContext.request.contextPath}/uploads/products/${product.image || 'placeholder.png'}" 
+                                <img src="${product.image || 'placeholder.png'}"
                                      alt="${product.name}" class="mb-3 product-image">
                                 <h6 class="card-title mb-1">${product.name}</h6>
                                 <p class="text-muted small mb-2">${product.sku || ''}</p>

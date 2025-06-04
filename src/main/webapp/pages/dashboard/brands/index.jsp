@@ -108,7 +108,7 @@
                                     <div class="d-flex align-items-center">
                                         <c:choose>
                                             <c:when test="${not empty brand.image}">
-                                                <img src="${pageContext.request.contextPath}/uploads/brands/${brand.image}" 
+                                                <img src="${brand.image}"
                                                      class="rounded me-2" style="width: 48px; height: 48px; object-fit: cover;"
                                                      alt="${brand.name}">
                                             </c:when>
