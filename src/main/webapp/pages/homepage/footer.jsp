@@ -38,6 +38,11 @@
                             <strong>Email: </strong>
                             <a href="mailto:drumstore@gmail.com" class="text-white">drumstore@gmail.com</a>
                         </li>
+                        <li>
+                            <strong>
+                                <a href="feedback" class="text-white">Gửi phản hồi</a>
+                            </strong>
+                        </li>
                     </ul>
                 </div>
 
