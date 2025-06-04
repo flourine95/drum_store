@@ -5,7 +5,7 @@
     <input type="hidden" name="id" value="${user.id}">
     <section class="row mb-3">
         <div class="col-md-4">
-            <img src="/assets/images/data/${empty user.avatar ? '/images/data/default-avatar.jpg' : user.avatar}"
+            <img src="${empty user.avatar ? 'https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/7PtLIEIJ5D2O/file' : user.avatar}"
                  alt="Avatar"
                  class="img-fluid rounded-circle user-avatar">
         </div>

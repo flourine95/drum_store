@@ -25,8 +25,17 @@ public class RoleValidator {
             errors.put("name", "Tên vai trò không được để trống.");
         } else if (role.getName().length() > 50) {
             errors.put("name", "Tên vai trò không được vượt quá 50 ký tự.");
-        } else if (roleRepository.roleExists(role.getName())) {
-            errors.put("name", "Tên vai trò đã tồn tại.");
+        } else {
+            boolean nameExists = roleRepository.roleExists(role.getName());
+
+            if (nameExists && checkId) {
+                RoleDTO existingRole = roleRepository.getRoleById(role.getId());
+                if (existingRole != null && !existingRole.getName().equals(role.getName())) {
+                    errors.put("name", "Tên vai trò đã tồn tại.");
+                }
+            } else if (nameExists) {
+                errors.put("name", "Tên vai trò đã tồn tại.");
+            }
         }
 
         if (role.getDescription() != null && role.getDescription().length() > 255) {

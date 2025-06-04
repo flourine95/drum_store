@@ -73,7 +73,7 @@
     }
 </style>
 <section id="home" class="vh-100 d-flex align-items-center justify-content-center"
-         style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/images/helpers/about.jpg') no-repeat center center; background-size: cover;">
+         style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/FclXZOFcv6pw/file') no-repeat center center; background-size: cover;">
     <div class="container text-center text-white">
         <h1 class="display-1 fw-bold mb-4">DRUM STORE</h1>
         <p class="lead mb-4">Tiên phong trong lĩnh vực nhạc cụ từ năm 1993</p>
@@ -87,7 +87,7 @@
         <h2 class="section-title text-center mb-5">Giới thiệu về Drum Store</h2>
         <div class="row align-items-center">
             <div class="col-md-6 mb-4 mb-md-0">
-                <img src="${pageContext.request.contextPath}/assets/images/helpers/pexels-saptashwa-mandal-656231969-17962296.jpg"
+                <img src="https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/FclXZOFcv6pw/file"
                      class="img-fluid rounded shadow-lg" alt="Drum Store">
             </div>
             <div class="col-md-6">
@@ -301,11 +301,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const slides = [
-            '/assets/images/helpers/about.jpg',
-            '/assets/images/helpers/about2.jpg',
-            '/assets/images/helpers/about3.jpg',
-            '/assets/images/helpers/about4.jpg',
-            '/assets/images/helpers/about5.jpg'
+            'https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/FclXZOFcv6pw/file',
         ];
 
         const heroSlidesContainer = document.querySelector('.hero-slides');

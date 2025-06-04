@@ -23,14 +23,14 @@
                 <div class="product-images">
                     <div class="main-image mb-3">
                         <c:if test="${not empty product.images}">
-                            <img src="/assets/images/products/${product.mainImage}"
+                            <img src="${product.mainImage}"
                                  alt="${product.name}"
                                  class="img-fluid rounded main-product-image"/>
                         </c:if>
                     </div>
                     <div class="thumbnail-images d-flex gap-2">
                         <c:forEach items="${product.images}" var="image">
-                            <img src="/assets/images/products/${image.image}"
+                            <img src="${image.image}"
                                  alt="Thumbnail"
                                  class="img-thumbnail product-thumbnail"
                                  data-image-id="${image.id}"
@@ -196,7 +196,7 @@
                             <c:if test="${status.index < 2}">
                                 <div class="review-item p-3 mb-2 bg-light rounded">
                                     <div class="d-flex align-items-center mb-2">
-                                        <img src="/assets/images/products/${review.userAvatar}"
+                                        <img src="${review.userAvatar}"
                                              alt="${review.userName}"
                                              class="rounded-circle me-2"
                                              style="width: 40px; height: 40px; object-fit: cover;">

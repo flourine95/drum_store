@@ -25,8 +25,17 @@ public class PermissionValidator {
             errors.put("name", "Tên quyền không được để trống.");
         } else if (permission.getName().length() > 50) {
             errors.put("name", "Tên quyền không được vượt quá 50 ký tự.");
-        } else if (permissionRepository.permissionExists(permission.getName())) {
-            errors.put("name", "Tên quyền đã tồn tại.");
+        } else {
+            boolean nameExists = permissionRepository.permissionExists(permission.getName());
+
+            if (nameExists && checkId) {
+                PermissionDTO existingPermission = permissionRepository.getPermissionById(permission.getId());
+                if (existingPermission != null && !existingPermission.getName().equals(permission.getName())) {
+                    errors.put("name", "Tên quyền đã tồn tại.");
+                }
+            } else if (nameExists) {
+                errors.put("name", "Tên quyền đã tồn tại.");
+            }
         }
 
         if (permission.getDescription() != null && permission.getDescription().length() > 255) {

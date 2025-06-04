@@ -28,21 +28,29 @@ public class PermissionFilter implements Filter {
         String uri = request.getRequestURI();
         String contextPath = request.getContextPath();
         String path = uri.substring(contextPath.length());
-
+        System.out.println("[PermissionFilter] URI: " + uri);
+        System.out.println("[PermissionFilter] Path: " + path);
         if (skipPermissionRoutes.contains(path)) {
+            System.out.println("[PermissionFilter] Skip permission check for: " + path);
+
             chain.doFilter(request, response);
             return;
         }
         UserDTO user = (session != null) ? (UserDTO) session.getAttribute("user") : null;
 
         if (user == null) {
+            System.out.println("[PermissionFilter] User not logged in. Redirecting to login.");
+
             session = request.getSession(true);
             session.setAttribute("redirectUrl", uri);
             response.sendRedirect(contextPath + "/login");
             return;
         }
-
+        System.out.println("[PermissionFilter] Logged in user ID: " + user.getId());
+        System.out.println("[PermissionFilter] User permissions: " + user.getPermissions());
         if (ForceLogoutCache.shouldLogout(user.getId())) {
+            System.out.println("[PermissionFilter] User should be force logged out. Reason: ");
+
             session.invalidate();
             ForceLogoutCache.removeFromLogout(user.getId());
             FlashManager.store(request, "error", "Quyền hoặc vai trò của bạn đã thay đổi. Vui lòng đăng nhập lại.");
@@ -60,11 +68,17 @@ public class PermissionFilter implements Filter {
             }
 
             String permission = module + ":" + action;
+            System.out.println("[PermissionFilter] Checking permission: " + permission);
             if (user.getPermissions() == null || !user.getPermissions().contains(permission)) {
+                System.out.println("[PermissionFilter] Permission denied. Redirecting to /error?code=403");
+
                 response.sendRedirect(contextPath + "/error?code=403");
                 return;
             }
+        }else {
+            System.out.println("[PermissionFilter] No module/action found in path.");
         }
+        System.out.println("[PermissionFilter] Permission granted. Proceeding...");
 
         chain.doFilter(request, response);
     }

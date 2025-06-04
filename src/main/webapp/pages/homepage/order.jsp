@@ -432,7 +432,7 @@
             <div class="order-summary">
                 <c:forEach var="item" items="${cart.items}">
                     <div class="order-item">
-                        <img src="${pageContext.request.contextPath}/assets/images/products/${item.cartItem.mainImage}"
+                        <img src="${item.cartItem.mainImage}"
                              alt="${item.cartItem.name}" width="100">
                         <div class="order-item-details">
                             <p>${item.cartItem.name}</p>

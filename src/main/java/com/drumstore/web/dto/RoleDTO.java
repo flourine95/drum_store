@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Data
@@ -16,5 +17,6 @@ public class RoleDTO implements Serializable {
     private Integer id;
     private String name;
     private String description;
+    private Timestamp createdAt;
 }
 

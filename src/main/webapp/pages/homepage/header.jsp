@@ -188,13 +188,13 @@
 </style>
 <header>
     <div class="fixed-top">
-        <img src="${pageContext.request.contextPath}/assets/images/banners/banner_header.png"
+        <img src="https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/bPtd-Fr0ZrhO/file"
              alt="Tháng Tri Ân Săn Sale"
              class="img-fluid w-100 banner-header">
         <nav class="navbar navbar-expand navbar-light bg-primary">
             <div class="container">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-                    <img src="${pageContext.request.contextPath}/assets/images/logos/logo.png" alt="Logo"
+                    <img src="https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/yBfxxg-rRjID/file" alt="Logo"
                          style="height: 60px;width: auto">
                 </a>
                 <div class="navbar-nav mx-auto fw-bold">

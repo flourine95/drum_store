@@ -1065,10 +1065,10 @@ public class ProductRepository {
 
     public int findProductIdByVariantId(int variantId) {
         String sql = """
-                SELECT pv.productId
-                FROM product_variants AS pv
-                WHERE pv.id = :variantId
-            """;
+                    SELECT pv.productId
+                    FROM product_variants AS pv
+                    WHERE pv.id = :variantId
+                """;
 
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
@@ -1331,73 +1331,73 @@ public class ProductRepository {
 
     public List<ProductCardDTO> getFeaturedProductCards(int limit) {
         String sql = """
-            WITH FeaturedProducts AS (
+                WITH FeaturedProducts AS (
+                    SELECT
+                        p.id AS p_id,
+                        p.name AS p_name,
+                        p.basePrice AS p_basePrice,
+                        p.totalViews AS p_totalViews,
+                        p.categoryId AS p_categoryId,
+                        p.featured AS p_featured,
+                        p.brandId AS p_brandId,
+                        p.stockManagementType AS p_stockManagementType,
+                        (SELECT MAX(s.discountPercentage)
+                         FROM product_sales ps
+                                  JOIN sales s ON ps.saleId = s.id
+                         WHERE ps.productId = p.id
+                           AND CURRENT_DATE BETWEEN s.startDate AND s.endDate) AS max_discount,
+                        (SELECT COALESCE(AVG(pr.rating), 0)
+                         FROM product_reviews pr
+                         WHERE pr.productId = p.id
+                           AND pr.status = 1) AS p_averageRating,
+                        (SELECT COUNT(*)
+                         FROM product_reviews pr
+                         WHERE pr.productId = p.id
+                           AND pr.status = 1) AS p_totalReviews,
+                        (SELECT MIN(
+                                        CASE
+                                            WHEN p.stockManagementType = 0 THEN p.basePrice
+                                            WHEN p.stockManagementType = 1 THEN p.basePrice + COALESCE(pc.additionalPrice, 0)
+                                            WHEN p.stockManagementType = 2 THEN p.basePrice + COALESCE(pa.additionalPrice, 0)
+                                            ELSE p.basePrice + COALESCE(pc.additionalPrice, 0) + COALESCE(pa.additionalPrice, 0)
+                                        END)
+                         FROM product_variants pv
+                                  LEFT JOIN product_colors pc ON pv.colorId = pc.id
+                                  LEFT JOIN product_addons pa ON pv.addonId = pa.id
+                         WHERE pv.productId = p.id
+                           AND pv.status = 1) AS lowest_variant_price
+                    FROM products p
+                    WHERE p.status = 1 AND p.featured = 1
+                    ORDER BY p.createdAt DESC
+                    LIMIT ?
+                )
                 SELECT
-                    p.id AS p_id,
-                    p.name AS p_name,
-                    p.basePrice AS p_basePrice,
-                    p.totalViews AS p_totalViews,
-                    p.categoryId AS p_categoryId,
-                    p.featured AS p_featured,
-                    p.brandId AS p_brandId,
-                    p.stockManagementType AS p_stockManagementType,
-                    (SELECT MAX(s.discountPercentage)
-                     FROM product_sales ps
-                              JOIN sales s ON ps.saleId = s.id
-                     WHERE ps.productId = p.id
-                       AND CURRENT_DATE BETWEEN s.startDate AND s.endDate) AS max_discount,
-                    (SELECT COALESCE(AVG(pr.rating), 0)
-                     FROM product_reviews pr
-                     WHERE pr.productId = p.id
-                       AND pr.status = 1) AS p_averageRating,
-                    (SELECT COUNT(*)
-                     FROM product_reviews pr
-                     WHERE pr.productId = p.id
-                       AND pr.status = 1) AS p_totalReviews,
-                    (SELECT MIN(
-                                    CASE
-                                        WHEN p.stockManagementType = 0 THEN p.basePrice
-                                        WHEN p.stockManagementType = 1 THEN p.basePrice + COALESCE(pc.additionalPrice, 0)
-                                        WHEN p.stockManagementType = 2 THEN p.basePrice + COALESCE(pa.additionalPrice, 0)
-                                        ELSE p.basePrice + COALESCE(pc.additionalPrice, 0) + COALESCE(pa.additionalPrice, 0)
-                                    END)
-                     FROM product_variants pv
-                              LEFT JOIN product_colors pc ON pv.colorId = pc.id
-                              LEFT JOIN product_addons pa ON pv.addonId = pa.id
-                     WHERE pv.productId = p.id
-                       AND pv.status = 1) AS lowest_variant_price
-                FROM products p
-                WHERE p.status = 1 AND p.featured = 1
-                ORDER BY p.createdAt DESC
-                LIMIT ?
-            )
-            SELECT
-                p.p_id AS id,
-                p.p_name AS name,
-                p.p_basePrice AS basePrice,
-                p.p_totalViews AS totalViews,
-                p.p_averageRating AS averageRating,
-                p.p_totalReviews AS totalReviews,
-                p.p_featured AS featured,
-                (SELECT image
-                 FROM product_images
-                 WHERE productId = p.p_id
-                   AND main = 1
-                 LIMIT 1) AS mainImage,
-                c.id AS categoryId,
-                c.name AS categoryName,
-                b.id AS brandId,
-                b.name AS brandName,
-                p.max_discount AS discountPercent,
-                CASE
-                    WHEN p.max_discount IS NOT NULL
-                    THEN p.lowest_variant_price * (1 - p.max_discount/100)
-                    ELSE p.lowest_variant_price
-                END AS lowestSalePrice
-            FROM FeaturedProducts p
-                     LEFT JOIN categories c ON p.p_categoryId = c.id
-                     LEFT JOIN brands b ON p.p_brandId = b.id
-            """;
+                    p.p_id AS id,
+                    p.p_name AS name,
+                    p.p_basePrice AS basePrice,
+                    p.p_totalViews AS totalViews,
+                    p.p_averageRating AS averageRating,
+                    p.p_totalReviews AS totalReviews,
+                    p.p_featured AS featured,
+                    (SELECT image
+                     FROM product_images
+                     WHERE productId = p.p_id
+                       AND main = 1
+                     LIMIT 1) AS mainImage,
+                    c.id AS categoryId,
+                    c.name AS categoryName,
+                    b.id AS brandId,
+                    b.name AS brandName,
+                    p.max_discount AS discountPercent,
+                    CASE
+                        WHEN p.max_discount IS NOT NULL
+                        THEN p.lowest_variant_price * (1 - p.max_discount/100)
+                        ELSE p.lowest_variant_price
+                    END AS lowestSalePrice
+                FROM FeaturedProducts p
+                         LEFT JOIN categories c ON p.p_categoryId = c.id
+                         LEFT JOIN brands b ON p.p_brandId = b.id
+                """;
 
         return jdbi.withHandle(handle -> handle.createQuery(sql)
                 .bind(0, limit)
@@ -1420,5 +1420,94 @@ public class ProductRepository {
                 .list());
     }
 
+
+    public boolean isExists(Integer id) {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT COUNT(*) FROM products WHERE id = :id")
+                        .bind("id", id)
+                        .mapTo(Integer.class)
+                        .one()
+        ) > 0;
+    }
+
+    public boolean hasOrderDetailsOrCartItems(Integer productId) {
+        return jdbi.withHandle(handle -> {
+            Integer orderCount = handle.createQuery("""
+                                SELECT COUNT(*) FROM order_items oi
+                                JOIN product_variants pv ON oi.variantId = pv.id
+                                WHERE pv.productId = :productId
+                            """)
+                    .bind("productId", productId)
+                    .mapTo(Integer.class)
+                    .one();
+
+            Integer cartCount = handle.createQuery("""
+                                SELECT COUNT(*) FROM cartitems ci
+                                JOIN product_variants pv ON ci.productVariantId = pv.id
+                                WHERE pv.productId = :productId
+                            """)
+                    .bind("productId", productId)
+                    .mapTo(Integer.class)
+                    .one();
+
+            return (orderCount != null && orderCount > 0) || (cartCount != null && cartCount > 0);
+        });
+    }
+
+
+    public void delete(Integer id) {
+        jdbi.useHandle(handle -> {
+            // Lấy các variantId của sản phẩm
+            List<Integer> variantIds = handle.createQuery("SELECT id FROM product_variants WHERE productId = :id")
+                    .bind("id", id)
+                    .mapTo(Integer.class)
+                    .list();
+
+            // Xóa review_images liên quan đến product
+            List<Integer> reviewIds = handle.createQuery("SELECT id FROM product_reviews WHERE productId = :id")
+                    .bind("id", id)
+                    .mapTo(Integer.class)
+                    .list();
+            if (!reviewIds.isEmpty()) {
+                handle.createUpdate("DELETE FROM review_images WHERE reviewId IN (<ids>)")
+                        .bindList("ids", reviewIds)
+                        .execute();
+            }
+
+            // Xóa các bảng phụ liên quan
+            handle.createUpdate("DELETE FROM product_reviews WHERE productId = :id")
+                    .bind("id", id)
+                    .execute();
+
+            handle.createUpdate("DELETE FROM product_sales WHERE productId = :id")
+                    .bind("id", id)
+                    .execute();
+
+            handle.createUpdate("DELETE FROM wishlist WHERE productId = :id")
+                    .bind("id", id)
+                    .execute();
+
+            handle.createUpdate("DELETE FROM product_images WHERE productId = :id")
+                    .bind("id", id)
+                    .execute();
+
+            handle.createUpdate("DELETE FROM product_colors WHERE productId = :id")
+                    .bind("id", id)
+                    .execute();
+
+            handle.createUpdate("DELETE FROM product_addons WHERE productId = :id")
+                    .bind("id", id)
+                    .execute();
+
+            handle.createUpdate("DELETE FROM product_variants WHERE productId = :id")
+                    .bind("id", id)
+                    .execute();
+
+            // Cuối cùng xóa sản phẩm chính
+            handle.createUpdate("DELETE FROM products WHERE id = :id")
+                    .bind("id", id)
+                    .execute();
+        });
+    }
 
 }

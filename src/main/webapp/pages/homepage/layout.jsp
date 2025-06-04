@@ -7,7 +7,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>${title}</title>
-    <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logos/logo.png" type="image/png">
+    <link rel="icon" href="https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/yBfxxg-rRjID/file" type="image/png">
     <script src="${pageContext.request.contextPath}/assets/lib/jquery-3.7.1/jquery-3.7.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/lib/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/lib/sweetalert2-11.17.2/sweetalert2.all.min.js"></script>

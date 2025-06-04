@@ -238,7 +238,7 @@
                                 <div class="product-item">
                                     <div class="row align-items-center">
                                         <div class="col-md-2">
-                                            <img src="/assets/images/products/${item.imageUrl}" alt="Product"
+                                            <img src="${item.imageUrl}" alt="Product"
                                                  class="product-img w-100">
                                         </div>
                                         <div class="col-md-4">

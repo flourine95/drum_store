@@ -119,7 +119,7 @@ public class RolePermissonManagerController extends HttpServlet {
         }
 
         for (Integer userId : usersToLogout) {
-            ForceLogoutCache.markForLogout(userId);
+            ForceLogoutCache.markForLogout(userId, ForceLogoutCache.REASON_ROLE_PERMISSION_CHANGE);
         }
 
         response.sendRedirect(request.getContextPath() + "/dashboard/role-permissions");

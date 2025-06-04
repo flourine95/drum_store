@@ -551,7 +551,7 @@
                              onclick="goToProduct(${product.id}, event)"
                              title="Nhấn Ctrl + Click để mở trong tab mới">
                             <div class="card-img-wrapper">
-                                <img src="${pageContext.request.contextPath}/assets/images/products/${product.mainImage}"
+                                <img src="${product.mainImage}"
                                      class="card-img-top"
                                      alt="${product.name}">
                                 <div class="badges">

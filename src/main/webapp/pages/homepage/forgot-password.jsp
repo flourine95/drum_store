@@ -214,7 +214,7 @@
         </div>
 
         <div class="col-md-7 image-section">
-            <img src="${pageContext.request.contextPath}/assets/images/login.webp"
+            <img src="https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/YsG5LpzitdwZ/file"
                  alt="Hình ảnh trống truyền thống Việt Nam">
         </div>
     </div>

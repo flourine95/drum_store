@@ -248,7 +248,7 @@
                                 </div>
                             </c:if>
                         </div>
-                        <img src="/assets/images/products/${product.mainImage}"
+                        <img src="${product.mainImage}"
                              class="card-img-top object-fit-cover"
                              alt="${product.name}">
                     </div>
@@ -318,7 +318,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <img src="../../assets/images/helpers/about.jpg" class="img-fluid rounded shadow" alt="About Us">
+                <img src="https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/FclXZOFcv6pw/file" class="img-fluid rounded shadow" alt="About Us">
             </div>
             <div class="col-md-6">
                 <h2 class="mb-4">VỀ CHÚNG TÔI</h2>
@@ -339,13 +339,13 @@
 </section>
 <script>
     const slides = [
-        {src: "assets/images/banners/banner0.png", alt: "Slide 1"},
-        {src: "assets/images/banners/banner1.png", alt: "Slide 2"},
-        {src: "assets/images/banners/banner2.png", alt: "Slide 3"},
-        {src: "assets/images/banners/banner3.png", alt: "Slide 4"},
-        {src: "assets/images/banners/banner4.png", alt: "Slide 5"},
-        {src: "assets/images/banners/banner5.png", alt: "Slide 6"},
-        {src: "assets/images/banners/banner6.png", alt: "Slide 7"}
+        {src: "https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/Rpp7UboqEkYM/file", alt: "Slide 1"},
+        {src: "https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/xHJ4mV-CzDtj/file", alt: "Slide 2"},
+        {src: "https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/HPbQtwkQVAs2/file", alt: "Slide 3"},
+        {src: "https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/t6rwmJ78Erol/file", alt: "Slide 4"},
+        {src: "https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/lj2KpKs8aVDs/file", alt: "Slide 5"},
+        {src: "https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/RhOlalq6LIrf/file", alt: "Slide 6"},
+        {src: "https://ckbox.cloud/vbhlwxkZHAS6tNu2Czrw/assets/7EY_2OoIp3WC/file", alt: "Slide 7"}
     ];
     const indicatorsContainer = document.getElementById('carouselIndicators');
     const itemsContainer = document.getElementById('carouselItems');

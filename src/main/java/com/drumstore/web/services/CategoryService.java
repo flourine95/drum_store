@@ -9,7 +9,7 @@ import java.util.List;
 public class CategoryService {
     private final CategoryRepository categoryRepository = new CategoryRepository();
 
-    public List<Category> all() {
+    public List<CategoryDTO> all() {
         return categoryRepository.all();
     }
 

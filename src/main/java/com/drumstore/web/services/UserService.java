@@ -69,4 +69,6 @@ public class UserService {
     public void removeUserRole(int userId, int roleId) {
         userRepository.removeUserRole(userId, roleId);
     }
+
+
 }

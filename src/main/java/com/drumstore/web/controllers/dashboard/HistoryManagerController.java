@@ -1,8 +1,6 @@
 package com.drumstore.web.controllers.dashboard;
 
-import com.drumstore.web.dto.CategoryDTO;
 import com.drumstore.web.dto.LogDTO;
-import com.drumstore.web.models.Log;
 import com.drumstore.web.services.LogService;
 import com.drumstore.web.utils.ParseHelper;
 import jakarta.servlet.ServletException;
@@ -14,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/dashboard/history/*")
+@WebServlet("/dashboard/histories/*")
 public class HistoryManagerController extends HttpServlet {
 
     private final LogService logService = new LogService();
@@ -37,10 +35,10 @@ public class HistoryManagerController extends HttpServlet {
 
     private void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<LogDTO> logs = logService.all();
-        System.out.println("danh sách: " +logs);
+        System.out.println("danh sách: " + logs);
         request.setAttribute("logs", logs);
-        request.setAttribute("title","Quản lý lịch sử hoạt động");
-        request.setAttribute("content","history/index.jsp");
+        request.setAttribute("title", "Quản lý lịch sử hoạt động");
+        request.setAttribute("content", "histories/index.jsp");
         request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
     }
 
@@ -48,7 +46,7 @@ public class HistoryManagerController extends HttpServlet {
         String logId = request.getParameter("id");
 
         if (logId == null || logId.isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/dashboard/history");
+            response.sendRedirect(request.getContextPath() + "/dashboard/histories");
             return;
         }
 
@@ -57,7 +55,7 @@ public class HistoryManagerController extends HttpServlet {
             LogDTO log = logService.findById(id);
 
             if (log == null) {
-                response.sendRedirect(request.getContextPath() + "/dashboard/history");
+                response.sendRedirect(request.getContextPath() + "/dashboard/histories");
                 return;
             }
 
@@ -66,7 +64,7 @@ public class HistoryManagerController extends HttpServlet {
             request.setAttribute("content", "history/edit.jsp");
             request.getRequestDispatcher("/pages/dashboard/layout.jsp").forward(request, response);
         } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/dashboard/history");
+            response.sendRedirect(request.getContextPath() + "/dashboard/histories");
         }
     }
 

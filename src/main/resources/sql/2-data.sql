@@ -12767,6 +12767,11 @@ INSERT INTO permissions (name, description) VALUES
 ('orders:edit', 'Hiển thị form chỉnh sửa đơn hàng'),
 ('orders:update', 'Cập nhật đơn hàng'),
 ('orders:delete', 'Xóa đơn hàng'),
+('orders:update-quantity', 'Cập nhật số lượng sản phẩm trong đơn hàng'),
+('orders:remove-orderItem', 'Xóa sản phẩm khỏi đơn hàng'),
+('orders:modify-orderStatus', 'Cập nhật trạng thái đơn hàng'),
+('orders:remove-order', 'Xóa toàn bộ đơn hàng'),
+
 
 -- roles
 ('roles:index', 'Xem danh sách vai trò'),
@@ -12793,7 +12798,79 @@ INSERT INTO permissions (name, description) VALUES
 ('role-permissions:show', 'Xem chi tiết quyền gán'),
 ('role-permissions:edit', 'Hiển thị form chỉnh sửa quyền gán'),
 ('role-permissions:update', 'Cập nhật quyền gán'),
-('role-permissions:delete', 'Xóa quyền gán');
+('role-permissions:delete', 'Xóa quyền gán'),
+
+-- files
+('files:index', 'Xem danh sách tập tin'),
+('files:create', 'Hiển thị form tải lên tập tin'),
+('files:store', 'Lưu tập tin mới'),
+('files:show', 'Xem chi tiết tập tin'),
+('files:edit', 'Hiển thị form chỉnh sửa tập tin'),
+('files:update', 'Cập nhật tập tin'),
+('files:delete', 'Xóa tập tin'),
+
+-- users
+('users:index', 'Xem danh sách người dùng'),
+('users:create', 'Hiển thị form tạo người dùng'),
+('users:store', 'Lưu người dùng mới'),
+('users:show', 'Xem chi tiết người dùng'),
+('users:edit', 'Hiển thị form chỉnh sửa người dùng'),
+('users:update', 'Cập nhật người dùng'),
+('users:delete', 'Xóa người dùng'),
+
+-- sales
+('sales:index', 'Xem danh sách đơn bán'),
+('sales:create', 'Hiển thị form tạo đơn bán'),
+('sales:store', 'Lưu đơn bán mới'),
+('sales:show', 'Xem chi tiết đơn bán'),
+('sales:edit', 'Hiển thị form chỉnh sửa đơn bán'),
+('sales:update', 'Cập nhật đơn bán'),
+('sales:delete', 'Xóa đơn bán'),
+
+-- product-sales
+('product-sales:index', 'Xem danh sách sản phẩm đã bán'),
+('product-sales:create', 'Hiển thị form tạo bản ghi sản phẩm bán'),
+('product-sales:store', 'Lưu bản ghi sản phẩm bán mới'),
+('product-sales:show', 'Xem chi tiết sản phẩm đã bán'),
+('product-sales:edit', 'Hiển thị form chỉnh sửa bản ghi sản phẩm bán'),
+('product-sales:update', 'Cập nhật bản ghi sản phẩm bán'),
+('product-sales:delete', 'Xóa bản ghi sản phẩm bán'),
+
+-- user-roles
+('user-roles:index', 'Xem danh sách vai trò của người dùng'),
+('user-roles:create', 'Hiển thị form gán vai trò cho người dùng'),
+('user-roles:store', 'Lưu vai trò được gán cho người dùng'),
+('user-roles:show', 'Xem chi tiết vai trò của người dùng'),
+('user-roles:edit', 'Hiển thị form chỉnh sửa vai trò người dùng'),
+('user-roles:update', 'Cập nhật vai trò người dùng'),
+('user-roles:delete', 'Xóa vai trò đã gán cho người dùng')
+
+('histories:index', 'Xem danh sách lịch sử'),
+('histories:create', 'Hiển thị form tạo lịch sử'),
+('histories:store', 'Lưu lịch sử mới'),
+('histories:show', 'Xem chi tiết lịch sử'),
+('histories:edit', 'Hiển thị form chỉnh sửa lịch sử'),
+('histories:update', 'Cập nhật lịch sử'),
+('histories:delete', 'Xóa lịch sử'),
+
+('feedbacks:index', 'Xem danh sách phản hồi'),
+('feedbacks:create', 'Hiển thị form tạo phản hồi'),
+('feedbacks:store', 'Lưu phản hồi mới'),
+('feedbacks:show', 'Xem chi tiết phản hồi'),
+('feedbacks:edit', 'Hiển thị form chỉnh sửa phản hồi'),
+('feedbacks:update', 'Cập nhật phản hồi'),
+('feedbacks:updateStatus', 'Cập nhật trạng thái phản hồi'),
+('feedbacks:delete', 'Xóa phản hồi'),
+
+('vouchers:index', 'Xem danh sách mã giảm giá'),
+('vouchers:create', 'Hiển thị form tạo mã giảm giá'),
+('vouchers:store', 'Lưu mã giảm giá mới'),
+('vouchers:show', 'Xem chi tiết mã giảm giá'),
+('vouchers:edit', 'Hiển thị form chỉnh sửa mã giảm giá'),
+('vouchers:update', 'Cập nhật mã giảm giá'),
+('vouchers:delete', 'Xóa mã giảm giá');
+
+
 
 INSERT INTO roles (name, description) VALUES
                                           ('ADMIN', 'Toàn quyền hệ thống'),

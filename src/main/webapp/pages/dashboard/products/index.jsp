@@ -167,7 +167,7 @@ $(document).ready(function() {
                 data: null,
                 render: function(data) {
                     let image = data.mainImage ? 
-                        `<img src="${pageContext.request.contextPath}/assets/images/products/\${data.mainImage}"
+                        `<img src="\${data.mainImage}"
                               class="rounded me-2" style="width: 48px; height: 48px; object-fit: cover;">` : 
                         `<div class="rounded me-2 bg-light d-flex align-items-center justify-content-center" 
                               style="width: 48px; height: 48px;"><i class="bi bi-image text-secondary"></i></div>`;
@@ -337,7 +337,7 @@ $(document).ready(function() {
         pageLength: 10,
         lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Tất cả"]],
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json'
+            url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json'
         },
         dom: '<"row mb-3"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
              '<"row"<"col-sm-12"tr>>' +
@@ -468,8 +468,8 @@ function deleteProduct(productId) {
                 }
             });
             
-            fetch('${pageContext.request.contextPath}/api/products/' + productId, {
-                method: 'DELETE',
+            fetch('${pageContext.request.contextPath}/dashboard/products?action=delete&id=' + productId, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 }

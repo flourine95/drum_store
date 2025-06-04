@@ -62,6 +62,23 @@ public class UserRoleManagerController extends HttpServlet {
         String search = request.getParameter("search");
         String roleFilter = request.getParameter("role");
         
+        // Get pagination parameters
+        int pageSize = 10; // Number of users per page
+        int currentPage = 1;
+        
+        try {
+            String pageParam = request.getParameter("page");
+            if (pageParam != null && !pageParam.isEmpty()) {
+                currentPage = Integer.parseInt(pageParam);
+                if (currentPage < 1) {
+                    currentPage = 1;
+                }
+            }
+        } catch (NumberFormatException e) {
+            // Default to page 1 if invalid
+            currentPage = 1;
+        }
+        
         // Get all users and roles
         List<UserDTO> users = userService.getAllUsers();
         List<RoleDTO> roles = roleRepository.getAllRoles();
@@ -86,10 +103,27 @@ public class UserRoleManagerController extends HttpServlet {
                         .collect(Collectors.toList());
             } catch (NumberFormatException ignored) {}
         }
+        
+        // Calculate pagination values
+        int totalUsers = users.size();
+        int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
+        
+        // Ensure current page doesn't exceed total pages
+        if (currentPage > totalPages && totalPages > 0) {
+            currentPage = totalPages;
+        }
+        
+        // Apply pagination
+        int fromIndex = (currentPage - 1) * pageSize;
+        int toIndex = Math.min(fromIndex + pageSize, totalUsers);
+        
+        // Slice the list for current page
+        List<UserDTO> pageUsers = fromIndex < totalUsers ?
+                users.subList(fromIndex, toIndex) : new ArrayList<>();
 
         // Create matrix of users and their roles
         List<UserRoleMatrixDTO> matrixList = new ArrayList<>();
-        for (UserDTO user : users) {
+        for (UserDTO user : pageUsers) {
             UserRoleMatrixDTO matrix = new UserRoleMatrixDTO();
             matrix.setUserId(user.getId());
             matrix.setUserEmail(user.getEmail());
@@ -108,6 +142,13 @@ public class UserRoleManagerController extends HttpServlet {
             matrixList.add(matrix);
         }
 
+        // Set pagination attributes
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("totalUsers", totalUsers);
+        request.setAttribute("pageSize", pageSize);
+        
+        // Set other attributes
         request.setAttribute("matrixList", matrixList);
         request.setAttribute("roles", roles);
         request.setAttribute("search", search);
@@ -197,7 +238,7 @@ public class UserRoleManagerController extends HttpServlet {
 
             // Force logout if roles changed
             if (!currentRoleIds.equals(newRoleIds)) {
-                ForceLogoutCache.markForLogout(userId);
+                ForceLogoutCache.markForLogout(userId, ForceLogoutCache.REASON_USER_ROLE_CHANGE);
             }
 
             FlashManager.store(request, "success", "Cập nhật vai trò người dùng thành công!");

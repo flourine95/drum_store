@@ -223,7 +223,7 @@
                     
                     if (data && data.length > 0) {
                         data.forEach(function(product) {
-                            let imageUrl = '${pageContext.request.contextPath}/assets/images/products/';
+                            let imageUrl = '';
                             const image = product.mainImage ? 
                                 '<img src="' + imageUrl + product.mainImage + '" class="rounded" style="width: 48px; height: 48px; object-fit: cover;">' : 
                                 '<div class="rounded bg-light d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;"><i class="bi bi-image text-secondary"></i></div>';
