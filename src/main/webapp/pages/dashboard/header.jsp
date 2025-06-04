@@ -207,6 +207,18 @@
             </a>
         </li>
         <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/inventory" class="sidebar-link" title="Quản lý Kho Hàng">
+                <i class="bi bi-clipboard-data"></i>
+                <span>Q.L Kho Hàng</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/files" class="sidebar-link" title="Quản lý Tệp Tin">
+                <i class="bi bi-folder2-open"></i>
+                <span>Q.L Tệp Tin</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
             <a href="${pageContext.request.contextPath}/dashboard/orders" class="sidebar-link" title="Quản lý Đơn Hàng">
                 <i class="bi bi-cart3"></i>
                 <span>Q.L Đơn Hàng</span>
@@ -219,6 +231,12 @@
             </a>
         </li>
         <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/feedbacks" class="sidebar-link" title="Phản Hồi Khách Hàng">
+                <i class="bi bi-chat-dots"></i>
+                <span>Q.L Phản Hồi</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
             <a href="${pageContext.request.contextPath}/dashboard/sales" class="sidebar-link" title="Quản lý Chương Trình Khuyến Mãi">
                 <i class="bi bi-gift"></i>
                 <span>Q.L Khuyến Mãi</span>
@@ -228,18 +246,6 @@
             <a href="${pageContext.request.contextPath}/dashboard/vouchers" class="sidebar-link" title="Quản lý Mã Giảm Giá">
                 <i class="bi bi-ticket-perforated"></i>
                 <span>Q.L Mã Giảm Giá</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="${pageContext.request.contextPath}/dashboard/feedbacks" class="sidebar-link" title="Phản Hồi Khách Hàng">
-                <i class="bi bi-chat-dots"></i>
-                <span>Q.L Phản Hồi</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="${pageContext.request.contextPath}/dashboard/histories" class="sidebar-link" title="Lịch Sử Hệ Thống">
-                <i class="bi bi-clock-history"></i>
-                <span>Q.L Lịch Sử</span>
             </a>
         </li>
         <li class="sidebar-item">
@@ -267,9 +273,9 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="${pageContext.request.contextPath}/dashboard/inventory" class="sidebar-link" title="Quản lý Kho Hàng">
-                <i class="bi bi-clipboard-data"></i>
-                <span>Q.L Kho Hàng</span>
+            <a href="${pageContext.request.contextPath}/dashboard/histories" class="sidebar-link" title="Lịch Sử Hệ Thống">
+                <i class="bi bi-clock-history"></i>
+                <span>Q.L Lịch Sử</span>
             </a>
         </li>
         <li class="sidebar-item">
