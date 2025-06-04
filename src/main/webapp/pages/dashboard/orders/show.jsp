@@ -415,14 +415,8 @@
 
                     setTimeout(function () {
                         $('#editQuantityModal-' + orderItemId).modal('hide');
-                        saveBtn.innerHTML = originalBtnHtml;
-                        saveBtn.disabled = false;
                     }, 500);
                 } else {
-                    // Khôi phục nút
-                    saveBtn.innerHTML = originalBtnHtml;
-                    saveBtn.disabled = false;
-
                     Swal.fire({
                         icon: 'error',
                         title: 'Thất bại',
@@ -432,9 +426,6 @@
                 }
             },
             error: function (xhr) {
-                // Khôi phục nút
-                saveBtn.innerHTML = originalBtnHtml;
-                saveBtn.disabled = false;
 
                 const errorMessage = xhr.responseJSON && xhr.responseJSON.message
                     ? xhr.responseJSON.message

@@ -2,6 +2,7 @@ package com.drumstore.web.controllers.auth;
 
 import com.drumstore.web.config.GoogleAuthConfig;
 import com.drumstore.web.dto.UserDTO;
+import com.drumstore.web.services.CartService;
 import com.drumstore.web.services.UserService;
 import com.drumstore.web.utils.GsonUtils;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -24,6 +25,7 @@ import java.net.URI;
 @WebServlet({"/login/google", "/login/oauth2/code/google"})
 public class GoogleLoginController extends HttpServlet {
     private final UserService userService = new UserService();
+    private final CartService cartService = new CartService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,10 +70,13 @@ public class GoogleLoginController extends HttpServlet {
                 user.setAvatar(userInfo.get("picture").getAsString());
                 user.setStatus(true);
                 userService.store(user);
+                cartService.createCart(email);
             }
+            user = userService.findUser("email", email);
 
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+            session.setAttribute("cart", cartService.getCartContext(user.getId()));
 
             response.sendRedirect(request.getContextPath() + "/home");
 

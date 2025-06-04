@@ -253,7 +253,7 @@
 
                 <div class="social-signin">
                     <button type="button"
-                            onclick="window.location.href='${pageContext.request.contextPath}/login/google'"
+                            onclick="window.location.href='${pageContext.request.contextPath}/login/oauth2/code/google'"
                             class="btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
                             <path fill="#FFC107"
