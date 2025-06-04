@@ -1328,4 +1328,97 @@ public class ProductRepository {
                         .execute()
         );
     }
+
+    public List<ProductCardDTO> getFeaturedProductCards(int limit) {
+        String sql = """
+            WITH FeaturedProducts AS (
+                SELECT
+                    p.id AS p_id,
+                    p.name AS p_name,
+                    p.basePrice AS p_basePrice,
+                    p.totalViews AS p_totalViews,
+                    p.categoryId AS p_categoryId,
+                    p.featured AS p_featured,
+                    p.brandId AS p_brandId,
+                    p.stockManagementType AS p_stockManagementType,
+                    (SELECT MAX(s.discountPercentage)
+                     FROM product_sales ps
+                              JOIN sales s ON ps.saleId = s.id
+                     WHERE ps.productId = p.id
+                       AND CURRENT_DATE BETWEEN s.startDate AND s.endDate) AS max_discount,
+                    (SELECT COALESCE(AVG(pr.rating), 0)
+                     FROM product_reviews pr
+                     WHERE pr.productId = p.id
+                       AND pr.status = 1) AS p_averageRating,
+                    (SELECT COUNT(*)
+                     FROM product_reviews pr
+                     WHERE pr.productId = p.id
+                       AND pr.status = 1) AS p_totalReviews,
+                    (SELECT MIN(
+                                    CASE
+                                        WHEN p.stockManagementType = 0 THEN p.basePrice
+                                        WHEN p.stockManagementType = 1 THEN p.basePrice + COALESCE(pc.additionalPrice, 0)
+                                        WHEN p.stockManagementType = 2 THEN p.basePrice + COALESCE(pa.additionalPrice, 0)
+                                        ELSE p.basePrice + COALESCE(pc.additionalPrice, 0) + COALESCE(pa.additionalPrice, 0)
+                                    END)
+                     FROM product_variants pv
+                              LEFT JOIN product_colors pc ON pv.colorId = pc.id
+                              LEFT JOIN product_addons pa ON pv.addonId = pa.id
+                     WHERE pv.productId = p.id
+                       AND pv.status = 1) AS lowest_variant_price
+                FROM products p
+                WHERE p.status = 1 AND p.featured = 1
+                ORDER BY p.createdAt DESC
+                LIMIT ?
+            )
+            SELECT
+                p.p_id AS id,
+                p.p_name AS name,
+                p.p_basePrice AS basePrice,
+                p.p_totalViews AS totalViews,
+                p.p_averageRating AS averageRating,
+                p.p_totalReviews AS totalReviews,
+                p.p_featured AS featured,
+                (SELECT image
+                 FROM product_images
+                 WHERE productId = p.p_id
+                   AND main = 1
+                 LIMIT 1) AS mainImage,
+                c.id AS categoryId,
+                c.name AS categoryName,
+                b.id AS brandId,
+                b.name AS brandName,
+                p.max_discount AS discountPercent,
+                CASE
+                    WHEN p.max_discount IS NOT NULL
+                    THEN p.lowest_variant_price * (1 - p.max_discount/100)
+                    ELSE p.lowest_variant_price
+                END AS lowestSalePrice
+            FROM FeaturedProducts p
+                     LEFT JOIN categories c ON p.p_categoryId = c.id
+                     LEFT JOIN brands b ON p.p_brandId = b.id
+            """;
+
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind(0, limit)
+                .map((rs, ctx) -> ProductCardDTO.builder()
+                        .id(rs.getInt("id"))
+                        .name(rs.getString("name"))
+                        .mainImage(rs.getString("mainImage"))
+                        .basePrice(rs.getDouble("basePrice"))
+                        .featured(rs.getBoolean("featured"))
+                        .lowestSalePrice(rs.getDouble("lowestSalePrice"))
+                        .averageRating(rs.getDouble("averageRating"))
+                        .totalViews(rs.getInt("totalViews"))
+                        .totalReviews(rs.getInt("totalReviews"))
+                        .categoryId(rs.getInt("categoryId"))
+                        .categoryName(rs.getString("categoryName"))
+                        .brandId(rs.getInt("brandId"))
+                        .brandName(rs.getString("brandName"))
+                        .discountPercent(rs.getDouble("discountPercent"))
+                        .build())
+                .list());
+    }
+
+
 }

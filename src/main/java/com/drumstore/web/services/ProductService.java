@@ -146,4 +146,8 @@ public class ProductService {
             }
         }
     }
+    
+    public List<ProductCardDTO> getFeaturedProductCards(int limit) {
+        return productRepository.getFeaturedProductCards(limit);
+    }
 }

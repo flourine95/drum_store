@@ -26,4 +26,5 @@ public class ProductCardDTO implements Serializable {
     private String categoryName;
     private int brandId;
     private String brandName;
+    private int stock = 5;
 }

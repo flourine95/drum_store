@@ -32,4 +32,8 @@ public class CategoryService {
     public void delete(Integer id) {
         categoryRepository.delete(id);
     }
+
+    public List<CategoryDTO> allWithProductCount() {
+        return categoryRepository.allWithProductCount();
+    }
 }

@@ -5,7 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>${pageTitle}</title>
+    <title>${title}</title>
+    <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logos/logo.png" type="image/png">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/lib/fontawesome-free-5.15.4-web/css/all.min.css">
@@ -28,15 +29,6 @@
     <div class="main">
         <main class="content px-3 py-4">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-12 d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="page-title">${pageTitle}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-12">
                         <jsp:include page="${content}"/>

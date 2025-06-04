@@ -2,49 +2,76 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
-<div class="container-fluid">
-    <!-- Page Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-sm-flex align-items-center justify-content-between">
-                <h1 class="h3 mb-0 text-gray-800">Quản lý Danh Mục</h1>
-                <a href="${pageContext.request.contextPath}/dashboard/categories?action=create" 
-                   class="btn btn-primary">
-                    <i class="bi bi-plus-circle me-1"></i> Thêm danh mục
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quick Stats -->
-    <div class="row mb-4">
-        <div class="col-md-4 mb-3">
-            <div class="card border-left-primary shadow h-100 py-2">
+<div class="container-fluid px-4">
+    <!-- Dashboard Header with Stats -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-4 col-md-6">
+            <div class="card bg-primary text-white h-100">
                 <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Tổng danh mục
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">${categories.size()}</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="fw-normal mb-0">Tổng danh mục</h5>
+                            <h2 class="mt-2 mb-0">${categories.size()}</h2>
                         </div>
-                        <div class="col-auto">
-                            <i class="bi bi-bookmark-fill fa-2x text-gray-300"></i>
+                        <div class="rounded-circle bg-primary-subtle p-3">
+                            <i class="bi bi-bookmark-fill fs-1 text-primary"></i>
                         </div>
                     </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between small">
+                    <a class="text-white stretched-link" href="javascript:void(0)">Xem tất cả danh mục</a>
+                    <div class="text-white"><i class="bi bi-chevron-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="fw-normal mb-0">Danh mục có ảnh</h5>
+                            <h2 class="mt-2 mb-0">${categoryWithImageCount}</h2>
+                        </div>
+                        <div class="rounded-circle bg-success-subtle p-3">
+                            <i class="bi bi-image fs-1 text-success"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between small">
+                    <a class="text-white stretched-link" href="javascript:void(0)">Xem danh mục có ảnh</a>
+                    <div class="text-white"><i class="bi bi-chevron-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="fw-normal mb-0">Danh mục có sản phẩm</h5>
+                            <h2 class="mt-2 mb-0">${categoryWithProductCount}</h2>
+                        </div>
+                        <div class="rounded-circle bg-info-subtle p-3">
+                            <i class="bi bi-box-seam fs-1 text-info"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between small">
+                    <a class="text-white stretched-link" href="javascript:void(0)">Xem danh mục có sản phẩm</a>
+                    <div class="text-white"><i class="bi bi-chevron-right"></i></div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Category Cards -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Danh sách Danh Mục</h6>
-                    <div class="dropdown no-arrow">
-                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" 
+    
+    <!-- Categories Table Card -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Quản lý danh mục</h5>
+                <div class="d-flex">
+                    <div class="dropdown me-2">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" 
                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-download me-1"></i> Xuất dữ liệu
                         </button>
@@ -55,70 +82,85 @@
                             <li><a class="dropdown-item" href="#" id="export-print"><i class="bi bi-printer me-2"></i>In</a></li>
                         </ul>
                     </div>
+                    <a href="${pageContext.request.contextPath}/dashboard/categories?action=create" class="btn btn-success">
+                        <i class="bi bi-plus-circle me-2"></i>Thêm danh mục
+                    </a>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="categories" class="table table-striped table-hover table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tên</th>
-                                    <th>Ảnh</th>
-                                    <th>Mô tả</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach var="category" items="${categories}">
-                                    <tr>
-                                        <td>${category.id}</td>
-                                        <td>
-                                            <span class="fw-bold">${category.name}</span>
-                                        </td>
-                                        <td class="text-center">
-                                            <c:choose>
-                                                <c:when test="${not empty category.image}">
-                                                    <img class="category-image img-thumbnail" 
-                                                         src="${pageContext.request.contextPath}/uploads/categories/${category.image}" 
-                                                         alt="${category.name}">
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <span class="badge bg-secondary">Không có ảnh</span>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${not empty category.description}">
-                                                    ${category.description}
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <span class="text-muted fst-italic">Không có mô tả</span>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td>
-                                            <fmt:formatDate value="${category.createdAt}" pattern="dd/MM/yyyy" />
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <a href="${pageContext.request.contextPath}/dashboard/categories?action=edit&id=${category.id}" 
-                                                   class="btn btn-sm btn-primary me-1" title="Sửa">
-                                                    <i class="bi bi-pencil-fill"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-sm btn-danger delete-btn" 
-                                                        data-id="${category.id}" data-name="${category.name}" title="Xóa">
-                                                    <i class="bi bi-trash-fill"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="categories" class="table table-hover align-middle" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Danh mục</th>
+                            <th>Mô tả</th>
+                            <th>Ngày tạo</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="category" items="${categories}">
+                            <tr>
+                                <td>${category.id}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <c:choose>
+                                            <c:when test="${not empty category.image}">
+                                                <img src="${pageContext.request.contextPath}/uploads/categories/${category.image}" 
+                                                     class="rounded me-2" style="width: 48px; height: 48px; object-fit: cover;"
+                                                     alt="${category.name}">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="rounded me-2 bg-light d-flex align-items-center justify-content-center" 
+                                                     style="width: 48px; height: 48px;">
+                                                    <i class="bi bi-image text-secondary"></i>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <div>
+                                            <div class="fw-semibold text-truncate" style="max-width: 200px;">${category.name}</div>
+                                            <div class="small text-muted">ID: ${category.id}</div>
+                                            <c:if test="${category.productCount > 0}">
+                                                    <span class="badge bg-info-subtle text-info rounded-pill ms-1">
+                                                        <i class="bi bi-box-seam me-1"></i>${category.productCount} sản phẩm
+                                                    </span>
+                                            </c:if>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${not empty category.description}">
+                                            <div class="text-truncate" style="max-width: 500px;">${category.description}</div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="text-muted fst-italic">Không có mô tả</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <fmt:formatDate value="${category.createdAt}" pattern="dd/MM/yyyy" />
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <div class="btn-group">
+                                            <a href="${pageContext.request.contextPath}/dashboard/categories?action=edit&id=${category.id}"
+                                               class="btn btn-sm btn-light" title="Sửa">
+                                                <i class="bi bi-pencil text-primary"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-light delete-btn"
+                                                    data-id="${category.id}" data-name="${category.name}" title="Xóa">
+                                                <i class="bi bi-trash text-danger"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -134,8 +176,11 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="categoryId" />
-                <p>Bạn có chắc chắn muốn xóa danh mục <span id="categoryName" class="fw-bold"></span>?</p>
-                <p class="text-danger">Lưu ý: Hành động này không thể hoàn tác.</p>
+                <div class="text-center mb-3">
+                    <i class="bi bi-exclamation-triangle text-warning fs-1"></i>
+                </div>
+                <p class="text-center">Bạn có chắc chắn muốn xóa danh mục <span id="categoryName" class="fw-bold"></span>?</p>
+                <p class="text-danger text-center small">Lưu ý: Hành động này không thể hoàn tác.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -145,31 +190,19 @@
     </div>
 </div>
 
-<style>
-    .category-image {
-        width: 100px;
-        height: 100px;
-        object-fit: contain;
-    }
-    
-    .card-header .dropdown-menu a:hover {
-        background-color: #f8f9fc;
-    }
-    
-    .border-left-primary {
-        border-left: 0.25rem solid #4e73df !important;
-    }
-</style>
 <script src="${pageContext.request.contextPath}/assets/js/swalHelper.js"></script>
 <script>
     $(document).ready(function() {
-        // Initialize DataTable
+        // Initialize DataTable with modern styling
         var table = $('#categories').DataTable({
             pageLength: 10,
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Tất cả"]],
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json'
             },
-            dom: 'Bfrtip',
+            dom: '<"row mb-3"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
+                '<"row"<"col-sm-12"tr>>' +
+                '<"row mt-3"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
             buttons: [
                 {
                     extend: 'excel',
@@ -206,92 +239,60 @@
             ]
         });
         
-        // Export buttons
-        $('#export-excel').click(function() {
+        // Stats are now calculated server-side and passed directly to the JSP
+        
+        // Export buttons functionality
+        $('#export-excel').on('click', function() {
             table.button('.buttons-excel').trigger();
         });
         
-        $('#export-pdf').click(function() {
+        $('#export-pdf').on('click', function() {
             table.button('.buttons-pdf').trigger();
         });
         
-        $('#export-csv').click(function() {
+        $('#export-csv').on('click', function() {
             table.button('.buttons-csv').trigger();
         });
         
-        $('#export-print').click(function() {
+        $('#export-print').on('click', function() {
             table.button('.buttons-print').trigger();
         });
         
-        // Delete confirmation
-        $('.delete-btn').click(function() {
-            var id = $(this).data('id');
-            var name = $(this).data('name');
-            console.log('id: ' + id )
-            $('#categoryId').val(id);
-            $('#categoryName').text(name);
+        // Delete category functionality
+        $('.delete-btn').on('click', function() {
+            const categoryId = $(this).data('id');
+            const categoryName = $(this).data('name');
+            
+            $('#categoryId').val(categoryId);
+            $('#categoryName').text(categoryName);
             $('#deleteModal').modal('show');
         });
         
-        // Handle delete confirmation with AJAX
-        $('#confirmDeleteBtn').click(function() {
-            var categoryId = $('#categoryId').val();
-            console.log(categoryId)
-            // Show loading state
-            $(this).prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...');
+        $('#confirmDeleteBtn').on('click', function() {
+            const categoryId = $('#categoryId').val();
             
             $.ajax({
-                url: '${pageContext.request.contextPath}/dashboard/categories',
-                method: 'POST',
-                data: {
-                    action: 'delete',
-                    id: categoryId
-                },
+                url: '${pageContext.request.contextPath}/dashboard/categories?action=delete&id=' + categoryId,
+                type: 'POST',
                 success: function(response) {
                     $('#deleteModal').modal('hide');
                     
                     if (response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thành công!',
-                            text: response.message,
-                            confirmButtonText: 'OK'
-                        }).then(() => {
-                            // Reload the page to refresh the category list
-                            location.reload();
+                        showSuccessAlert('Thành công', 'Danh mục đã được xóa thành công!', function() {
+                            window.location.reload();
                         });
                     } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: response.message || 'Không thể xóa danh mục'
-                        });
+                        showErrorAlert('Lỗi', response.message || 'Không thể xóa danh mục này.');
                     }
                 },
-                error: function(xhr) {
+                error: function() {
                     $('#deleteModal').modal('hide');
-                    
-                    let errorMessage = 'Không thể xóa danh mục';
-                    try {
-                        const response = JSON.parse(xhr.responseText);
-                        if (response.message) {
-                            errorMessage = response.message;
-                        }
-                    } catch (e) {
-                        console.error('Error parsing error response:', e);
-                    }
-                    
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: errorMessage
-                    });
-                },
-                complete: function() {
-                    // Reset button state
-                    $('#confirmDeleteBtn').prop('disabled', false).html('Xóa');
+                    showErrorAlert('Lỗi', 'Đã xảy ra lỗi khi xóa danh mục. Vui lòng thử lại sau.');
                 }
             });
         });
+        
+        // Initialize stats
+        updateCategoryStats();
     });
 </script>

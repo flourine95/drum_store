@@ -1,23 +1,127 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<div class="card">
-    <div class="card-body">
-        <table id="orders" class="table table-striped table-hover table-bordered" style="width:100%">
-            <thead>
-            <tr>
-                <th>Mã đơn hàng</th>
-                <th>Ngày đặt hàng</th>
-                <th>Tổng tiền</th>
-                <th>Phương thức thanh toán</th>
-                <th>Trạng thái thanh toán</th>
-                <th>Trạng thái đơn hàng</th>
-                <th>Địa chỉ giao hàng</th>
-                <th>Số lượng sản phẩm</th>
-                <th>Thao tác</th>
-            </tr>
-            </thead>
-        </table>
+<div class="container-fluid px-4">
+    <!-- Dashboard Header with Stats -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="fw-normal mb-0">Tổng đơn hàng</h5>
+                            <h2 class="mt-2 mb-0" id="totalOrders">--</h2>
+                        </div>
+                        <div class="rounded-circle bg-primary-subtle p-3">
+                            <i class="bi bi-cart-fill fs-1 text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between small">
+                    <a class="text-white stretched-link" href="javascript:void(0)" onclick="applyFilter('all')">Xem tất cả đơn hàng</a>
+                    <div class="text-white"><i class="bi bi-chevron-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="fw-normal mb-0">Đã giao hàng</h5>
+                            <h2 class="mt-2 mb-0" id="deliveredOrders">--</h2>
+                        </div>
+                        <div class="rounded-circle bg-success-subtle p-3">
+                            <i class="bi bi-check-circle fs-1 text-success"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between small">
+                    <a class="text-white stretched-link" href="javascript:void(0)" onclick="applyFilter('delivered')">Xem đơn đã giao</a>
+                    <div class="text-white"><i class="bi bi-chevron-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="fw-normal mb-0">Đang xử lý</h5>
+                            <h2 class="mt-2 mb-0" id="processingOrders">--</h2>
+                        </div>
+                        <div class="rounded-circle bg-info-subtle p-3">
+                            <i class="bi bi-hourglass-split fs-1 text-info"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between small">
+                    <a class="text-white stretched-link" href="javascript:void(0)" onclick="applyFilter('processing')">Xem đơn đang xử lý</a>
+                    <div class="text-white"><i class="bi bi-chevron-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-danger text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="fw-normal mb-0">Đã hủy</h5>
+                            <h2 class="mt-2 mb-0" id="cancelledOrders">--</h2>
+                        </div>
+                        <div class="rounded-circle bg-danger-subtle p-3">
+                            <i class="bi bi-x-circle fs-1 text-danger"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between small">
+                    <a class="text-white stretched-link" href="javascript:void(0)" onclick="applyFilter('cancelled')">Xem đơn đã hủy</a>
+                    <div class="text-white"><i class="bi bi-chevron-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Orders Table Card -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Quản lý đơn hàng</h5>
+                <div class="d-flex">
+                    <div class="dropdown me-2">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" 
+                               id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-download me-1"></i> Xuất dữ liệu
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" href="#" id="export-excel"><i class="bi bi-file-earmark-excel me-2"></i>Excel</a></li>
+                            <li><a class="dropdown-item" href="#" id="export-pdf"><i class="bi bi-file-earmark-pdf me-2"></i>PDF</a></li>
+                            <li><a class="dropdown-item" href="#" id="export-csv"><i class="bi bi-file-earmark-text me-2"></i>CSV</a></li>
+                            <li><a class="dropdown-item" href="#" id="export-print"><i class="bi bi-printer me-2"></i>In</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="orders" class="table table-hover align-middle" style="width:100%">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Ngày đặt hàng</th>
+                        <th>Tổng tiền</th>
+                        <th>Phương thức thanh toán</th>
+                        <th>Trạng thái thanh toán</th>
+                        <th>Trạng thái đơn hàng</th>
+                        <th>Địa chỉ giao hàng</th>
+                        <th>Số lượng sản phẩm</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -32,6 +136,8 @@
                         toastr.error(json.message || 'Có lỗi xảy ra khi lấy dữ liệu đơn hàng');
                         return [];
                     }
+                    // Update dashboard stats
+                    updateOrderStats(json);
                     return json;
                 },
                 error: function (xhr, error, thrown) {
@@ -67,38 +173,65 @@
                     data: 'paymentMethodText',
                     render: function (data) {
                         let badgeClass = '';
+                        let displayText = data;
+                        
                         switch (data) {
                             case 'COD':
-                                badgeClass = 'warning';
+                                badgeClass = 'danger'; 
+                                displayText = 'Tiền mặt';
                                 break;
                             case 'BANK_TRANSFER':
-                                badgeClass = 'primary';
+                                badgeClass = 'info';        
+                                displayText = 'Chuyển khoản';
                                 break;
-
+                            case 'E_WALLET':
+                                badgeClass = 'success';    
+                                displayText = 'Ví điện tử';
+                                break;
+                            case undefined:
+                            case null:
+                                badgeClass = 'secondary';  
+                                displayText = 'Không xác định';
+                                break;
                             default:
-                                badgeClass = 'secondary';
+                                badgeClass = 'secondary';  
                         }
-                        return `<span class="badge bg-\${badgeClass}">\${data}</span>`;
+                        return `<span class="badge bg-\${badgeClass}">\${displayText}</span>`;
                     }
                 },
                 {
                     data: 'paymentStatusText',
                     render: function (data) {
                         let badgeClass = '';
+                        let displayText = data;
+                        
                         switch (data) {
                             case 'PENDING':
                                 badgeClass = 'warning';
+                                displayText = 'Chờ thanh toán';
                                 break;
                             case 'COMPLETED':
                                 badgeClass = 'success';
+                                displayText = 'Đã thanh toán';
                                 break;
                             case 'FAILED':
                                 badgeClass = 'danger';
+                                displayText = 'Thanh toán thất bại';
+                                break;
+                            case 'CANCELLED':
+                                badgeClass = 'danger';
+                                displayText = '';
+                                break;
+
+                            case undefined:
+                            case null:
+                                badgeClass = 'secondary';
+                                displayText = 'Không xác định';
                                 break;
                             default:
                                 badgeClass = 'secondary';
                         }
-                        return `<span class="badge bg-\${badgeClass}">\${data}</span>`;
+                        return `<span class="badge bg-\${badgeClass}">\${displayText}</span>`;
                     }
                 },
                 {
@@ -106,11 +239,11 @@
                     render: function (data, type, row) {
                         return `
                        <select class="form-select order-status" data-order-id="\${row.orderId}"  data-original-status="\${data}"  style="width: 150px;">
-                            <option value="0" \${data == 0 ? 'selected' : ''}>PENDING</option>
-                            <option value="1" \${data == 1 ? 'selected' : ''}>CONFIRMED</option>
-                            <option value="2" \${data == 2 ? 'selected' : ''}>SHIPPING</option>
-                            <option value="3" \${data == 3 ? 'selected' : ''}>DELIVERED</option>
-                            <option value="4" \${data == 4 ? 'selected' : ''}>CANCELLED</option>
+                            <option value="0" \${data == 0 ? 'selected' : ''}>Chờ xác nhận</option>
+                            <option value="1" \${data == 1 ? 'selected' : ''}>Đã xác nhận</option>
+                            <option value="2" \${data == 2 ? 'selected' : ''}>Đang giao hàng</option>
+                            <option value="3" \${data == 3 ? 'selected' : ''}>Đã giao hàng</option>
+                            <option value="4" \${data == 4 ? 'selected' : ''}>Đã hủy</option>
                         </select>
                     `;
                     }
@@ -340,4 +473,75 @@
         });
     }
 
+    // Connect export buttons to DataTable export functions
+    $('#export-excel').on('click', function() {
+        $('.buttons-excel').click();
+    });
+    
+    $('#export-pdf').on('click', function() {
+        $('.buttons-pdf').click();
+    });
+    
+    $('#export-csv').on('click', function() {
+        $('.buttons-csv').click();
+    });
+    
+    $('#export-print').on('click', function() {
+        $('.buttons-print').click();
+    });
+    
+    // Function to update order stats
+    function updateOrderStats(orders) {
+        if (!Array.isArray(orders)) return;
+        
+        const totalOrders = orders.length;
+        let deliveredOrders = 0;
+        let processingOrders = 0;
+        let cancelledOrders = 0;
+        
+        orders.forEach(order => {
+            // Order status: 0=PENDING, 1=CONFIRMED, 2=SHIPPING, 3=DELIVERED, 4=CANCELLED
+            if (order.orderStatus === 3) {
+                deliveredOrders++;
+            } else if (order.orderStatus === 4) {
+                cancelledOrders++;
+            } else {
+                processingOrders++; // PENDING, CONFIRMED, SHIPPING are all considered processing
+            }
+        });
+        
+        // Update stats in the UI
+        $('#totalOrders').text(totalOrders);
+        $('#deliveredOrders').text(deliveredOrders);
+        $('#processingOrders').text(processingOrders);
+        $('#cancelledOrders').text(cancelledOrders);
+    }
+    
+    // Function to apply filters to the DataTable
+    function applyFilter(filterType) {
+        const table = $('#orders').DataTable();
+        console.log(filterType);
+        
+        // Clear any existing search
+        table.search('').columns().search('');
+        
+        switch(filterType) {
+            case 'all':
+                // Show all orders
+                table.search('').draw();
+                break;
+            case 'delivered':
+                // Filter for delivered orders (status 3)
+                table.column(5).search('Đã giao hàng').draw();
+                break;
+            case 'processing':
+                // Filter for orders in processing (status 0, 1, 2)
+                table.column(5).search('Chờ xác nhận|Đã xác nhận|Đang giao hàng', true, false).draw();
+                break;
+            case 'cancelled':
+                // Filter for cancelled orders (status 4)
+                table.column(5).search('Đã hủy').draw();
+                break;
+        }
+    }
 </script>

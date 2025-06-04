@@ -1,32 +1,38 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<div class="container-fluid">
+<div class="container-fluid px-4">
+    <!-- Breadcrumb -->
     <div class="row mb-4">
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/dashboard/categories">Danh mục</a></li>
+                    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/dashboard" class="text-decoration-none">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/dashboard/categories" class="text-decoration-none">Danh mục</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Tạo mới</li>
                 </ol>
             </nav>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row g-4">
+        <!-- Main Form Card -->
         <div class="col-lg-8 col-md-12">
             <div class="card shadow-sm border-0 rounded-lg mb-4">
-                <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">
-                        <i class="bi bi-folder-plus me-2"></i>${title}
-                    </h6>
+                <div class="card-header bg-white py-3">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-primary-subtle p-2 me-3">
+                            <i class="bi bi-folder-plus fs-4 text-primary"></i>
+                        </div>
+                        <h5 class="mb-0">${title}</h5>
+                    </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <form id="categoryForm">
                         <input type="hidden" name="action" value="store">
                         <input type="hidden" name="image" id="uploadedImageField">
 
                         <div class="row g-4">
+                            <!-- Name Field -->
                             <div class="col-md-12">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên danh mục" required>
@@ -34,33 +40,42 @@
                                 </div>
                             </div>
 
+                            <!-- Description Field -->
                             <div class="col-md-12">
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" id="description" name="description" 
-                                              placeholder="Nhập mô tả" style="height: 100px"></textarea>
+                                              placeholder="Nhập mô tả" style="height: 120px"></textarea>
                                     <label for="description">Mô tả</label>
                                 </div>
                             </div>
 
+                            <!-- Image Upload Section -->
                             <div class="col-md-12">
-                                <label class="form-label">Hình ảnh danh mục <span class="text-danger">*</span></label>
-                                <div class="image-upload-container">
-                                    <div class="row g-3">
-                                        <div class="col-md-8 mb-3">
-                                            <div class="input-group">
-                                                <input type="file" class="form-control" id="fileInput" accept="image/*">
+                                <div class="card bg-light border-0 mb-4">
+                                    <div class="card-header bg-light py-3">
+                                        <h6 class="mb-0 fw-semibold">
+                                            <i class="bi bi-image me-2"></i>Hình ảnh danh mục <span class="text-danger">*</span>
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row g-4 align-items-center">
+                                            <div class="col-md-8">
+                                                <div class="mb-3">
+                                                    <label for="fileInput" class="form-label">Chọn ảnh</label>
+                                                    <input type="file" class="form-control" id="fileInput" accept="image/*">
+                                                </div>
+                                                <div class="form-text mb-2">Khuyến nghị: ảnh vuông kích thước 300x300 pixels.</div>
+                                                <div id="imageNameDisplay" class="text-muted small"></div>
                                             </div>
-                                            <div class="form-text mt-2">Khuyến nghị: ảnh vuông kích thước 300x300 pixels.</div>
-                                            <div id="imageNameDisplay" class="text-muted small mt-2"></div>
-                                        </div>
-                                        
-                                        <div class="col-md-4 mb-3">
-                                            <div class="image-preview-wrapper">
-                                                <div class="image-preview-container">
-                                                    <img src="https://placehold.co/400"
-                                                         id="previewImage" class="preview-image">
-                                                    <div class="image-overlay">
-                                                        <span class="overlay-text">Xem trước</span>
+                                            
+                                            <div class="col-md-4">
+                                                <div class="image-preview-wrapper">
+                                                    <div class="image-preview-container">
+                                                        <img src="https://placehold.co/400" alt="Preview"
+                                                             id="previewImage" class="preview-image">
+                                                        <div class="image-overlay">
+                                                            <span class="overlay-text">Xem trước</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -69,13 +84,14 @@
                                 </div>
                             </div>
 
+                            <!-- Form Actions -->
                             <div class="col-12 d-flex justify-content-between mt-4">
                                 <a href="${pageContext.request.contextPath}/dashboard/categories"
                                    class="btn btn-outline-secondary">
-                                    <i class="bi bi-arrow-left me-1"></i> Quay lại
+                                    <i class="bi bi-arrow-left me-2"></i> Quay lại
                                 </a>
-                                <button type="button" id="saveCategoryBtn" class="btn btn-primary">
-                                    <i class="bi bi-save me-1"></i> Lưu danh mục
+                                <button type="button" id="saveCategoryBtn" class="btn btn-success px-4 py-2">
+                                    <i class="bi bi-save me-2"></i> Lưu danh mục
                                 </button>
                             </div>
                         </div>
@@ -84,21 +100,28 @@
             </div>
         </div>
 
+        <!-- Help Card -->
         <div class="col-lg-4 col-md-12">
             <div class="card shadow-sm border-0 rounded-lg mb-4">
                 <div class="card-header bg-white py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">
-                        <i class="bi bi-info-circle me-2"></i>Hướng dẫn
-                    </h6>
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-info-subtle p-2 me-3">
+                            <i class="bi bi-info-circle fs-4 text-info"></i>
+                        </div>
+                        <h5 class="mb-0">Hướng dẫn</h5>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="alert alert-info mb-0">
-                        <h6 class="alert-heading">Tạo danh mục mới</h6>
+                <div class="card-body p-4">
+                    <div class="alert alert-info border-0 shadow-sm">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-lightbulb-fill fs-4 me-2"></i>
+                            <h6 class="alert-heading mb-0">Tạo danh mục mới</h6>
+                        </div>
                         <hr>
                         <ul class="mb-0 ps-3">
-                            <li>Điền đầy đủ thông tin vào form</li>
-                            <li>Tên danh mục và hình ảnh là bắt buộc</li>
-                            <li>Chọn ảnh để tự động tải lên</li>
+                            <li class="mb-2">Điền đầy đủ thông tin vào form</li>
+                            <li class="mb-2">Tên danh mục và hình ảnh là bắt buộc</li>
+                            <li class="mb-2">Chọn ảnh để tự động tải lên</li>
                             <li>Bấm nút Lưu danh mục để hoàn tất</li>
                         </ul>
                     </div>

@@ -195,6 +195,12 @@
             </a>
         </li>
         <li class="sidebar-item">
+            <a href="${pageContext.request.contextPath}/dashboard/brands" class="sidebar-link" title="Thương Hiệu">
+                <i class="bi bi-bookmark"></i>
+                <span>Thương Hiệu</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
             <a href="${pageContext.request.contextPath}/dashboard/orders" class="sidebar-link" title="Đơn Hàng">
                 <i class="bi bi-cart3"></i>
                 <span>Đơn Hàng</span>

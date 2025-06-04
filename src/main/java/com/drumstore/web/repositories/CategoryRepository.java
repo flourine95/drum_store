@@ -61,4 +61,12 @@ public class CategoryRepository {
                     .execute();
         });
     }
+
+    public List<CategoryDTO> allWithProductCount() {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT c.*, COUNT(p.id) AS productCount FROM categories c LEFT JOIN products p ON c.id = p.categoryId GROUP BY c.id")
+                        .mapToBean(CategoryDTO.class)
+                        .list()
+        );
+    }
 }

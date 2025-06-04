@@ -20,6 +20,7 @@ CREATE TABLE sales
 (
     id                 INT AUTO_INCREMENT PRIMARY KEY,
     name               VARCHAR(100)  NOT NULL,
+    description TEXT,
     discountPercentage DECIMAL(5, 2) NOT NULL,
     startDate          DATE          NOT NULL,
     endDate            DATE          NOT NULL

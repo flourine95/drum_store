@@ -7,17 +7,16 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BrandDTO implements Serializable {
-    private Integer id;
+public class SaleDTO implements Serializable {
+    private int id;
     private String name;
     private String description;
-    private String image;
-    private int productCount;
-    private Timestamp createdAt;
+    private String discountPercentage;
+    private Timestamp startDate;
+    private Timestamp endDate;
 }
