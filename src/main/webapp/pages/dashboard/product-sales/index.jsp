@@ -14,20 +14,20 @@
         border-radius: 12px;
         margin-right: 1rem;
     }
-    
+
     .search-card {
         background-color: #f8f9fa;
         border-radius: 0.25rem;
         padding: 1rem;
         margin-bottom: 1.5rem;
     }
-    
+
     .search-input {
         border-radius: 50rem;
         padding-left: 2.5rem;
         height: 45px;
     }
-    
+
     .search-icon {
         position: absolute;
         left: 1.75rem;
@@ -36,14 +36,14 @@
         color: #0d6efd;
         z-index: 3;
     }
-    
+
     .filter-select {
         border-radius: 50rem;
         height: 45px;
         padding-left: 2.5rem;
         background-position: right 1rem center;
     }
-    
+
     .filter-icon {
         position: absolute;
         left: 1.75rem;
@@ -52,7 +52,7 @@
         color: #0d6efd;
         z-index: 3;
     }
-    
+
     .search-btn {
         border-radius: 50rem;
         height: 45px;
@@ -61,17 +61,17 @@
         font-weight: 500;
         box-shadow: 0 0.125rem 0.25rem rgba(13, 110, 253, 0.2);
     }
-    
+
     .search-btn:hover {
         transform: translateY(-1px);
     }
-    
+
     .products-table {
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
     }
-    
+
     .products-table thead th {
         background-color: #f8f9fa;
         color: #212529;
@@ -79,23 +79,23 @@
         border-bottom: 2px solid #dee2e6;
         padding: 1rem;
     }
-    
+
     .products-table tbody tr:hover {
         background-color: rgba(13, 110, 253, 0.04);
     }
-    
+
     .products-table td {
         padding: 0.75rem 1rem;
         vertical-align: middle;
     }
-    
+
     .product-image {
         width: 50px;
         height: 50px;
         object-fit: cover;
         border-radius: 8px;
     }
-    
+
     .sale-badge {
         display: inline-block;
         padding: 0.4rem 0.65rem;
@@ -105,49 +105,49 @@
         text-align: center;
         white-space: nowrap;
     }
-    
+
     .sale-badge-active {
         background-color: rgba(25, 135, 84, 0.1);
         color: #198754;
     }
-    
+
     .sale-badge-inactive {
         background-color: rgba(108, 117, 125, 0.1);
         color: #6c757d;
     }
-    
+
     .product-name {
         font-weight: 500;
         color: #212529;
     }
-    
+
     .product-category {
         font-size: 0.875rem;
         color: #6c757d;
     }
-    
+
     .action-btn {
         border-radius: 50rem;
         padding: 0.4rem 1rem;
         font-weight: 500;
     }
-    
+
     .action-btn:hover {
         transform: translateY(-1px);
     }
-    
+
     .alert {
         border-radius: 12px;
         border: none;
         box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
     }
-    
+
     .pagination-container {
         display: flex;
         justify-content: flex-end;
         margin-top: 1rem;
     }
-    
+
     .pagination .page-link {
         border-radius: 50%;
         margin: 0 0.2rem;
@@ -157,26 +157,26 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .pagination .page-item.active .page-link {
         background-color: #0d6efd;
         border-color: #0d6efd;
     }
-    
+
     .table th {
         font-weight: 500;
         color: #495057;
     }
-    
+
     .table td {
         vertical-align: middle;
     }
-    
+
     .discount-badge {
         font-size: 0.875rem;
         padding: 0.25rem 0.5rem;
     }
-    
+
     .action-buttons .btn {
         padding: 0.25rem 0.5rem;
         font-size: 0.875rem;
@@ -194,7 +194,7 @@
             <p class="text-muted mb-0">Thiết lập và quản lý chương trình giảm giá cho sản phẩm</p>
         </div>
     </div>
-    
+
     <!-- Flash Messages -->
     <c:if test="${not empty sessionScope.success}">
         <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
@@ -214,7 +214,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </c:if>
-    
+
     <!-- Search and Filter Card -->
     <div class="card search-card mb-4">
         <div class="card-body p-4">
@@ -230,7 +230,7 @@
                         <option value="">Tất cả danh mục</option>
                         <c:forEach items="${categories}" var="category">
                             <option value="${category.id}" ${categoryFilter == category.id ? 'selected' : ''}>
-                                ${category.name}
+                                    ${category.name}
                             </option>
                         </c:forEach>
                     </select>
@@ -241,7 +241,7 @@
                         <option value="">Tất cả thương hiệu</option>
                         <c:forEach items="${brands}" var="brand">
                             <option value="${brand.id}" ${brandFilter == brand.id ? 'selected' : ''}>
-                                ${brand.name}
+                                    ${brand.name}
                             </option>
                         </c:forEach>
                     </select>
@@ -254,7 +254,7 @@
             </form>
         </div>
     </div>
-    
+
     <!-- Products Sale List Card -->
     <div class="card border-0 shadow-sm rounded-3 mb-4">
         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
@@ -263,7 +263,8 @@
                 <span class="fw-bold">Danh sách sản phẩm</span>
             </div>
             <div>
-                <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#addSaleModal">
+                <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#addSaleModal">
                     <i class="fas fa-plus me-2"></i>Thêm giảm giá
                 </button>
             </div>
@@ -272,67 +273,78 @@
             <div class="table-responsive">
                 <table class="table table-hover align-middle products-table mb-0">
                     <thead>
-                        <tr>
-                            <th style="width: 60px;">Hình ảnh</th>
-                            <th>Sản phẩm</th>
-                            <th>Giá gốc</th>
-                            <th>Danh mục</th>
-                            <th>Thương hiệu</th>
-                            <th>Giảm giá</th>
-                            <th class="text-end">Thao tác</th>
-                        </tr>
+                    <tr>
+                        <th style="width: 60px;">Hình ảnh</th>
+                        <th>Sản phẩm</th>
+                        <th>Giá gốc</th>
+                        <th>Danh mục</th>
+                        <th>Thương hiệu</th>
+                        <th>Giảm giá</th>
+                        <th class="text-end">Thao tác</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${products}" var="product">
-                            <tr>
-                                <td>
-                                    <img src="${product.mainImage}" alt="${product.name}" class="product-image">
-                                </td>
-                                <td>
+                    <c:forEach items="${products}" var="product">
+                        <tr>
+                            <td>
+                                <img src="${product.mainImage}" alt="${product.name}" class="product-image">
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span class="product-name">${product.name}</span>
+                                    <span class="product-category">ID: ${product.id}</span>
+                                </div>
+                            </td>
+                            <td><fmt:formatNumber value="${product.basePrice}" type="currency" currencySymbol="₫"/></td>
+                            <td>${product.categoryName}</td>
+                            <td>${product.brandName}</td>
+                            <td>
+                                <c:if test="${not empty product.sales}">
                                     <div class="d-flex flex-column">
-                                        <span class="product-name">${product.name}</span>
-                                        <span class="product-category">ID: ${product.id}</span>
-                                    </div>
-                                </td>
-                                <td><fmt:formatNumber value="${product.basePrice}" type="currency" currencySymbol="₫"/></td>
-                                <td>${product.categoryName}</td>
-                                <td>${product.brandName}</td>
-                                <td>
-                                    <c:if test="${not empty product.sale}">
-                                        <div class="d-flex flex-column">
-                                            <span class="badge bg-danger discount-badge mb-1">
-                                                -${product.sale.discountPercentage}%
-                                            </span>
-                                            <small class="text-muted">
-                                                <fmt:formatDate value="${product.sale.startDate}" pattern="dd/MM/yyyy"/> - 
-                                                <fmt:formatDate value="${product.sale.endDate}" pattern="dd/MM/yyyy"/>
+                                        <c:forEach var="sale" items="${product.sales}">
+                                                <span class="badge bg-danger discount-badge mb-1">
+                                                    -${sale.discountPercentage}%
+                                                </span>
+                                            <small class="text-muted mb-2">
+                                                <fmt:formatDate value="${sale.startDate}" pattern="dd/MM/yyyy"/> -
+                                                <fmt:formatDate value="${sale.endDate}" pattern="dd/MM/yyyy"/>
                                             </small>
-                                        </div>
-                                    </c:if>
-                                    <c:if test="${empty product.sale}">
-                                        <span class="text-muted">Không có giảm giá</span>
-                                    </c:if>
-                                </td>
-                                <td class="text-end">
-                                    <c:if test="${empty product.sale}">
-                                        <a href="${pageContext.request.contextPath}/dashboard/product-sales?action=create&productId=${product.id}" 
-                                           class="btn btn-primary btn-sm">
-                                            <i class="fas fa-plus"></i>
-                                        </a>
-                                    </c:if>
-                                    <c:if test="${not empty product.sale}">
-                                        <a href="${pageContext.request.contextPath}/dashboard/product-sales?action=edit&id=${product.sale.id}" 
-                                           class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-sm" 
-                                                onclick="deleteSale(${product.sale.id})">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </c:if>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                                        </c:forEach>
+                                    </div>
+                                </c:if>
+                                <c:if test="${empty product.sales}">
+                                    <span class="text-muted">Không có giảm giá</span>
+                                </c:if>
+                            </td>
+                            <c:set var="maxSale" value="${null}" />
+                            <c:set var="maxDiscount" value="0" />
+
+                            <c:forEach var="sale" items="${product.sales}">
+                                <c:if test="${sale.discountPercentage > maxDiscount}">
+                                    <c:set var="maxDiscount" value="${sale.discountPercentage}" />
+                                    <c:set var="maxSale" value="${sale}" />
+                                </c:if>
+                            </c:forEach>
+                            <td class="text-end">
+                                <c:if test="${empty product.sales}">
+                                    <a href="${pageContext.request.contextPath}/dashboard/product-sales?action=create&productId=${product.id}"
+                                       class="btn btn-primary btn-sm">
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+                                </c:if>
+                                <c:if test="${not empty product.sales}">
+                                    <a href="${pageContext.request.contextPath}/dashboard/product-sales?action=edit&id=${maxSale.id}"
+                                       class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="deleteSale(${maxSale.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -340,22 +352,26 @@
         <div class="card-footer bg-white py-3">
             <div class="d-flex flex-wrap align-items-center">
                 <div class="small text-muted mb-2 mb-md-0">
-                    <i class="fas fa-info-circle me-1"></i> Hiển thị ${products.size()} / ${totalProducts} sản phẩm (Trang ${currentPage}/${totalPages})
+                    <i class="fas fa-info-circle me-1"></i> Hiển thị ${products.size()} / ${totalProducts} sản phẩm
+                    (Trang ${currentPage}/${totalPages})
                 </div>
                 <div class="ms-auto">
                     <nav aria-label="Pagination">
                         <ul class="pagination pagination-sm mb-0">
                             <!-- Previous page -->
                             <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                                <a class="page-link" href="${pageContext.request.contextPath}/dashboard/product-sales?page=${currentPage - 1}&search=${search}&category=${categoryFilter}&brand=${brandFilter}" aria-label="Previous">
+                                <a class="page-link"
+                                   href="${pageContext.request.contextPath}/dashboard/product-sales?page=${currentPage - 1}&search=${search}&category=${categoryFilter}&brand=${brandFilter}"
+                                   aria-label="Previous">
                                     <i class="fas fa-chevron-left"></i>
                                 </a>
                             </li>
-                            
+
                             <!-- First page -->
                             <c:if test="${currentPage > 3}">
                                 <li class="page-item">
-                                    <a class="page-link" href="${pageContext.request.contextPath}/dashboard/product-sales?page=1&search=${search}&category=${categoryFilter}&brand=${brandFilter}">1</a>
+                                    <a class="page-link"
+                                       href="${pageContext.request.contextPath}/dashboard/product-sales?page=1&search=${search}&category=${categoryFilter}&brand=${brandFilter}">1</a>
                                 </li>
                                 <c:if test="${currentPage > 4}">
                                     <li class="page-item disabled">
@@ -363,16 +379,18 @@
                                     </li>
                                 </c:if>
                             </c:if>
-                            
+
                             <!-- Page numbers -->
-                            <c:set var="startPage" value="${(currentPage > 2) ? (currentPage - 2) : 1}" />
-                            <c:set var="endPage" value="${(totalPages > currentPage + 2) ? (currentPage + 2) : totalPages}" />
+                            <c:set var="startPage" value="${(currentPage > 2) ? (currentPage - 2) : 1}"/>
+                            <c:set var="endPage"
+                                   value="${(totalPages > currentPage + 2) ? (currentPage + 2) : totalPages}"/>
                             <c:forEach begin="${startPage}" end="${endPage}" var="i">
                                 <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                    <a class="page-link" href="${pageContext.request.contextPath}/dashboard/product-sales?page=${i}&search=${search}&category=${categoryFilter}&brand=${brandFilter}">${i}</a>
+                                    <a class="page-link"
+                                       href="${pageContext.request.contextPath}/dashboard/product-sales?page=${i}&search=${search}&category=${categoryFilter}&brand=${brandFilter}">${i}</a>
                                 </li>
                             </c:forEach>
-                            
+
                             <!-- Last page -->
                             <c:if test="${currentPage < totalPages - 2}">
                                 <c:if test="${currentPage < totalPages - 3}">
@@ -381,13 +399,16 @@
                                     </li>
                                 </c:if>
                                 <li class="page-item">
-                                    <a class="page-link" href="${pageContext.request.contextPath}/dashboard/product-sales?page=${totalPages}&search=${search}&category=${categoryFilter}&brand=${brandFilter}">${totalPages}</a>
+                                    <a class="page-link"
+                                       href="${pageContext.request.contextPath}/dashboard/product-sales?page=${totalPages}&search=${search}&category=${categoryFilter}&brand=${brandFilter}">${totalPages}</a>
                                 </li>
                             </c:if>
-                            
+
                             <!-- Next page -->
                             <li class="page-item ${currentPage == totalPages || totalPages == 0 ? 'disabled' : ''}">
-                                <a class="page-link" href="${pageContext.request.contextPath}/dashboard/product-sales?page=${currentPage + 1}&search=${search}&category=${categoryFilter}&brand=${brandFilter}" aria-label="Next">
+                                <a class="page-link"
+                                   href="${pageContext.request.contextPath}/dashboard/product-sales?page=${currentPage + 1}&search=${search}&category=${categoryFilter}&brand=${brandFilter}"
+                                   aria-label="Next">
                                     <i class="fas fa-chevron-right"></i>
                                 </a>
                             </li>
@@ -397,7 +418,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Help Card -->
     <div class="card shadow-sm border-0 rounded-3">
         <div class="card-body p-4">
@@ -497,7 +518,7 @@
 
 <script>
     // Initialize DataTable
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#productsTable').DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json'
@@ -506,19 +527,19 @@
     });
 
     // Search functionality
-    $('#searchButton').click(function() {
+    $('#searchButton').click(function () {
         $('#productsTable').DataTable().search($('#searchInput').val()).draw();
     });
 
-    $('#searchInput').keypress(function(e) {
-        if(e.which == 13) {
+    $('#searchInput').keypress(function (e) {
+        if (e.which == 13) {
             $('#searchButton').click();
         }
     });
 
     // View sales history
     function viewSales(productId) {
-        $.get('${pageContext.request.contextPath}/dashboard/product-sales/history', { productId: productId }, function(data) {
+        $.get('${pageContext.request.contextPath}/dashboard/product-sales/history', {productId: productId}, function (data) {
             $('#salesHistory').html(data);
             $('#viewSalesModal').modal('show');
         });
@@ -539,18 +560,18 @@
                 },
                 body: `action=delete&id=${saleId}`
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.reload();
-                } else {
-                    alert(data.message || 'Có lỗi xảy ra khi xóa giảm giá');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Có lỗi xảy ra khi xóa giảm giá');
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi xóa giảm giá');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi xóa giảm giá');
+                });
         }
     }
 
@@ -563,8 +584,8 @@
             data: formData,
             processData: false,
             contentType: false,
-            success: function(response) {
-                if(response.success) {
+            success: function (response) {
+                if (response.success) {
                     location.reload();
                 } else {
                     alert('Có lỗi xảy ra: ' + response.message);
